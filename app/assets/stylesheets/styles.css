@@ -1,0 +1,13 @@
+.page-footer .footer-copyright {
+  background-color: #fff;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  text-align: center;
+  margin-top: 0;
+  border: 1px solid #ededed;
+}
+
+.page-footer.dark {
+  padding: 0px;
+}
+
