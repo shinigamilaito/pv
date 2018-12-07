@@ -34,6 +34,7 @@ gem 'jbuilder', '~> 2.5'
 
 #For Windows it works with CofferScript v1.8
 gem 'coffee-script-source', '1.8.0'
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
