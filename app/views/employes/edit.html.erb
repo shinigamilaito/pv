@@ -4,14 +4,18 @@
       <h2 class="text-info">Editar Perfíl</h2>
     </div>
     <div class="card-body">
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "profile_form" }) do |f| %>
-      <%= render 'devise/shared/messages' %>
+      <%= form_for(@user, url: employe_path(@user), html: { method: :put, class: "profile_form" }) do |f| %>
+      <% if @user.errors.any? %>
+        <div class="alert alert-danger">
+          <h5>Por favor, corrige los siguientes errores:</h5>
+          </div>
+      <% end %>
 
       <div class="form-group row">
         <label for="exampleInputName" class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
           <%= f.text_field :name, class: "form-control", required: true %>
-          <div class="invalid-feedback"><%= resource.errors[:name].first %></div>
+          <div class="invalid-feedback"><%= @user.errors[:name].first %></div>
         </div>
       </div>
 
@@ -19,7 +23,7 @@
         <label for="exampleInputName" class="col-sm-3 col-form-label">Apellido paterno</label>
         <div class="col-sm-9">
           <%= f.text_field :first_name, class: "form-control", required: true %>
-          <div class="invalid-feedback"><%= resource.errors[:first_name].first %></div>
+          <div class="invalid-feedback"><%= @user.errors[:first_name].first %></div>
         </div>
       </div>
 
@@ -27,7 +31,7 @@
         <label for="exampleInputName" class="col-sm-3 col-form-label">Apellido materno</label>
         <div class="col-sm-9">
           <%= f.text_field :last_name, class: "form-control" %>
-          <div class="invalid-feedback"><%= resource.errors[:last_name].first %></div>
+          <div class="invalid-feedback"><%= @user.errors[:last_name].first %></div>
         </div>
       </div>
 
@@ -35,7 +39,7 @@
         <label for="exampleInputName" class="col-sm-3 col-form-label">Usuario</label>
         <div class="col-sm-9">
           <%= f.text_field :username, class: "form-control", required: true %>
-          <div class="invalid-feedback"><%= resource.errors[:username].first %></div>
+          <div class="invalid-feedback"><%= @user.errors[:username].first %></div>
         </div>
       </div>
 
@@ -43,13 +47,9 @@
         <label for="exampleInputName" class="col-sm-3 col-form-label">Email</label>
         <div class="col-sm-9">
           <%= f.text_field :email, class: "form-control", required: true %>
-          <div class="invalid-feedback"><%= resource.errors[:email].first %></div>
+          <div class="invalid-feedback"><%= @user.errors[:email].first %></div>
         </div>
       </div>
-
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-      <% end %>
 
       <% if @minimum_password_length %>
       <% hint = "#{@minimum_password_length} carácteres mínimo." %>
@@ -59,7 +59,7 @@
         <label for="exampleInputName" class="col-sm-3 col-form-label">Contraseña</label>
         <div class="col-sm-9">
           <%= f.password_field :password, class: "form-control" %>
-          <div class="invalid-feedback"><%= resource.errors[:password].first %></div>
+          <div class="invalid-feedback"><%= @user.errors[:password].first %></div>
           <small class="form-text text-muted"><%= "(#{hint}), (Dejar en blanco si no desea cambiarla) " %> </small>
         </div>
       </div>
@@ -68,36 +68,28 @@
         <label for="exampleInputName" class="col-sm-3 col-form-label">Confirmación de contraseña</label>
         <div class="col-sm-9">
           <%= f.password_field :password_confirmation, class: "form-control" %>
-          <div class="invalid-feedback"><%= resource.errors[:password_confirmation].first %></div>
+          <div class="invalid-feedback"><%= @user.errors[:password_confirmation].first %></div>
           <small class="form-text text-muted">(Dejar en blanco si no desea cambiarla)</small>
         </div>
       </div>
 
+      <% if current_user.admin? %>
       <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Contraseña actual</label>
+        <label for="exampleInputName" class="col-sm-3 col-form-label">Rol</label>
         <div class="col-sm-9">
-          <%= f.password_field :current_password, class: "form-control", required: true %>
-          <div class="invalid-feedback"><%= resource.errors[:current_password].first %></div>
-          <small class="form-text text-muted">(Necesaria para actualizar tus cambios)</small>
+          <%= f.collection_select :rol_id, Rol.all, :id, :name, { prompt: "" }, class: "form-control", required: true %>
+          <div class="invalid-feedback"><%= @user.errors[:rol].first %></div>
         </div>
       </div>
-
-      <%#= f.input :current_password, hint: "<i>(we need your current password to confirm your changes)</i>".html_safe, input_html: { autocomplete: "current-password" } %>
+      <% end %>
 
       <div class="row">
         <div class="col-md-6 offset-md-3">
-          <%= f.submit "Actualizar perfíl", class: "btn btn-primary" %>
+          <%= f.submit "Actualizar usuario", class: "btn btn-primary" %>
         </div>
       </div>
 
       <% end %>
-
-      <!--<h3>Cancel my account</h3>
-
-        <p>Unhappy? <%#= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-        <%#= link_to "Back", :back %>-->
-
     </div>
   </div>
 </div>

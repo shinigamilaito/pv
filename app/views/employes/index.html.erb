@@ -1,0 +1,38 @@
+<div class="col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="float-left">
+        <h4>Usuarios</h4>
+      </div>
+      <div class="float-right">
+        <%= link_to new_employe_path, class: "btn btn-outline-primary" do %>
+        <i class="fas fa-plus"></i>
+        Registrar
+        <% end %>
+      </div>
+    </div>
+    <div class="card-body">
+      <% if @users.blank? %>
+      <div class="alert alert-warning">
+        <strong>No se encontraron registros.</strong>
+      </div>
+      <% end %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido paterno</th>
+            <th scope="col">Apellido Materno</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <%= render 'employe', employe: user %>
+          <% end %>
+        </table>
+
+
+      </div>
+    </div>
+  </div>

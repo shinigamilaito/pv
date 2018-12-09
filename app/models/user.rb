@@ -9,5 +9,8 @@ class User < ApplicationRecord
   validates :name, :first_name, :username, :email, presence: true
   validates :username, uniqueness: { case_sensitive: false }
 
+  def admin?
+    rol.name == "Administrador"
+  end
 
 end

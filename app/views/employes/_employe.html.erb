@@ -1,0 +1,16 @@
+<tr>
+  <td><%= "#{employe.name} <span class='badge badge-light'>#{employe.username}</span>".html_safe %></td>
+  <td><%= employe.first_name %></td>
+  <td><%= employe.last_name %></td>
+  <td><%="#{employe.email} <span class='badge badge-light'>#{employe.rol.name}</span>".html_safe %></td>
+  <td>
+    <%= link_to edit_employe_path(employe), class: "btn btn-circle btn-outline-primary btn-sm", title: "Editar" do %>
+    <i class="fas fa-edit"></i>
+    <% end %>
+  </td>
+  <td>
+    <%= link_to employe_path(employe), method: :delete, class: "btn btn-circle btn-danger btn-xs", title: "Eliminar", data: { confirm: "Are your sure?" } do %>
+    <i class="fas fa-trash-alt"></i>
+    <% end %>
+  </td>
+</tr>

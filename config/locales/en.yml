@@ -48,6 +48,10 @@ en:
            username:
              blank: "Proporciona tu usuario."
              taken: "Proporciona un diferente nombre de usuario"
+           password:
+             too_short: "La contraseña es demasiado corta."
+           password_confirmation:
+             confirmation: "Las contraseñas no coinciden."
            current_password:
              blank: "Proporciona tu contraseña actual"
              invalid: "No es una contraseña valida"
