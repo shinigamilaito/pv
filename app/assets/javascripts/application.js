@@ -11,6 +11,8 @@
 // about supported directives.
 //
 //= require jquery.min
+//= require bootstrap.min
 //= require rails-ujs
 //= require turbolinks
-//= require bootstrap.min
+// require jquery-ui
+// require contacts

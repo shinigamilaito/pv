@@ -1,32 +1,29 @@
 <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-    <div class="container"><a href="#" class="navbar-brand logo">PV</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse"
-            id="navcol-1">
-            <ul class="nav navbar-nav mx-auto">
-               <li class="nav-item active">
-                 <a class="nav-link" href="#">Home</a>
-               </li>
-               <li class="nav-item">
-                 <a class="nav-link" href="#">Link</a>
-               </li>
-            </ul>
-            <ul class="nav navbar-nav">
-              <% if user_signed_in? %>
-                <li class="nav-item">
-                  <%= link_to "Edit profile", edit_user_registration_path, class: "nav-link" %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-                </li>
-              <% else %>
-                <li class="nav-item">
-                  <%= link_to "Sign up", new_user_registration_path, class: "nav-link" %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to "Sign in", new_user_session_path %>
-                </li>
-              <% end %> 
-            </ul>
+  <div class="container"><a href="#" class="navbar-brand logo">PV</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse"
+    id="navcol-1">
+    <ul class="nav navbar-nav mx-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+    </ul>
+    <% if user_signed_in? %>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="far fa-user"></i>
+          <%= current_user.name %>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <%= link_to "Profile", edit_user_registration_path, class: "dropdown-item" %>
+          <%= link_to "Logout", destroy_user_session_path, class: "dropdown-item", method: :delete %>
         </div>
-    </div>
+      </div>
+    </nav>
+    <% end %>    
+  </div>
+</div>
 </nav>

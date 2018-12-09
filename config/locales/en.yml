@@ -28,6 +28,28 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+ activerecord:
+   models:
+     user: Usuario
+   attributes:
+     user:
+       name: "Nombre"
+       remember_me: "Recordar sesión"
+
+   errors:
+     models:
+       user:
+         attributes:
+           name:
+             blank: "Proporciona tu nombre."
+           first_name:
+             blank: "Proporciona tu apellido paterno."
+           username:
+             blank: "Proporciona tu usuario."
+             taken: "Proporciona un diferente nombre de usuario"
+           current_password:
+             blank: "Proporciona tu contraseña actual"
+             invalid: "No es una contraseña valida"
+           email:
+             blank: "Proporciona tu email."

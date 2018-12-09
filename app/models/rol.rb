@@ -1,0 +1,3 @@
+class Rol < ApplicationRecord
+  
+end
