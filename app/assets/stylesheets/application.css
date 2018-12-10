@@ -13,6 +13,7 @@
  *= require font-awesome
  * require jquery-ui
  *= require bootstrap.min
+ *= require toastr
  *= require styles.css
  *= require_self
  */

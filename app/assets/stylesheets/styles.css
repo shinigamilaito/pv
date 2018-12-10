@@ -1,3 +1,7 @@
 .invalid-feedback {
   display: inline;
 }
+
+.field_with_errors input {
+  border-color: #dc3545;
+}

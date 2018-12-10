@@ -1,3 +1,9 @@
+<% unless resource.errors.blank? %>
+  <script>
+    toastr["error"]("Proporciona los campos de forma correcta.", "ERROR");
+  </script>
+<% end %>
+
 <div class="col-sm-8 offset-md-2">
   <div class="card">
     <div class="card-header">
@@ -5,7 +11,6 @@
     </div>
     <div class="card-body">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "profile_form" }) do |f| %>
-      <%= render 'devise/shared/messages' %>
 
       <div class="form-group row">
         <label for="exampleInputName" class="col-sm-3 col-form-label">Nombre</label>

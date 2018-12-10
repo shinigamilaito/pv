@@ -50,6 +50,7 @@ en:
              taken: "Proporciona un diferente nombre de usuario"
            password:
              too_short: "La contraseña es demasiado corta."
+             blank: "Proporciona tu contrasela actual, o tu nueva contraseña."
            password_confirmation:
              confirmation: "Las contraseñas no coinciden."
            current_password:

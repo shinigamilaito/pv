@@ -15,4 +15,5 @@
 //= require rails-ujs
 //= require turbolinks
 // require jquery-ui
+//= require toastr
 // require contacts

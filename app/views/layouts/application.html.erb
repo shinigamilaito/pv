@@ -14,17 +14,13 @@
 
 <body>
   <%= render 'layouts/navbar' %>
-  <%#= render 'layouts/messages' if !flash.empty? %>
+  <%= render 'layouts/flash_messages' %>
   <div>
-    <% unless flash[:notice].blank? %>
-    <p class="notice alert alert-success text-center"><%= notice %></p>
-    <% end %>
-    <div>
-      <!-- content -->
       <div class="container">
         <div class="row">
           <%= yield %>
         </div>
       </div>
-    </body>
-    </html>
+  </div>
+</body>
+</html>

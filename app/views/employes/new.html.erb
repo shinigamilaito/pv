@@ -5,12 +5,7 @@
     </div>
     <div class="card-body">
       <%= form_for(@user, url: employes_path, html: { method: :post, class: "profile_form" }) do |f| %>
-      <% if @user.errors.any? %>
-      <div class="alert alert-danger">
-        <h5>Por favor, corrige los siguientes errores:</h5>
-      </div>
-      <% end %>
-
+      
       <div class="form-group row">
         <label for="exampleInputName" class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
