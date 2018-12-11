@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :brands
+  resources :equipment
   resources :clients
   devise_for :users
   get 'welcome/index'
