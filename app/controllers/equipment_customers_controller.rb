@@ -32,6 +32,7 @@ class EquipmentCustomersController < ApplicationController
       redirect_to @new_equipment_customer
     else
       @from_create_action = true
+      flash.now[:error] = "Proporcione los datos correctamente."
       render "search"
     end
   end
