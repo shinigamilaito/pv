@@ -1,8 +1,21 @@
-<%= form_tag(search_sale_supports_path, role: "search", method: :get, remote: true) do %>
-  <%= select_tag params[:client_id], options_from_collection_for_select(Client.all, "id", "name"), prompt: "Seleccione al cliente." %>
-  <%= text_field_tag params[:group_id] %>
-  <button class="btn btn-outline-success my-2 my-sm-0 btn-search" type="submit">
-    <i class="fas fa-search"></i>
-    Buscar
-  </button>
+<%= form_tag(search_sale_supports_path, role: "search", method: :get) do %>
+  <div class="form-row">
+    <div class="form-group col-md-5">
+      <label for="inputEmail4">Seleccione al cliente</label>
+      <%= select_tag :client_id, options_from_collection_for_select(Client.all, "id", "name"), prompt: "Seleccione al cliente.", class: "form-control", required: true %>
+    </div>
+    <div class="form-group col-md-5">
+      <label for="inputPassword4">Número de Folio</label>
+      <%= text_field_tag :folio_number, nil, class: "form-control", required: true %>
+    </div>
+    <div class="form-group col-md-2 d-flex align-items-end">
+    	<button class="btn btn-outline-success btn-search form-control" type="submit">
+    		<i class="fas fa-search"></i>
+    		Buscar
+  		</button>
+    </div>
+  </div>
+  
 <% end %>
+
+

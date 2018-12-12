@@ -1,17 +1,38 @@
 class EquipmentCustomersController < ApplicationController
 
+  def search    
+    @new_equipment_customer = EquipmentCustomer.new 
+    unless params[:search].blank?                
+      @equipment_customer = EquipmentCustomer.search(params[:search]) 
+     
+      if @equipment_customer.blank?
+        flash[:error] = "Cliente / Folio no encontrado."          
+        redirect_to search_equipment_customers_path
+
+      else
+        flash[:success] = "Cliente / Folio encontrado correctamente."           
+        redirect_to @equipment_customer
+      end 
+    end
+  end
+
+  def show    
+    @new_equipment_customer = EquipmentCustomer.new
+    @equipment_customer = EquipmentCustomer.find(params[:id])    
+  end
+
   def new
     @equipment_customer = EquipmentCustomer.new
   end
 
   def create
-    @equipment_customer = EquipmentCustomer.new(equipment_customer_params)
-    if @equipment_customer.save
+    @new_equipment_customer = EquipmentCustomer.new(equipment_customer_params)
+    if @new_equipment_customer.save
       flash[:success] = "Equipo registrado."
-      redirect_to sale_supports_path
+      redirect_to @new_equipment_customer
     else
-      @from_equipment_customer = true
-      render "sale_supports/index"
+      @from_create_action = true
+      render "search"
     end
   end
 

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   resources :sale_supports do
     get 'search', on: :collection
   end
-  resources :equipment_customers
+  resources :equipment_customers do
+    get 'search', on: :collection
+  end
 
   devise_for :users
   get 'welcome/index'

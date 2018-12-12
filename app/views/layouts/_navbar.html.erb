@@ -6,7 +6,7 @@
   <% if  user_signed_in? && current_user.admin? %>
   <nav class="mr-auto">
     <%#= link_to "Dashboard", dashboard_path, class: "#{active_item('dashboard')} p-2 text-dark btn btn-light" %>
-    <%= link_to "Ventas (Soporte)", sale_supports_path, class: "#{active_item('sale_supports')} p-2 text-dark btn btn-light" %>
+    <%= link_to "Ventas (Soporte)", search_equipment_customers_path, class: "#{active_item('sale_supports')} p-2 text-dark btn btn-light" %>
     <%= link_to "Usuarios", employes_path, class: "#{active_item('users')} p-2 text-dark btn btn-light" %>
   </nav>
   <% end %>
