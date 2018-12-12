@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  client: one
+  folio: MyString
+  equipment: one
+  brand: one
+  description: MyText
+
+two:
+  client: two
+  folio: MyString
+  equipment: two
+  brand: two
+  description: MyText

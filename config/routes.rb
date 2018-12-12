@@ -2,11 +2,13 @@ Rails.application.routes.draw do
   resources :brands
   resources :equipments
   resources :clients
-  get 'sale_supports/index'
-  devise_for :users
-  get 'welcome/index'
   resources :employes
 
+  resources :sale_supports
+  resources :equipment_customers
+
+  devise_for :users
+  get 'welcome/index'
   root "welcome#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
