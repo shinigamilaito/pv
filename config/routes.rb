@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :brands
   resources :equipments
   resources :clients
+  get 'sale_supports/index'
   devise_for :users
   get 'welcome/index'
   resources :employes
