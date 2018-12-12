@@ -14,7 +14,9 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade <%= "#{'active' if @from_create_action.blank?} #{'show' if @from_create_action.blank?}" %>" id="home">
           <%= render 'search_form' %>
-          <%= render @equipment_customer if @equipment_customer.present? %>                    
+          <%= render @equipment_customer if @equipment_customer.present? %>  
+          <h5 class="card-title">Historico de Soportes</h5>
+
         </div>
         <div class="tab-pane fade <%= "#{'active' if @from_create_action.present?} #{'show' if @from_create_action.present?}" %>" id="equipment_customer_div">
           <%= render 'form' %>
