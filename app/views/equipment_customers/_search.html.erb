@@ -1,0 +1,25 @@
+<div class="col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link <%= "#{'active' if @from_create_action.blank?} #{'show' if @from_create_action.blank?}" %>" data-toggle="tab" href="#home">Búsqueda de Equipos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= "#{'active' if @from_create_action.present?} #{'show' if @from_create_action.present?}" %>" data-toggle="tab" href="#equipment_customer_div">Agregar Equipos</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade <%= "#{'active' if @from_create_action.blank?} #{'show' if @from_create_action.blank?}" %>" id="home">
+          <%= render 'search_form' %>
+          <%= render @equipment_customer if @equipment_customer.present? %>                    
+        </div>
+        <div class="tab-pane fade <%= "#{'active' if @from_create_action.present?} #{'show' if @from_create_action.present?}" %>" id="equipment_customer_div">
+          <%= render 'form' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
