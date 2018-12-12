@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   resources :clients
   resources :employes
 
-  resources :sale_supports
+  resources :sale_supports do
+    get 'search', on: :collection
+  end
   resources :equipment_customers
 
   devise_for :users

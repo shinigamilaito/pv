@@ -13,39 +13,10 @@
     <div class="card-body">
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade <%= "#{'active' if @from_equipment_customer.eql?(false)} #{'show' if @from_equipment_customer.eql?(false)}" %>" id="home">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <%= render 'search_form' %>
         </div>
         <div class="tab-pane fade <%= "#{'active' if @from_equipment_customer.eql?(true)} #{'show' if @from_equipment_customer.eql?(true)}" %>" id="equipment_customer_div">
           <%= render 'equipment_customers/form' %>
-          <form>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputEmail4">Cliente</label>
-                <input type="text" class="form-control" id="inputEmail4">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputPassword4">Folio Nota</label>
-                <input type="text" class="form-control" id="inputPassword4">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputAddress">Equipo</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputAddress2">Marca</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputCity">Descripción</label>
-              <input type="text" class="form-control" id="inputCity">
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </form>
         </div>
       </div>
     </div>
