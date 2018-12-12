@@ -8,9 +8,10 @@ class EquipmentCustomersController < ApplicationController
     @equipment_customer = EquipmentCustomer.new(equipment_customer_params)
     if @equipment_customer.save
       flash[:success] = "Equipo registrado."
-      redirect_to sale_supports_path      
+      redirect_to sale_supports_path
     else
-      render "new"
+      @from_equipment_customer = true
+      render "sale_supports/index"
     end
   end
 

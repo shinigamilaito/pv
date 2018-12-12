@@ -3,21 +3,22 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#home">Búsqueda de Equipos</a>
+          <a class="nav-link <%= "#{'active' if @from_equipment_customer.eql?(false)} #{'show' if @from_equipment_customer.eql?(false)}" %>" data-toggle="tab" href="#home">Búsqueda de Equipos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#register">Agregar Equipos</a>
+          <a class="nav-link <%= "#{'active' if @from_equipment_customer.eql?(true)} #{'show' if @from_equipment_customer.eql?(true)}" %>" data-toggle="tab" href="#equipment_customer_div">Agregar Equipos</a>
         </li>
       </ul>
     </div>
     <div class="card-body">
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home">
+        <div class="tab-pane fade <%= "#{'active' if @from_equipment_customer.eql?(false)} #{'show' if @from_equipment_customer.eql?(false)}" %>" id="home">
           <h5 class="card-title">Special title treatment</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
-        <div class="tab-pane fade" id="register">
+        <div class="tab-pane fade <%= "#{'active' if @from_equipment_customer.eql?(true)} #{'show' if @from_equipment_customer.eql?(true)}" %>" id="equipment_customer_div">
+          <%= render 'equipment_customers/form' %>
           <form>
             <div class="form-row">
               <div class="form-group col-md-6">
