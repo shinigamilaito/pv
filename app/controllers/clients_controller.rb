@@ -61,6 +61,10 @@ class ClientsController < ApplicationController
     end
   end
 
+  def autocomplete
+    @clients = Client.search(params[:term]).order(created_at: :desc)    
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_client

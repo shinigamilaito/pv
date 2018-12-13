@@ -11,10 +11,11 @@
  * It is generally better to create a new file per style scope.
  *
  *= require font-awesome
- * require jquery-ui
  *= require bootstrap.min
  *= require toastr
- *= require styles.css
+ *= require styles.css  
+ *= require select2.min
+ *= require select2-bootstrap4.min
  *= require_self
  */
 

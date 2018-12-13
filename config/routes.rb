@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   resources :payment_types
   resources :brands
   resources :equipments
-  resources :clients
+  resources :clients do
+    get 'autocomplete', on: :collection
+  end
   resources :employes
   resources :supports
 

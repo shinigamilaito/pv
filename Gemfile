@@ -53,5 +53,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #For Windows it works with CofferScript v1.8
 gem 'coffee-script-source', '1.8.0'
+
 gem 'devise'
 gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
+gem 'jbuilder', '~> 2.5'
