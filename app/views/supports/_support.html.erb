@@ -9,7 +9,54 @@
 
   <div id="collapse<%= support.id %>" class="collapse" data-parent="#accordionExample">
     <div class="card-body">
-      <p> <%= support.description %>
+      <div class="form-group">
+        <label>Descripción del servicio</label>
+        <textarea class="form-control" rows="3" readonly><%= support.description %></textarea>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Fecha de Ingreso</label>
+            <input class="form-control" type="text" placeholder="<%= support.date_of_entry %>" readonly>
+          </div>
+          <div class="form-group">
+            <label>Tipo de pago</label>
+            <input class="form-control" type="text" placeholder="<%= support.payment_type.name %>" readonly>
+          </div>
+          <div class="form-group">
+            <label>Tipo de cliente</label>
+            <input class="form-control" type="text" placeholder="<%= support.client_type.name %>" readonly>
+          </div>
+          <div class="form-group">
+            <label>Mano de obra</label>
+            <input class="form-control" type="text" placeholder="<%= support.worforce %>" readonly>
+          </div>
+          <div class="form-group">
+            <label>Descuento</label>
+            <input class="form-control" type="text" placeholder="<%= support.discount %>" readonly>
+          </div>
+          <div class="form-group">
+            <label>Fecha de salida</label>
+            <input class="form-control" type="text" placeholder="<%= support.departure_date %>" readonly>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Refacciones usadas</label>
+            <input type="password" class="form-control" placeholder="Refacciones usadas">
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
     </div>
   </div>
 </div>

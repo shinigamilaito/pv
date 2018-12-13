@@ -58,3 +58,8 @@ en:
              invalid: "No es una contraseña valida"
            email:
              blank: "Proporciona tu email."
+
+       equipment_customer:
+         attributes:
+           folio:
+             taken: "El número de folio ya ha sido asignado."
