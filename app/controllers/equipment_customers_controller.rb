@@ -1,24 +1,25 @@
 class EquipmentCustomersController < ApplicationController
 
-  def search    
-    @new_equipment_customer = EquipmentCustomer.new 
-    unless params[:search].blank?                
-      @equipment_customer = EquipmentCustomer.search(params[:search]) 
-     
+  def search
+    @new_equipment_customer = EquipmentCustomer.new
+    unless params[:search].blank?
+      @equipment_customer = EquipmentCustomer.search(params[:search])
+
       if @equipment_customer.blank?
-        flash[:error] = "Cliente / Folio no encontrado."          
+        flash[:error] = "Cliente / Folio no encontrado."
         redirect_to search_equipment_customers_path
 
       else
-        flash[:success] = "Cliente / Folio encontrado correctamente."           
+        flash[:success] = "Cliente / Folio encontrado correctamente."
         redirect_to @equipment_customer
-      end 
+      end
     end
   end
 
-  def show    
+  def show
     @new_equipment_customer = EquipmentCustomer.new
-    @equipment_customer = EquipmentCustomer.find(params[:id])    
+    @new_support = Support.new  
+    @equipment_customer = EquipmentCustomer.find(params[:id])
   end
 
   def new

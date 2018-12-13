@@ -5,10 +5,8 @@ Rails.application.routes.draw do
   resources :equipments
   resources :clients
   resources :employes
+  resources :supports
 
-  resources :sale_supports do
-    get 'search', on: :collection
-  end
   resources :equipment_customers do
     get 'search', on: :collection
   end

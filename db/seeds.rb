@@ -8,6 +8,7 @@
 
 Rol.destroy_all
 User.destroy_all
+PaymentType.destroy_all
 
 p "Created roles"
 
@@ -25,3 +26,14 @@ User.create({
   })
 
 p "Created admin"
+
+PaymentType.create(name: "Efectivo")
+PaymentType.create(name: "Tarjeta de Debito")
+PaymentType.create(name: "Tarjeta de Crédito")
+
+p "Created payment types"
+
+ClientType.create(name: "Frecuente")
+ClientType.create(name: "Ocasional")
+
+p "Created client types"
