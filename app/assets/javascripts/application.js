@@ -16,21 +16,21 @@
 //= require turbolinks
 // require jquery-ui
 //= require toastr
-//= require select2.min
+// require select2.min
 
 
 (function($){
 	$(document).on("turbolinks:load", function(event) {
-		$.fn.select2.defaults.set('theme', 'bootstrap4');	
-		
-		$('.autocomplete_clients').select2({				
+		/*$.fn.select2.defaults.set('theme', 'bootstrap4');
+
+		$('.autocomplete_clients').select2({
 			minimumInputLength: 3,
 			ajax: {
 				delay: 250,
 				url: "/clients/autocomplete",
-    			dataType: 'json'	
+    			dataType: 'json'
     			cache: true
-			}				
-		});	
+			}
+		});*/
 	});
 }(jQuery));

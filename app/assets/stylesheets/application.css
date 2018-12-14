@@ -13,9 +13,9 @@
  *= require font-awesome
  *= require bootstrap.min
  *= require toastr
- *= require styles.css  
- *= require select2.min
- *= require select2-bootstrap4.min
+ *= require styles.css
+ * require select2.min
+ * require select2-bootstrap4.min
  *= require_self
  */
 
