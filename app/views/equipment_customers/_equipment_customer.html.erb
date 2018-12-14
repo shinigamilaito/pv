@@ -1,16 +1,16 @@
 <hr>
 <div class="form-row">
-  <div class="form-group col-md-5">
-    <label class="col-form-label">Equipo</label>
-    <input class="form-control" type="text" placeholder="<%= @equipment_customer.equipment.name %>" readonly>
+  <div class="form-group col-md-6">
+    <label class="font-weight-bold col-form-label col-form-label-sm">Equipo:</label>
+    <input class="form-control form-control-sm" type="text" placeholder="<%= @equipment_customer.equipment.name %>" readonly>
   </div>
-  <div class="form-group col-md-5">
-    <label class="col-form-label">Marca</label>
-    <input class="form-control" type="text" placeholder="<%= @equipment_customer.brand.name %>" readonly>
+  <div class="form-group col-md-6">
+    <label class="font-weight-bold col-form-label col-form-label-sm">Marca:</label>
+    <input class="form-control form-control-sm" type="text" placeholder="<%= @equipment_customer.brand.name %>" readonly>
   </div>
 </div>
 <div class="form-group">
-  <label class="col-form-label">Descripción</label>
-  <textarea class="form-control" rows="3" readonly><%= @equipment_customer.description %></textarea>
+  <label class="font-weight-bold col-form-label col-form-label-sm">Descripción:</label>
+  <textarea class="form-control form-control-sm" rows="2" readonly><%= @equipment_customer.description %></textarea>
 </div>
 <hr>
