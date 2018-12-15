@@ -1,28 +1,27 @@
 
-
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="form-group has-feedback">
-        <%= f.text_field :username, autofocus: true, placeholder: "Usuario", class: "form-control", required: true %>
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-         <%= f.password_field :password, placeholder: "Proporciona tu contraseña", class: "form-control", required: true %>
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <% if devise_mapping.rememberable? -%>
-          <div class="form-group checkbox icheck>
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
-         </div>
-        <% end -%>
-          
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <%= f.submit "Acceder", class: "btn btn-primary btn-block btn-flat" %>          
-        </div>
-        <!-- /.col -->
-      </div>
-    <% end %>
+  <div class="form-group has-feedback">
+    <%= f.text_field :username, autofocus: true, placeholder: "Usuario", class: "form-control", required: true %>
+    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+  </div>
+  <div class="form-group has-feedback">
+     <%= f.password_field :password, placeholder: "Proporciona tu contraseña", class: "form-control", required: true %>
+    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+  </div>
+  <div class="row">
+    <div class="col-xs-8">
+      <% if devise_mapping.rememberable? -%>
+      <div class="form-group checkbox icheck>
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+     </div>
+    <% end -%>
+      
+    </div>
+    <!-- /.col -->
+    <div class="col-xs-4">
+      <%= f.submit "Acceder", class: "btn btn-primary btn-block btn-flat" %>          
+    </div>
+    <!-- /.col -->
+  </div>
+<% end %>
