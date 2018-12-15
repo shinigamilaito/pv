@@ -11,8 +11,7 @@
  * It is generally better to create a new file per style scope.
  *
  *= require bower_components/bootstrap/dist/css/bootstrap.min.css
- * require bower_components/font-awesome/css/font-awesome.min.css
- *= require font-awesome
+ *= require bower_components/font-awesome/css/font-awesome.min.css 
  *= require bower_components/Ionicons/css/ionicons.min.css
  *= require dist/css/AdminLTE.css
 
