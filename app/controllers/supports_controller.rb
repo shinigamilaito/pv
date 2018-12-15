@@ -4,7 +4,7 @@ class SupportsController < ApplicationController
     @support = Support.new(support_params)
     if @support.save
       flash[:success] = "Soporte creado correctamente."
-      redirect_to  search_equipment_customers_path
+      redirect_to  @support.equipment_customer
     else
       flash.now[:error] = "Proporcione los datos correctos."
       @new_equipment_customer = EquipmentCustomer.new

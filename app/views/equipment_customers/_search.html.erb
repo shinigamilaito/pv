@@ -1,34 +1,67 @@
-<div class="col-sm-12">
-  <div class="card">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a class="nav-link <%= "#{'active' if @from_create_action.blank?} #{'show' if @from_create_action.blank?}" %>" data-toggle="tab" href="#home">Búsqueda de Equipos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link <%= "#{'active' if @from_create_action.present?} #{'show' if @from_create_action.present?}" %>" data-toggle="tab" href="#equipment_customer_div">Agregar Equipos</a>
-        </li>
-      </ul>
-    </div>
-    <div class="card-body">
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade <%= "#{'active' if @from_create_action.blank?} #{'show' if @from_create_action.blank?}" %>" id="home">
-          <%= render 'equipment_customers/search_form' %>
-          <% if @equipment_customer.present? %>
-            <%= render @equipment_customer %>
-            <h5 class="font-weight-bold">Historico de Soportes</h5>
+<div class="row">
+        <div class="col-md-12">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab">Búsqueda de Equipos</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Agregar Equipos</a></li>     
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                <div class="row">        
+                  <div class="col-md-12">                  
+                    <%= render "equipment_customers/search_form" %>
+                    <%= render @equipment_customer if @equipment_customer.present? %>
 
-            <div class="accordion" id="accordionExample">
-              <%= render 'supports/new' %>
-              <%= render @equipment_customer.supports %>
+                    <%#= render "supports/form" %>
+
+                    <div class="box box-solid">
+                      <div class="box-header with-border">
+                        <h3 class="box-title">Historico de Soportes</h3>
+                      </div>
+                      <!-- /.box-header -->
+                      <div class="box-body">
+                        <div class="box-group" id="accordion">   
+
+                          <%= render "supports/new" if @equipment_customer.present? %>
+
+
+                          <%= render @equipment_customer.supports if @equipment_customer.present? %>
+                        </div>
+                      </div>
+                      <!-- /.box-body -->
+                    </div>  
+
+
+
+
+
+
+
+
+
+
+
+                  </div>              
+                </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+                The European languages are members of the same family. Their separate existence is a myth.
+                For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
+                in their grammar, their pronunciation and their most common words. Everyone realizes why a
+                new common language would be desirable: one could refuse to pay expensive translators. To
+                achieve this, it would be necessary to have uniform grammar, pronunciation and more common
+                words. If several languages coalesce, the grammar of the resulting language is more simple
+                and regular than that of the individual languages.
+              </div>
+              <!-- /.tab-pane -->
+
             </div>
-          <% end %>
+            <!-- /.tab-content -->
+          </div>
+          <!-- nav-tabs-custom -->
         </div>
+        <!-- /.col -->
 
-        <div class="tab-pane fade <%= "#{'active' if @from_create_action.present?} #{'show' if @from_create_action.present?}" %>" id="equipment_customer_div">
-          <%= render 'equipment_customers/form' %>
-        </div>
       </div>
-    </div>
-  </div>
-</div>

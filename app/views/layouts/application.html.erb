@@ -2,24 +2,68 @@
 <html>
 <head>
   <title>Puntodeventa</title>
-  <%= csrf_meta_tags %>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <title>Login - PV</title>
+  <%= csrf_meta_tags %>  
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %> 
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>   
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <meta name="turbolinks-cache-control" content="no-cache">
 
 </head>
 
-<body>
+<body class="hold-transition skin-blue-light sidebar-mini">
+  <div class="wrapper">
+    <%= render "layouts/navbar" %>
+  
+    <%= render "layouts/sidebar" %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Dashboard
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+    </section>    
+
+    <!-- Main content -->
+    <section class="content">     
+       <%= yield %>      
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.4.0
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    reserved.
+  </footer>
+  
+</div>
+<!-- ./wrapper -->
+
+
+
+
+
+
   <%= render 'layouts/navbar' %>
   <%= render 'layouts/flash_messages' %>
   <div>
       <div class="container">
         <div class="row">
-          <%= yield %>
+          <%#= yield %>
         </div>
       </div>
   </div>

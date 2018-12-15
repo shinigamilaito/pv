@@ -10,13 +10,24 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require font-awesome
- *= require bootstrap.min
- *= require toastr
- *= require styles.css
+ *= require bower_components/bootstrap/dist/css/bootstrap.min.css
+ *= require bower_components/font-awesome/css/font-awesome.min.css
+ *= require bower_components/Ionicons/css/ionicons.min.css
+ *= require dist/css/AdminLTE.css
+
+ *= require dist/css//skins/_all-skins.min.css
+ *= require bower_components/morris.js/morris.css
+ *= require bower_components/jvectormap/jquery-jvectormap.css
+ *= require bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css
+ *= require plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css
+ 
+ * require font-awesome
+ * require bootstrap.min
+ * require toastr
+ * require styles.css
  * require select2.min
  * require select2-bootstrap4.min
- *= require_self
+ * require_self
  */
 
  body {

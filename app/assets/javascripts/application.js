@@ -10,12 +10,24 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery.min
-//= require bootstrap.min
-//= require rails-ujs
-//= require turbolinks
+//= require bower_components/jquery/dist/jquery.min.js
+//= require bower_components/jquery-ui/jquery-ui.min.js
+//= require bower_components/bootstrap/dist/js/bootstrap.min.js
+//= require bower_components/raphael/raphael.min.js
+//= require plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js
+
+//= require dist/js/adminlte.min.js
+// require dist/js/pages/dashboard.js
+// require dist/js/demo.js
+
+
+
+// require jquery.min
+// require bootstrap.min
+// require rails-ujs
+// require turbolinks
 // require jquery-ui
-//= require toastr
+// require toastr
 // require select2.min
 
 

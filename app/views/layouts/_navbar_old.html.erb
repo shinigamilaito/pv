@@ -1,0 +1,29 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal text-uppercase navbar-brand">
+    <%= link_to "PV", root_path %>
+  </h5>
+
+  <% if  user_signed_in? && current_user.admin? %>
+  <nav class="mr-auto">
+    <%#= link_to "Dashboard", dashboard_path, class: "#{active_item('dashboard')} p-2 text-dark btn btn-light" %>
+    <%= link_to "Ventas (Soporte)", search_equipment_customers_path, class: "#{active_item('sale_supports')} p-2 text-dark btn btn-light" %>
+    <%= link_to "Usuarios", employes_path, class: "#{active_item('users')} p-2 text-dark btn btn-light" %>
+  </nav>
+  <% end %>
+
+  <% if user_signed_in? %>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <div class="dropdown">
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="far fa-user"></i>
+        <%= current_user.name %>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <%= link_to "Mi Perfíl", edit_user_registration_path, class: "dropdown-item" %>
+        <%= link_to "Cerrar sesión", destroy_user_session_path, class: "dropdown-item", method: :delete %>
+      </div>
+    </div>
+  </nav>
+  <% end %>
+
+</div>

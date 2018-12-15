@@ -1,62 +1,17 @@
-<div class="card">
-  <div class="card-header px-0 py-0" id="heading<%= support.id %>">
-    <h5 class="mb-0">
-      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse<%= support.id %>">
-        <%= "[Fecha de Registro] #{support.created_at.to_formatted_s(:long)}" %>
-      </button>
-    </h5>
+<div class="panel box box-primary">
+  <div class="box-header with-border">
+    <h4 class="box-title">
+      <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= support.id %>" aria-expanded="true" class="">
+        <%= "[Creado el] #{support.created_at}" %> 
+      </a>
+    </h4>
   </div>
-
-  <div id="collapse<%= support.id %>" class="collapse" data-parent="#accordionExample">
-    <div class="card-body">
-      <div class="form-group">
-        <label>Descripción del servicio</label>
-        <textarea class="form-control" rows="3" readonly><%= support.description %></textarea>
-      </div>
-      <div class="form-row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Fecha de Ingreso</label>
-            <input class="form-control" type="text" placeholder="<%= support.date_of_entry %>" readonly>
-          </div>
-          <div class="form-group">
-            <label>Tipo de pago</label>
-            <input class="form-control" type="text" placeholder="<%= support.payment_type.name %>" readonly>
-          </div>
-          <div class="form-group">
-            <label>Tipo de cliente</label>
-            <input class="form-control" type="text" placeholder="<%= support.client_type.name %>" readonly>
-          </div>
-          <div class="form-group">
-            <label>Mano de obra</label>
-            <input class="form-control" type="text" placeholder="<%= support.worforce %>" readonly>
-          </div>
-          <div class="form-group">
-            <label>Descuento</label>
-            <input class="form-control" type="text" placeholder="<%= support.discount %>" readonly>
-          </div>
-          <div class="form-group">
-            <label>Fecha de salida</label>
-            <input class="form-control" type="text" placeholder="<%= support.departure_date %>" readonly>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Refacciones usadas</label>
-            <input type="password" class="form-control" placeholder="Refacciones usadas">
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-
-
-
-
-
+  <div id="collapse<%= support.id %>" class="panel-collapse collapse" aria-expanded="true" style="">
+    <div class="box-body">
+      <%= render 'supports/form', support: support %>
     </div>
-  </div>
+  </div>  
 </div>
+
+
+

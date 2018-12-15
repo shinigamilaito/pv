@@ -1,73 +1,77 @@
-<%= form_for(@new_support) do |f| %>
+
+<%= form_for(support, { html: {class: "form-horizontal" }}) do |f| %>
   <%= f.hidden_field :equipment_customer_id, value: @equipment_customer.id %>
-  <div class="form-group">
-    <label class="font-weight-bold col-form-label col-form-label-sm">Descripción del servicio:</label>
-    <%= f.text_area :description, class: "form-control form-control-sm", rows: 2, required: true %>
-    <div class="invalid-feedback"><%= @new_support.errors[:description].first %></div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group" style="padding-left: 10px;">
+        <label>Descripción</label>
+        <%= f.text_area :description, class: "form-control", rows: 2, required: true, disabled: !support.new_record? %>
+        <div class="invalid-feedback"><%= @new_support.errors[:description].first %></div>
+      </div>
+    </div>
   </div>
-  <div class="form-row">
+  <div class="row">
     <div class="col-md-5">
-      <div class="form-group row">
-        <label class="font-weight-bold col-md-5 col-form-label col-form-label-sm">Fecha de Ingreso:</label>
+      <div class="form-group">
+        <label class="col-md-5 text-center control-label">Fecha de Ingreso</label>
         <div class="col-md-7">
-          <%= f.text_field :date_of_entry, class: "form-control form-control-sm", required: true %>
+          <%= f.text_field :date_of_entry, class: "form-control", required: true, disabled: !support.new_record? %>
           <div class="invalid-feedback"><%= @new_support.errors[:date_of_entry].first %></div>
         </div>
-      </div>
+      </div>  
       <div class="form-group">
-        <label class="font-weight-bold col-md-12 col-form-label col-form-label-sm text-center">Tipo de pago</label>
-        <% PaymentType.all.each do |payment_type| %>
-          <div class="form-group form-check mb-0">
-            <input type="radio" class="form-check-input" id="radio<%= payment_type.id %>" name="support[payment_type_id]" value="<%= payment_type.id %>" required>
-            <label class="form-check-label" for="radio<%= payment_type.id %>">
-              <%= payment_type.name %>
-              <%= "<i class='far fa-credit-card'></i>".html_safe if payment_type.name != "Efectivo" %>
-            </label>
-          </div>
-        <% end %>
-        <div class="invalid-feedback"><%= @new_support.errors[:payment_type_id].first %></div>
+        <label class="col-md-12 control-label" style="text-align: center;">Tipo de pago</label>
+      </div>  
+      <% PaymentType.all.each do |payment_type| %>
+      <div class="form-group">
+        <input type="radio" class="form-check-input" id="radio<%= payment_type.id %>" name="support[payment_type_id]" value="<%= payment_type.id %>" style="margin-left: 20px;" required <%= 'disabled' if !support.new_record? %> <%= 'checked' if payment_type.id.eql?(support.payment_type_id) %>>
+        <label class="form-check-label" style="padding-left: 10px;">
+          <%= payment_type.name %>
+          <%= "<i class='fa fa-fw fa-credit-card'></i>".html_safe if payment_type.name != "Efectivo" %>
+        </label>
       </div>
-      <div class="form-group row">
-        <label class="font-weight-bold col-md-5 col-form-label col-form-label-sm">Tipo de cliente:</label>
+      <% end %> 
+      <div class="invalid-feedback"><%= @new_support.errors[:payment_type_id].first %></div>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Tipo de Cliente</label>
         <div class="col-md-7">
-          <%= f.collection_select :client_type_id, ClientType.all, :id, :name, { prompt: "Seleccione un tipo de cliente" }, class: "form-control form-control-sm", required: true %>
+          <%= f.collection_select :client_type_id, ClientType.all, :id, :name, { prompt: "Seleccione un tipo de cliente" }, class: "form-control", required: true, disabled: !support.new_record? %>
           <div class="invalid-feedback"><%= @new_support.errors[:client_type_id].first %></div>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="font-weight-bold col-md-5 col-form-label col-form-label-sm">Mano de obra:</label>
-        <div class="col-md-7 input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text form-control-sm">$</div>
-          </div>
-          <%= f.text_field :worforce, class: "form-control form-control-sm", required: true %>
-          <div class="invalid-feedback"><%= @new_support.errors[:worforce].first %></div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="font-weight-bold col-md-5 col-form-label col-form-label-sm">Descuento:</label>
-        <div class="col-md-7 input-group">
-          <%= f.text_field :discount, class: "form-control form-control-sm", required: true %>
-          <div class="input-group-text form-control-sm">%</div>
-          <div class="invalid-feedback"><%= @new_support.errors[:discount].first %></div>
-        </div>
-
-      </div>
-      <div class="form-group row">
-        <label class="font-weight-bold col-md-5 col-form-label col-form-label-sm">Fecha de salida:</label>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Mano de Obra</label>
         <div class="col-md-7">
-          <%= f.text_field :departure_date, class: "form-control form-control-sm", required: true %>
+         <div class="input-group">                                          
+          <span class="input-group-addon">$</span>
+          <%= f.text_field :worforce, class: "form-control form-control-sm", required: true, disabled: !support.new_record? %>
+         </div>                                         
+         <div class="invalid-feedback"><%= @new_support.errors[:worforce].first %></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Descuento</label>
+        <div class="col-md-7">
+          <div class="input-group">
+            <%= f.text_field :discount, class: "form-control form-control-sm", required: true, disabled: !support.new_record? %>
+            <span class="input-group-addon">%</span>
+          </div>
+           <div class="invalid-feedback"><%= @new_support.errors[:discount].first %></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Fecha de Salida</label>
+        <div class="col-md-7">
+          <%= f.text_field :departure_date, class: "form-control form-control-sm", required: true, disabled: !support.new_record? %>
           <div class="invalid-feedback"><%= @new_support.errors[:departure_date].first %></div>
         </div>
-      </div>
+      </div>                                      
+      <%= f.submit "Pagar", class: "btn btn-primary #{'hidden' if !support.new_record?}", style: "margin-left: 20px;" %>
+                                          
     </div>
-
     <div class="col-md-7">
-      <div class="form-group">
-        <label>Refacciones usadas</label>
-        <input type="password" class="form-control" placeholder="Refacciones usadas">
-      </div>
+      Formulario de las refacciones usadas........
     </div>
   </div>
-  <%= f.submit "Pagar", class: "btn btn-primary" %>
 <% end %>
+    
