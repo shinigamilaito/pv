@@ -1,32 +1,28 @@
-<div class="col-sm-6 offset-md-3">
-  <div class="card">
-    <div class="card-header">
-      <h2 class="text-info">Iniciar Sesión</h2>
-    </div>
-    <div class="card-body">
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-      <div class="form-group">
-        <label for="exampleInputName">Usuario</label>
-        <%= f.text_field :username, autofocus: true, placeholder: "Proporciona tu nombre de usuario", class: "form-control", required: true %>
-      </div>
 
-      <div class="form-group">
-        <label for="exampleInputName">Contraseña</label>
-        <%= f.password_field :password, placeholder: "Proporciona tu contraseña", class: "form-control", required: true %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group has-feedback">
+        <%= f.text_field :username, autofocus: true, placeholder: "Usuario", class: "form-control", required: true %>
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
-      
-      <% if devise_mapping.rememberable? -%>
-      <div class="form-group>
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+      <div class="form-group has-feedback">
+         <%= f.password_field :password, placeholder: "Proporciona tu contraseña", class: "form-control", required: true %>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
-      <% end -%>
-
-      <div class="actions">
-        <%= f.submit "Acceder", class: "btn btn-primary btn-block" %>
+      <div class="row">
+        <div class="col-xs-8">
+          <% if devise_mapping.rememberable? -%>
+          <div class="form-group checkbox icheck>
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+         </div>
+        <% end -%>
+          
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <%= f.submit "Acceder", class: "btn btn-primary btn-block btn-flat" %>          
+        </div>
+        <!-- /.col -->
       </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+    <% end %>
