@@ -65,8 +65,8 @@
           <%= f.text_field :departure_date, class: "form-control form-control-sm", required: true, disabled: !support.new_record? %>
           <div class="invalid-feedback"><%= @new_support.errors[:departure_date].first %></div>
         </div>
-      </div>                                      
-      <%= f.submit "Pagar", class: "btn btn-primary #{'hidden' if !support.new_record?}", style: "margin-left: 20px;" %>
+      </div>                                    
+      
                                           
     </div>
     <div class="col-md-7">
@@ -117,26 +117,28 @@
       </table>
 
       <div class="table-responsive">
-            <table class="table">
-              <tbody><tr>
-                <th style="width:50%">Total productos:</th>
-                <td>$2077.00</td>
-              </tr>
-              <tr>
-                <th>Total mano de obra:</th>
-                <td>$10.34</td>
-              </tr>
-              <tr>
-                <th>Descuento:</th>
-                <td>$5.80</td>
-              </tr>
-              <tr>
-                <th>Total Final:</th>
-                <td>$265.24</td>
-              </tr>
+        <table class="table">
+            <tbody><tr>
+              <th style="width:50%">Total productos:</th>
+              <td>$2077.00</td>
+            </tr>
+            <tr>
+              <th>Total mano de obra:</th>
+              <td>$10.34</td>
+            </tr>
+            <tr>
+              <th>Descuento:</th>
+              <td>$5.80</td>
+            </tr>
+            <tr>
+              <th>Total Final:</th>
+              <td>$265.24</td>
+            </tr>
             </tbody>
-          </table>
-          </div>
+        </table>
+      </div>
+
+      <%= f.submit "$ Pagar", class: "btn bg-green color-palette btn-block btn-flat #{'hidden' if !support.new_record?}" %>
 
     </div>
   </div>
