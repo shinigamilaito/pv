@@ -13,6 +13,7 @@
 //= require bower_components/jquery/dist/jquery.min.js
 //= require bower_components/bootstrap/dist/js/bootstrap.min.js
 //= require plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js
+//= require bower_components/select2/dist/js/select2.full.min.js
 //= require rails-ujs
 //= require bower_components/jquery-ui/jquery-ui.min.js
 //= require bower_components/raphael/raphael.min.js
@@ -52,8 +53,38 @@
 	});
 }(jQuery));
 
-$(document).ready(function() {	
-	$(function () {    	
+$(document).ready(function() {
+	$(function () {
     	$('.textarea').wysihtml5();
-  	})	
+  });
+
+	$('.autocomplete_clients').select2({
+		minimumInputLength: 3,
+		ajax: {
+			delay: 250,
+			url: "/clients/autocomplete",
+			dataType: 'json',
+			cache: true
+		}
+	});
+
+	$('.autocomplete_equipments').select2({
+		minimumInputLength: 3,
+		ajax: {
+			delay: 250,
+			url: "/equipments/autocomplete",
+			dataType: 'json',
+			cache: true
+		}
+	});
+
+	$('.autocomplete_brands').select2({
+		minimumInputLength: 3,
+		ajax: {
+			delay: 250,
+			url: "/brands/autocomplete",
+			dataType: 'json',
+			cache: true
+		}
+	});
 });

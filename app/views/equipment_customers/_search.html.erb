@@ -4,36 +4,36 @@
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
         <li class="<%= 'active' if !@from_create_action.present? %>"><a href="#tab_1" data-toggle="tab">Búsqueda de Equipos</a></li>
-        <li class="<%= 'active' if @from_create_action.present? %>"><a href="#tab_2" data-toggle="tab">Agregar Equipos</a></li>     
+        <li class="<%= 'active' if @from_create_action.present? %>"><a href="#tab_2" data-toggle="tab">Agregar Equipos</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane <%= 'active' if !@from_create_action.present? %>" id="tab_1">
-          <div class="row">        
-            <div class="col-md-12">                  
+          <div class="row">
+            <div class="col-md-12">
               <%= render "equipment_customers/search_form" %>
               <%= render @equipment_customer if @equipment_customer.present? %>
 
               <div class="box box-solid">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Historico de Soportes</h3>     
-                  <% if @equipment_customer.present? %>            
+                  <h3 class="box-title">Historico de Soportes</h3>
+                  <% if @equipment_customer.present? %>
                     <%= link_to new_support_path(id: @equipment_customer.id), remote: true do %>
                       <i class="fa fa-fw fa-plus-square pull-right" style="font-size: 2.2rem;"></i>
                     <% end %>
                   <% end %>
-                 
+
 
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                  <div class="box-group" id="accordion">                       
-                    <%= render @equipment_customer.supports if @equipment_customer.present? %>
+                  <div class="box-group" id="accordion">
+                    <%= render @equipment_customer.supports.order(created_at: :desc) if @equipment_customer.present? %>
                   </div>
                 </div>
                 <!-- /.box-body -->
-              </div>  
+              </div>
 
-            </div>              
+            </div>
           </div>
         </div>
         <!-- /.tab-pane -->

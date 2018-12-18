@@ -4,10 +4,10 @@
     <div class="row">
       <div class="col-md-5">
         <div class="form-group">
-          <label>Nombre del Cliente</label>
+          <label>Cliente</label>
           <% clients = [] %>
           <% clients << @equipment_customer.client if @equipment_customer.present? %>
-          <%= select_tag "[search][client_id]", options_from_collection_for_select(Client.all, "id", "name", @equipment_customer ? @equipment_customer.client_id : nil), prompt: "Seleccione un cliente", class: "form-control autocomplete_clients", required: true %>
+          <%= select_tag "[search][client_id]", options_from_collection_for_select(clients, "id", "name", @equipment_customer ? @equipment_customer.client_id : nil), prompt: "Seleccione un cliente", class: "form-control autocomplete_clients", required: true %>
         </div>
       </div>
       <div class="col-md-5">
@@ -26,5 +26,5 @@
       </div>
     </div>
   </div>
-  <!-- /.box-body -->  
-<% end %>  
+  <!-- /.box-body -->
+<% end %>

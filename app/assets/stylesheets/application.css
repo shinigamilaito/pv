@@ -11,8 +11,9 @@
  * It is generally better to create a new file per style scope.
  *
  *= require bower_components/bootstrap/dist/css/bootstrap.css.scss
- *= require bower_components/font-awesome/css/font-awesome.css.scss 
+ *= require bower_components/font-awesome/css/font-awesome.css.scss
  *= require bower_components/Ionicons/css/ionicons.min.css
+ *= require bower_components/select2/dist/css/select2.min.css
  *= require dist/css/AdminLTE.css
 
  *= require dist/css/skins/_all-skins.min.css
@@ -21,73 +22,16 @@
  *= require bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css
  *= require plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css
  *= require plugins/iCheck/square/blue.css
- 
+
  * require font-awesome
  * require bootstrap.min
  * require toastr
  * require styles.css
  * require select2.min
  * require select2-bootstrap4.min
- * require_self
+ *= require_self
  */
 
- body {
- //padding-top: 70px;
- background: #eee;
-}
-
-.navbar {
- -moz-box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
- -webkit-box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
- box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
-}
-
-.navbar .navbar-brand {
- font-weight: bold;
- letter-spacing: -1px;
- font-size: 20px;
- color: #dd5638;
-}
-
-.navbar-right {
- margin-right: 0;
-}
-
-.table tbody>tr>td.middle {
- vertical-align: middle;
-}
-
-.media {
- padding: 10px 0;
-}
-
-.media img, .fileinput .thumbnail, .thumbnail img {
- border-radius: 50%;
-}
-
-.media-left {
- padding: 0 20px;
-}
-
-.media-heading {
- color: #dd5638;
- margin-bottom: 10px;
-}
-
-.media-body {
- padding-top: 15px;
-}
-
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
-}
-
-.ui-autocomplete {
- margin-top: 40px;
+.select2-container {
+  display: block !important;
 }
