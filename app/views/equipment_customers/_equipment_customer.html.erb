@@ -17,7 +17,9 @@
       <div class="col-md-10">
         <div class="form-group">
           <label>Descripción</label>
-          <textarea class="form-control" rows="2" readonly><%= @equipment_customer.description %></textarea>
+          <div class="form-control" readonly style="height: auto;">
+            <%= sanitize @equipment_customer.description %>            
+          </div>          
         </div>
       </div>
 

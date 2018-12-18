@@ -17,7 +17,7 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Historico de Soportes</h3>     
                   <% if @equipment_customer.present? %>            
-                    <%= link_to "#", id: "add_new_support_form_link" do %>
+                    <%= link_to new_support_path(id: @equipment_customer.id), remote: true do %>
                       <i class="fa fa-fw fa-plus-square pull-right" style="font-size: 2.2rem;"></i>
                     <% end %>
                   <% end %>
@@ -26,8 +26,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                  <div class="box-group" id="accordion">   
-                    <%= render "supports/new" if @equipment_customer.present? %>
+                  <div class="box-group" id="accordion">                       
                     <%= render @equipment_customer.supports if @equipment_customer.present? %>
                   </div>
                 </div>
@@ -50,18 +49,3 @@
   </div>
   <!-- /.col -->
 </div>
-
-<script>
-  $(document).ready(function() {
-    $("#add_new_support_form_link").click(function() {      
-      var $formSupport = $($("#form_new_support_div")[0]).clone();   
-      $linkCollapse = $($formSupport.find("#link_collapse")[0]);
-      $bodyCollapse = $($formSupport.find("#collapseOne")[0]);
-      var snapshot = (new Date()).getTime();
-      $linkCollapse.attr("href", ("#" + String(snapshot)));
-      $bodyCollapse.attr("id", String(snapshot));
-      $("#accordion").prepend($formSupport.html());
-      return false;
-    });
-  });
-</script>

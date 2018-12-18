@@ -1,4 +1,8 @@
 class SupportsController < ApplicationController
+  def new    
+    @equipment_customer = EquipmentCustomer.find(params[:id])
+    @new_support = Support.new
+  end
 
   def create
     @support = Support.new(support_params)

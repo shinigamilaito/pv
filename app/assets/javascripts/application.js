@@ -12,13 +12,15 @@
 //
 //= require bower_components/jquery/dist/jquery.min.js
 //= require bower_components/bootstrap/dist/js/bootstrap.min.js
+//= require plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js
 //= require rails-ujs
 //= require bower_components/jquery-ui/jquery-ui.min.js
 //= require bower_components/raphael/raphael.min.js
-//= require plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js
+
 
 //= require dist/js/adminlte.min.js
 //= require plugins/iCheck/icheck.min.js
+
 
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js
@@ -49,3 +51,9 @@
 		});*/
 	});
 }(jQuery));
+
+$(document).ready(function() {	
+	$(function () {    	
+    	$('.textarea').wysihtml5();
+  	})	
+});

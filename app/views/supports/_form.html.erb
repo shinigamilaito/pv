@@ -5,8 +5,14 @@
     <div class="col-md-12">
       <div class="form-group" style="padding-left: 10px;">
         <label>Descripción</label>
-        <%= f.text_area :description, class: "form-control", rows: 2, required: true, disabled: !support.new_record? %>
-        <div class="invalid-feedback"><%= @new_support.errors[:description].first %></div>
+        <% if support.new_record? %>
+          <%= f.text_area :description, class: "form-control textarea", required: true %>
+          <div class="invalid-feedback"><%= @new_support.errors[:description].first %></div>
+        <% else %>
+          <div class="form-control" readonly style="height: auto;">
+            <%= sanitize support.description %>            
+          </div>           
+        <% end %>        
       </div>
     </div>
   </div>
@@ -144,3 +150,4 @@
   </div>
 <% end %>
     
+
