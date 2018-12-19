@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181219021408) do
+ActiveRecord::Schema.define(version: 20181219155749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,17 @@ ActiveRecord::Schema.define(version: 20181219021408) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "support_spare_parts", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "price", precision: 10, scale: 2
+    t.integer "quantity"
+    t.bigint "support_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["support_id"], name: "index_support_spare_parts_on_support_id"
+  end
+
   create_table "supports", force: :cascade do |t|
     t.bigint "equipment_customer_id"
     t.text "description"
@@ -111,6 +122,7 @@ ActiveRecord::Schema.define(version: 20181219021408) do
   add_foreign_key "equipment_customers", "brands"
   add_foreign_key "equipment_customers", "clients"
   add_foreign_key "equipment_customers", "equipments"
+  add_foreign_key "support_spare_parts", "supports"
   add_foreign_key "supports", "client_types"
   add_foreign_key "supports", "equipment_customers"
   add_foreign_key "supports", "payment_types"

@@ -17,9 +17,10 @@ class EquipmentCustomersController < ApplicationController
   end
 
   def show
+    session[:spare_part_ids] = nil
     @new_equipment_customer = EquipmentCustomer.new
     @new_support = Support.new  
-    @equipment_customer = EquipmentCustomer.find(params[:id])
+    @equipment_customer = EquipmentCustomer.find(params[:id])    
   end
 
   def new

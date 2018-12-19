@@ -2,10 +2,16 @@ class SupportsController < ApplicationController
   def new    
     @equipment_customer = EquipmentCustomer.find(params[:id])
     @new_support = Support.new
+    @new_support.discount = BigDecimal("0.00")
+    @new_support.worforce = BigDecimal("0.00")
   end
 
   def create
+    spare_parts_used = SparePart.find(session[:spare_part_ids])
+    support_spare_parts = SupportSparePart.create_spare_parts_used(spare_parts_used) 
+    
     @support = Support.new(support_params)
+    @support.support_spare_parts = support_spare_parts
     if @support.save
       flash[:success] = "Soporte creado correctamente."
       redirect_to  @support.equipment_customer
@@ -19,7 +25,14 @@ class SupportsController < ApplicationController
   end
 
   def add_spare_part
+    session[:spare_part_ids] ||= []
     @spare_part = SparePart.find(params[:spare_part][:id])
+    session[:spare_part_ids] << @spare_part.id unless session[:spare_part_ids].include?(@spare_part.id)
+
+    p session[:spare_part_ids]
+
+    @spare_parts = SparePart.find(session[:spare_part_ids])
+
   end
 
   private

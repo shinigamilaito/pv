@@ -83,7 +83,7 @@
             <option value="">Seleccione la refacción</option>
           </select>
         <% end %>
-      </div>
+      </div>      
       <table class="table table-striped">
         <thead>
           <tr>
@@ -95,9 +95,12 @@
           </tr>
         </thead>
         <tbody id="spare_parts_used_by_support">
-          <%= render 'supports/spare_parts' %>
+          <% unless support.support_spare_parts.blank? %>                  
+            <%= render partial: "spare_parts/spare_part", collection: support.support_spare_parts %>
+          <% end %>
         </tbody>
       </table>
+     
 
       <div class="table-responsive">
         <table class="table">
