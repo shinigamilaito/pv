@@ -2,8 +2,8 @@ class SupportsController < ApplicationController
   def new    
     @equipment_customer = EquipmentCustomer.find(params[:id])
     @new_support = Support.new
-    @new_support.discount = BigDecimal("0.00")
-    @new_support.worforce = BigDecimal("0.00")
+    @new_support.discount = BigDecimal.new("0.00")
+    @new_support.worforce = BigDecimal.new("0.00")
   end
 
   def create
@@ -26,13 +26,17 @@ class SupportsController < ApplicationController
 
   def add_spare_part
     session[:spare_part_ids] ||= []
+    session[:worforce] ||= BigDecimal.new("0.00")
+    session[:discount] ||= BigDecimal.new("0.00")    
+
     @spare_part = SparePart.find(params[:spare_part][:id])
     session[:spare_part_ids] << @spare_part.id unless session[:spare_part_ids].include?(@spare_part.id)
-
-    p session[:spare_part_ids]
-
     @spare_parts = SparePart.find(session[:spare_part_ids])
-
+    
+    total_worforce = BigDecimal.new(session[:worforce])    
+    total_discount = BigDecimal.new(session[:discount])
+    
+    @totals = Support.generate_totals(@spare_parts, total_worforce, total_discount)
   end
 
   private
