@@ -1,4 +1,5 @@
-$("#accordion").prepend('<%= j render("new") %>');
+$("#accordion").prepend('<%= j render("new") %>'); // Response when add support link is clicked
+
 $('.textarea').wysihtml5();
 
 $('.autocomplete_spare_parts').select2({
@@ -38,7 +39,7 @@ function formatRepoSelection (spare_part) {
 $('.autocomplete_spare_parts').on('select2:select', function (e) {
     var data = e.params.data;  
     $.ajax({
-      url: "/spare_parts/add_to_support",
+      url: "/supports/add_spare_part",
       method: "get",
       dataType: "script",
       data: {

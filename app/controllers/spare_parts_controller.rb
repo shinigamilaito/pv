@@ -64,11 +64,7 @@ class SparePartsController < ApplicationController
   def autocomplete
     @spare_parts = SparePart.search(params[:term]).order(created_at: :desc)
   end
-
-  def add_to_support
-    @spare_part = SparePart.find(params[:spare_part][:id])
-  end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_spare_part

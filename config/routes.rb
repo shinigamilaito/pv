@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :spare_parts do
-    get 'autocomplete', on: :collection
-    get 'add_to_support', on: :collection
+    get 'autocomplete', on: :collection    
   end
   resources :client_types
   resources :payment_types
@@ -15,7 +14,10 @@ Rails.application.routes.draw do
     get 'autocomplete', on: :collection
   end
   resources :employes
-  resources :supports
+  
+  resources :supports do
+    get 'add_spare_part', on: :collection
+  end
 
   resources :equipment_customers do
     get 'search', on: :collection

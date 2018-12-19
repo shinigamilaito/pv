@@ -18,6 +18,10 @@ class SupportsController < ApplicationController
     end
   end
 
+  def add_spare_part
+    @spare_part = SparePart.find(params[:spare_part][:id])
+  end
+
   private
 
   def support_params
