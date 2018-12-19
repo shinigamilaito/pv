@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Spare Parts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @spare_parts.each do |spare_part| %>
+      <tr>
+        <td><%= spare_part.name %></td>
+        <td><%= spare_part.description %></td>
+        <td><%= spare_part.price %></td>
+        <td><%= spare_part.total %></td>
+        <td><%= link_to 'Show', spare_part %></td>
+        <td><%= link_to 'Edit', edit_spare_part_path(spare_part) %></td>
+        <td><%= link_to 'Destroy', spare_part, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Spare Part', new_spare_part_path %>

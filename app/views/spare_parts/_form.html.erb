@@ -1,0 +1,22 @@
+
+<%= form_for(@spare_part) do |f| %>
+  <%#= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+
+    <%= f.label :price %>
+    <%= f.text_field :price %>
+
+    <%= f.label :total %>
+    <%= f.text_field :total %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

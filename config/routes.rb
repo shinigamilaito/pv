@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :spare_parts do
+    get 'autocomplete', on: :collection
+    get 'add_to_support', on: :collection
+  end
   resources :client_types
   resources :payment_types
   resources :brands do
