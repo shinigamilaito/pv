@@ -50,7 +50,7 @@
         <div class="col-md-7">
          <div class="input-group">
           <span class="input-group-addon">$</span>
-          <%= f.text_field :worforce, class: "form-control form-control-sm", required: true, disabled: !support.new_record? %>
+          <%= f.text_field :worforce, class: "form-control form-control-sm", required: true, disabled: !support.new_record?, data: { url: "/supports/test", remote: :true, method: :get } %>
          </div>
          <div class="invalid-feedback"><%= @new_support.errors[:worforce].first %></div>
         </div>
@@ -83,7 +83,7 @@
             <option value="">Seleccione la refacción</option>
           </select>
         <% end %>
-      </div>      
+      </div>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -95,14 +95,14 @@
           </tr>
         </thead>
         <tbody id="spare_parts_used_by_support">
-          <% unless support.support_spare_parts.blank? %>                  
+          <% unless support.support_spare_parts.blank? %>
             <%= render partial: "spare_parts/spare_part", collection: support.support_spare_parts %>
           <% end %>
         </tbody>
       </table>
-     
+
       <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_support">
-        <% unless support.support_spare_parts.blank? %> 
+        <% unless support.support_spare_parts.blank? %>
           <%= render "supports/totals_costs", totals: Support.generate_totals(support.support_spare_parts, support.worforce, support.discount) %>
         <% end %>
       </div>
