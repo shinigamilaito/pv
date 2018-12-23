@@ -73,9 +73,11 @@
           <div class="invalid-feedback"><%= @new_support.errors[:departure_date].first %></div>
         </div>
       </div>
-      
-      <%= image_tag(support.image_client_url.to_s) %>
-
+      <% if support.new_record? %>
+        <%= render "supports/image_client" %>
+      <% else %>
+        <%= image_tag(support.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+      <% end %>
     </div>
 
     <div class="col-md-7">
