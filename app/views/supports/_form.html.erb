@@ -1,5 +1,6 @@
 
 <%= form_for(support, { html: {class: "form-horizontal" }}) do |f| %>
+  <%= f.hidden_field :image_client, value: nil, id: "image_web_cam" %>
   <%= f.hidden_field :equipment_customer_id, value: @equipment_customer.id %>
   <div class="row">
     <div class="col-md-12">
@@ -72,9 +73,11 @@
           <div class="invalid-feedback"><%= @new_support.errors[:departure_date].first %></div>
         </div>
       </div>
-
+      
+      <%= image_tag(support.image_client_url.to_s) %>
 
     </div>
+
     <div class="col-md-7">
       <div class="form-group text-center">
         <label>Refacciones usadas</label>

@@ -51,3 +51,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'coffee-script-source', '1.8.0'
 gem 'devise'
 gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
+gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-base64'

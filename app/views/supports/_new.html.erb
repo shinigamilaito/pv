@@ -2,13 +2,20 @@
   <div class="box-header with-border">
     <h4 class="box-title">
       <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= Time.now.to_i %>" aria-expanded="true" class="" id="link_collapse">
-        <%= "[Nuevo Registro]" %> 
+        <%= "[Nuevo Registro]" %>
       </a>
     </h4>
   </div>
   <div id="collapse<%= Time.now.to_i %>" class="panel-collapse collapse in" aria-expanded="true" style="">
     <div class="box-body">
       <%= render 'supports/form', support: @new_support %>
+
+      <video id="video"></video>
+      <button id="startbutton">Take photo</button>
+      <canvas id="canvas"></canvas>
+      <img src="http://placekitten.com/g/320/261" id="photo" alt="photo">
+
+
     </div>
-  </div>  
+  </div>
 </div>
