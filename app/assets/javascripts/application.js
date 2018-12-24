@@ -64,7 +64,7 @@
 
 $(document).ready(function() {
 	$(function () {
-    	$('.textarea').wysihtml5();
+    	$('.textarea_new_equipment_customer').wysihtml5();
   });
 
 	$('.autocomplete_clients').select2({
