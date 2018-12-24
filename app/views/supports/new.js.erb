@@ -2,6 +2,19 @@ $("#accordion").prepend('<%= j render("new") %>'); // Response when add support 
 
 $('.textarea').wysihtml5();
 
+$(".datepicker").datepicker({
+  format: "dd/mm/yyyy",
+  language: "es"
+});
+
+$("#support_worforce").inputmask("currency", {
+  "prefix": ""
+});
+
+$("#support_discount").inputmask("percentage", {
+  "suffix": ""
+});
+
 $('.autocomplete_spare_parts').select2({
   minimumInputLength: 3,
   ajax: {
