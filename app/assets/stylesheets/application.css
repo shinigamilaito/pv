@@ -20,8 +20,11 @@
  *= require bower_components/morris.js/morris.css
  *= require bower_components/jvectormap/jquery-jvectormap.css
  *= require bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css
+ * require bower_components/PACE/themes/black/pace-theme-flash.css
  *= require plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css
  *= require plugins/iCheck/square/blue.css
+
+ *= require toastr
 
  * require font-awesome
  * require bootstrap.min

@@ -31,6 +31,8 @@
 
 //= require lodash.js
 
+//= require toastr
+
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js
 
@@ -62,9 +64,24 @@
 }(jQuery));
 
 $(document).ready(function() {
+	$('[data-load="true"]').click(function() {
+		console.log("Show the spinner....");
+		$.LoadingOverlay("show");
+	});
+
+	$("#new_support_link").on("ajax:before", function() {
+		console.log("Before send.....");
+		$.LoadingOverlay("show");
+	});
+
+	$("#new_support_link").on("ajax:complete", function(event) {
+		console.log("Complete....");
+		$.LoadingOverlay("hide", true);
+	});
+	
 	$(function () {
     	$('.textarea_new_equipment_customer').wysihtml5();
-  });
+  	});
 
 	$('.autocomplete_clients').select2({
 		minimumInputLength: 3,

@@ -75,6 +75,12 @@
         dataType: "script",
         data: {
           spare_part: data
+        },
+        beforeSend: function(xhr) {
+          $("#spare_parts_used_by_support").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("#spare_parts_used_by_support").LoadingOverlay("hide", true);
         }
       })
   });
@@ -182,7 +188,14 @@
       dataType: "script",
       data: {
         worforce: $(this).val()
+      },
+      beforeSend: function(xhr) {
+        $("#total_to_paid_by_spare_parts_used_by_support").LoadingOverlay("show");
+      },
+      complete: function(xhr, status) {
+        $("#total_to_paid_by_spare_parts_used_by_support").LoadingOverlay("hide", true);
       }
+
     });
   }  
 
@@ -195,7 +208,13 @@
         dataType: "script",
         data: {
           discount: $(this).val()
-        }
+        },
+        beforeSend: function(xhr) {
+        $("#total_to_paid_by_spare_parts_used_by_support").LoadingOverlay("show");
+      },
+      complete: function(xhr, status) {
+        $("#total_to_paid_by_spare_parts_used_by_support").LoadingOverlay("hide", true);
+      }
     });
   }
 

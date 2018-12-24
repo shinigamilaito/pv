@@ -7,6 +7,8 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>   
 
+  <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.6/dist/loadingoverlay.min.js"></script>
+ 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -16,28 +18,15 @@
 
 <body class="hold-transition skin-blue-light sidebar-mini">
   <div class="wrapper">
-    <%= render "layouts/navbar" %>
-  
+    <%= render "layouts/navbar" %>  
     <%= render "layouts/sidebar" %>
+    <%= render "layouts/flash_messages" %>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Dashboard
-        <small>Control panel</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol>
-    </section>    
-
+  <div class="content-wrapper">   
     <!-- Main content -->
     <section class="content">     
-       <%= yield %>      
-
+       <%= yield %>     
     </section>
     <!-- /.content -->
   </div>
