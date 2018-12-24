@@ -20,9 +20,8 @@ class EquipmentCustomersController < ApplicationController
     session[:spare_part_ids] = nil
     session[:worforce] = nil
     session[:discount] = nil
-    @new_equipment_customer = EquipmentCustomer.new
-    @new_support = Support.new  
-    @equipment_customer = EquipmentCustomer.find(params[:id])    
+    @new_equipment_customer = EquipmentCustomer.new  
+    @equipment_customer = EquipmentCustomer.find(params[:id])
   end
 
   def new
@@ -35,7 +34,7 @@ class EquipmentCustomersController < ApplicationController
       flash[:success] = "Equipo registrado."
       redirect_to @new_equipment_customer
     else
-      @from_create_action = true
+      @from_create_action_equipment_customers = true
       flash.now[:error] = "Proporcione los datos correctamente."
       render "search"
     end

@@ -13,10 +13,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :first_name, :last_name, :username, :email, :password, :password_confirmation, :rol_id])
   end
 
-  private 
+  private
 
   def layout_by_resource
-  	if devise_controller? && params[:action].eql?('new')
+  	if devise_controller? && (params[:action].eql?('new') || params[:action].eql?('create'))
   		"devise"
   	else
   		"application"

@@ -9,6 +9,8 @@ class Support < ApplicationRecord
   validates :description, :date_of_entry, presence: true
   validates :worforce, :discount, :departure_date, presence: true
 
+  mount_base64_uploader :image_client, ImageSupportUploader  
+
   def self.obtain_discount(worforce, total_products, discount)
   	total_worforce = BigDecimal.new(worforce)
   	total_products = BigDecimal.new(total_products)

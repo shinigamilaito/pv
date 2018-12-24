@@ -3,11 +3,11 @@
     <!-- Custom Tabs -->
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="<%= 'active' if !@from_create_action.present? %>"><a href="#tab_1" data-toggle="tab">Búsqueda de Equipos</a></li>
-        <li class="<%= 'active' if @from_create_action.present? %>"><a href="#tab_2" data-toggle="tab">Agregar Equipos</a></li>
+        <li class="<%= 'active' if !@from_create_action_equipment_customers.present? %>"><a href="#tab_1" data-toggle="tab">Búsqueda de Equipos</a></li>
+        <li class="<%= 'active' if @from_create_action_equipment_customers.present? %>"><a href="#tab_2" data-toggle="tab">Agregar Equipos</a></li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane <%= 'active' if !@from_create_action.present? %>" id="tab_1">
+        <div class="tab-pane <%= 'active' if !@from_create_action_equipment_customers.present? %>" id="tab_1">
           <div class="row">
             <div class="col-md-12">
               <%= render "equipment_customers/search_form" %>
@@ -27,6 +27,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                   <div class="box-group" id="accordion">
+                    <%= render "supports/new" if @new_support.present? %>
                     <%= render @equipment_customer.supports.order(created_at: :desc) if @equipment_customer.present? %>
                   </div>
                 </div>
@@ -37,7 +38,7 @@
           </div>
         </div>
         <!-- /.tab-pane -->
-        <div class="tab-pane <%= 'active' if @from_create_action.present? %>" id="tab_2">
+        <div class="tab-pane <%= 'active' if @from_create_action_equipment_customers.present? %>" id="tab_2">
           <%= render "equipment_customers/form" %>
         </div>
         <!-- /.tab-pane -->

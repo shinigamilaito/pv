@@ -18,9 +18,16 @@
 //= require bower_components/jquery-ui/jquery-ui.min.js
 //= require bower_components/raphael/raphael.min.js
 
-
 //= require dist/js/adminlte.min.js
 //= require plugins/iCheck/icheck.min.js
+
+//= require bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js
+//= require bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js
+
+//= require plugins/input-mask/inputmask.js
+//= require plugins/input-mask/inputmask.extensions.js
+//= require plugins/input-mask/inputmask.numeric.extensions.js
+//= require plugins/input-mask/jquery.inputmask.js
 
 //= require lodash.js
 
@@ -56,7 +63,7 @@
 
 $(document).ready(function() {
 	$(function () {
-    	$('.textarea').wysihtml5();
+    	$('.textarea_new_equipment_customer').wysihtml5();
   });
 
 	$('.autocomplete_clients').select2({

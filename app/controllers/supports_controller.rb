@@ -61,7 +61,7 @@ class SupportsController < ApplicationController
 
   def support_params
     params.require(:support).permit(:equipment_customer_id, :payment_type_id, :client_type_id,
-    :description, :date_of_entry, :worforce, :discount, :departure_date)
+    :description, :date_of_entry, :worforce, :discount, :departure_date, :image_client)
   end
 
   def generate_totals
