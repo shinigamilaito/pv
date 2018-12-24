@@ -173,4 +173,30 @@
 
   })();
 
+  $("#support_worforce").on("keydown", _.debounce(update_worforce, 1000));
+
+  function update_worforce() {
+    $.ajax({
+      url: "/supports/update_worforce",
+      method: "put",
+      dataType: "script",
+      data: {
+        worforce: $(this).val()
+      }
+    });
+  }  
+
+  $("#support_discount").on("keydown", _.debounce(update_discount, 1000));
+
+  function update_discount() {
+    $.ajax({
+        url: "/supports/update_discount",
+        method: "put",
+        dataType: "script",
+        data: {
+          discount: $(this).val()
+        }
+    });
+  }
+
 </script>

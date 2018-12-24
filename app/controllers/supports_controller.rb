@@ -26,36 +26,37 @@ class SupportsController < ApplicationController
 
   def add_spare_part
     session[:spare_part_ids] ||= []
-    session[:worforce] ||= BigDecimal.new("0.00")
-    session[:discount] ||= BigDecimal.new("0.00")    
+    session[:worforce] ||= BigDecimal.new("0.00".gsub(",",""))
+    session[:discount] ||= BigDecimal.new("0.00".gsub(",",""))    
 
     @spare_part = SparePart.find(params[:spare_part][:id])
     session[:spare_part_ids] << @spare_part.id unless session[:spare_part_ids].include?(@spare_part.id)
-    #@spare_parts = SparePart.find(session[:spare_part_ids])
-    
-    #total_worforce = BigDecimal.new(session[:worforce])    
-    #total_discount = BigDecimal.new(session[:discount])
-    
-    #@totals = Support.generate_totals(@spare_parts, total_worforce, total_discount)
+   
     generate_totals
   end
 
   def update_worforce
-    session[:worforce] = BigDecimal.new(params[:worforce])
+    session[:worforce] = BigDecimal.new(params[:worforce].gsub(",",""))
     
-    if session[:spare_part_ids].present?
-      #@spare_parts = SparePart.find(session[:spare_part_ids])
-      #total_worforce = BigDecimal.new(session[:worforce])    
-      #total_discount = BigDecimal.new(session[:discount])
-
-      #@totals = Support.generate_totals(@spare_parts, total_worforce, total_discount)
-
+    if session[:spare_part_ids].present?     
       generate_totals
       render 'supports/add_spare_part'
     else
       head :ok
     end
   end
+
+  def update_discount
+    session[:discount] = BigDecimal.new(params[:discount].gsub(",",""))
+    
+    if session[:spare_part_ids].present?      
+      generate_totals
+      render 'supports/add_spare_part'
+    else
+      head :ok
+    end
+  end
+
 
   private
 
