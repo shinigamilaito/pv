@@ -22,6 +22,7 @@
 //= require dist/js/adminlte.min.js
 //= require plugins/iCheck/icheck.min.js
 
+//= require lodash.js
 
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   
   resources :supports do
     get 'add_spare_part', on: :collection
+    put 'update_worforce', on: :collection
   end
 
   resources :equipment_customers do

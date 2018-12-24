@@ -50,7 +50,7 @@
         <div class="col-md-7">
          <div class="input-group">
           <span class="input-group-addon">$</span>
-          <%= f.text_field :worforce, class: "form-control form-control-sm", required: true, disabled: !support.new_record?, data: { url: "/supports/test", remote: :true, method: :get } %>
+          <%= f.text_field :worforce, class: "form-control form-control-sm", required: true, disabled: !support.new_record? %>
          </div>
          <div class="invalid-feedback"><%= @new_support.errors[:worforce].first %></div>
         </div>

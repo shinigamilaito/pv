@@ -31,12 +31,30 @@ class SupportsController < ApplicationController
 
     @spare_part = SparePart.find(params[:spare_part][:id])
     session[:spare_part_ids] << @spare_part.id unless session[:spare_part_ids].include?(@spare_part.id)
-    @spare_parts = SparePart.find(session[:spare_part_ids])
+    #@spare_parts = SparePart.find(session[:spare_part_ids])
     
-    total_worforce = BigDecimal.new(session[:worforce])    
-    total_discount = BigDecimal.new(session[:discount])
+    #total_worforce = BigDecimal.new(session[:worforce])    
+    #total_discount = BigDecimal.new(session[:discount])
     
-    @totals = Support.generate_totals(@spare_parts, total_worforce, total_discount)
+    #@totals = Support.generate_totals(@spare_parts, total_worforce, total_discount)
+    generate_totals
+  end
+
+  def update_worforce
+    session[:worforce] = BigDecimal.new(params[:worforce])
+    
+    if session[:spare_part_ids].present?
+      #@spare_parts = SparePart.find(session[:spare_part_ids])
+      #total_worforce = BigDecimal.new(session[:worforce])    
+      #total_discount = BigDecimal.new(session[:discount])
+
+      #@totals = Support.generate_totals(@spare_parts, total_worforce, total_discount)
+
+      generate_totals
+      render 'supports/add_spare_part'
+    else
+      head :ok
+    end
   end
 
   private
@@ -44,5 +62,14 @@ class SupportsController < ApplicationController
   def support_params
     params.require(:support).permit(:equipment_customer_id, :payment_type_id, :client_type_id,
     :description, :date_of_entry, :worforce, :discount, :departure_date)
+  end
+
+  def generate_totals
+    @spare_parts = SparePart.find(session[:spare_part_ids])
+    
+    total_worforce = BigDecimal.new(session[:worforce])    
+    total_discount = BigDecimal.new(session[:discount])
+
+    @totals = Support.generate_totals(@spare_parts, total_worforce, total_discount)
   end
 end
