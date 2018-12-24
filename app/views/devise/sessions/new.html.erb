@@ -7,6 +7,12 @@
   <div class="form-group has-feedback">
      <%= f.password_field :password, placeholder: "Proporciona tu contraseña", class: "form-control", required: true %>
     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      <% if flash[:alert].eql?("Invalid Username or password.") %>
+        <% alert_message = 'Usuario o contraseña inválidos.' %>
+      <% else %>
+        <% alert_message = flash[:alert] %>
+      <% end %>
+      <p class="text-red"><%= alert_message %></p>
   </div>
   <div class="row">
     <div class="col-xs-8">
