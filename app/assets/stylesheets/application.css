@@ -38,3 +38,7 @@
 .select2-container {
   display: block !important;
 }
+
+.active-sidebar {
+	border-left: 5px solid #3b8dbb !important;
+}
