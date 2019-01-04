@@ -15,7 +15,8 @@
               <th>Nombre</th>
               <th>Apellido Paterno</th>
               <th>Apellido Materno</th>
-              <th>Direccion</th>
+              <th>Télefono Fijo</th>
+              <th>Télefono Movil</th>             
               <th></th>
             </tr>
             <% @clients.each_with_index do |client, index| %>
@@ -24,9 +25,12 @@
                 <td><%= client.name %></td>
                 <td><%= client.first_name %></td>
                 <td><%= client.last_name %></td>
-                <td><%= client.address %></td>        
-                <td style="text-align: right;"><%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-info" %>
-                <%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %>                        
+                <td><%= client.home_phone %></td>
+                <td><%= client.mobile_phone %></td>                            
+                <td style="text-align: right;">
+                  <%= link_to 'Visualizar', client, class: "btn btn-default" %>
+                  <%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-info" %>
+                  <%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %>                        
                 </td>
               </tr>
             <% end %>                  
