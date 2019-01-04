@@ -68,3 +68,9 @@ en:
           attributes:
             description:
               blank: "Proporciona la descripción."
+
+       equipment:
+          attributes:
+            name:
+              blank: "Proporciona el nombre."
+              taken: "El nombre ya esta registrado."
