@@ -1,33 +1,40 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Refacciones</h3>
+        <%= link_to 'Registrar', new_spare_part_path, class: "btn btn-primary pull-right" %>
 
-<h1>Spare Parts</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Price</th>
-      <th>Total</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @spare_parts.each do |spare_part| %>
-      <tr>
-        <td><%= spare_part.name %></td>
-        <td><%= spare_part.description %></td>
-        <td><%= spare_part.price %></td>
-        <td><%= spare_part.total %></td>
-        <td><%= link_to 'Show', spare_part %></td>
-        <td><%= link_to 'Edit', edit_spare_part_path(spare_part) %></td>
-        <td><%= link_to 'Destroy', spare_part, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Spare Part', new_spare_part_path %>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body table-responsive table-condensed no-padding">
+        <table class="table table-hover table-condensed table-striped">
+          <tbody>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+            <% @spare_parts.each_with_index do |spare_part, index| %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= spare_part.name %></td>
+                <td><%= number_to_currency spare_part.price %></td>
+                <td><%= spare_part.total %></td>
+                <td style="text-align: right;">
+                  <%= link_to 'Visualizar', spare_part, class: "btn btn-default" %>
+                  <%= link_to 'Actualizar', edit_spare_part_path(spare_part), class: "btn btn-info" %>
+                  <%= link_to 'Eliminar', spare_part, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+</div>

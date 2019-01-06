@@ -1,24 +1,21 @@
-<p id="notice"><%= notice %></p>
+<div class="box box-solid">
+  <div class="box-header with-border">
+    <i class="fa fa-fw fa-eye"></i>
 
-<p>
-  <strong>Name:</strong>
-  <%= @spare_part.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @spare_part.description %>
-</p>
-
-<p>
-  <strong>Price:</strong>
-  <%= @spare_part.price %>
-</p>
-
-<p>
-  <strong>Total:</strong>
-  <%= @spare_part.total %>
-</p>
-
-<%= link_to 'Edit', edit_spare_part_path(@spare_part) %> |
-<%= link_to 'Back', spare_parts_path %>
+    <h3 class="box-title">Datos de la Refacción</h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <dl class="dl-horizontal">
+      <dt>Nombre</dt>
+      <dd><%= @spare_part.name %></dd>
+      <dt>Precio</dt>
+      <dd><%= number_to_currency @spare_part.price %></dd>
+      <dt>Total</dt>
+      <dd><%= @spare_part.total %></dd>
+      <dt>Descripción</dt>
+      <dd><%= @spare_part.description %></dd>
+    </dl>
+  </div>
+  <!-- /.box-body -->
+</div>

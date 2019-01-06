@@ -34,6 +34,7 @@
 //= require toastr
 
 //= require clients
+//= require spare_parts
 
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js
