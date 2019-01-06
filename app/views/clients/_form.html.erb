@@ -5,7 +5,7 @@
       <div class="col-sm-10">
         <%= f.text_field :name, class: "form-control", required: true %>
         <span><%= @client.errors[:name].first %></span>
-      </div>        
+      </div>
     </div>
     <div class="form-group">
       <label class="col-sm-2 control-label">Apellido Paterno</label>
@@ -23,16 +23,29 @@
       </div>
     </div>
     <div class="form-group">
+      <label class="col-sm-2 control-label">Télefono Fijo</label>
+      <div class="col-sm-10">
+        <%= f.text_field :home_phone, class: "form-control" %>
+        <div class="invalid-feedback"><%= @client.errors[:home_phone].first %></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Télefono Movil</label>
+      <div class="col-sm-10">
+        <%= f.text_field :mobile_phone, class: "form-control" %>
+        <div class="invalid-feedback"><%= @client.errors[:mobile_phone].first %></div>
+      </div>
+    </div>
+    <div class="form-group">
       <label class="col-sm-2 control-label">Dirección</label>
       <div class="col-sm-10">
-        <%= f.text_field :last_name, class: "form-control" %>
+        <%= f.text_area :address, class: "form-control" %>
         <div class="invalid-feedback"><%= @client.errors[:address].first %></div>
       </div>
-    </div>      
+    </div>
   <!-- /.box-body -->
-  <div class="box-footer">     
-    <%= f.submit "Ingresar Cliente", class: "btn btn-info pull-right" %>
+  <div class="box-footer">
+    <%= f.submit @client.new_record? ? "Ingresar Cliente" : "Actualizar Cliente", class: "btn btn-info pull-right" %>
   </div>
   <!-- /.box-footer -->
 <% end %>
-

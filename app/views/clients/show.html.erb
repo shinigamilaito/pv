@@ -1,24 +1,26 @@
-<p id="notice"><%= notice %></p>
+<div class="box box-solid">
+  <div class="box-header with-border">
+    <i class="fa fa-fw fa-eye"></i>
 
-<p>
-  <strong>Name:</strong>
-  <%= @client.name %>
-</p>
+    <h3 class="box-title">Datos del Cliente</h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <dl class="dl-horizontal">
+      <dt>Nombre</dt>
+      <dd><%= @client.name %></dd>
+      <dt>Apellido Paterno</dt>
+      <dd><%= @client.first_name %></dd>
+      <dt>Apellido Materno</dt>
+      <dd><%= @client.last_name %></dd>
+      <dt>Teléfono Fijo</dt>
+      <dd><%= @client.home_phone %></dd>
+      <dt>Teléfono Movil</dt>
+      <dd><%= @client.mobile_phone %></dd>
+      <dt>Dirección</dt>
+      <dd><%= @client.address %></dd>
 
-<p>
-  <strong>First name:</strong>
-  <%= @client.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @client.last_name %>
-</p>
-
-<p>
-  <strong>Address:</strong>
-  <%= @client.address %>
-</p>
-
-<%= link_to 'Edit', edit_client_path(@client) %> |
-<%= link_to 'Back', clients_path %>
+    </dl>
+  </div>
+  <!-- /.box-body -->
+</div>

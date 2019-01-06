@@ -33,6 +33,8 @@
 
 //= require toastr
 
+//= require clients
+
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js
 
@@ -45,6 +47,8 @@
 // require jquery-ui
 // require toastr
 // require select2.min
+
+
 
 
 (function($){
@@ -78,7 +82,7 @@ $(document).ready(function() {
 		console.log("Complete....");
 		$.LoadingOverlay("hide", true);
 	});
-	
+
 	$(function () {
 		$('.textarea').wysihtml5();
     	$('.textarea_new_equipment_customer').wysihtml5();

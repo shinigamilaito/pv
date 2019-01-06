@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.all
+    @clients = Client.order(updated_at: :desc)
   end
 
   # GET /clients/1
@@ -28,9 +28,11 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       if @client.save
-        format.html { redirect_to @client, notice: 'Client was successfully created.' }
+        flash[:success] = 'Cliente creado exitosamente.'
+        format.html { redirect_to clients_url }
         format.json { render :show, status: :created, location: @client }
       else
+        flash[:error] = 'Proporcione los datos correctos.'
         format.html { render :new }
         format.json { render json: @client.errors, status: :unprocessable_entity }
       end
@@ -42,7 +44,8 @@ class ClientsController < ApplicationController
   def update
     respond_to do |format|
       if @client.update(client_params)
-        format.html { redirect_to @client, notice: 'Client was successfully updated.' }
+        flash[:success] = 'Cliente actualizado exitosamente.'
+        format.html { redirect_to clients_url }
         format.json { render :show, status: :ok, location: @client }
       else
         format.html { render :edit }
@@ -54,15 +57,21 @@ class ClientsController < ApplicationController
   # DELETE /clients/1
   # DELETE /clients/1.json
   def destroy
-    @client.destroy
-    respond_to do |format|
-      format.html { redirect_to clients_url, notice: 'Client was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      @client.destroy
+      respond_to do |format|
+        flash[:success] = 'Cliente eliminado exitosamente.'
+        format.html { redirect_to clients_url }
+        format.json { head :no_content }
+      end
+    rescue ActiveRecord::InvalidForeignKey => exception
+      flash[:error] = "El cliente ya esta en uso."
+      redirect_to clients_url
     end
   end
 
   def autocomplete
-    @clients = Client.search(params[:term]).order(created_at: :desc)    
+    @clients = Client.search(params[:term]).order(created_at: :desc)
   end
 
   private
@@ -73,6 +82,6 @@ class ClientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def client_params
-      params.require(:client).permit(:name, :first_name, :last_name, :address)
+      params.require(:client).permit(:name, :first_name, :last_name, :address, :mobile_phone, :home_phone)
     end
 end
