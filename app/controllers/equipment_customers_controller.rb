@@ -31,19 +31,19 @@ class EquipmentCustomersController < ApplicationController
 
   def create
     @new_equipment_customer = EquipmentCustomer.new(equipment_customer_params)
+    @service = @new_equipment_customer.service
     if @new_equipment_customer.save
-      flash[:success] = "Equipo registrado."
-      redirect_to @new_equipment_customer
+      render 'create'
+
     else
-      @from_create_action_equipment_customers = true
-      flash.now[:error] = "Proporcione los datos correctamente."
-      render "search"
+      #@from_create_action_equipment_customers = true      
+      render 'new'
     end
   end
 
   private
 
   def equipment_customer_params
-    params.require(:equipment_customer).permit(:client_id, :folio, :equipment_id, :brand_id, :description)
+    params.require(:equipment_customer).permit(:service_id, :equipment_id, :brand_id, :description)
   end
 end

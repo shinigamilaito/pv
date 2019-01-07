@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190107212044) do
+ActiveRecord::Schema.define(version: 20190107214359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,8 +45,10 @@ ActiveRecord::Schema.define(version: 20190107212044) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "service_id"
     t.index ["brand_id"], name: "index_equipment_customers_on_brand_id"
     t.index ["equipment_id"], name: "index_equipment_customers_on_equipment_id"
+    t.index ["service_id"], name: "index_equipment_customers_on_service_id"
   end
 
   create_table "equipments", force: :cascade do |t|
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(version: 20190107212044) do
 
   add_foreign_key "equipment_customers", "brands"
   add_foreign_key "equipment_customers", "equipments"
+  add_foreign_key "equipment_customers", "services"
   add_foreign_key "services", "clients"
   add_foreign_key "services", "users"
   add_foreign_key "support_spare_parts", "supports"

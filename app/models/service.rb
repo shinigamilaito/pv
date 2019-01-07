@@ -2,6 +2,8 @@ class Service < ApplicationRecord
   belongs_to :client
   belongs_to :user
 
+  has_many :equipment_customers
+
   validates :client_id, presence: true
   validates :folio, presence: true, uniqueness: {case_sensitive: true}
 

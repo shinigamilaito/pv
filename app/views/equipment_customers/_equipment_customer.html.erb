@@ -1,28 +1,30 @@
-<div class="box-body">
+<div class="box box-warning" id="equipment_customer_<%= equipment_customer.id %>">
+  <div class="box-header with-border">
+    <h3 class="box-title"><%= equipment_customer.title_header.html_safe %></h3>
+
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+      </button>
+    </div>
+    <!-- /.box-tools -->
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
     <div class="row">
-      <div class="col-md-5">
-        <div class="form-group">
-          <label>Equipo</label>
-          <input class="form-control" type="text" placeholder="<%= @equipment_customer.equipment.name %>" readonly>
-        </div>
-      </div>
-      <div class="col-md-5">
-        <div class="form-group">
-          <label>Marca</label>
-          <input class="form-control form-control-sm" type="text" placeholder="<%= @equipment_customer.brand.name %>" readonly>
-        </div>
-      </div>
-    </div>  
-    <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-12">
         <div class="form-group">
           <label>Descripción</label>
           <div class="form-control" readonly style="height: auto;">
-            <%= sanitize @equipment_customer.description %>            
+            <%= sanitize equipment_customer.description %>            
           </div>          
         </div>
       </div>
 
     </div>  
+  </div>
+  <!-- /.box-body -->
 </div>
-<!-- /.box-body -->
+
+<script>
+  $("#equipment_customer_<%= equipment_customer.id %>").boxWidget({})
+</script>

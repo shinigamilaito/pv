@@ -1,33 +1,35 @@
-<%= form_for(new_equipment_customer) do |f| %>
-<div class="row">
-  <div class="col-md-6">
-    <div class="form-group">
-      <label>Equipo</label>
-      <%= f.collection_select :equipment_id, [], :id, :name, { prompt: "Seleccione un equipo" }, class: "form-control autocomplete_equipments", required: true %>
-      <div class="invalid-feedback"><%= new_equipment_customer.errors[:equipment_id].first %></div>
+<%= form_for(new_equipment_customer, remote: true) do |f| %>
+  <%= f.hidden_field :service_id, value: service.id %>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Equipo</label>
+        <%= f.collection_select :equipment_id, [], :id, :name, { prompt: "Seleccione un equipo" }, class: "form-control autocomplete_equipments", required: true %>
+        <div class="invalid-feedback"><%= new_equipment_customer.errors[:equipment_id].first %></div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Marca:</label>
+        <%= f.collection_select :brand_id, [], :id, :name, { prompt: "Seleccione una marca" }, class: "form-control autocomplete_brands", required: true %>
+        <div class="invalid-feedback"><%= new_equipment_customer.errors[:brand_id].first %></div>
+      </div>
     </div>
   </div>
 
-  <div class="col-md-6">
-    <div class="form-group">
-      <label>Marca:</label>
-      <%= f.collection_select :brand_id, [], :id, :name, { prompt: "Seleccione una marca" }, class: "form-control autocomplete_brands", required: true %>
-      <div class="invalid-feedback"><%= new_equipment_customer.errors[:brand_id].first %></div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Descripción:</label>
+        <%= f.text_area :description, class: "form-control textarea_new_equipment_customer" %>
+        <div class="invalid-feedback"><%= new_equipment_customer.errors[:description].first %></div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="form-group">
-      <label>Descripción:</label>
-      <%= f.text_area :description, class: "form-control textarea_new_equipment_customer" %>
-      <div class="invalid-feedback"><%= new_equipment_customer.errors[:description].first %></div>
-    </div>
-  </div>
-</div>
-
-<%= f.submit "Guardar", class: "btn btn-primary" %>
+  <%= f.submit "Guardar", class: "btn btn-primary" %>
 <% end %>
 
 <script>

@@ -1,19 +1,16 @@
 <div class="box box-solid">
-    <div class="box-header with-border">
-    	<h3 class="box-title">Listado de Equipos</h3>
-        <div class="box-tools pull-right">
-        	<%= link_to new_equipment_customer_path(service_id: @service.id), class: 'link-hover', data: {remote: true, disable_with: "Accediendo..."} do %>    			
-      			<i class="fa fa-fw fa-plus-square" style="font-size: 2.2rem;"></i>
-      			Abrir Registro 			
-  			<% end %>
-        </div>
+  <div class="box-header with-border">
+  	<h3 class="box-title">Listado de Equipos</h3>
+    <div class="box-tools pull-right">
+    	<%= link_to new_equipment_customer_path(service_id: @service.id), class: 'link-hover', data: {remote: true, disable_with: "Accediendo..."} do %>    			
+  			<i class="fa fa-fw fa-plus-square" style="font-size: 2.2rem;"></i>
+  			Abrir Registro 			
+		  <% end %>
     </div>
-    <!-- /.box-header -->
-    <div class="box-body" id="new-equipment-body">
-    	
-    	
-    <!-- /.box-body -->
-	</div>
+  </div>  
+  <div class="box-body" id="new-equipment-body"> 
+    <%= render @service.equipment_customers %> 	  
+  </div>
 </div>
 
 
