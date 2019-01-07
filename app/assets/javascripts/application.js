@@ -50,24 +50,6 @@
 // require select2.min
 
 
-
-
-(function($){
-	$(document).on("turbolinks:load", function(event) {
-		/*$.fn.select2.defaults.set('theme', 'bootstrap4');
-
-		$('.autocomplete_clients').select2({
-			minimumInputLength: 3,
-			ajax: {
-				delay: 250,
-				url: "/clients/autocomplete",
-    			dataType: 'json'
-    			cache: true
-			}
-		});*/
-	});
-}(jQuery));
-
 $(document).ready(function() {
 	$('[data-load="true"]').click(function() {
 		console.log("Show the spinner....");
@@ -85,31 +67,9 @@ $(document).ready(function() {
 	});
 
 	$(function () {
-		$('.textarea').wysihtml5();
-    	$('.textarea_new_equipment_customer').wysihtml5();
+		$('.textarea').wysihtml5();    	
   	});
-
 	
-
-	$('.autocomplete_equipments').select2({
-		minimumInputLength: 3,
-		ajax: {
-			delay: 250,
-			url: "/equipments/autocomplete",
-			dataType: 'json',
-			cache: true
-		}
-	});
-
-	$('.autocomplete_brands').select2({
-		minimumInputLength: 3,
-		ajax: {
-			delay: 250,
-			url: "/brands/autocomplete",
-			dataType: 'json',
-			cache: true
-		}
-	});
 });
 
 

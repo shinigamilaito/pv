@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190106180121) do
+ActiveRecord::Schema.define(version: 20190107212044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,15 +40,12 @@ ActiveRecord::Schema.define(version: 20190106180121) do
   end
 
   create_table "equipment_customers", force: :cascade do |t|
-    t.bigint "client_id"
-    t.string "folio"
     t.bigint "equipment_id"
     t.bigint "brand_id"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["brand_id"], name: "index_equipment_customers_on_brand_id"
-    t.index ["client_id"], name: "index_equipment_customers_on_client_id"
     t.index ["equipment_id"], name: "index_equipment_customers_on_equipment_id"
   end
 
@@ -135,7 +132,6 @@ ActiveRecord::Schema.define(version: 20190106180121) do
   end
 
   add_foreign_key "equipment_customers", "brands"
-  add_foreign_key "equipment_customers", "clients"
   add_foreign_key "equipment_customers", "equipments"
   add_foreign_key "services", "clients"
   add_foreign_key "services", "users"

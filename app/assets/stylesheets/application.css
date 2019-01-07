@@ -42,3 +42,7 @@
 .active-sidebar {
 	border-left: 5px solid #3b8dbb !important;
 }
+
+.link-hover:hover {
+	background-color: white !important; 
+}

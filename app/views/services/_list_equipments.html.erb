@@ -1,16 +1,22 @@
-<div class="box-header with-border">
-  <h3 class="box-title">Listado de Equipos</h3>
-  <%= link_to new_equipment_customer_path(service_id: @service.id), remote: true, data: {disable_with: "Accediendo..."} do %>
-    <span class="pull-right lead">
-      <i class="fa fa-fw fa-plus-square " style="font-size: 2.2rem;"></i>
-      Nuevo Registro
-    </span>
-  <% end %>
+<div class="box box-solid">
+    <div class="box-header with-border">
+    	<h3 class="box-title">Listado de Equipos</h3>
+        <div class="box-tools pull-right">
+        	<%= link_to new_equipment_customer_path(service_id: @service.id), class: 'link-hover', data: {remote: true, disable_with: "Accediendo..."} do %>    			
+      			<i class="fa fa-fw fa-plus-square" style="font-size: 2.2rem;"></i>
+      			Abrir Registro 			
+  			<% end %>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body" id="new-equipment-body">
+    	
+    	
+    <!-- /.box-body -->
+	</div>
 </div>
-<!-- /.box-header -->
-<div class="box-body">
-  <div class="box-group" id="accordion">
-    
-  </div>
-</div>
-<!-- /.box-body -->
+
+
+
+
+
