@@ -20,12 +20,13 @@ class EquipmentCustomersController < ApplicationController
     session[:spare_part_ids] = nil
     session[:worforce] = nil
     session[:discount] = nil
-    @new_equipment_customer = EquipmentCustomer.new  
+    @new_equipment_customer = EquipmentCustomer.new
     @equipment_customer = EquipmentCustomer.find(params[:id])
   end
 
   def new
-    @equipment_customer = EquipmentCustomer.new
+    @service = Service.find(params[:service_id])
+    @new_equipment_customer = EquipmentCustomer.new
   end
 
   def create
