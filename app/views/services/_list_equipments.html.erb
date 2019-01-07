@@ -9,7 +9,7 @@
     </div>
   </div>  
   <div class="box-body" id="new-equipment-body"> 
-    <%= render @service.equipment_customers %> 	  
+    <%= render @service.equipment_customers.order(created_at: :desc) %> 	  
   </div>
 </div>
 

@@ -3,10 +3,10 @@
 
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group">
+      <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_id].first %>">
         <label>Equipo</label>
         <%= f.collection_select :equipment_id, [], :id, :name, { prompt: "Seleccione un equipo" }, class: "form-control autocomplete_equipments", required: true %>
-        <div class="invalid-feedback"><%= new_equipment_customer.errors[:equipment_id].first %></div>
+        <div class="help-block"><%= new_equipment_customer.errors[:equipment_id].first %></div>
       </div>
     </div>
 
