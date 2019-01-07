@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190104230123) do
+ActiveRecord::Schema.define(version: 20190106180121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,16 @@ ActiveRecord::Schema.define(version: 20190104230123) do
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.bigint "client_id"
+    t.string "folio"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_services_on_client_id"
+    t.index ["user_id"], name: "index_services_on_user_id"
   end
 
   create_table "spare_parts", force: :cascade do |t|
@@ -127,6 +137,8 @@ ActiveRecord::Schema.define(version: 20190104230123) do
   add_foreign_key "equipment_customers", "brands"
   add_foreign_key "equipment_customers", "clients"
   add_foreign_key "equipment_customers", "equipments"
+  add_foreign_key "services", "clients"
+  add_foreign_key "services", "users"
   add_foreign_key "support_spare_parts", "supports"
   add_foreign_key "supports", "client_types"
   add_foreign_key "supports", "equipment_customers"

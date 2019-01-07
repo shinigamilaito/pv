@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  resources :services do
+    get 'find_folios', on: :collection
+  end
+
   resources :spare_parts do
-    get 'autocomplete', on: :collection    
+    get 'autocomplete', on: :collection
   end
 
   resources :client_types
@@ -19,7 +23,7 @@ Rails.application.routes.draw do
   end
 
   resources :employes
-  
+
   resources :supports do
     get 'add_spare_part', on: :collection
     put 'update_worforce', on: :collection

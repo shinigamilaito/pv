@@ -1,0 +1,12 @@
+<div class="form-group">
+  <label>Folio</label>
+  <%= select_tag 'service[folio]', options_for_select(@folios), class: "form-control autocomplete_folios", required: true %>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('.autocomplete_folios').select2({
+      tags: true
+    });
+  });
+</script>

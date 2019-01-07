@@ -74,3 +74,8 @@ en:
             name:
               blank: "Proporciona el nombre."
               taken: "El nombre ya esta registrado."
+
+       service:
+         attributes:
+            folio:
+              taken: "Ya existe un registro con este folio."

@@ -1,0 +1,70 @@
+<%= form_for(@service, remote: true) do |f| %>
+<div class="row">
+  <div class="col-md-5">
+    <div class="form-group">
+      <label>Cliente</label>
+      <% unless @service.client.blank? %>
+        <% clients = [@service.client] %>
+      <% else  %>
+        <% clients = [] %>
+      <% end %>
+      <%= f.collection_select :client_id, clients, :id, :name, { prompt: "Seleccione un cliente" }, class: "form-control autocomplete_clients", required: true %>
+      <div class="has-error"><%= @service.errors[:client_id].first %></div>
+    </div>
+  </div>
+
+  <div class="col-md-5", id="select_folios">
+    <div class="form-group <%= 'has-error' unless @service.errors[:folio].blank? %>", id="service_folio">
+      <label>Folio</label>
+      <%= select_tag 'service[folio]', options_for_select(@folios), class: "form-control autocomplete_folios", required: true %>
+      <div class="help-block"><%= @service.errors[:folio].first %></div>
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="form-group">
+      <%= f.submit "Guardar - Buscar", class: "btn btn-info btn-block", style: 'margin-top: 25px;', data: {disable_with: 'Accediendo...'} %>
+    </div>
+  </div>
+
+</div>
+<% end %>
+
+<script>
+  $('.autocomplete_clients').select2({
+		minimumInputLength: 1,
+		ajax: {
+			delay: 250,
+			url: "/clients/autocomplete",
+			dataType: 'json',
+			cache: true
+		},
+		escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    templateResult: formatRepoClient,
+    templateSelection: formatRepoSelectionClient
+	});
+
+  $('.autocomplete_clients').on('select2:select', function (e) {
+      var data = e.params.data;
+      $.ajax({
+        url: "/services/find_folios",
+        method: "get",
+        dataType: "script",
+        data: {
+          client: data
+        },
+        beforeSend: function(xhr) {
+          $("#service_folio").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("#service_folio").LoadingOverlay("hide", true);
+        }
+      })
+  });
+
+  $(document).ready(function() {
+    $('.autocomplete_folios').select2({
+      tags: true
+    });
+  });
+</script>

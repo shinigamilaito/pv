@@ -89,15 +89,7 @@ $(document).ready(function() {
     	$('.textarea_new_equipment_customer').wysihtml5();
   	});
 
-	$('.autocomplete_clients').select2({
-		minimumInputLength: 3,
-		ajax: {
-			delay: 250,
-			url: "/clients/autocomplete",
-			dataType: 'json',
-			cache: true
-		}
-	});
+	
 
 	$('.autocomplete_equipments').select2({
 		minimumInputLength: 3,
@@ -119,3 +111,28 @@ $(document).ready(function() {
 		}
 	});
 });
+
+
+function formatRepoClient (client) {
+	if (client.loading) {
+		return client.text;
+	}
+
+	var markup = "<div class='select2-result-repository__meta'>" +
+			"<div class='select2-result-repository__title'>" +
+			client.text + ' - Télefono Fijo: ' +
+			client.home_phone + ' - Télefono Movil: ' +
+			client.mobile_phone + "</div>";
+
+	if (client.address) {
+		markup += "<div class='select2-result-repository__description'>" + client.address + "</div>";
+	}
+
+	markup += "</div>";
+
+	return markup;
+}
+
+function formatRepoSelectionClient (client) {
+	return client.text;
+}
