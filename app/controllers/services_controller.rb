@@ -7,11 +7,17 @@ class ServicesController < ApplicationController
 
   def create
     folio = params[:service][:folio]
-    @folios = Service.find_folios(params[:service][:client_id])
-    unless @folios.include?(folio)
-      @folios << folio
+    folio = folio.gsub(' ','')
+    folio = folio.split('-')[0]
+    folios_hash = Service.find_folios(params[:service][:client_id])
+    folios = folios_hash[:folios]
+
+    unless folios.include?(folio)
       @service = Service.new(service_params)
       @service.user = current_user
+      @folios = folios_hash[:folios_present]
+      @folios << @service.folio
+
       if @service.save
         @message = 'Registro creado exitosamente.'
         render 'create', status: :created
@@ -26,7 +32,7 @@ class ServicesController < ApplicationController
   end
 
   def find_folios
-    @folios = Service.find_folios(params[:client][:id].to_i)
+    @folios = (Service.find_folios(params[:client][:id].to_i))[:folios_present]    
   end
 
   private
