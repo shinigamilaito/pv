@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   resources :equipment_customers do
     get 'search', on: :collection
+    post 'add_history_message', on: :collection
   end
 
   devise_for :users

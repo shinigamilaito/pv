@@ -1,29 +1,7 @@
 <div class="box box-success direct-chat direct-chat-success" id='<%= equipment_customer.new_record? ? "history_message_box" : "history_message_box_#{equipment_customer.id}" %>'>
-    <div class="box-header with-border">
-      <h3 class="box-title">Historial</h3>
-      <div class="box-tools pull-right">
-        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-        </button>
-      </div>
-    </div>
 
-    <div class="box-body">
-      <!-- Conversations are loaded here -->
-      <div class="direct-chat-messages">
-        <% equipment_customer.message_histories.each do |message_history| %>
-          <%= render 'equipment_customers/message_history', message_history: message_history %>
-        <% end %>
-      </div>
+  <%= render 'message_histories/history_box', equipment_customer: equipment_customer %>
 
-    </div>
-
-    <div class="box-footer">
-        <div class="input-group col-sm-12">
-          <% if equipment_customer.new_record? %>
-            <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control' %>
-          <% end %>
-        </div>
-    </div>
 </div>
 
 <script>

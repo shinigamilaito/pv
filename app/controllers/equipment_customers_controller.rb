@@ -44,6 +44,19 @@ class EquipmentCustomersController < ApplicationController
     end
   end
 
+  def add_history_message
+    @equipment_customer = EquipmentCustomer.find(params[:equipment_customer_id])
+    @equipment_customer.message_histories << MessageHistory.new({
+      message: params[:message]
+    })
+
+    if @equipment_customer.save
+      render 'add_history_message', status: :created
+    else
+      render 'fail_add_history_message', status: :bad_request
+    end
+  end
+
   private
 
   def equipment_customer_params

@@ -30,12 +30,7 @@
 
   <div class="box-footer">
       <div class="input-group col-sm-12">
-        <% unless equipment_customer.new_record? %>
-          <%= form_for(equipment_customer) do |f| %>
-            <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control' %>
-            <%= f.submit "Guardar", class: "btn btn-primary pull-right" %>
-          <% end %>
-        <% end %>
+        <button type="button" id="add-history-message-<%= equipment_customer.id %>" class="btn btn-primary pull-right" data-disable-with="Guardar">Guardar</button>    
       </div>
   </div>
 
@@ -43,5 +38,32 @@
 </div>
 
 <script>
-  $("#equipment_customer_<%= equipment_customer.id %>").boxWidget({})
+  $("#equipment_customer_<%= equipment_customer.id %>").boxWidget({});
+  $("#add-history-message-<%= equipment_customer.id %>").click(function() {
+    var $that = $(this);
+    console.log("Detected click event");
+    message = $("#message_history_message_<%= equipment_customer.id %>").val();
+
+    if(message.length === 0) {
+      console.log("Detected lenght is zero");
+      return;
+    }
+
+    console.log("Sending ajax call");
+    $.ajax({
+      url: 'equipment_customers/add_history_message',
+      dataType: 'script',
+      method: 'post',
+      data: {
+        equipment_customer_id: <%=  equipment_customer.id %>,
+        message: message
+      },
+      beforeSend: function(xhr) {
+          $that.html('Guardando...');
+        },
+        complete: function(xhr) {
+          $that.html('Guardar');
+        }
+    })    
+  });  
 </script>
