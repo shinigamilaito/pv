@@ -27,16 +27,19 @@ class EquipmentCustomersController < ApplicationController
   def new
     @service = Service.find(params[:service_id])
     @new_equipment_customer = EquipmentCustomer.new
+    @message_history = MessageHistory.new
   end
 
   def create
+    message_history = MessageHistory.new(message_history_params)
     @new_equipment_customer = EquipmentCustomer.new(equipment_customer_params)
+    @new_equipment_customer.message_histories << message_history unless message_history.message.blank?
     @service = @new_equipment_customer.service
+
     if @new_equipment_customer.save
       render 'create'
-
     else
-      #@from_create_action_equipment_customers = true      
+      #@from_create_action_equipment_customers = true
       render 'new'
     end
   end
@@ -45,5 +48,9 @@ class EquipmentCustomersController < ApplicationController
 
   def equipment_customer_params
     params.require(:equipment_customer).permit(:service_id, :equipment_id, :brand_id, :description)
+  end
+
+  def message_history_params
+    params.require(:message_history).permit(:message)
   end
 end

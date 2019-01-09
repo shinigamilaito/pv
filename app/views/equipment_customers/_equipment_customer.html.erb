@@ -15,14 +15,31 @@
         <div class="form-group">
           <label>Descripción</label>
           <div class="form-control" readonly style="height: auto;">
-            <%= sanitize equipment_customer.description %>            
-          </div>          
+            <%= sanitize equipment_customer.description %>
+          </div>
         </div>
       </div>
-
-    </div>  
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= render 'equipment_customers/message_history_form', equipment_customer: equipment_customer %>
+      </div>
+    </div>
   </div>
   <!-- /.box-body -->
+
+  <div class="box-footer">
+      <div class="input-group col-sm-12">
+        <% unless equipment_customer.new_record? %>
+          <%= form_for(equipment_customer) do |f| %>
+            <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control' %>
+            <%= f.submit "Guardar", class: "btn btn-primary pull-right" %>
+          <% end %>
+        <% end %>
+      </div>
+  </div>
+
+
 </div>
 
 <script>

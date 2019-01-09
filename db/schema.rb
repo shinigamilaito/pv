@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190107214359) do
+ActiveRecord::Schema.define(version: 20190109035012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,14 @@ ActiveRecord::Schema.define(version: 20190107214359) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "specifications"
+  end
+
+  create_table "message_histories", force: :cascade do |t|
+    t.text "message"
+    t.bigint "equipment_customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["equipment_customer_id"], name: "index_message_histories_on_equipment_customer_id"
   end
 
   create_table "payment_types", force: :cascade do |t|
@@ -136,6 +144,7 @@ ActiveRecord::Schema.define(version: 20190107214359) do
   add_foreign_key "equipment_customers", "brands"
   add_foreign_key "equipment_customers", "equipments"
   add_foreign_key "equipment_customers", "services"
+  add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "services", "clients"
   add_foreign_key "services", "users"
   add_foreign_key "support_spare_parts", "supports"

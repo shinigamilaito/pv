@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_id].first %>">
-        <label>Equipo</label>
+        <label>Equipo:</label>
         <%= f.collection_select :equipment_id, [], :id, :name, { prompt: "Seleccione un equipo" }, class: "form-control autocomplete_equipments", required: true %>
         <div class="help-block"><%= new_equipment_customer.errors[:equipment_id].first %></div>
       </div>
@@ -29,7 +29,13 @@
     </div>
   </div>
 
-  <%= f.submit "Guardar", class: "btn btn-primary" %>
+  <div class="row">
+    <div class="col-md-12">
+      <%= render 'equipment_customers/message_history_form', equipment_customer: new_equipment_customer %>
+    </div>
+  </div>
+
+  <%= f.submit "Guardar", class: "btn btn-primary pull-right" %>
 <% end %>
 
 <script>
