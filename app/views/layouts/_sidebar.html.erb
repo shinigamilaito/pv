@@ -1,53 +1,53 @@
  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar background-gray" style="width: 230px;">
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">      
+    <section class="sidebar">
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header" style="height: 50px; display: inline-block; width: 100%; text-align: center; padding-top: 20px;">MENÚ DE NAVEGACIÓN</li> 
+      <ul class="sidebar-menu background-gray" data-widget="tree"C">
+        <li class="header background-gray" style="height: 30px; display: inline-block; width: 100%; text-align: center; padding-top: 20px;"></li>
         <li class="<%= active_item('services')%>">
-          <%= link_to new_service_path, style: "font-size: 1.8rem;" do %>
+          <%= link_to new_service_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
             <i class="fa fa-fw fa-support"></i>
-            <span style="padding-left: 10px;">Servicios</span>    
-          <% end %>               
+            <span style="padding-left: 10px;">Servicios</span>
+          <% end %>
         </li>
         <!--<li class="<%#= active_item('equipment_customers')%>">
           <%#= link_to search_equipment_customers_path, style: "font-size: 1.8rem;" do %>
             <i class="fa fa-fw fa-support"></i>
-            <span style="padding-left: 10px;">Soportes</span>    
-          <%# end %>               
+            <span style="padding-left: 10px;">Soportes</span>
+          <%# end %>
         </li>-->
         <li class="<%= active_item('clients')%>">
-          <%= link_to clients_path, style: "font-size: 1.8rem;" do %>
-            <i class="fa fa-fw fa-user-md"></i> 
-            <span style="padding-left: 10px;">Clientes</span>            
+          <%= link_to clients_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
+            <i class="fa fa-fw fa-user-md"></i>
+            <span style="padding-left: 10px;">Clientes</span>
           <% end %>
         </li>
 
         <li class="treeview">
-          <a href="#" style="font-size: 1.8rem;">
+          <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="fa fa-fw fa-sticky-note"></i> <span style="padding-left: 10px;">Catálogos</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+              <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu" style="display: none;">
-            <li class="<%= active_item('equipments')%>">
-              <%= link_to equipments_path, style: "margin-left: 20px; font-size: 1.5rem;" do %>
-                <i class="fa fa-fw fa-television"></i> 
-                <span style="padding-left: 5px;">Equipos</span>  
-              <% end %>
-            </li>                    
-            <li class="<%= active_item('brands')%>">
-              <%= link_to brands_path, style: "margin-left: 20px; font-size: 1.5rem;" do %>
-                <i class="fa fa-fw fa-trademark"></i> 
-                <span style="padding-left: 5px;">Marcas</span>  
+          <ul class="treeview-menu background-gray" style="display: block;">
+            <li class="<%= active_item('equipments')%> subitem-menu-navegation">
+              <%= link_to equipments_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-television"></i>
+                <span style="padding-left: 5px;">Equipos</span>
               <% end %>
             </li>
-            <li class="<%= active_item('spare_parts')%>">
-              <%= link_to spare_parts_path, style: "margin-left: 20px; font-size: 1.5rem;", class: "active" do %>
+            <li class="<%= active_item('brands')%> subitem-menu-navegation">
+              <%= link_to brands_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-trademark"></i>
+                <span style="padding-left: 5px;">Marcas</span>
+              <% end %>
+            </li>
+            <li class="<%= active_item('spare_parts')%> subitem-menu-navegation">
+              <%= link_to spare_parts_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-battery-empty"></i>
-                <span style="padding-left: 5px;">Refacciones</span>  
+                <span style="padding-left: 5px;">Refacciones</span>
               <% end %>
             </li>
           </ul>
@@ -58,3 +58,7 @@
     </section>
     <!-- /.sidebar -->
   </aside>
+
+<script>
+
+</script>

@@ -1,43 +1,43 @@
 <header class="main-header">
     <!-- Logo -->
-    <%= link_to root_path, class: "logo" do %>
+    <%= link_to root_path, class: "logo main-background-color" do %>
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>My</b>PV</span>
+      <span class="logo-mini black-color"><b>My</b>PV</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>My PV</b></span>
-    <% end %>    
+      <span class="logo-lg black-color font-logo"><b>My PV</b></span>
+    <% end %>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
+    <nav class="navbar navbar-static-top main-background-color">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <a href="#" class="sidebar-toggle black-color" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
 
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">          
+      <div class="navbar-custom-menu" style="height: 50px;">
+        <ul class="nav navbar-nav" style="height: 50px;">
           <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">              
+          <li class="dropdown user user-menu black-color" style="height: 50px;">
+            <a href="#" class="dropdown-toggle black-color" data-toggle="dropdown" style="height: 50px;">
               <%= image_tag "img/avatar.png", class: "user-image", alt: "User Image" %>
-              <span class="hidden-xs">Test Test</span>
+              <span class="hidden-xs font-username">Test Test</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
-              <li class="user-header">
+              <li class="user-header black-color">
                 <%= image_tag "img/avatar.png", class: "img-circle", alt: "User Image" %>
-                <p>Test Test</p>
-              </li>              
+                <p class="black-color font-detail-user">Test Test</p>
+              </li>
               <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">                  
-                  <%= link_to "Mi Perfíl", edit_user_registration_path, class: "btn btn-default btn-flat", data: {load: true} %>
+              <li class="user-footer background-gray">
+                <div class="pull-left">
+                  <%= link_to "Mi Perfíl", edit_user_registration_path, class: "btn btn-default btn-flat background-white button-detail-user", data: {load: true} %>
                 </div>
-                <div class="pull-right">                  
-                  <%= link_to "Cerrar sesión", destroy_user_session_path, class: "btn btn-default btn-flat", method: :delete, data: {load: true} %>
+                <div class="pull-right">
+                  <%= link_to "Cerrar sesión", destroy_user_session_path, class: "btn btn-default btn-flat background-white button-detail-user", method: :delete, data: {load: true} %>
                 </div>
               </li>
             </ul>
-          </li>          
+          </li>
         </ul>
       </div>
     </nav>

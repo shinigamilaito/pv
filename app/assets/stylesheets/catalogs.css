@@ -1,0 +1,114 @@
+// index
+.not-margin {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.not-padding {
+  padding: 0 !important;
+}
+
+.not-border {
+  border: none !important;
+}
+
+.title-catalog {
+  letter-spacing: 0.3em !important;
+  color: #000 !important;
+  font-weight: 500 !important;
+  font-size:  30px !important;
+  text-transform: uppercase !important;
+}
+
+.new-register {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background-color: #e3642c;
+  color: #fff;
+  font-size: 45px;
+}
+
+.new-register a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.new-register:hover, .new-register a:hover {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background-color: #942c00;
+  color: #fff;
+  font-size: 45px;
+}
+
+.td-header-table {
+  font-weight: 600 !important;
+  letter-spacing: 0.3em !important;
+}
+
+.td-content-table {
+  vertical-align: middle !important;
+  font-family: 'Source Sans Pro' !important;
+  font-size: 18px !important;
+  font-weight: 100 !important;
+}
+
+.border-tr-header {
+  border-bottom: 2px solid #7D7D7D !important;
+  font-family: 'Source Sans Pro' !important;
+  font-size: 20px !important;
+}
+
+.icon-bar {
+  width: 100%; /* Full-width */
+  //background-color: #f4f4f4; /* Dark-grey background */
+  overflow: auto; /* Overflow due to float */
+}
+
+.icon-bar a {
+  float: left; /* Float links side by side */
+  text-align: center; /* Center-align text */
+  width: 50%; /* Equal width (5 icons with 20% width each = 100%) */
+  padding: 0; /* Some top and bottom padding */
+  transition: all 0.3s ease; /* Add transition for hover effects */
+  color: #2cabe3; /* White text color */
+  font-size: 25px; /* Increased font size */
+}
+
+.icon-bar a:hover {
+  color: #0477A8; /* Add a hover color */
+}
+
+.active {
+  background-color: #0477A8; /* Add an active/current color */
+}
+
+.label-form {
+  font-family: 'Source Sans Pro' !important;
+  text-align: right !important;
+  text-transform: uppercase !important;
+  font-size: 18px !important;
+  letter-spacing: 0.3em !important;
+}
+
+.submit-button {
+  background-color: #e3642c !important;
+  color: #fff !important;
+  border: none !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2em !important;
+  word-spacing: 0.3em !important;
+}
+
+.submit-button:hover {
+  background-color: #942c00 !important;
+}

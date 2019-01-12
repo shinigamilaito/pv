@@ -2,13 +2,13 @@
 <html>
 <head>
   <title>Puntodeventa</title>
-  <%= csrf_meta_tags %>  
+  <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>   
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.6/dist/loadingoverlay.min.js"></script>
- 
+
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -18,27 +18,27 @@
 
 <body class="hold-transition skin-blue-light sidebar-mini">
   <div class="wrapper">
-    <%= render "layouts/navbar" %>  
+    <%= render "layouts/navbar" %>
     <%= render "layouts/sidebar" %>
     <%= render "layouts/flash_messages" %>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">   
+  <div class="content-wrapper background-white">
     <!-- Main content -->
-    <section class="content">     
-       <%= yield %>     
+    <section class="content" style="padding: 0;">
+       <%= yield %>
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">    
+  <footer class="main-footer">
     <strong>Copyright &copy; 2019. Todos los derechos reservados </strong>
   </footer>
-  
+
 </div>
 <!-- ./wrapper -->
 
   <%#= render 'layouts/flash_messages' %>
-  
+
 </body>
 </html>
