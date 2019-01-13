@@ -1,39 +1,35 @@
 <div class="row">
   <div class="col-xs-12">
     <div class="box">
-      <div class="box-header">
-        <h3 class="box-title">Clientes</h3>
-        <%= link_to 'Registrar', new_client_path, class: "btn btn-primary pull-right" %>
-        
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Clientes</h3>
+        <%= link_to 'Registrar', new_client_path, class: "btn btn-info pull-right" %>
+
       </div>
       <!-- /.box-header -->
-      <div class="box-body table-responsive table-condensed no-padding">
-        <table class="table table-hover table-condensed table-striped">
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-responsive table-hover table-condensed table-striped">
           <tbody>
             <tr>
-              <th>#</th>
+              <th>No.</th>
               <th>Nombre</th>
-              <th>Apellido Paterno</th>
-              <th>Apellido Materno</th>
               <th>Télefono Fijo</th>
-              <th>Télefono Movil</th>             
+              <th>Télefono Movil</th>
+              <th>Descripción</th>
+              <th></th>
               <th></th>
             </tr>
             <% @clients.each_with_index do |client, index| %>
               <tr>
                 <td><%= index + 1 %></td>
-                <td><%= client.name %></td>
-                <td><%= client.first_name %></td>
-                <td><%= client.last_name %></td>
+                <td><%= client.formal_name %></td>
                 <td><%= client.home_phone %></td>
-                <td><%= client.mobile_phone %></td>                            
-                <td style="text-align: right;">
-                  <%= link_to 'Visualizar', client, class: "btn btn-default" %>
-                  <%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-info" %>
-                  <%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %>                        
-                </td>
+                <td><%= client.mobile_phone %></td>
+                <td><%= client.address %></td>
+                <td><%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-edit" %></td>
+                <td><%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %></td>
               </tr>
-            <% end %>                  
+            <% end %>
           </tbody>
         </table>
       </div>

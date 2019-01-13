@@ -121,6 +121,13 @@ letter-spacing: 0.05em !important;
   background: #fde428 !important;
 }
 
+.box-header {
+  background-image: linear-gradient(to right, rgba(210,214,222,1), white);
+  background-repeat: no-repeat;
+   background-size: cover;
+   background-position: right bottom;
+}
+
 .button-perfil-user:hover {
   color: #fde428 !important;
   background: #002e5b !important;
@@ -194,4 +201,28 @@ padding-left: 25px;
 
 .link-hover:hover {
 	background-color: white !important;
+}
+
+.btn-info {
+  background-color: #2cabe3 !important;
+  border-color: #2cabe3 !important;
+}
+
+.btn-info:hover {
+  //background-color: #0473A3 !important;
+  border: 1.5px solid #002e5b  !important;
+}
+
+.btn-edit {
+  background-color: #fde428 !important;
+  border-color: #fff;
+  color: #000;
+}
+
+.btn-edit:hover {
+    border: 1.5px solid #fff  !important;
+}
+
+.btn-danger:hover {
+  border: 1.5px solid #fff  !important;
 }
