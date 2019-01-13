@@ -13,11 +13,11 @@
 }
 
 .title-catalog {
-  letter-spacing: 0.3em !important;
+  letter-spacing: 0.1em !important;
   color: #000 !important;
-  font-weight: 500 !important;
-  font-size:  30px !important;
+  font-size:  40px !important;
   text-transform: uppercase !important;
+  font-family: 'Anton', sans-serif;
 }
 
 .new-register {
@@ -70,7 +70,23 @@
 .icon-bar {
   width: 100%; /* Full-width */
   //background-color: #f4f4f4; /* Dark-grey background */
-  overflow: auto; /* Overflow due to float */
+  //overflow: auto; /* Overflow due to float */
+}
+
+.icon-bar a.edit {
+  color: #50e32c !important;
+}
+
+.icon-bar a.edit:hover {
+  color: #25b000 !important;
+}
+
+.icon-bar a.delete {
+  color: #e32c50 !important;
+}
+
+.icon-bar a.delete:hover {
+  color: #9a001e !important;
 }
 
 .icon-bar a {

@@ -7,10 +7,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :name, :first_name, :username, :email, presence: true
-  validates :username, uniqueness: { case_sensitive: false }  
+  validates :username, uniqueness: { case_sensitive: false }
 
   def admin?
     rol.name == "Administrador"
+  end
+
+  def formal_name
+    "#{name} #{first_name} #{last_name}"
   end
 
 end

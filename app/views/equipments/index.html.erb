@@ -21,10 +21,10 @@
                 <td class="td-content-table"><%= sanitize equipment.specifications %></td>
                 <td class="td-content-table" style="text-align: right;">
                   <div class="icon-bar">
-                    <%= link_to edit_equipment_path(equipment) do %>
+                    <%= link_to edit_equipment_path(equipment), class: 'edit' do %>
                       <i class="fa fa-fw fa-edit"></i>
                     <% end %>
-                    <%= link_to equipment, method: :delete, data: { confirm: '¿Está usted seguro?' } do %>
+                    <%= link_to equipment, method: :delete, class: 'delete', data: { confirm: '¿Está usted seguro?' } do %>
                       <i class="fa fa-fw fa-remove"></i>
                     <% end %>
                   </div>

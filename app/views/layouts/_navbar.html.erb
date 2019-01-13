@@ -2,38 +2,38 @@
     <!-- Logo -->
     <%= link_to root_path, class: "logo main-background-color" do %>
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini black-color"><b>My</b>PV</span>
+      <span class="logo-mini"><b>My</b>PV</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg black-color font-logo"><b>My PV</b></span>
+      <span class="logo-lg font-logo"><b>My PV</b></span>
     <% end %>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top main-background-color">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle black-color" data-toggle="push-menu" role="button">
+      <a href="#" class="sidebar-toggle white-color" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
 
       <div class="navbar-custom-menu" style="height: 50px;">
-        <ul class="nav navbar-nav" style="height: 50px;">
+        <ul class="nav navbar-nav user-menu" style="height: 50px;">
           <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu black-color" style="height: 50px;">
-            <a href="#" class="dropdown-toggle black-color" data-toggle="dropdown" style="height: 50px;">
+          <li class="dropdown user user-menu" style="height: 50px;">
+            <a href="#" class="dropdown-toggle user-menu" id="usernamenavbar" data-toggle="dropdown" style="height: 50px;">
               <%= image_tag "img/avatar.png", class: "user-image", alt: "User Image" %>
-              <span class="hidden-xs font-username">Test Test</span>
+              <span class="hidden-xs font-username"><%= current_user.formal_name %></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
-              <li class="user-header black-color">
+              <li class="user-header white-color">
                 <%= image_tag "img/avatar.png", class: "img-circle", alt: "User Image" %>
-                <p class="black-color font-detail-user">Test Test</p>
+                <p class="black-color font-detail-user"><%= current_user.username %></p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer background-gray">
                 <div class="pull-left">
-                  <%= link_to "Mi Perfíl", edit_user_registration_path, class: "btn btn-default btn-flat background-white button-detail-user", data: {load: true} %>
+                  <%= link_to "Mi Perfíl", edit_user_registration_path, class: "btn btn-default btn-flat background-white button-perfil-user", data: {load: true} %>
                 </div>
                 <div class="pull-right">
-                  <%= link_to "Cerrar sesión", destroy_user_session_path, class: "btn btn-default btn-flat background-white button-detail-user", method: :delete, data: {load: true} %>
+                  <%= link_to "Cerrar sesión", destroy_user_session_path, class: "btn btn-default btn-flat background-white button-close-sesion-user", method: :delete, data: {load: true} %>
                 </div>
               </li>
             </ul>
@@ -42,3 +42,41 @@
       </div>
     </nav>
   </header>
+
+  <script>
+    $(document).ready(function() {
+      $("ul.dropdown-menu").hover(
+        function() {
+          $("a#usernamenavbar").addClass( "user-menu-hover" );
+        }, function() {
+          $("a#usernamenavbar").removeClass( "user-menu-hover" );
+        });
+
+
+        /*$("dropdown-menu").click(function() {
+          id = $(this).attr("id");
+          console.log(id);
+          console.log("Click en el enlace");
+          $(this).toggleClass('user-menu-hover');
+        });*/
+
+
+
+
+      /*  $("body").click(function(e) {
+          var target = $(e.target), article;
+
+          if(target.is('a#usernamenavbar')) {
+            target.toggleClass('user-menu-hover');
+            console.log("Dentro del enlace");
+          } else {
+            console.log("Fuera del enlace");
+            $("a#usernamenavbar").removeClass('user-menu-hover');
+          }
+
+
+        });*/
+      });
+
+
+  </script>

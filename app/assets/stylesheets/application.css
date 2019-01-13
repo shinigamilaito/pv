@@ -25,6 +25,7 @@
  *= require plugins/iCheck/square/blue.css
 
  *= require toastr
+ *= require animate
 
  * require font-awesome
  * require bootstrap.min
@@ -36,12 +37,33 @@
  *= require_self
  */
 
+* {
+    font-family: 'Poppins', sans-serif;
+}
 .main-background-color {
-  background-color: #2cabe3 !important;
+  background-color: #002e5b !important;
+}
+
+.logo:hover {
+  background: #fde428 !important;
+  border-color: #fde428 !important;
+  color: #002e5b !important;
+  text-decoration: none !important;
+}
+
+.skin-blue-light .main-header .navbar .sidebar-toggle:hover {
+  background: #fde428 !important;
+  border-color: #fde428 !important;
+  color: #002e5b !important;
+  text-decoration: none !important;
 }
 
 .black-color {
   color: hsla(200,0%,0%,.7) !important;
+}
+
+.white-color {
+  color: #fff !important;
 }
 
 .background-white {
@@ -49,67 +71,125 @@
 }
 
 .font-logo {
-  font-family: 'Source Sans Pro' !important;
   font-size: 30px !important;
   letter-spacing: 0.05em !important;
 }
 
 .font-username {
-  font-size: 25px !important;
-  font-family: 'Source Sans Pro' !important;
-  text-transform: uppercase !important;
+  /*font-size: 25px !important;
+     text-transform: uppercase !important; */
+    letter-spacing: 0.05em;
 }
 
 .font-detail-user {
-  font-family: 'Source Sans Pro' !important;
   font-size: 20px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.04em !important;
-  text-transform: uppercase !important;
+font-weight: 600 !important;
+letter-spacing: 0.05em !important;
+/* text-transform: uppercase !important; */
+}
+
+.user-menu {
+  font-family: 'Poppins', sans-serif;
+}
+
+.user-menu:hover {
+  background: #fde428 !important;
+  border-color: #fde428 !important;
+  color: #002e5b !important;
+  text-decoration: none !important;
+  font-family: 'Poppins', sans-serif;
+}
+
+.user-menu-hover {
+  background: #fde428 !important;
+  border-color: #fde428 !important;
+  color: #002e5b !important;
+  text-decoration: none !important;
+  font-family: 'Poppins', sans-serif;
 }
 
 .background-gray {
   background-color: #F0F0F0 !important
 }
 
-.button-detail-user {
-  color: #000 !important;
-  font-family: 'Source Sans Pro' !important;
+.button-perfil-user {
+  color: #002e5b !important;
   font-size: 15px !important;
-  letter-spacing: 0.06em !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 500;
+  /* text-transform: uppercase !important; */
+  background: #fde428 !important;
+}
+
+.button-perfil-user:hover {
+  color: #fde428 !important;
+  background: #002e5b !important;
+}
+
+.button-close-sesion-user {
+  color: #fde428 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 500;
+  /* text-transform: uppercase !important; */
+  background: #002e5b !important;
+}
+
+.button-close-sesion-user:hover {
+  color:  #002e5b !important;
+  background: #fde428 !important;
 }
 
 .item-menu-navegation {
-  font-family: 'Source Sans Pro' !important;
   text-transform: uppercase !important;
   letter-spacing: 0.2em !important;
   font-size: 20px !important;
   color: #000 !important;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.item-menu-navegation:hover {
+  background: #fde428 !important;
+  border-color: #fde428 !important;
+  color: #002e5b !important;
+  text-decoration: none !important;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.roboto-font {
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .subitem-menu-navegation {
-  font-family: 'Source Sans Pro' !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.15em !important;
-  font-size: 18px !important;
-  color: #000 !important;
-  padding-left: 25px;
+  /* text-transform: uppercase !important; */
+letter-spacing: 0.15em !important;
+font-size: 18px !important;
+color: #000 !important;
+padding-left: 25px;
 }
 
-.item-menu-navegation:hover, .subitem-menu-navegation:hover {
-  background-color: #fff !important;
+.subitem-menu-navegation:hover {
+  background: #002e5b !important;
+  border-color: #fde428 !important;
+  color: #fde428 !important;
+  text-decoration: none !important;
+  font-family: 'Poppins', sans-serif;
 }
 
+.skin-blue-light .main-header li.user-header  {
+  background-color: #dce9ef !important;
+}
 
+.background-close-session {
+  background: #fde428 !important;
+}
 
 .select2-container {
   display: block !important;
 }
 
 .active-sidebar {
-	border-left: 5px solid #2cabe3  !important;
+	border-left: 7px solid #2cabe3  !important;
 }
 
 .link-hover:hover {

@@ -1,36 +1,46 @@
-<div class="row">
-  <div class="col-xs-12">
-    <div class="box">
-      <div class="box-header">
-        <h3 class="box-title">Marcas</h3>
-        <%= link_to 'Registrar', new_brand_path, class: "btn btn-primary pull-right" %>
-        
+<div class="row" style="margin: 0;">
+  <div class="col-xs-12 not-padding">
+    <div class="box not-margin not-border">
+      <div class="box-header text-center border-tr-header">
+        <h3 class="box-title title-catalog">Marcas</h3>
       </div>
       <!-- /.box-header -->
-      <div class="box-body table-responsive table-condensed no-padding">
-        <table class="table table-hover table-condensed table-striped">
+      <div class="box-body no-padding">
+        <table class="table table-responsive table-hover table-condensed table-striped">
           <tbody>
-            <tr>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>Especificaciones</th>              
-              <th></th>
+            <tr class="background-gray border-tr-header">
+              <th class="td-header-table">#</th>
+              <th class="td-header-table">NOMBRE</th>
+              <th class="td-header-table">ESPECIFICACIONES</th>
+              <th class="td-header-table"></th>
             </tr>
             <% @brands.each_with_index do |brand, index| %>
               <tr>
-                <td><%= index + 1 %></td>
-                <td><%= brand.name %></td>
-                <td><%= sanitize brand.specifications %></td>                    
-                <td style="text-align: right;"><%= link_to 'Actualizar', edit_brand_path(brand), class: "btn btn-info" %>
-                <%= link_to 'Eliminar', brand, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %>                        
-                </td>
+                <td class="td-content-table"><%= index + 1 %></td>
+                <td class="td-content-table"><%= brand.name %></td>
+                <td class="td-content-table"><%= sanitize brand.specifications %></td>
+                <td class="td-content-table">
+                  <div class="icon-bar">
+                    <%= link_to edit_brand_path(brand), class: 'edit' do %>
+                      <i class="fa fa-fw fa-edit"></i>
+                    <% end %>
+                    <%= link_to brand, method: :delete, class: 'delete', data: { confirm: '¿Está usted seguro?' } do %>
+                      <i class="fa fa-fw fa-remove"></i>
+                    <% end %>
+                  </div>
               </tr>
-            <% end %>                  
+            <% end %>
           </tbody>
         </table>
       </div>
       <!-- /.box-body -->
     </div>
     <!-- /.box -->
+  </div>
+
+  <div class="new-register">
+    <%= link_to new_brand_path do %>
+      <i class="fa fa-fw fa-plus"></i>
+    <% end %>
   </div>
 </div>
