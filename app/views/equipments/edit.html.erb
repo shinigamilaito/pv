@@ -1,9 +1,11 @@
-<div class="box box-info not-margin not-border">
-  <div class="box-header text-center border-tr-header">
+<div class="box">
+  <div class="box-header text-center">
     <h3 class="box-title title-catalog">Actualizar</h3>
+    <%= link_to equipments_path, class: "btn btn-info pull-right" do %>
+      <i class="fa fa-fw fa-reply"></i>
+    <% end %>
   </div>
   <!-- /.box-header -->
   <!-- form start -->
   <%= render 'form', equipment: @equipment %>
 </div>
-a

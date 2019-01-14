@@ -1,14 +1,14 @@
 <%= form_for(@equipment, html: { class: "form-horizontal" }) do |f| %>
-  <div class="box-body not-border">
+  <div class="box-body">
     <div class="form-group <%= 'has-error' unless @equipment.errors[:name].blank? %>">
-      <label class="col-sm-3 control-label label-form">Nombre</label>
+      <label class="col-sm-3 control-label">Nombre</label>
       <div class="col-sm-8">
         <%= f.text_field :name, class: "form-control", required: true %>
         <span><%= @equipment.errors[:name].first %></span>
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-3 control-label label-form">Especificaciones</label>
+      <label class="col-sm-3 control-label">Especificaciones</label>
 
       <div class="col-sm-8">
         <%= f.text_area :specifications, class: "form-control textarea" %>
@@ -16,8 +16,8 @@
       </div>
     </div>
   <!-- /.box-body -->
-  <div class="box-footer not-border">
-    <%= f.submit @equipment.new_record? ? "Ingresar" : "Actualizar", class: "btn btn-info btn-lg btn-block submit-button" %>
+  <div class="box-footer">
+    <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block btn-lg" %>
   </div>
   <!-- /.box-footer -->
 <% end %>
