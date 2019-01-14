@@ -26,8 +26,8 @@
                 <td><%= client.home_phone %></td>
                 <td><%= client.mobile_phone %></td>
                 <td><%= client.address %></td>
-                <td><%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-edit" %></td>
-                <td><%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %></td>
+                <td style="width: 1px;"><%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-edit" %></td>
+                <td style="width: 1px;"><%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %></td>
               </tr>
             <% end %>
           </tbody>
