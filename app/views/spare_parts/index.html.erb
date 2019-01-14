@@ -1,20 +1,22 @@
 <div class="row">
   <div class="col-xs-12">
     <div class="box">
-      <div class="box-header">
-        <h3 class="box-title">Refacciones</h3>
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Refacciones</h3>
         <%= link_to 'Registrar', new_spare_part_path, class: "btn btn-primary pull-right" %>
 
       </div>
       <!-- /.box-header -->
-      <div class="box-body table-responsive table-condensed no-padding">
-        <table class="table table-hover table-condensed table-striped">
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-responsive table-hover table-condensed table-striped">
           <tbody>
             <tr>
-              <th>#</th>
+              <th>No.</th>
               <th>Nombre</th>
               <th>Precio</th>
               <th>Stock</th>
+              <th>Descripción</th>
+              <th></th>
               <th></th>
             </tr>
             <% @spare_parts.each_with_index do |spare_part, index| %>
@@ -23,11 +25,9 @@
                 <td><%= spare_part.name %></td>
                 <td><%= number_to_currency spare_part.price %></td>
                 <td><%= spare_part.total %></td>
-                <td style="text-align: right;">
-                  <%= link_to 'Visualizar', spare_part, class: "btn btn-default" %>
-                  <%= link_to 'Actualizar', edit_spare_part_path(spare_part), class: "btn btn-info" %>
-                  <%= link_to 'Eliminar', spare_part, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %>
-                </td>
+                <td><%= spare_part.description %></td>
+                <td style="width: 1px;"><%= link_to 'Actualizar', edit_spare_part_path(spare_part), class: "btn btn-edit" %></td>
+                <td style="width: 1px;"><%= link_to 'Eliminar', spare_part, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %></td>
               </tr>
             <% end %>
           </tbody>

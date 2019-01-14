@@ -25,12 +25,12 @@ class SparePartsController < ApplicationController
   # POST /spare_parts
   # POST /spare_parts.json
   def create
-    @spare_part = SparePart.new(spare_part_params)    
+    @spare_part = SparePart.new(spare_part_params)
 
     respond_to do |format|
       if @spare_part.save
         flash[:success] = 'Refacción creada exitosamente.'
-        format.html { redirect_to @spare_part }
+        format.html { redirect_to spare_parts_url }
         format.json { render :show, status: :created, location: @spare_part }
       else
         flash[:error] = 'Proporcione los datos correctos.'
@@ -46,7 +46,7 @@ class SparePartsController < ApplicationController
     respond_to do |format|
       if @spare_part.update(spare_part_params)
         flash[:success] = 'Refacción actualizada exitosamente.'
-        format.html { redirect_to @spare_part }
+        format.html { redirect_to spare_parts_url }
         format.json { render :show, status: :ok, location: @spare_part }
       else
         flash[:error] = 'Proporcione los datos correctos.'

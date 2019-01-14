@@ -5,7 +5,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu background-gray" data-widget="tree"C">
         <li class="header background-gray" style="height: 30px; display: inline-block; width: 100%; text-align: center; padding-top: 20px;"></li>
-        <li class="<%= active_item('services')%> animated delay-1s fadeInLeft">
+        <li class="<%= active_item('services')%>">
           <%= link_to new_service_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
             <i class="fa fa-fw fa-support"></i>
             <span class="roboto-font" style="padding-left: 10px;">Servicios</span>
@@ -17,7 +17,7 @@
             <span style="padding-left: 10px;">Soportes</span>
           <%# end %>
         </li>-->
-        <li class="<%= active_item('clients')%> animated delay-2s fadeInLeft">
+        <li class="<%= active_item('clients')%>">
           <%= link_to clients_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
             <i class="fa fa-fw fa-user-md"></i>
             <span class="roboto-font" style="padding-left: 10px;">Clientes</span>
@@ -25,26 +25,26 @@
         </li>
 
         <li class="treeview">
-          <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation animated delay-3s fadeInLeft">
+          <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="fa fa-fw fa-sticky-note"></i> <span class="roboto-font" style="padding-left: 10px;">Catálogos</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu background-gray" style="display: block;">
-            <li class="<%= active_item('equipments')%> subitem-menu-navegation animated delay-4s fadeInDown">
+            <li class="<%= active_item('equipments')%> subitem-menu-navegation">
               <%= link_to equipments_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-television"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Equipos</span>
               <% end %>
             </li>
-            <li class="<%= active_item('brands')%> subitem-menu-navegation animated delay-5s fadeInDown">
+            <li class="<%= active_item('brands')%> subitem-menu-navegation">
               <%= link_to brands_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-trademark"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Marcas</span>
               <% end %>
             </li>
-            <li class="<%= active_item('spare_parts')%> subitem-menu-navegation animated delay-6s fadeInDown">
+            <li class="<%= active_item('spare_parts')%> subitem-menu-navegation">
               <%= link_to spare_parts_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-battery-empty"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Refacciones</span>
