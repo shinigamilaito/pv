@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190109035012) do
+ActiveRecord::Schema.define(version: 20190114225345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,12 +76,29 @@ ActiveRecord::Schema.define(version: 20190109035012) do
     t.string "name"
   end
 
+  create_table "service_spare_parts", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "price", precision: 10, scale: 2
+    t.integer "quantity"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_service_spare_parts_on_service_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.bigint "client_id"
     t.string "folio"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "date_of_entry"
+    t.integer "payment_type_id"
+    t.decimal "worforce", precision: 10, scale: 2
+    t.decimal "discount", precision: 10, scale: 2
+    t.string "departure_date"
+    t.string "image_client"
     t.index ["client_id"], name: "index_services_on_client_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
@@ -145,6 +162,7 @@ ActiveRecord::Schema.define(version: 20190109035012) do
   add_foreign_key "equipment_customers", "equipments"
   add_foreign_key "equipment_customers", "services"
   add_foreign_key "message_histories", "equipment_customers"
+  add_foreign_key "service_spare_parts", "services"
   add_foreign_key "services", "clients"
   add_foreign_key "services", "users"
   add_foreign_key "support_spare_parts", "supports"
