@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :incomes
+  
   resources :services do
     get 'find_folios', on: :collection
     get 'add_spare_part', on: :collection

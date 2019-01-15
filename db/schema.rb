@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190114225345) do
+ActiveRecord::Schema.define(version: 20190115081931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,17 @@ ActiveRecord::Schema.define(version: 20190114225345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "specifications"
+  end
+
+  create_table "incomes", force: :cascade do |t|
+    t.bigint "client_id"
+    t.bigint "service_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_incomes_on_client_id"
+    t.index ["service_id"], name: "index_incomes_on_service_id"
+    t.index ["user_id"], name: "index_incomes_on_user_id"
   end
 
   create_table "message_histories", force: :cascade do |t|
@@ -163,6 +174,9 @@ ActiveRecord::Schema.define(version: 20190114225345) do
   add_foreign_key "equipment_customers", "brands"
   add_foreign_key "equipment_customers", "equipments"
   add_foreign_key "equipment_customers", "services"
+  add_foreign_key "incomes", "clients"
+  add_foreign_key "incomes", "services"
+  add_foreign_key "incomes", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "services", "clients"

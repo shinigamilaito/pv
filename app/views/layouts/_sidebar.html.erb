@@ -24,6 +24,13 @@
           <% end %>
         </li>
 
+        <li class="<%= active_item('incomes')%>">
+          <%= link_to incomes_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
+            <i class="fa fa-fw fa-money"></i>
+            <span class="roboto-font" style="padding-left: 10px;">Ingresos</span>
+          <% end %>
+        </li>
+
         <li class="treeview">
           <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="fa fa-fw fa-sticky-note"></i> <span class="roboto-font" style="padding-left: 10px;">Catálogos</span>
