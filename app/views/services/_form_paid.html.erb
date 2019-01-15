@@ -1,5 +1,5 @@
 <button class="box-header header_paid with-border accordion_paid">
-  <h3 class="box-title">Ingresar Pago</h3>
+  <h3 class="box-title"><%= "Ingresar Pago <span style='color: #001F3F;'>#{@service.frequently_client_label}</span>".html_safe %></h3>
 </button>
 <div class="panel">
   <%= form_for(@service, { html: {class: "form-horizontal", remote: true }}) do |f| %>

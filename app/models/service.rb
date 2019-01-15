@@ -46,4 +46,14 @@ class Service < ApplicationRecord
       total_final: total_final
     }
   end
+
+  def frequently_client_label
+    total_services = Service.where(client_id: client_id).count
+
+    if total_services >= 3
+      return "[CLIENTE FRECUENTE]"
+    else
+      return ""
+    end
+  end
 end
