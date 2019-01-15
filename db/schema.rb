@@ -94,12 +94,14 @@ ActiveRecord::Schema.define(version: 20190114225345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "date_of_entry"
-    t.integer "payment_type_id"
-    t.decimal "worforce", precision: 10, scale: 2
-    t.decimal "discount", precision: 10, scale: 2
+    t.bigint "payment_type_id"
+    t.decimal "worforce", precision: 10, scale: 2, default: "0.0"
+    t.decimal "discount", precision: 10, scale: 2, default: "0.0"
     t.string "departure_date"
     t.string "image_client"
+    t.boolean "paid", default: false
     t.index ["client_id"], name: "index_services_on_client_id"
+    t.index ["payment_type_id"], name: "index_services_on_payment_type_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
 
@@ -164,6 +166,7 @@ ActiveRecord::Schema.define(version: 20190114225345) do
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "services", "clients"
+  add_foreign_key "services", "payment_types"
   add_foreign_key "services", "users"
   add_foreign_key "support_spare_parts", "supports"
   add_foreign_key "supports", "client_types"

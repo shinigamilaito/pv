@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-5">
+    <div class="form-group">
+      <label class="col-md-5 control-label">Fecha de Ingreso</label>
+      <div class="col-md-7 form-control"><%= @service.date_of_entry %></div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Tipo de Pago</label>
+      <div class="col-md-7 form-control"><%= @service.payment_type.name %></div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Mano de Obra</label>
+      <div class="col-md-7 form-control"><%= number_to_currency @service.worforce %></div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Descuento</label>
+      <div class="col-md-7 form-control"><%= number_to_percentage @service.discount, precision: 2 %></div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Fecha de Salida</label>
+      <div class="col-md-7 form-control"><%= @service.departure_date %></div>
+    </div>
+    <%#= image_tag(@service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+  </div>
+
+  <div class="col-md-7">
+    <div class="form-group text-center">
+      <label>Refacciones usadas</label>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody id="spare_parts_used_by_service">
+        <% unless @service.service_spare_parts.blank? %>
+        <%= render partial: "spare_parts/spare_part", collection: @service.service_spare_parts %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
+      <% unless @service.service_spare_parts.blank? %>
+      <%= render "services/totals_costs", totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
+      <% end %>
+    </div>
+  </div>
+</div>

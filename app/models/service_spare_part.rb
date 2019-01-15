@@ -2,9 +2,7 @@
 
 class ServiceSparePart < ApplicationRecord
   belongs_to :service
-
-  belongs_to :support
-
+  
   def self.create_spare_parts_used(spare_parts)
     service_spare_parts = []
     spare_parts.each do |spare_part|

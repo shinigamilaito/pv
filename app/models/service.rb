@@ -2,7 +2,6 @@ class Service < ApplicationRecord
   belongs_to :client
   belongs_to :user
   belongs_to :payment_type
-  belongs_to :client_type
 
   has_many :equipment_customers
   has_many :service_spare_parts
@@ -26,7 +25,7 @@ class Service < ApplicationRecord
 
   def self.obtain_discount(worforce, total_products, discount)
     total_worforce = BigDecimal.new(worforce)
-    total_products = BigDecimal.new(total_products)
+    total_products = BigDecimal.new(total_products )
     total_discount = BigDecimal.new(discount)
 
     total_worforce_plus_total_products = total_worforce + total_products

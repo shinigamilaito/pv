@@ -1,4 +1,4 @@
-<%= form_for(@service, { html: {class: "form-horizontal" }}) do |f| %>
+<%= form_for(@service, { html: {class: "form-horizontal", remote: true }}) do |f| %>
   <%= f.hidden_field :image_client, value: nil, id: "image_web_cam" %>
 
   <div class="row">
@@ -57,7 +57,7 @@
         <label>Refacciones usadas</label>
         <select name="[spare_part_id]" class="form-control autocomplete_spare_parts" data-remote="true" data-url="/spare_parts/new" data-method="get">
             <option value="">Seleccione la refacción</option>
-        </select>      
+        </select>
       </div>
       <table class="table table-striped">
         <thead>
@@ -70,16 +70,16 @@
           </tr>
         </thead>
         <tbody id="spare_parts_used_by_service">
-          <% unless @service.service_spare_parts.blank? %>
-            <%= render partial: "spare_parts/spare_part", collection: @service.service_spare_parts %>
-          <% end %>
+          <%# unless @service.service_spare_parts.blank? %>
+            <%#= render partial: "spare_parts/spare_part", collection: @service.service_spare_parts %>
+          <%# end %>
         </tbody>
       </table>
 
       <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
-        <% unless @service.service_spare_parts.blank? %>
-          <%= render "services/totals_costs", totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
-        <% end %>
+        <%# unless @service.service_spare_parts.blank? %>
+          <%#= render "services/totals_costs", totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
+        <%# end %>
       </div>
 
       <%= f.submit "$ Pagar", id: "btn_paid", class: "btn bg-green color-palette btn-block btn-flat", disabled: "disabled" %>

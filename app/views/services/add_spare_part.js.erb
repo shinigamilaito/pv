@@ -1,5 +1,6 @@
 $("#spare_parts_used_by_service").html('<%= j render(@spare_parts) %>');
 $("#total_to_paid_by_spare_parts_used_by_service").html('<%= j render("totals_costs", totals: @totals) %>');
 
-
-$("#btn_paid").removeAttr("disabled");
+<% unless @service.equipment_customers.blank? %>
+  $("#btn_paid").removeAttr("disabled");
+<% end %>

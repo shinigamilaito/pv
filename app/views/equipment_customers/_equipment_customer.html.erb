@@ -30,7 +30,7 @@
 
   <div class="box-footer">
       <div class="input-group col-sm-12">
-        <button type="button" id="add-history-message-<%= equipment_customer.id %>" class="btn btn-primary pull-right" data-disable-with="Guardar">Guardar</button>    
+        <button type="button" id="add-history-message-<%= equipment_customer.id %>" class="btn btn-primary pull-right" data-disable-with="Guardar">Guardar</button>
       </div>
   </div>
 
@@ -51,7 +51,7 @@
 
     console.log("Sending ajax call");
     $.ajax({
-      url: 'equipment_customers/add_history_message',
+      url: '/equipment_customers/add_history_message',
       dataType: 'script',
       method: 'post',
       data: {
@@ -64,6 +64,6 @@
         complete: function(xhr) {
           $that.html('Guardar');
         }
-    })    
-  });  
+    })
+  });
 </script>

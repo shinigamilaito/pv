@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :services do
     get 'find_folios', on: :collection
+    get 'add_spare_part', on: :collection
+    put 'update_worforce', on: :collection
+    put 'update_discount', on: :collection
   end
 
   resources :spare_parts do
@@ -24,6 +27,7 @@ Rails.application.routes.draw do
 
   resources :employes
 
+  # NOT USED
   resources :supports do
     get 'add_spare_part', on: :collection
     put 'update_worforce', on: :collection
