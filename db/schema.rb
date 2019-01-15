@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190115081931) do
+ActiveRecord::Schema.define(version: 20190115094540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,7 +111,9 @@ ActiveRecord::Schema.define(version: 20190115081931) do
     t.string "departure_date"
     t.string "image_client"
     t.boolean "paid", default: false
+    t.bigint "employee_id"
     t.index ["client_id"], name: "index_services_on_client_id"
+    t.index ["employee_id"], name: "index_services_on_employee_id"
     t.index ["payment_type_id"], name: "index_services_on_payment_type_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
@@ -182,6 +184,7 @@ ActiveRecord::Schema.define(version: 20190115081931) do
   add_foreign_key "services", "clients"
   add_foreign_key "services", "payment_types"
   add_foreign_key "services", "users"
+  add_foreign_key "services", "users", column: "employee_id"
   add_foreign_key "support_spare_parts", "supports"
   add_foreign_key "supports", "client_types"
   add_foreign_key "supports", "equipment_customers"

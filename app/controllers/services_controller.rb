@@ -92,7 +92,9 @@ class ServicesController < ApplicationController
     @service.paid = true
     clear_session_variables
 
-    if @service.update(service_params)      
+    @service.valid?
+    p "errors #{@service.errors.full_messages}"
+    if @service.update(service_params)
       render 'update'
     else
       flash.now[:error] = "Proporcione los datos correctos."
@@ -104,7 +106,7 @@ class ServicesController < ApplicationController
 
   def service_params
     params.require(:service).permit(:client_id, :folio, :payment_type_id,
-      :date_of_entry, :worforce, :discount, :departure_date, :image_client)
+      :date_of_entry, :worforce, :discount, :departure_date, :image_client, :employee_id)
   end
 
   def generate_totals

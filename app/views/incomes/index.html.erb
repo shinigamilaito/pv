@@ -23,7 +23,7 @@
                 <td><%= income.created_at.strftime("%d/%m/%Y - %I:%M %p") %></td>
                 <td><%= number_to_currency Service.generate_totals(income.service_spare_parts, income.worforce, income.discount)[:total_final] %></td>
                 <td><%= income.folio %></td>
-                <td><%= 'Cobrado por' %></td>
+                <td><%= income.employee.formal_name %></td>
               </tr>
             <% end %>
           </tbody>

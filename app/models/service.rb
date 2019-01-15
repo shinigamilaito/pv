@@ -3,6 +3,8 @@ class Service < ApplicationRecord
   belongs_to :user
   belongs_to :payment_type
 
+  belongs_to :employee, class_name: "User"
+
   has_many :equipment_customers
   has_many :service_spare_parts
 

@@ -7,7 +7,15 @@
 
   <div class="row">
     <div class="col-md-5">
-      <div class="form-group" style="margin-top: 25px;">
+      <div class="form-group">
+        <label class="col-md-5 control-label">Cobrado por</label>
+        <div class="col-md-7">
+          <%= f.collection_select :employee_id, User.all, :id, :formal_name, { prompt: "Seleccione un empleado" }, class: "form-control", required: true %>
+          <div class="invalid-feedback"><%= @service.errors[:employee_id].first %></div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label class="col-md-5 text-center control-label">Fecha de Ingreso</label>
         <div class="col-md-7">
           <%= f.text_field :date_of_entry, class: "form-control datepicker", autocomplete: "off", required: true %>
