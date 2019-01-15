@@ -1,13 +1,13 @@
 namespace :db do
   desc "Asignando user default to services"
   task default_employee: :environment do
-    "Started..."
+    puts "Started..."
     user = User.first
 
     Service.where(employee_id: nil).each do |service|
       service.employee = user
       service.save
     end
-    "End..."
+    puts "End..."
   end
 end
