@@ -1,4 +1,8 @@
-<%= form_for(@service, { html: {class: "form-horizontal", remote: true }}) do |f| %>
+<button class="box-header header_paid with-border accordion_paid">
+  <h3 class="box-title">Ingresar Pago</h3>
+</button>
+<div class="panel">
+  <%= form_for(@service, { html: {class: "form-horizontal", remote: true }}) do |f| %>
   <%= f.hidden_field :image_client, value: nil, id: "image_web_cam" %>
 
   <div class="row">
@@ -21,11 +25,11 @@
       <div class="form-group">
         <label class="col-md-5 control-label">Mano de Obra</label>
         <div class="col-md-7">
-         <div class="input-group">
-          <span class="input-group-addon">$</span>
-          <%= f.text_field :worforce, class: "form-control form-control-sm", required: true %>
-         </div>
-         <div class="invalid-feedback"><%= @service.errors[:worforce].first %></div>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= f.text_field :worforce, class: "form-control form-control-sm", required: true %>
+          </div>
+          <div class="invalid-feedback"><%= @service.errors[:worforce].first %></div>
         </div>
       </div>
       <div class="form-group">
@@ -35,7 +39,7 @@
             <%= f.text_field :discount, class: "form-control form-control-sm", required: true %>
             <span class="input-group-addon">%</span>
           </div>
-           <div class="invalid-feedback"><%= @service.errors[:discount].first %></div>
+          <div class="invalid-feedback"><%= @service.errors[:discount].first %></div>
         </div>
       </div>
       <div class="form-group">
@@ -46,9 +50,9 @@
         </div>
       </div>
       <% if @service.image_client.blank? %>
-        <%= render "supports/image_client" %>
+      <%= render "supports/image_client" %>
       <% else %>
-        <%= image_tag(@service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+      <%= image_tag(@service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
       <% end %>
     </div>
 
@@ -56,7 +60,7 @@
       <div class="form-group text-center">
         <label>Refacciones usadas</label>
         <select name="[spare_part_id]" class="form-control autocomplete_spare_parts" data-remote="true" data-url="/spare_parts/new" data-method="get">
-            <option value="">Seleccione la refacción</option>
+          <option value="">Seleccione la refacción</option>
         </select>
       </div>
       <table class="table table-striped">
@@ -71,14 +75,14 @@
         </thead>
         <tbody id="spare_parts_used_by_service">
           <%# unless @service.service_spare_parts.blank? %>
-            <%#= render partial: "spare_parts/spare_part", collection: @service.service_spare_parts %>
+          <%#= render partial: "spare_parts/spare_part", collection: @service.service_spare_parts %>
           <%# end %>
         </tbody>
       </table>
 
       <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
         <%# unless @service.service_spare_parts.blank? %>
-          <%#= render "services/totals_costs", totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
+        <%#= render "services/totals_costs", totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
         <%# end %>
       </div>
 
@@ -86,7 +90,8 @@
 
     </div>
   </div>
-<% end %>
+  <% end %>
+</div>
 
 <script>
   $(".datepicker").datepicker({
@@ -121,22 +126,22 @@
     }
 
     var markup = "<div class='select2-result-repository__meta'>" +
-        "<div class='select2-result-repository__title'>" + spare_part.text + "</div>";
+      "<div class='select2-result-repository__title'>" + spare_part.text + "</div>";
 
-    if (spare_part.description) {
-      markup += "<div class='select2-result-repository__description'>" + spare_part.description + "</div>";
+      if (spare_part.description) {
+        markup += "<div class='select2-result-repository__description'>" + spare_part.description + "</div>";
+      }
+
+      markup += "</div>";
+
+      return markup;
     }
 
-    markup += "</div>";
+    function formatRepoSelection (spare_part) {
+      return spare_part.description || spare_part.text;
+    }
 
-    return markup;
-  }
-
-  function formatRepoSelection (spare_part) {
-    return spare_part.description || spare_part.text;
-  }
-
-  $('.autocomplete_spare_parts').on('select2:select', function (e) {
+    $('.autocomplete_spare_parts').on('select2:select', function (e) {
       var data = e.params.data;
       $.ajax({
         url: "/services/add_spare_part",
@@ -152,23 +157,23 @@
           $("#spare_parts_used_by_service").LoadingOverlay("hide", true);
         }
       })
-  });
+    });
 
-  (function() {
+    (function() {
 
-    var streaming = false,
-        video        = document.querySelector('#video'),
-        canvas       = document.querySelector('#canvas'),
-        $takepicturebutton  = $("#takepicture"),
-        width = 320,
-        height = 0;
+      var streaming = false,
+      video        = document.querySelector('#video'),
+      canvas       = document.querySelector('#canvas'),
+      $takepicturebutton  = $("#takepicture"),
+      width = 320,
+      height = 0;
 
-    navigator.getMedia = ( navigator.getUserMedia ||
-                           navigator.webkitGetUserMedia ||
-                           navigator.mozGetUserMedia ||
-                           navigator.msGetUserMedia);
+      navigator.getMedia = ( navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia);
 
-    navigator.getMedia(
+      navigator.getMedia(
       {
         video: true,
         audio: false
@@ -188,90 +193,90 @@
         console.log("An error occured! " + err);
         $takepicturebutton.addClass("disabled");
       }
-    );
+      );
 
-    video.addEventListener('canplay', function(ev){
-      if (!streaming) {
-        height = video.videoHeight / (video.videoWidth/width);
-        video.setAttribute('width', width);
-        video.setAttribute('height', height);
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
-        streaming = true;
-      }
-    }, false);
+      video.addEventListener('canplay', function(ev){
+        if (!streaming) {
+          height = video.videoHeight / (video.videoWidth/width);
+          video.setAttribute('width', width);
+          video.setAttribute('height', height);
+          canvas.setAttribute('width', width);
+          canvas.setAttribute('height', height);
+          streaming = true;
+        }
+      }, false);
 
-    function takepicture() {
-      var canvas = document.querySelector('#canvas');
-      var $canvas = $("#canvas");
-      canvas.width = width;
-      canvas.height = height;
-      canvas.style.display = "block";
-      canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+      function takepicture() {
+        var canvas = document.querySelector('#canvas');
+        var $canvas = $("#canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.style.display = "block";
+        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
 
-      $takepicturebutton
+        $takepicturebutton
         .removeClass("btn-primary")
         .addClass("btn-danger")
         .attr("data-takepicture", false)
         .html('<b><i class="fa fa-fw fa-remove"></i></b>');
 
-      video.style.display = "none";
+        video.style.display = "none";
 
-      var data = canvas.toDataURL('image/png');
-      document.getElementById('image_web_cam').value = data;
-    }
+        var data = canvas.toDataURL('image/png');
+        document.getElementById('image_web_cam').value = data;
+      }
 
-    function deletepicture() {
-      var $canvas = $("#canvas");
-      $canvas.css("display", "none");
-      video.style.display = "block";
+      function deletepicture() {
+        var $canvas = $("#canvas");
+        $canvas.css("display", "none");
+        video.style.display = "block";
 
-      $takepicturebutton
+        $takepicturebutton
         .removeClass("btn-danger")
         .addClass("btn-primary")
         .attr("data-takepicture", true)
         .html('<b><i class="fa fa-fw fa-camera"></i></b>');
 
-      document.getElementById('image_web_cam').value = "";
+        document.getElementById('image_web_cam').value = "";
+      }
+
+      $takepicturebutton.click(function(ev){
+        console.log("Take picture");
+        if($(this).attr('data-takepicture') == "true" ) {
+          takepicture();
+        } else {
+          deletepicture();
+        }
+
+        ev.preventDefault();
+      });
+
+    })();
+
+    $("#service_worforce").on("keydown", _.debounce(update_worforce, 1000));
+
+    function update_worforce() {
+      $.ajax({
+        url: "/services/update_worforce",
+        method: "put",
+        dataType: "script",
+        data: {
+          worforce: $(this).val()
+        },
+        beforeSend: function(xhr) {
+          $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("show");
+        },
+        complete: function(xhr, status) {
+          $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("hide", true);
+        }
+
+      });
     }
 
-    $takepicturebutton.click(function(ev){
-      console.log("Take picture");
-      if($(this).attr('data-takepicture') == "true" ) {
-        takepicture();
-      } else {
-        deletepicture();
-      }
+    $("#service_discount").on("keydown", _.debounce(update_discount, 1000));
 
-      ev.preventDefault();
-    });
-
-  })();
-
-  $("#service_worforce").on("keydown", _.debounce(update_worforce, 1000));
-
-  function update_worforce() {
-    $.ajax({
-      url: "/services/update_worforce",
-      method: "put",
-      dataType: "script",
-      data: {
-        worforce: $(this).val()
-      },
-      beforeSend: function(xhr) {
-        $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("show");
-      },
-      complete: function(xhr, status) {
-        $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("hide", true);
-      }
-
-    });
-  }
-
-  $("#service_discount").on("keydown", _.debounce(update_discount, 1000));
-
-  function update_discount() {
-    $.ajax({
+    function update_discount() {
+      $.ajax({
         url: "/services/update_discount",
         method: "put",
         dataType: "script",
@@ -279,12 +284,31 @@
           discount: $(this).val()
         },
         beforeSend: function(xhr) {
-        $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("show");
-      },
-      complete: function(xhr, status) {
-        $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("hide", true);
-      }
-    });
-  }
+          $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("show");
+        },
+        complete: function(xhr, status) {
+          $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("hide", true);
+        }
+      });
+    }
 
-</script>
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      var acc = document.getElementsByClassName("accordion_paid");
+      var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight){
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + 40 + "px";
+        }
+      });
+    }
+    });
+  </script>
