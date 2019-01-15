@@ -1,21 +1,21 @@
 <%= form_for(@service, remote: true) do |f| %>
-<div class="row">
+<div class="box-body">
   <div class="col-md-5">
     <div class="form-group">
-      <label>Cliente</label>
+      <label>Seleccionar cliente</label>
       <% unless @service.client.blank? %>
         <% clients = [@service.client] %>
       <% else  %>
         <% clients = [] %>
       <% end %>
-      <%= f.collection_select :client_id, clients, :id, :name, { prompt: "Seleccione un cliente" }, class: "form-control autocomplete_clients", required: true %>
+      <%= f.collection_select :client_id, clients, :id, :name, { prompt: "Buscar cliente" }, class: "form-control autocomplete_clients", required: true %>
       <div class="has-error"><%= @service.errors[:client_id].first %></div>
     </div>
   </div>
 
   <div class="col-md-5", id="select_folios">
     <div class="form-group <%= 'has-error' unless @service.errors[:folio].blank? %>", id="service_folio">
-      <label>Folio</label>
+      <label>Buscar/Agregar Folio</label>
       <%= select_tag 'service[folio]', options_for_select(@folios), class: "form-control autocomplete_folios", required: true %>
       <div class="help-block"><%= @service.errors[:folio].first %></div>
     </div>

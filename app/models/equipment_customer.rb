@@ -13,6 +13,8 @@ class EquipmentCustomer < ApplicationRecord
   end
 
   def title_header
-  	"<b>Fecha de Registro:</b> #{self.created_at.strftime("%d/%m/%Y - %I:%M %p")} <b>Equipo:</b> #{self.equipment.name} <b>Marca:</b> #{self.brand.name}"
+    "<b>Equipo:</b> #{self.equipment.name} <b>Marca:</b> #{self.brand.name} <br/>
+    <span style= 'font-size: 12px;'>Ingreso el: #{self.created_at.strftime("%d/%m/%Y - %I:%M %p")}</span>"
   end
+
 end

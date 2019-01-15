@@ -1,20 +1,13 @@
-<div class="box-header with-border">
-  <h3 class="box-title">Historial</h3>
-  <div class="box-tools pull-right">
-    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-    </button>
-  </div>
-</div>
-
-<div class="box-body">
-  <!-- Conversations are loaded here -->
-  <div class="direct-chat-messages">
-    <%= render equipment_customer.message_histories %>      
-  </div>
-</div>
-
-<div class="box-footer">
-  <div class="input-group col-sm-12">          
-    <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control', id: "message_history_message_#{equipment_customer.id}" %>    
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <label>Historial</label>
+      <div>
+        <div class="direct-chat-messages div-direct-chat-messages">
+          <%= render equipment_customer.message_histories %>
+            <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control', id: "message_history_message_#{equipment_customer.id}" %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

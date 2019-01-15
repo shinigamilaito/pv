@@ -1,41 +1,27 @@
-<div class="box box-warning" id="equipment_customer_<%= equipment_customer.id %>">
-  <div class="box-header with-border">
-    <h3 class="box-title"><%= equipment_customer.title_header.html_safe %></h3>
-
-    <div class="box-tools pull-right">
-      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-      </button>
-    </div>
-    <!-- /.box-tools -->
-  </div>
-  <!-- /.box-header -->
-  <div class="box-body">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <label>Descripción</label>
-          <div class="form-control" readonly style="height: auto;">
-            <%= sanitize equipment_customer.description %>
-          </div>
+<button class="box-header with-border accordion">
+  <h3 class="box-title"><%= equipment_customer.title_header.html_safe %></h3>
+</button>
+<div class="panel">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group" style="margin-top: 15px;">
+        <label>Descripción</label>
+        <div class="form-control" readonly style="height: auto;">
+          <%= sanitize equipment_customer.description %>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <%= render 'equipment_customers/message_history_form', equipment_customer: equipment_customer %>
-      </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= render 'equipment_customers/message_history_form', equipment_customer: equipment_customer %>
+    </div>
+    <div class="input-group col-sm-12">
+      <button type="button" id="add-history-message-<%= equipment_customer.id %>" class="btn btn-primary btn-block" data-disable-with="Guardar">Guardar</button>
     </div>
   </div>
-  <!-- /.box-body -->
-
-  <div class="box-footer">
-      <div class="input-group col-sm-12">
-        <button type="button" id="add-history-message-<%= equipment_customer.id %>" class="btn btn-primary pull-right" data-disable-with="Guardar">Guardar</button>
-      </div>
-  </div>
-
-
 </div>
+
 
 <script>
   $("#equipment_customer_<%= equipment_customer.id %>").boxWidget({});

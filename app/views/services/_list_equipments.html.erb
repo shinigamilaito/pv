@@ -1,19 +1,32 @@
-<div class="box box-solid">
-  <div class="box-header with-border">
-  	<h3 class="box-title">Listado de Equipos</h3>
+<div class="box">
+  <div class="box-header text-center">
+  	<h3 class="box-title">Equipos Ingresados</h3>
     <div class="box-tools pull-right">
-    	<%= link_to new_equipment_customer_path(service_id: @service.id), class: 'link-hover', data: {remote: true, disable_with: "Accediendo..."} do %>    			
+    	<%= link_to new_equipment_customer_path(service_id: @service.id), class: 'link-hover', data: {remote: true, disable_with: "Accediendo..."} do %>
   			<i class="fa fa-fw fa-plus-square" style="font-size: 2.2rem;"></i>
-  			Abrir Registro 			
+  			Abrir Registro
 		  <% end %>
     </div>
-  </div>  
-  <div class="box-body" id="new-equipment-body"> 
-    <%= render @service.equipment_customers.order(created_at: :desc) %> 	  
   </div>
+  <div class="box-body" id="new-equipment-body">
+    <%= render @service.equipment_customers.order(created_at: :desc) %>
+
+
 </div>
 
+<script>
+  var acc = document.getElementsByClassName("accordion");
+  var i;
 
-
-
-
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 40 + "px";
+    }
+  });
+}
+</script>

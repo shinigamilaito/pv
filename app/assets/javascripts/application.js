@@ -35,6 +35,7 @@
 
 //= require clients
 //= require spare_parts
+//= require accordion
 
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js
@@ -67,9 +68,9 @@ $(document).ready(function() {
 	});
 
 	$(function () {
-		$('.textarea').wysihtml5();    	
+		$('.textarea').wysihtml5();
   	});
-	
+
 });
 
 

@@ -92,8 +92,7 @@ class ServicesController < ApplicationController
     @service.paid = true
     clear_session_variables
 
-    if @service.update(service_params)
-      flash[:success] = "Pago registrado exitosamente."
+    if @service.update(service_params)      
       render 'update'
     else
       flash.now[:error] = "Proporcione los datos correctos."

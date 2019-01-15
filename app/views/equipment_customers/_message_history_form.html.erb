@@ -1,7 +1,5 @@
-<div class="box box-success direct-chat direct-chat-success" id='<%= equipment_customer.new_record? ? "history_message_box" : "history_message_box_#{equipment_customer.id}" %>'>
-
+<div id='<%= equipment_customer.new_record? ? "history_message_box" : "history_message_box_#{equipment_customer.id}" %>'>
   <%= render 'message_histories/history_box', equipment_customer: equipment_customer %>
-
 </div>
 
 <script>
