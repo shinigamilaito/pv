@@ -1,5 +1,5 @@
 class IncomesController < ApplicationController
   def index
-    @incomes = Service.where(paid: true).order(created_at: :desc)
+    @incomes = Service.where(paid: true).order(updated_at: :desc)
   end
 end

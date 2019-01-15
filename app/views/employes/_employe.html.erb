@@ -1,11 +1,8 @@
 <tr>
-  <td><%= "#{employe.name} <span class='badge badge-light'>#{employe.username}</span>".html_safe %></td>
-  <td><%= employe.first_name %></td>
-  <td><%= employe.last_name %></td>
-  <td><%="#{employe.email} <span class='badge badge-light'>#{employe.rol.name}</span>".html_safe %></td>
-  <td>
-    <%= link_to edit_employe_path(employe), class: "btn btn-circle btn-outline-primary btn-sm", title: "Editar" do %>
-    <i class="fas fa-edit"></i>
-    <% end %>
-  </td>  
+  <td><%= index + 1%></td>
+  <td><%= employe.formal_name %></td>
+  <td><%= employe.username %></td>
+  <td><%= employe.email %></td>
+  <td><%= employe.rol.name %></td>
+  <td style="width: 1px;"><%= link_to 'Actualizar', edit_employe_path(employe), class: 'btn btn-edit' %></td>
 </tr>

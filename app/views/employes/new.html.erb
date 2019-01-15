@@ -1,46 +1,48 @@
-<div class="col-sm-8 offset-md-2">
-  <div class="card">
-    <div class="card-header">
-      <h2 class="text-info">Registrar usuario</h2>
-    </div>
-    <div class="card-body">
-      <%= form_for(@user, url: employes_path, html: { method: :post, class: "profile_form" }) do |f| %>
-      
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Nombre</label>
-        <div class="col-sm-9">
+<div class="box">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Registrar</h3>
+    <%= link_to employes_path, class: "btn btn-info pull-right" do %>
+      <i class="fa fa-fw fa-reply"></i>
+    <% end %>
+  </div>
+
+  <%= form_for(@user, url: employes_path, html: {class: "form-horizontal", method: :post }) do |f| %>
+    <div class="box-body">
+      <div class="form-group <%= 'has-error' unless @user.errors[:name].blank? %>">
+        <label for="exampleInputName" class="col-sm-2 control-label">Nombre</label>
+        <div class="col-sm-10">
           <%= f.text_field :name, class: "form-control", required: true %>
           <div class="invalid-feedback"><%= @user.errors[:name].first %></div>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Apellido paterno</label>
-        <div class="col-sm-9">
+      <div class="form-group">
+        <label for="exampleInputName" class="col-sm-2 control-label">Apellido paterno</label>
+        <div class="col-sm-10">
           <%= f.text_field :first_name, class: "form-control", required: true %>
           <div class="invalid-feedback"><%= @user.errors[:first_name].first %></div>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Apellido materno</label>
-        <div class="col-sm-9">
+      <div class="form-group">
+        <label for="exampleInputName" class="col-sm-2 control-label">Apellido materno</label>
+        <div class="col-sm-10">
           <%= f.text_field :last_name, class: "form-control" %>
           <div class="invalid-feedback"><%= @user.errors[:last_name].first %></div>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Usuario</label>
-        <div class="col-sm-9">
+      <div class="form-group">
+        <label for="exampleInputName" class="col-sm-2 control-label">Usuario</label>
+        <div class="col-sm-10">
           <%= f.text_field :username, class: "form-control", required: true %>
           <div class="invalid-feedback"><%= @user.errors[:username].first %></div>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Email</label>
-        <div class="col-sm-9">
+      <div class="form-group">
+        <label for="exampleInputName" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
           <%= f.email_field :email, class: "form-control", required: true %>
           <div class="invalid-feedback"><%= @user.errors[:email].first %></div>
         </div>
@@ -50,38 +52,34 @@
       <% hint = "#{@minimum_password_length} carácteres mínimo." %>
       <% end %>
 
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Contraseña</label>
-        <div class="col-sm-9">
+      <div class="form-group">
+        <label for="exampleInputName" class="col-sm-2 control-label">Contraseña</label>
+        <div class="col-sm-10">
           <%= f.password_field :password, class: "form-control", required: true %>
           <div class="invalid-feedback"><%= @user.errors[:password].first %></div>
           <small class="form-text text-muted"><%= "(#{hint})" %> </small>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Confirmación de contraseña</label>
-        <div class="col-sm-9">
+      <div class="form-group">
+        <label for="exampleInputName" class="col-sm-2 control-label">Confirmación de contraseña</label>
+        <div class="col-sm-10">
           <%= f.password_field :password_confirmation, class: "form-control", required: true %>
           <div class="invalid-feedback"><%= @user.errors[:password_confirmation].first %></div>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="exampleInputName" class="col-sm-3 col-form-label">Rol</label>
-        <div class="col-sm-9">
-          <%= f.collection_select :rol_id, Rol.all, :id, :name, { prompt: "" }, class: "form-control", required: true %>
+      <div class="form-group">
+        <label for="exampleInputName" class="col-sm-2 control-label">Rol</label>
+        <div class="col-sm-10">
+          <%= f.collection_select :rol_id, Rol.all, :id, :name, { prompt: "Seleccione un Rol" }, class: "form-control", required: true %>
           <div class="invalid-feedback"><%= @user.errors[:rol].first %></div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-6 offset-md-3">
-          <%= f.submit "Registrar usuario", class: "btn btn-primary" %>
-        </div>
-      </div>
-
-      <% end %>
     </div>
-  </div>
+
+    <div class="box-footer">
+          <%= f.submit "Registrar", class: "btn btn-primary btn-block" %>
+    </div>
+  <% end %>
 </div>
