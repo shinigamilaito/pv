@@ -2,10 +2,12 @@
   <div class="box-header text-center">
   	<h3 class="box-title">Equipos Ingresados</h3>
     <div class="box-tools pull-right">
-    	<%= link_to new_equipment_customer_path(service_id: @service.id), class: 'link-hover', data: {remote: true, disable_with: "Accediendo..."} do %>
-  			<i class="fa fa-fw fa-plus-square" style="font-size: 2.2rem;"></i>
-  			Abrir Registro
-		  <% end %>
+      <% unless @service.paid %>
+        <%= link_to new_equipment_customer_path(service_id: @service.id), class: "link-hover", data: {remote: true, disable_with: "Accediendo..."} do %>
+          <i class="fa fa-fw fa-plus-square" style="font-size: 2.2rem;"></i>
+          Abrir Registro
+          <% end %>
+      <% end %>
     </div>
   </div>
   <div class="box-body" id="new-equipment-body">
