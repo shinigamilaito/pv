@@ -101,7 +101,7 @@
   <% end %>
 </div>
 
-<script>
+  <script>
   $(".datepicker").datepicker({
     format: "dd/mm/yyyy",
     language: "es"
@@ -167,100 +167,6 @@
       })
     });
 
-    (function() {
-
-      var streaming = false,
-      video        = document.querySelector('#video'),
-      canvas       = document.querySelector('#canvas'),
-      $takepicturebutton  = $("#takepicture"),
-      width = 320,
-      height = 0;
-
-      navigator.getMedia = ( navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia);
-
-      navigator.getMedia(
-      {
-        video: true,
-        audio: false
-      },
-      function(stream) {
-        if (navigator.mozGetUserMedia) {
-          video.mozSrcObject = stream;
-        } else {
-          var vendorURL = window.URL || window.webkitURL;
-          video.srcObject = stream;
-          //video.play();
-          //video.src = vendorURL.createObjectURL(stream);
-        }
-        video.play();
-      },
-      function(err) {
-        console.log("An error occured! " + err);
-        $takepicturebutton.addClass("disabled");
-      }
-      );
-
-      video.addEventListener('canplay', function(ev){
-        if (!streaming) {
-          height = video.videoHeight / (video.videoWidth/width);
-          video.setAttribute('width', width);
-          video.setAttribute('height', height);
-          canvas.setAttribute('width', width);
-          canvas.setAttribute('height', height);
-          streaming = true;
-        }
-      }, false);
-
-      function takepicture() {
-        var canvas = document.querySelector('#canvas');
-        var $canvas = $("#canvas");
-        canvas.width = width;
-        canvas.height = height;
-        canvas.style.display = "block";
-        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-
-        $takepicturebutton
-        .removeClass("btn-primary")
-        .addClass("btn-danger")
-        .attr("data-takepicture", false)
-        .html('<b><i class="fa fa-fw fa-remove"></i></b>');
-
-        video.style.display = "none";
-
-        var data = canvas.toDataURL('image/png');
-        document.getElementById('image_web_cam').value = data;
-      }
-
-      function deletepicture() {
-        var $canvas = $("#canvas");
-        $canvas.css("display", "none");
-        video.style.display = "block";
-
-        $takepicturebutton
-        .removeClass("btn-danger")
-        .addClass("btn-primary")
-        .attr("data-takepicture", true)
-        .html('<b><i class="fa fa-fw fa-camera"></i></b>');
-
-        document.getElementById('image_web_cam').value = "";
-      }
-
-      $takepicturebutton.click(function(ev){
-        console.log("Take picture");
-        if($(this).attr('data-takepicture') == "true" ) {
-          takepicture();
-        } else {
-          deletepicture();
-        }
-
-        ev.preventDefault();
-      });
-
-    })();
-
     $("#service_worforce").on("keydown", _.debounce(update_worforce, 1000));
 
     function update_worforce() {
@@ -299,7 +205,6 @@
         }
       });
     }
-
   </script>
 
   <script>
@@ -307,16 +212,125 @@
       var acc = document.getElementsByClassName("accordion_paid");
       var i;
 
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight){
-          panel.style.maxHeight = null;
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight){
+            panel.style.maxHeight = null;
+          } else {
+            panel.style.maxHeight = panel.scrollHeight + 40 + "px";
+          }
+        });
+      }
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      var streamObject;
+      var $takepicturebutton = $("#takepicture");
+      var width = 320;
+      var height = 0;
+
+      function openCamera() {
+        var streaming = false,
+        video        = document.querySelector('#video'),
+        canvas       = document.querySelector('#canvas');
+        //$takepicturebutton  = $("#takepicture"),
+
+
+        navigator.getMedia = ( navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia);
+
+        navigator.getMedia({ video: true, audio: false}, function(stream) {
+          if (navigator.mozGetUserMedia) {
+            video.mozSrcObject = stream;
+          } else {
+            var vendorURL = window.URL || window.webkitURL;
+            video.srcObject = stream;
+            //video.play();
+            //video.src = vendorURL.createObjectURL(stream);
+          }
+          streamObject = stream;
+          video.play();
+
+        }, function(err) {
+          console.log("An error occured! " + err);
+          $takepicturebutton.addClass("disabled");
+        });
+
+        video.addEventListener('canplay', function(ev){
+          if (!streaming) {
+            height = video.videoHeight / (video.videoWidth/width);
+            video.setAttribute('width', width);
+            video.setAttribute('height', height);
+            canvas.setAttribute('width', width);
+            canvas.setAttribute('height', height);
+            streaming = true;
+          }
+        }, false);
+      }
+
+      function takepicture() {
+        var canvas = document.querySelector('#canvas');
+        var $canvas = $("#canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.style.display = "block";
+        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+
+        $takepicturebutton
+        .removeClass("btn-primary")
+        .addClass("btn-danger")
+        .attr("data-takepicture", false)
+        .html('<b><i class="fa fa-fw fa-remove"></i></b>');
+
+        video.style.display = "none";
+
+        var data = canvas.toDataURL('image/png');
+        document.getElementById('image_web_cam').value = data;
+
+        var track = streamObject.getTracks()[0];
+        track.stop();
+      }
+
+      function deletepicture() {
+        openCamera();
+        var $canvas = $("#canvas");
+        video.style.display = "block";
+        $canvas.css("display", "none");
+
+        $takepicturebutton
+        .removeClass("btn-danger")
+        .addClass("btn-primary")
+        .attr("data-takepicture", true)
+        .html('<b><i class="fa fa-fw fa-camera"></i></b>');
+
+        document.getElementById('image_web_cam').value = "";
+      }
+
+      openCamera();
+
+      $takepicturebutton.click(function(ev){
+        console.log("Take picture");
+        if($(this).attr('data-takepicture') == "true" ) {
+          takepicture();
         } else {
-          panel.style.maxHeight = panel.scrollHeight + 40 + "px";
+          deletepicture();
         }
+
+        ev.preventDefault();
       });
-    }
+
+      //edit_service_11
+      $('#edit_service_<%= "#{@service.id}" %>').on("ajax:beforeSend", function() {
+        console.log("STOP WEB CAM");
+        var track = streamObject.getTracks()[0];
+        track.stop();
+      });
+
     });
   </script>
