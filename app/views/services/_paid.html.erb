@@ -26,9 +26,13 @@
       </div>
       <div class="form-group">
         <label class="col-md-5 control-label">Fecha de Salida</label>
-        <div class="col-md-7 form-control"><%= @service.departure_date %></div>
+        <div class="col-md-7 form-control" style="margin-bottom: 10px;"><%= @service.departure_date %></div>
       </div>
-      <%#= image_tag(@service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+
+      <% if @service.image_client_url.present? %>
+            <%= image_tag(@service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+      <% end %>
+
     </div>
 
     <div class="col-md-7">
