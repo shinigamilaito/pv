@@ -3,9 +3,9 @@
     <div class="form-group">
       <label>Historial</label>
       <div>
-        <div class="direct-chat-messages div-direct-chat-messages">
+        <div class="direct-chat-messages div-direct-chat-messages" style="position: relative;">
           <%= render equipment_customer.message_histories %>
-            <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control', id: "message_history_message_#{equipment_customer.id}" %>
+          <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control add-messages-history-button', id: "message_history_message_#{equipment_customer.id}" %>
         </div>
       </div>
     </div>

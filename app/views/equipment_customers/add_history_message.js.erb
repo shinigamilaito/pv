@@ -1,2 +1,5 @@
 $("#history_message_box_<%= @equipment_customer.id %>").html('<%= j render("message_histories/history_box", equipment_customer: @equipment_customer) %>');
 toastr['success']("Mensage guardado exitosamente.");
+
+var d = $(".div-direct-chat-messages");
+d.scrollTop(d.prop("scrollHeight"));

@@ -236,5 +236,11 @@ padding-left: 25px;
   max-height: 500px !important;
   border: 1px solid #ccc !important;
   overflow-y: scroll;
-  overflow-x: hidden; 
+  overflow-x: hidden;
+}
+
+.add-messages-history-button {
+  width: 99% !important;
+  position: absolute !important;
+  /*bottom: 5px !important;*/
 }
