@@ -27,7 +27,7 @@
       </div>
 
       <% if @service.image_client_url.present? %>
-            <%= wicked_pdf_image_tag(@service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+            <%= image_tag(@service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
       <% end %>
 
     </div>
