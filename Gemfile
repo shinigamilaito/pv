@@ -45,6 +45,10 @@ group :development do
   gem 'web-console', '>= 3.3.0'
 end
 
+group :production do
+   gem "wkhtmltopdf-heroku"
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #For Windows it works with CofferScript v1.8
@@ -53,3 +57,7 @@ gem 'devise'
 gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
 gem 'carrierwave', '~> 1.0'
 gem 'carrierwave-base64'
+
+#gem 'pdfkit'
+gem "render_anywhere", require: false
+gem 'wicked_pdf'
