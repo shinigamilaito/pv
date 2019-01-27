@@ -47,7 +47,7 @@ class EquipmentCustomersController < ApplicationController
   def add_history_message
     @equipment_customer = EquipmentCustomer.find(params[:equipment_customer_id])
     @equipment_customer.message_histories << MessageHistory.new({
-      message: params[:message]
+      message: params[:message],
       user: current_user
     })
 
