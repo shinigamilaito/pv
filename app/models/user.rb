@@ -4,10 +4,11 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable#, :validatable
 
   validates :name, :first_name, :username, :email, presence: true
   validates :username, uniqueness: { case_sensitive: false }
+  validates :password, presence: true, on: :create
 
   def admin?
     rol.name == "Administrador"

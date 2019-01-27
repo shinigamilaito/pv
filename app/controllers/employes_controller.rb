@@ -27,11 +27,9 @@ class EmployesController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if params[:password].blank?
-      params[:user].delete :password
-      params[:user].delete :password_confirmation
-    end
     if @user.update(user_params)
+      p user_params
+      bypass_sign_in current_user
       flash[:success] = "Usuario actualizado correctamente."
       redirect_to employes_path
     else
