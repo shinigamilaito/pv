@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190115094540) do
+ActiveRecord::Schema.define(version: 20190127024425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,7 +74,9 @@ ActiveRecord::Schema.define(version: 20190115094540) do
     t.bigint "equipment_customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["equipment_customer_id"], name: "index_message_histories_on_equipment_customer_id"
+    t.index ["user_id"], name: "index_message_histories_on_user_id"
   end
 
   create_table "payment_types", force: :cascade do |t|
@@ -180,6 +182,7 @@ ActiveRecord::Schema.define(version: 20190115094540) do
   add_foreign_key "incomes", "services"
   add_foreign_key "incomes", "users"
   add_foreign_key "message_histories", "equipment_customers"
+  add_foreign_key "message_histories", "users"
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "services", "clients"
   add_foreign_key "services", "payment_types"
