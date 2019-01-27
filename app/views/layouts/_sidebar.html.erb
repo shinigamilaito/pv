@@ -51,6 +51,12 @@
                 <span class="roboto-font" style="padding-left: 5px;">Marcas</span>
               <% end %>
             </li>
+            <li class="<%= active_item('equipment_models')%> subitem-menu-navegation">
+              <%= link_to equipment_models_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-opencart"></i>
+                <span class="roboto-font" style="padding-left: 5px;">Modelos</span>
+              <% end %>
+            </li>
             <li class="<%= active_item('spare_parts')%> subitem-menu-navegation">
               <%= link_to spare_parts_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-battery-empty"></i>

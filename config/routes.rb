@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :equipment_models
+  
   resources :incomes do
     get :pending_services, on: :collection
   end

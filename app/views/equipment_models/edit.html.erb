@@ -1,0 +1,11 @@
+<div class="box">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Actualizar</h3>
+    <%= link_to equipment_models_path, class: "btn btn-info pull-right" do %>
+      <i class="fa fa-fw fa-reply"></i>
+    <% end %>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  <%= render 'form', equipment_model: @equipment_model %>
+</div>
