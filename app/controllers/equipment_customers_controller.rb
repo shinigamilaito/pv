@@ -32,6 +32,7 @@ class EquipmentCustomersController < ApplicationController
 
   def create
     message_history = MessageHistory.new(message_history_params)
+    message_history.user = current_user
     @new_equipment_customer = EquipmentCustomer.new(equipment_customer_params)
     @new_equipment_customer.message_histories << message_history unless message_history.message.blank?
     @service = @new_equipment_customer.service
@@ -61,7 +62,7 @@ class EquipmentCustomersController < ApplicationController
   private
 
   def equipment_customer_params
-    params.require(:equipment_customer).permit(:service_id, :equipment_id, :brand_id, :description)
+    params.require(:equipment_customer).permit(:service_id, :equipment_id, :brand_id, :equipment_model_id, :description)
   end
 
   def message_history_params

@@ -20,6 +20,16 @@
   </div>
 
   <div class="row">
+    <div class="col-md-6">
+      <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_model_id].first %>">
+        <label>Modelo:</label>
+        <%= f.collection_select :equipment_model_id, [], :id, :name, { prompt: "Seleccione un modelo" }, class: "form-control autocomplete_equipment_models", required: true %>
+        <div class="help-block"><%= new_equipment_customer.errors[:equipment_model_id].first %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-md-12">
       <div class="form-group">
         <label>Descripción:</label>
@@ -55,6 +65,16 @@
       ajax: {
         delay: 250,
         url: "/brands/autocomplete",
+        dataType: 'json',
+        cache: true
+      }
+    });
+
+    $('.autocomplete_equipment_models').select2({
+      minimumInputLength: 1,
+      ajax: {
+        delay: 250,
+        url: "/equipment_models/autocomplete",
         dataType: 'json',
         cache: true
       }

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :equipment_models
-  
+  resources :equipment_models do
+    get 'autocomplete', on: :collection
+  end
+
   resources :incomes do
     get :pending_services, on: :collection
   end

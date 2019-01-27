@@ -5,6 +5,16 @@
   <div class="row">
     <div class="col-md-12">
       <div class="form-group" style="margin-top: 15px;">
+        <label>Modelo</label>
+        <div class="form-control" readonly>
+          <%= equipment_customer.equipment_model.name %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
         <label>Descripción</label>
         <div class="form-control" readonly style="height: auto;">
           <%= sanitize equipment_customer.description %>

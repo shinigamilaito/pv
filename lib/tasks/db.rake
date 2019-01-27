@@ -22,4 +22,16 @@ namespace :db do
     end
     puts "End..."
   end
+
+  desc "Asignado modelo a equipos de los clientes"
+  task default_model_to_equipments: :environment do
+    puts "Started..."
+    model = EquipmentModel.first
+
+    EquipmentCustomer.all.each do |equipment_customer|
+      equipment_customer.equipment_model = model
+      equipment_customer.save(validate: false)
+    end
+    puts "End..."
+  end
 end
