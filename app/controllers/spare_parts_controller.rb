@@ -77,6 +77,10 @@ class SparePartsController < ApplicationController
     @spare_parts = SparePart.search(params[:term]).order(created_at: :desc)
   end
 
+  def search
+    @spare_parts = SparePart.search(params[:search]).order(created_at: :desc)    
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_spare_part

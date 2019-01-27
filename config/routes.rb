@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resources :spare_parts do
     get 'autocomplete', on: :collection
+    get 'search', on: :collection
   end
 
   resources :client_types

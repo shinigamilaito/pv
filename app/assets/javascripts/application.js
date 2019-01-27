@@ -37,6 +37,8 @@
 //= require spare_parts
 //= require accordion
 
+//= require search
+
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js
 
