@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :incomes
-  
+  resources :incomes do
+    get :pending_services, on: :collection
+  end
+
   resources :services do
     get 'find_folios', on: :collection
     get 'add_spare_part', on: :collection

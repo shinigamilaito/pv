@@ -1,8 +1,14 @@
 class ServicesController < ApplicationController
   def new
-    @service = Service.new
-    @folios = []
-    clear_session_variables
+    if params[:service_id].present?
+      @service = Service.find(params[:service_id])
+      @folios = (Service.find_folios(@service.client_id)[:folios_present])
+      clear_session_variables
+    else
+      @service = Service.new
+      @folios = []
+      clear_session_variables
+    end
   end
 
   def create
@@ -19,6 +25,7 @@ class ServicesController < ApplicationController
       @folios << @service.folio
 
       if @service.save(validate: false)
+        @service.employee = current_user
         @message = 'Registro creado exitosamente.'
         session[:service_id] ||= @service.id
         render 'create', status: :created
@@ -31,9 +38,11 @@ class ServicesController < ApplicationController
 
       if @service.blank?
         @service = Service.new(service_params)
+        @service.employee = current_user
         @folios = (Service.find_folios(params[:service][:client_id]))[:folios_present]
         render 'new', status: :unprocessable_entity
       else
+        @service.employee = current_user
         @message = 'Servicio encontrado exitosamente.'
         session[:service_id] ||= @service.id
         render 'create', status: :ok
@@ -85,6 +94,7 @@ class ServicesController < ApplicationController
 
   def update
     @service = Service.find(params[:id])
+    @service.user = current_user
     spare_parts_used = SparePart.find(session[:spare_part_ids])
     service_spare_parts = ServiceSparePart.create_spare_parts_used(spare_parts_used)
 

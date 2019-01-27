@@ -8,7 +8,17 @@
 </div>
 
 <div id="list_equipments">
+  <% unless @service.new_record? %>
+    <%= render "services/list_equipments" %>
+  <% end %>
 </div>
 
 <div id="paid">
+  <% unless @service.new_record? %>
+    <% if @service.paid %>
+      <%= render "services/paid" %>
+    <% else %>
+      <%= render "services/form_paid" %>
+    <% end %>
+  <% end %>
 </div>

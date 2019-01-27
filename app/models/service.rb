@@ -14,12 +14,12 @@ class Service < ApplicationRecord
   mount_base64_uploader :image_client, ImageSupportUploader
 
   def self.find_folios(client_id)
-    services = where(client_id: client_id)
+    services = where(client_id: client_id).order(created_at: :desc)
 
     folios_hash = {}
     folios_hash[:folios] = services.map(&:folio)
     folios_hash[:folios_present] = services.map do |service|
-      "#{service.folio} - Creado el: #{service.created_at.strftime("%d/%m/%Y - %I:%M %p")}"
+       service.folios_with_date_creation
     end
 
     return folios_hash
@@ -57,5 +57,10 @@ class Service < ApplicationRecord
     else
       return ""
     end
+  end
+
+  def folios_with_date_creation
+    paided = self.paid ? "PAGADO" : "EN PROCESO"
+    return "#{self.folio} - Creado: #{self.created_at.strftime("%d/%m/%Y %I:%M %p")}. #{paided}"
   end
 end

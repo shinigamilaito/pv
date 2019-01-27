@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Servicios en Proceso</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-responsive table-hover table-condensed table-striped">
+          <tbody>
+            <tr>
+              <th>No.</th>
+              <th>Cliente</th>
+              <th>Actualizado el</th>
+              <th>Folio</th>
+            </tr>
+            <% @pending_services.each_with_index do |pending_service, index| %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= link_to pending_service.client.formal_name, new_service_path(service_id: pending_service), target: "_blank" %></td>
+                <td><%= pending_service.updated_at.strftime("%d/%m/%Y - %I:%M %p") %></td>
+                <td><%= pending_service.folio %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+</div>

@@ -1,4 +1,4 @@
-<%= form_for(@service, remote: true) do |f| %>
+<%= form_for(@service, {remote: true, method: :post, url: services_path}) do |f| %>
 <div class="box-body">
   <div class="col-md-5">
     <div class="form-group">
@@ -13,10 +13,15 @@
     </div>
   </div>
 
-  <div class="col-md-5", id="select_folios">
-    <div class="form-group <%= 'has-error' unless @service.errors[:folio].blank? %>", id="service_folio">
+  <div class="col-md-5" id="select_folios">
+    <div class="form-group <%= 'has-error' unless @service.errors[:folio].blank? %>" id="service_folio">
       <label>Buscar/Agregar Folio</label>
-      <%= select_tag 'service[folio]', options_for_select(@folios), class: "form-control autocomplete_folios", required: true %>
+      <% unless @service.new_record? %>
+        <% folio = @service.folios_with_date_creation %>
+      <% else  %>
+        <% folio = nil %>
+      <% end %>
+      <%= select_tag 'service[folio]', options_for_select(@folios, folio), class: "form-control autocomplete_folios", required: true %>
       <div class="help-block"><%= @service.errors[:folio].first %></div>
     </div>
   </div>

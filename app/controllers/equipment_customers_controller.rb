@@ -48,6 +48,7 @@ class EquipmentCustomersController < ApplicationController
     @equipment_customer = EquipmentCustomer.find(params[:equipment_customer_id])
     @equipment_customer.message_histories << MessageHistory.new({
       message: params[:message]
+      user: current_user
     })
 
     if @equipment_customer.save
