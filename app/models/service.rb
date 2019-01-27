@@ -63,4 +63,8 @@ class Service < ApplicationRecord
     paided = self.paid ? "PAGADO" : "EN PROCESO"
     return "#{self.folio} - Creado: #{self.created_at.strftime("%d/%m/%Y %I:%M %p")}. #{paided}"
   end
+
+  def is_in_process?
+    self.paid ? false : true
+  end
 end
