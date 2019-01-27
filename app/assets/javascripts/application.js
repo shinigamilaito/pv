@@ -38,6 +38,7 @@
 //= require accordion
 
 //= require search
+//= require shared_commons
 
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js

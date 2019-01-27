@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Precios Genéricos</h3>
+          <%= link_to 'Registrar', new_generic_price_path, class: "btn btn-info pull-right" %>
+
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-responsive table-hover table-condensed table-striped">
+          <tbody>
+            <tr>
+              <th>No.</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <% @generic_prices.each_with_index do |generic_price, index| %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= generic_price.name %></td>
+                <td><%= number_to_currency generic_price.price %></td>
+                <td style="width: 1px;"><%= link_to 'Actualizar', edit_generic_price_path(generic_price), class: 'btn btn-edit' %></td>
+                <td style="width: 1px;"><%= link_to 'Eliminar', generic_price, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+</div>

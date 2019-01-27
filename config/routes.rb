@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :generic_prices do
+    get 'autocomplete', on: :collection
+  end
+
   resources :equipment_models do
     get 'autocomplete', on: :collection
   end

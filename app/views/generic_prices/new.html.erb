@@ -1,0 +1,11 @@
+<div class="box">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Registrar</h3>
+    <%= link_to generic_prices_path, class: "btn btn-info pull-right" do %>
+      <i class="fa fa-fw fa-reply"></i>
+    <% end %>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  <%= render 'form', generic_price: @generic_price %>
+</div>
