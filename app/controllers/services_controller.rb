@@ -2,6 +2,7 @@ class ServicesController < ApplicationController
   def new
     if params[:service_id].present?
       @service = Service.find(params[:service_id])
+      @service.employee = current_user
       @folios = (Service.find_folios(@service.client_id)[:folios_present])
       clear_session_variables
     else
