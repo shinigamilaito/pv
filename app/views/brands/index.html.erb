@@ -8,25 +8,11 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive no-padding">
-        <table class="table table-responsive table-hover table-condensed table-striped">
-          <tbody>
-            <tr>
-              <th>No.</th>
-              <th>Nombre</th>
-              <th>Especificaciones</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <% @brands.each_with_index do |brand, index| %>
-              <tr>
-                <td><%= index + 1 %></td>
-                <td><%= brand.name %></td>
-                <td><%= sanitize brand.specifications %></td>
-                <td style="width: 1px;"><%= link_to 'Actualizar', edit_brand_path(brand), class: 'btn btn-edit' %></td>
-                <td style="width: 1px;"><%= link_to 'Eliminar', brand, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
-              </tr>
-            <% end %>
-          </tbody>
+        <%= render 'shared/search', id: 'search-brands',
+          placeholder: 'Buscar por nombre o especificaciones',
+          remote_url: '/brands/search' %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="brands_table">
+          <%= render 'body_brands' %>
         </table>
       </div>
       <!-- /.box-body -->

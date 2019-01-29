@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   resources :brands do
     get 'autocomplete', on: :collection
+    get 'search', on: :collection
   end
 
   resources :equipments do

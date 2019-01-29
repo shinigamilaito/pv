@@ -75,6 +75,10 @@ class BrandsController < ApplicationController
     @brands = Brand.search(params[:term]).order(created_at: :desc)
   end
 
+  def search
+    @brands = Brand.search_index(params[:search]).order(created_at: :desc)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_brand
