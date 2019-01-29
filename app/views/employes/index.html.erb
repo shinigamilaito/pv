@@ -3,25 +3,16 @@
     <div class="box">
       <div class="box-header text-center">
         <h3 class="box-title title-catalog">Empleados</h3>
-          <%= link_to 'Registrar', new_employe_path, class: "btn btn-info pull-right" %>
+          <%= link_to 'Registrar', new_employe_path, class: 'btn btn-info pull-right' %>
 
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive no-padding">
-        <table class="table table-responsive table-hover table-condensed table-striped">
-          <tbody>
-            <tr>
-              <th>No.</th>
-              <th>Nombre</th>
-              <th>Usuario</th>
-              <th>Correo</th>
-              <th>Rol</th>
-              <th></th>
-            </tr>
-            <% @users.each_with_index do |employe, index| %>
-              <%= render "employes/employe", employe: employe, index: index %>
-            <% end %>
-          </tbody>
+        <%= render 'shared/search', id: 'search-employes',
+          placeholder: 'Buscar por nombre, usuario o email',
+          remote_url: '/employes/search' %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="employes_table">
+          <%= render 'body_employes' %>
         </table>
       </div>
       <!-- /.box-body -->

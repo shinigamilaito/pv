@@ -43,7 +43,9 @@ Rails.application.routes.draw do
     get 'autocomplete', on: :collection
   end
 
-  resources :employes
+  resources :employes do
+    get 'search', on: :collection
+  end
 
   # NOT USED
   resources :supports do

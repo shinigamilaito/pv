@@ -18,4 +18,8 @@ class User < ApplicationRecord
     "#{name} #{first_name} #{last_name}"
   end
 
+  def self.search(term)
+    where('CONCAT(LOWER(name), LOWER(first_name), LOWER(last_name)) LIKE :term OR LOWER(username) LIKE :term OR LOWER(email) LIKE :term' , term: "%#{term.downcase}%")
+  end
+
 end
