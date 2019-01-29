@@ -1,0 +1,20 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Cliente</th>
+    <th>Cobrado el</th>
+    <th>Cantidad</th>
+    <th>Folio</th>
+    <th>Cobrado por</th>
+  </tr>
+  <% @incomes.each_with_index do |income, index| %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= link_to income.client.formal_name, new_service_path(service_id: income), target: '_blank' %></td>
+      <td><%= income.updated_at.strftime('%d/%m/%Y - %I:%M %p') %></td>
+      <td><%= number_to_currency Service.generate_totals(income.service_spare_parts, income.worforce, income.discount)[:total_final] %></td>
+      <td><%= income.folio %></td>
+      <td><%= income.employee.formal_name %></td>
+    </tr>
+  <% end %>
+</tbody>

@@ -1,9 +1,9 @@
 class Service < ApplicationRecord
-  belongs_to :client
-  belongs_to :user
+  belongs_to :client #Who is owner equipments
+  belongs_to :user #Who created the service
   belongs_to :payment_type
 
-  belongs_to :employee, class_name: "User"
+  belongs_to :employee, class_name: 'User' #Who register the paid
   belongs_to :generic_price, optional: true
 
   has_many :equipment_customers
@@ -34,7 +34,7 @@ class Service < ApplicationRecord
     total_worforce_plus_total_products = total_worforce + total_products
     total_percentaje = total_worforce_plus_total_products * total_discount
 
-    return (total_percentaje / BigDecimal.new("100.00"))
+    return (total_percentaje / BigDecimal.new('100.00'))
   end
 
   def self.generate_totals(spare_parts, worforce, discount)
@@ -54,18 +54,24 @@ class Service < ApplicationRecord
     total_services = Service.where(client_id: client_id).count
 
     if total_services >= 3
-      return "[CLIENTE FRECUENTE]"
+      return '[CLIENTE FRECUENTE]'
     else
-      return ""
+      return ''
     end
   end
 
   def folios_with_date_creation
-    paided = self.paid ? "PAGADO" : "EN PROCESO"
-    return "#{self.folio} - Creado: #{self.created_at.strftime("%d/%m/%Y %I:%M %p")}. #{paided}"
+    paided = self.paid ? 'PAGADO' : 'EN PROCESO'
+    return "#{self.folio} - Creado: #{self.created_at.strftime('%d/%m/%Y %I:%M %p')}. #{paided}"
   end
 
   def is_in_process?
     self.paid ? false : true
   end
+
+  def self.search(term)
+    Service.joins(:client)
+      .where('services.paid = ?', true)
+    	.where('CONCAT(LOWER(clients.name), LOWER(clients.first_name), LOWER(clients.last_name)) LIKE :term OR LOWER(services.folio) LIKE :term', term: "%#{term.downcase}%")
+ 	end
 end

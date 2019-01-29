@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :incomes do
     get :pending_services, on: :collection
+    get 'search', on: :collection
   end
 
   resources :services do
