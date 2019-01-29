@@ -15,8 +15,8 @@
       <td><%= number_to_currency spare_part.price %></td>
       <td><%= spare_part.total %></td>
       <td><%= spare_part.description %></td>
-      <td style="width: 1px;"><%= link_to 'Actualizar', edit_spare_part_path(spare_part), class: "btn btn-edit" %></td>
-      <td style="width: 1px;"><%= link_to 'Eliminar', spare_part, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %></td>
+      <td style="width: 1px;"><%= link_to 'Actualizar', edit_spare_part_path(spare_part), class: "btn btn-edit" if current_user.admin? %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', spare_part, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } if current_user.admin? %></td>
     </tr>
   <% end %>
 </tbody>

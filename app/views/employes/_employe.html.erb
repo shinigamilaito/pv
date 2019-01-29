@@ -4,5 +4,5 @@
   <td><%= employe.username %></td>
   <td><%= employe.email %></td>
   <td><%= employe.rol.name %></td>
-  <td style="width: 1px;"><%= link_to 'Actualizar', edit_employe_path(employe), class: 'btn btn-edit' %></td>
+  <td style="width: 1px;"><%= link_to 'Actualizar', edit_employe_path(employe), class: 'btn btn-edit' if current_user.admin? %></td>
 </tr>

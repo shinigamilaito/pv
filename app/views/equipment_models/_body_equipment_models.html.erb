@@ -11,8 +11,8 @@
       <td><%= index + 1 %></td>
       <td><%= equipment_model.name %></td>
       <td><%= sanitize equipment_model.description %></td>
-      <td style="width: 1px;"><%= link_to 'Actualizar', edit_equipment_model_path(equipment_model), class: 'btn btn-edit' %></td>
-      <td style="width: 1px;"><%= link_to 'Eliminar', equipment_model, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
+      <td style="width: 1px;"><%= link_to 'Actualizar', edit_equipment_model_path(equipment_model), class: 'btn btn-edit' if current_user.admin? %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', equipment_model, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } if current_user.admin? %></td>
     </tr>
   <% end %>
 </tbody>
