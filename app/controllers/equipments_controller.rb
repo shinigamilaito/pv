@@ -66,13 +66,17 @@ class EquipmentsController < ApplicationController
         format.json { head :no_content }
       end
     rescue ActiveRecord::InvalidForeignKey => exception
-      flash[:error] = "El equipo ya esta en uso."
+      flash[:error] = 'El equipo ya esta en uso.'
       redirect_to equipments_url
     end
   end
 
   def autocomplete
     @equipments = Equipment.search(params[:term]).order(created_at: :desc)
+  end
+
+  def search
+    @equipments = Equipment.search(params[:search]).order(created_at: :desc)    
   end
 
   private

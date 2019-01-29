@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   resources :equipments do
     get 'autocomplete', on: :collection
+    get 'search', on: :collection
   end
 
   resources :clients do

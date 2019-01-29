@@ -1,0 +1,18 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Nombre</th>
+    <th>Especificaciones</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @equipments.each_with_index do |equipment, index| %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= equipment.name %></td>
+      <td><%= sanitize equipment.specifications %></td>
+      <td style="width: 1px;"><%= link_to 'Actualizar', edit_equipment_path(equipment), class: 'btn btn-edit' %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', equipment, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
+    </tr>
+  <% end %>
+</tbody>
