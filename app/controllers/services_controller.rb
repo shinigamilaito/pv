@@ -101,13 +101,20 @@ class ServicesController < ApplicationController
 
     @service.service_spare_parts = service_spare_parts
     @service.paid = true
+    
+    if params[:from_generic_price].eql?("true")
+      generic_price = GenericPrice.find(params[:price])
+      @service.generic_price = generic_price
+    else
+      @service.worforce = BigDecimal.new(params[:price])
+    end
+
     clear_session_variables
 
-    @service.valid?
-    p "errors #{@service.errors.full_messages}"
     if @service.update(service_params)
       render 'update'
     else
+      p "errors #{@service.errors.full_messages}"
       flash.now[:error] = "Proporcione los datos correctos."
       render "form_paid"
     end
@@ -117,7 +124,7 @@ class ServicesController < ApplicationController
 
   def service_params
     params.require(:service).permit(:client_id, :folio, :payment_type_id,
-      :date_of_entry, :worforce, :discount, :departure_date, :image_client, :employee_id)
+      :date_of_entry, :discount, :departure_date, :image_client, :employee_id)
   end
 
   def generate_totals

@@ -27,7 +27,7 @@
       <%= render 'equipment_customers/message_history_form', equipment_customer: equipment_customer %>
     </div>
     <div class="input-group col-sm-12">
-      <% if equipment_customer.service.is_in_process? %>
+      <% if @service.is_in_process? %>
         <button type="button" id="add-history-message-<%= equipment_customer.id %>" class="btn btn-primary btn-block" data-disable-with="Guardar">Guardar</button>
       <% end %>
     </div>

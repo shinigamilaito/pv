@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190127154602) do
+ActiveRecord::Schema.define(version: 20190127212506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,8 +137,10 @@ ActiveRecord::Schema.define(version: 20190127154602) do
     t.string "image_client"
     t.boolean "paid", default: false
     t.bigint "employee_id"
+    t.bigint "generic_price_id"
     t.index ["client_id"], name: "index_services_on_client_id"
     t.index ["employee_id"], name: "index_services_on_employee_id"
+    t.index ["generic_price_id"], name: "index_services_on_generic_price_id"
     t.index ["payment_type_id"], name: "index_services_on_payment_type_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
@@ -209,6 +211,7 @@ ActiveRecord::Schema.define(version: 20190127154602) do
   add_foreign_key "message_histories", "users"
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "services", "clients"
+  add_foreign_key "services", "generic_prices"
   add_foreign_key "services", "payment_types"
   add_foreign_key "services", "users"
   add_foreign_key "services", "users", column: "employee_id"

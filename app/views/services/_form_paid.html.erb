@@ -33,10 +33,15 @@
       <div class="form-group">
         <label class="col-md-5 control-label">Mano de Obra</label>
         <div class="col-md-7">
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <%= f.text_field :worforce, class: "form-control form-control-sm", required: true %>
-          </div>
+          <% if @service.generic_price.present? %>
+            <% from_generic_price = true %>
+            <% generic_price = {@service.generic_price.name_price => @service.generic_price.id} %>
+          <% else %>
+            <% from_generic_price = false %>
+            <% generic_price = {@service.worforce => @service.worforce} %>
+          <% end %>
+          <%= hidden_field_tag :from_generic_price, from_generic_price, id: "from_generic_price" %>
+          <%= select_tag 'price', options_for_select(generic_price), class: "form-control autocomplete_generic_prices", required: true %>
           <div class="invalid-feedback"><%= @service.errors[:worforce].first %></div>
         </div>
       </div>
@@ -101,17 +106,54 @@
   <% end %>
 </div>
 
-  <script>
-  $(".datepicker").datepicker({
-    format: "dd/mm/yyyy",
-    language: "es"
+<script>
+  $(document).ready(function() {
+    $('.autocomplete_generic_prices').select2({
+      tags: true,
+      minimumInputLength: 1,
+      ajax: {
+        delay: 250,
+        url: "/generic_prices/autocomplete",
+        dataType: 'json',
+        cache: true
+      },
+      createTag: function (params) {
+        console.log("Tag created...");
+        var term = Number($.trim(params.term));
+
+        if (isNaN(term)) {
+          console.log("Tag no valid");
+          return null;
+        }
+
+        return {
+          id: term,
+          text: term,
+          newTag: true // add additional parameters
+        }
+      }
+    });
+
+    $('.autocomplete_generic_prices').on('select2:select', function (e) {
+        console.log("Option selected...");
+        var data = e.params.data;
+        if(data.newTag) {
+          $("#from_generic_price").val(false);
+          update_worforce(data.text);
+        } else {
+          $("#from_generic_price").val(true);
+
+          var text = data.text.split("-")[1].trim();
+          console.log(text)
+          update_worforce(text);
+        }
+    });
+
   });
 
+  setDatePicker($(".datepicker"));
   setCurrency($("#service_worforce"));
-
-  $("#service_discount").inputmask("percentage", {
-    "suffix": ""
-  });
+  setPercentage($("#service_discount"));
 
   $('.autocomplete_spare_parts').select2({
     minimumInputLength: 3,
@@ -143,11 +185,11 @@
       return markup;
     }
 
-    function formatRepoSelection (spare_part) {
+  function formatRepoSelection (spare_part) {
       return spare_part.description || spare_part.text;
     }
 
-    $('.autocomplete_spare_parts').on('select2:select', function (e) {
+  $('.autocomplete_spare_parts').on('select2:select', function (e) {
       var data = e.params.data;
       $.ajax({
         url: "/services/add_spare_part",
@@ -165,15 +207,15 @@
       })
     });
 
-    $("#service_worforce").on("keydown", _.debounce(update_worforce, 1000));
+  //$("#service_worforce").on("keydown", _.debounce(update_worforce, 1000));
 
-    function update_worforce() {
+  function update_worforce(newPrice) {
       $.ajax({
         url: "/services/update_worforce",
         method: "put",
         dataType: "script",
         data: {
-          worforce: $(this).val()
+          worforce: newPrice
         },
         beforeSend: function(xhr) {
           $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("show");
@@ -183,11 +225,11 @@
         }
 
       });
-    }
+  }
 
-    $("#service_discount").on("keydown", _.debounce(update_discount, 1000));
+  $("#service_discount").on("keydown", _.debounce(update_discount, 1000));
 
-    function update_discount() {
+  function update_discount() {
       $.ajax({
         url: "/services/update_discount",
         method: "put",
@@ -203,28 +245,16 @@
         }
       });
     }
-  </script>
+</script>
 
-  <script>
+<script>
     $(document).ready(function() {
       var acc = document.getElementsByClassName("accordion_paid");
-      var i;
-
-      for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var panel = this.nextElementSibling;
-          if (panel.style.height){
-            panel.style.height = null;
-          } else {
-            panel.style.height = panel.scrollHeight + 40 + "px";
-          }
-        });
-      }
+      activeAcordionPanels(acc);
     });
-  </script>
+</script>
 
-  <script>
+<script>
     $(document).ready(function() {
       var streamObject;
       var $takepicturebutton = $("#takepicture");
@@ -331,4 +361,4 @@
       });
 
     });
-  </script>
+</script>

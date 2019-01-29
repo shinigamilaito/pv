@@ -4,6 +4,7 @@ class Service < ApplicationRecord
   belongs_to :payment_type
 
   belongs_to :employee, class_name: "User"
+  belongs_to :generic_price, optional: true
 
   has_many :equipment_customers
   has_many :service_spare_parts

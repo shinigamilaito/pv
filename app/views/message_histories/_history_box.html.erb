@@ -5,7 +5,7 @@
       <div>
         <div class="direct-chat-messages div-direct-chat-messages" style="position: relative;">
           <%= render equipment_customer.message_histories %>
-          <% if equipment_customer.service.is_in_process? %>
+          <% if @service.is_in_process? %>
             <%= text_field_tag 'message_history[message]', nil, placeholder: 'Registrar mensaje...', class: 'form-control add-messages-history-button', id: "message_history_message_#{equipment_customer.id}" %>
           <% end %>
         </div>
