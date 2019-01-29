@@ -63,6 +63,10 @@ class GenericPricesController < ApplicationController
     @generic_prices = GenericPrice.search(params[:term]).order(created_at: :desc)
   end
 
+  def search
+    @generic_prices = GenericPrice.search(params[:search]).order(created_at: :desc)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_generic_price

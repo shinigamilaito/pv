@@ -1,0 +1,18 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Nombre</th>
+    <th>Precio</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @generic_prices.each_with_index do |generic_price, index| %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= generic_price.name %></td>
+      <td><%= number_to_currency generic_price.price %></td>
+      <td style="width: 1px;"><%= link_to 'Actualizar', edit_generic_price_path(generic_price), class: 'btn btn-edit' %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', generic_price, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
+    </tr>
+  <% end %>
+</tbody>
