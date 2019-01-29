@@ -4,4 +4,8 @@ class EquipmentModel < ApplicationRecord
   def self.search(term)
     	where('LOWER(name) LIKE :term', term: "%#{term.downcase}%") if term.present?
   end
+
+  def self.search_index(term)
+    where('LOWER(name) LIKE :term OR LOWER(description) LIKE :term', term: "%#{term.downcase}%")
+  end
 end

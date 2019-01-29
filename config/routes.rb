@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :equipment_models do
     get 'autocomplete', on: :collection
+    get 'search', on: :collection
   end
 
   resources :incomes do
