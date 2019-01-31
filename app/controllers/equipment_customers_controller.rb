@@ -6,11 +6,11 @@ class EquipmentCustomersController < ApplicationController
       @equipment_customer = EquipmentCustomer.search(params[:search])
 
       if @equipment_customer.blank?
-        flash[:error] = "Cliente / Folio no encontrado."
+        flash[:error] = 'Cliente / Folio no encontrado.'
         redirect_to search_equipment_customers_path
 
       else
-        flash[:success] = "Cliente / Folio encontrado correctamente."
+        flash[:success] = 'Cliente / Folio encontrado correctamente.'
         redirect_to @equipment_customer
       end
     end

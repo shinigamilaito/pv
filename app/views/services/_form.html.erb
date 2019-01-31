@@ -8,7 +8,7 @@
       <% else  %>
         <% clients = [] %>
       <% end %>
-      <%= f.collection_select :client_id, clients, :id, :name, { prompt: "Buscar cliente" }, class: "form-control autocomplete_clients", required: true %>
+      <%= f.collection_select :client_id, clients, :id, :name, { prompt: 'Buscar cliente' }, class: 'form-control autocomplete_clients', required: true %>
       <div class="has-error"><%= @service.errors[:client_id].first %></div>
     </div>
   </div>
@@ -21,14 +21,14 @@
       <% else  %>
         <% folio = nil %>
       <% end %>
-      <%= select_tag 'service[folio]', options_for_select(@folios, folio), class: "form-control autocomplete_folios", required: true %>
+      <%= select_tag 'service[folio]', options_for_select(@folios, folio), class: 'form-control autocomplete_folios', required: true %>
       <div class="help-block"><%= @service.errors[:folio].first %></div>
     </div>
   </div>
 
   <div class="col-md-2">
     <div class="form-group">
-      <%= f.submit "Guardar - Buscar", class: "btn btn-info btn-block", style: 'margin-top: 25px;', data: {disable_with: 'Accediendo...'} %>
+      <%= f.submit 'Guardar - Buscar', class: 'btn btn-info btn-block', style: 'margin-top: 25px;', data: {disable_with: 'Accediendo...'} %>
     </div>
   </div>
 

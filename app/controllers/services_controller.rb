@@ -58,8 +58,8 @@ class ServicesController < ApplicationController
 
   def add_spare_part
     session[:spare_part_ids] ||= []
-    session[:worforce] ||= BigDecimal.new("0.00".gsub(",",""))
-    session[:discount] ||= BigDecimal.new("0.00".gsub(",",""))
+    session[:worforce] ||= BigDecimal.new('0.00'.gsub(',',''))
+    session[:discount] ||= BigDecimal.new('0.00'.gsub(',',''))
 
     @spare_part = SparePart.find(params[:spare_part][:id])
     get_service_from_session
@@ -70,7 +70,7 @@ class ServicesController < ApplicationController
   end
 
   def update_worforce
-    session[:worforce] = BigDecimal.new(params[:worforce].gsub(",",""))
+    session[:worforce] = BigDecimal.new(params[:worforce].gsub(',',''))
     get_service_from_session
 
     if session[:spare_part_ids].present?
@@ -82,7 +82,7 @@ class ServicesController < ApplicationController
   end
 
   def update_discount
-    session[:discount] = BigDecimal.new(params[:discount].gsub(",",""))
+    session[:discount] = BigDecimal.new(params[:discount].gsub(',',''))
     get_service_from_session
 
     if session[:spare_part_ids].present?
@@ -101,8 +101,8 @@ class ServicesController < ApplicationController
 
     @service.service_spare_parts = service_spare_parts
     @service.paid = true
-    
-    if params[:from_generic_price].eql?("true")
+
+    if params[:from_generic_price].eql?('true')
       generic_price = GenericPrice.find(params[:price])
       @service.generic_price = generic_price
     else
@@ -114,9 +114,8 @@ class ServicesController < ApplicationController
     if @service.update(service_params)
       render 'update'
     else
-      p "errors #{@service.errors.full_messages}"
-      flash.now[:error] = "Proporcione los datos correctos."
-      render "form_paid"
+      flash.now[:error] = 'Proporcione los datos correctos.'
+      render 'form_paid'
     end
   end
 
