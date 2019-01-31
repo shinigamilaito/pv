@@ -1,9 +1,5 @@
 <button class="box-header header_paid with-border accordion_paid">
   <h3 class="box-title">Ver Pago</h3>
-  <%#= link_to "Download PDF",
-      service_download_path(@service, format: "pdf"),
-      target: "_blank",
-      class: "btn btn-primary text-left" %>
 </button>
 <div class="panel">
   <div class="row">
@@ -55,14 +51,14 @@
         </thead>
         <tbody id="spare_parts_used_by_service">
           <% unless @service.service_spare_parts.blank? %>
-          <%= render partial: "spare_parts/spare_part", collection: @service.service_spare_parts %>
+          <%= render partial: 'spare_parts/spare_part', collection: @service.service_spare_parts %>
           <% end %>
         </tbody>
       </table>
 
       <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
         <% unless @service.service_spare_parts.blank? %>
-        <%= render "services/totals_costs", totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
+        <%= render 'services/totals_costs', totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
         <% end %>
       </div>
     </div>
@@ -72,18 +68,6 @@
 <script>
   $(document).ready(function() {
     var acc = document.getElementsByClassName("accordion_paid");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.height){
-          panel.style.height = null;
-        } else {
-          panel.style.height = panel.scrollHeight + 40 + "px";
-        }
-      });
-    }
+    activeAcordionPanels(acc);
   });
 </script>

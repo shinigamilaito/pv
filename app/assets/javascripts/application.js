@@ -39,6 +39,7 @@
 
 //= require search
 //= require shared_commons
+//= require report_pdf.js
 
 // require dist/js/pages/dashboard.js
 // require dist/js/demo.js

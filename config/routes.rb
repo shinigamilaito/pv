@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     get 'add_spare_part', on: :collection
     put 'update_worforce', on: :collection
     put 'update_discount', on: :collection
-    resource :download, only: [:show]
+    get :generate_ticket, on: :member
   end
 
   resources :spare_parts do
