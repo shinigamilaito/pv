@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190127212506) do
+ActiveRecord::Schema.define(version: 20190202223709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,34 +154,6 @@ ActiveRecord::Schema.define(version: 20190127212506) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "support_spare_parts", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.decimal "price", precision: 10, scale: 2
-    t.integer "quantity"
-    t.bigint "support_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["support_id"], name: "index_support_spare_parts_on_support_id"
-  end
-
-  create_table "supports", force: :cascade do |t|
-    t.bigint "equipment_customer_id"
-    t.text "description"
-    t.string "date_of_entry"
-    t.bigint "payment_type_id"
-    t.bigint "client_type_id"
-    t.decimal "worforce", precision: 10, scale: 2
-    t.decimal "discount", precision: 10, scale: 2
-    t.string "departure_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "image_client"
-    t.index ["client_type_id"], name: "index_supports_on_client_type_id"
-    t.index ["equipment_customer_id"], name: "index_supports_on_equipment_customer_id"
-    t.index ["payment_type_id"], name: "index_supports_on_payment_type_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "first_name", default: "", null: false
@@ -215,8 +187,4 @@ ActiveRecord::Schema.define(version: 20190127212506) do
   add_foreign_key "services", "payment_types"
   add_foreign_key "services", "users"
   add_foreign_key "services", "users", column: "employee_id"
-  add_foreign_key "support_spare_parts", "supports"
-  add_foreign_key "supports", "client_types"
-  add_foreign_key "supports", "equipment_customers"
-  add_foreign_key "supports", "payment_types"
 end

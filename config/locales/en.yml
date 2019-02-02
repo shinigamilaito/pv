@@ -63,12 +63,7 @@ en:
          attributes:
            folio:
              taken: "El número de folio ya ha sido asignado."
-
-       support:
-          attributes:
-            description:
-              blank: "Proporciona la descripción."
-
+       
        equipment:
           attributes:
             name:

@@ -4,7 +4,6 @@ class EquipmentCustomer < ApplicationRecord
   belongs_to :equipment_model
   belongs_to :service
 
-  has_many :supports
   has_many :message_histories
 
   validates :equipment_id, :brand_id, :equipment_model_id, :service_id, presence: true

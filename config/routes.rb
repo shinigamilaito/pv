@@ -1,18 +1,7 @@
 Rails.application.routes.draw do
-  resources :generic_prices do
-    get 'autocomplete', on: :collection
-    get 'search', on: :collection
-  end
+  devise_for :users
 
-  resources :equipment_models do
-    get 'autocomplete', on: :collection
-    get 'search', on: :collection
-  end
-
-  resources :incomes do
-    get :pending_services, on: :collection
-    get 'search', on: :collection
-  end
+  root "services#new"
 
   resources :services do
     get 'find_folios', on: :collection
@@ -27,8 +16,20 @@ Rails.application.routes.draw do
     get 'search', on: :collection
   end
 
-  resources :client_types
-  resources :payment_types
+  resources :incomes do
+    get :pending_services, on: :collection
+    get 'search', on: :collection
+  end
+
+  resources :generic_prices do
+    get 'autocomplete', on: :collection
+    get 'search', on: :collection
+  end
+
+  resources :equipment_models do
+    get 'autocomplete', on: :collection
+    get 'search', on: :collection
+  end
 
   resources :brands do
     get 'autocomplete', on: :collection
@@ -48,20 +49,13 @@ Rails.application.routes.draw do
     get 'search', on: :collection
   end
 
-  # NOT USED
-  resources :supports do
-    get 'add_spare_part', on: :collection
-    put 'update_worforce', on: :collection
-    put 'update_discount', on: :collection
-  end
-
   resources :equipment_customers do
     get 'search', on: :collection
     post 'add_history_message', on: :collection
   end
 
-  devise_for :users
-  get 'welcome/index'
-  root "services#new"
+  resources :client_types
+  resources :payment_types
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
