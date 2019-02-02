@@ -1,8 +1,7 @@
 # Managed the spare_parts used in services
-
 class ServiceSparePart < ApplicationRecord
   belongs_to :service
-  
+
   def self.create_spare_parts_used(spare_parts)
     service_spare_parts = []
     spare_parts.each do |spare_part|
