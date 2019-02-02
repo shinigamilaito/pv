@@ -16,3 +16,7 @@ function setDatePicker($element) {
     language: "es"
   });
 }
+
+function setHTMLDescription($element) {
+  $element.wysihtml5();
+}

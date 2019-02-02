@@ -71,10 +71,7 @@ $(document).ready(function() {
 		$.LoadingOverlay("hide", true);
 	});
 
-	$(function () {
-		$('.textarea').wysihtml5();
-  	});
-
+	setHTMLDescription($('.textarea'));
 });
 
 
