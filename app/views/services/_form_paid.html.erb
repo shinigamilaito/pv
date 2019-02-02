@@ -62,11 +62,7 @@
           <div class="invalid-feedback"><%= @service.errors[:departure_date].first %></div>
         </div>
       </div>
-      <% if @service.image_client.blank? %>
-      <%= render "supports/image_client" %>
-      <% else %>
-      <%= image_tag(@service.image_client_url.to_s, class: 'img-thumbnail img-responsive center-block') %>
-      <% end %>
+      <%= render "services/image_client" %>      
     </div>
 
     <div class="col-md-7">
@@ -87,16 +83,10 @@
           </tr>
         </thead>
         <tbody id="spare_parts_used_by_service">
-          <%# unless @service.service_spare_parts.blank? %>
-          <%#= render partial: "spare_parts/spare_part", collection: @service.service_spare_parts %>
-          <%# end %>
         </tbody>
       </table>
 
       <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
-        <%# unless @service.service_spare_parts.blank? %>
-        <%#= render "services/totals_costs", totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
-        <%# end %>
       </div>
 
       <%= f.submit '$ Pagar', id: 'btn_paid', class: 'btn bg-green color-palette btn-block btn-flat', disabled: 'disabled' %>
