@@ -57,24 +57,32 @@ class ServicesController < ApplicationController
   end
 
   def add_spare_part
-    session[:spare_part_ids] ||= []
     session[:worforce] ||= BigDecimal.new('0.00'.gsub(',',''))
     session[:discount] ||= BigDecimal.new('0.00'.gsub(',',''))
 
-    @spare_part = SparePart.find(params[:spare_part][:id])
-    get_service_from_session
+    @service = Service.find(params[:service_id])
+    spare_part = SparePart.find(params[:spare_part][:id])
+    service_spare_part = ServiceSparePart.new_from(spare_part)
+    service_spare_part.service = @service
+    service_spare_part.save
 
-    session[:spare_part_ids] << @spare_part.id unless session[:spare_part_ids].include?(@spare_part.id)
+    total_worforce = BigDecimal.new(session[:worforce])
+    total_discount = BigDecimal.new(session[:discount])
 
-    generate_totals
+    @totals = @service.generate_totals(total_worforce, total_discount)
   end
 
   def update_worforce
     session[:worforce] = BigDecimal.new(params[:worforce].gsub(',',''))
-    get_service_from_session
+    session[:discount] ||= BigDecimal.new('0.00'.gsub(',',''))
 
-    if session[:spare_part_ids].present?
-      generate_totals
+    total_worforce = BigDecimal.new(session[:worforce])
+    total_discount = BigDecimal.new(session[:discount])
+
+    @service = Service.find(params[:service_id])
+
+    if @service.service_spare_parts.present?
+      @totals = @service.generate_totals(total_worforce, total_discount)
       render 'add_spare_part'
     else
       head :ok
@@ -83,10 +91,15 @@ class ServicesController < ApplicationController
 
   def update_discount
     session[:discount] = BigDecimal.new(params[:discount].gsub(',',''))
-    get_service_from_session
+    session[:worforce] ||= BigDecimal.new('0.00'.gsub(',',''))
 
-    if session[:spare_part_ids].present?
-      generate_totals
+    total_worforce = BigDecimal.new(session[:worforce])
+    total_discount = BigDecimal.new(session[:discount])
+
+    @service = Service.find(params[:service_id])
+
+    if @service.service_spare_parts.present?
+      @totals = @service.generate_totals(total_worforce, total_discount)
       render 'add_spare_part'
     else
       head :ok
@@ -140,27 +153,9 @@ class ServicesController < ApplicationController
       :date_of_entry, :discount, :departure_date, :image_client, :employee_id)
   end
 
-  def generate_totals
-    @spare_parts = SparePart.find(session[:spare_part_ids])
-
-    total_worforce = BigDecimal.new(session[:worforce])
-    total_discount = BigDecimal.new(session[:discount])
-
-    @totals = Service.generate_totals(@spare_parts, total_worforce, total_discount)
-  end
-
   def clear_session_variables
-    session[:spare_part_ids] = nil
     session[:worforce] = nil
-    session[:discount] = nil
-    session[:service_id] = nil
+    session[:discount] = nil    
   end
 
-  def get_service_from_session
-    unless session[:service_id].blank?
-      @service = Service.find(session[:service_id])
-    else
-      @service = Service.new
-    end
-  end
 end

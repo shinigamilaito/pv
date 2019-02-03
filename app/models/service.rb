@@ -26,7 +26,7 @@ class Service < ApplicationRecord
     return folios_hash
   end
 
-  def self.obtain_discount(worforce, total_products, discount)
+  def obtain_discount(worforce, total_products, discount)
     total_worforce = BigDecimal.new(worforce)
     total_products = BigDecimal.new(total_products )
     total_discount = BigDecimal.new(discount)
@@ -37,10 +37,10 @@ class Service < ApplicationRecord
     return (total_percentaje / BigDecimal.new('100.00'))
   end
 
-  def self.generate_totals(spare_parts, worforce, discount)
-    total_products = SparePart.costs_totals_in_this(spare_parts)
+  def generate_totals(worforce, discount)
+    total_products = ServiceSparePart.costs_totals_in_this(self.service_spare_parts)
     total_worforce = worforce
-    total_discount = Service.obtain_discount(total_worforce, total_products, discount)
+    total_discount = self.obtain_discount(total_worforce, total_products, discount)
     total_final = (total_products + total_worforce) - total_discount
     return {
       total_products: total_products,

@@ -62,7 +62,7 @@
           <div class="invalid-feedback"><%= @service.errors[:departure_date].first %></div>
         </div>
       </div>
-      <%= render "services/image_client" %>      
+      <%= render "services/image_client" %>
     </div>
 
     <div class="col-md-7">
@@ -83,6 +83,7 @@
           </tr>
         </thead>
         <tbody id="spare_parts_used_by_service">
+          <%= render @service.service_spare_parts %>
         </tbody>
       </table>
 
@@ -186,7 +187,8 @@
         method: "get",
         dataType: "script",
         data: {
-          spare_part: data
+          spare_part: data,
+          service_id: <%= @service.id %>
         },
         beforeSend: function(xhr) {
           $("#spare_parts_used_by_service").LoadingOverlay("show");
@@ -205,7 +207,8 @@
         method: "put",
         dataType: "script",
         data: {
-          worforce: newPrice
+          worforce: newPrice,
+          service_id: <%= @service.id %>
         },
         beforeSend: function(xhr) {
           $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("show");
@@ -225,7 +228,8 @@
         method: "put",
         dataType: "script",
         data: {
-          discount: $(this).val()
+          discount: $(this).val(),
+          service_id: <%= @service.id %>
         },
         beforeSend: function(xhr) {
           $("#total_to_paid_by_spare_parts_used_by_service").LoadingOverlay("show");
