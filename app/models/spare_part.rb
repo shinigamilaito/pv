@@ -10,4 +10,8 @@ class SparePart < ApplicationRecord
     self.save
   end
 
+  def is_available?(quantity)
+    self.total >= quantity
+  end
+
 end

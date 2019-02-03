@@ -62,15 +62,19 @@ class ServicesController < ApplicationController
 
     @service = Service.find(params[:service_id])
     spare_part = SparePart.find(params[:spare_part][:id])
-    spare_part.decrement_total()
-    service_spare_part = ServiceSparePart.new_from(spare_part)
-    service_spare_part.service = @service
-    service_spare_part.save
+    if spare_part.is_available?(1)
+      spare_part.decrement_total()
+      service_spare_part = ServiceSparePart.new_from(spare_part)
+      service_spare_part.service = @service
+      service_spare_part.save
 
-    total_worforce = BigDecimal.new(session[:worforce])
-    total_discount = BigDecimal.new(session[:discount])
+      total_worforce = BigDecimal.new(session[:worforce])
+      total_discount = BigDecimal.new(session[:discount])
 
-    @totals = @service.generate_totals(total_worforce, total_discount)
+      @totals = @service.generate_totals(total_worforce, total_discount)
+    else
+    render js: "toastr['error']('Sin refacción. Las refacciones no son suficientes.');", status: :bad_request
+    end
   end
 
   def update_worforce
