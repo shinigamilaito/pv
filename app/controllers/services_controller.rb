@@ -62,6 +62,7 @@ class ServicesController < ApplicationController
 
     @service = Service.find(params[:service_id])
     spare_part = SparePart.find(params[:spare_part][:id])
+    spare_part.decrement_total()
     service_spare_part = ServiceSparePart.new_from(spare_part)
     service_spare_part.service = @service
     service_spare_part.save
@@ -155,7 +156,7 @@ class ServicesController < ApplicationController
 
   def clear_session_variables
     session[:worforce] = nil
-    session[:discount] = nil    
+    session[:discount] = nil
   end
 
 end
