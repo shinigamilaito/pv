@@ -20,3 +20,9 @@ function setDatePicker($element) {
 function setHTMLDescription($element) {
   $element.wysihtml5();
 }
+
+function setInteger($element) {
+  $element.inputmask("integer", {
+    rightAlign: false
+  });
+}

@@ -2,6 +2,47 @@
   <td><%= service_spare_part_counter + 1 %></td>
   <td><%= service_spare_part.name %></td>
   <td><%= service_spare_part.description %></td>
-  <td><%= service_spare_part.quantity %></td>
+  <td style="width: 20%">
+    <%= text_field_tag 'service_spare_part[quantity]', service_spare_part.quantity, id: "service_spare_part_#{service_spare_part.id}", class: 'form form-control', style: 'width: 70%', data: {id: service_spare_part.id} %>
+  </td>
   <td><%= number_to_currency service_spare_part.price %></td>
 </tr>
+
+<script>
+  $(document).ready(function() {
+    var $element = $("#service_spare_part_<%= service_spare_part.id %>")
+    var originalQuantity = $element.val();
+    $element.on("keydown", _.debounce(update_stock_spare_part, 1000));
+    setInteger($element);
+
+    function update_stock_spare_part() {
+      var $that = $(this);
+      var newValue = $that.val();
+
+      if(newValue > 0) {
+        $.ajax({
+          url: "/services/update_quantity",
+          method: "put",
+          dataType: "script",
+          data: {
+            quantity: newValue,
+            service_spare_part_id: $that.data('id')
+          },
+          beforeSend: function(xhr) {
+            $that.LoadingOverlay("show");
+          },
+          complete: function(xhr, status) {
+            if(xhr.status == 400) {
+              $that.val(originalQuantity);
+            }
+            $that.LoadingOverlay("hide", true);
+          }
+        });
+
+      } else {
+        $that.val(originalQuantity);
+        return;
+      }
+    }
+  });
+</script>

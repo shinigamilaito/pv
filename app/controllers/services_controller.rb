@@ -73,7 +73,7 @@ class ServicesController < ApplicationController
 
       @totals = @service.generate_totals(total_worforce, total_discount)
     else
-    render js: "toastr['error']('Sin refacción. Las refacciones no son suficientes.');", status: :bad_request
+      render js: "toastr['error']('Sin refacción. Las refacciones no son suficientes.');", status: :bad_request
     end
   end
 
@@ -148,6 +148,25 @@ class ServicesController < ApplicationController
                layout: 'pdf_layout.html.erb',
                page_size: 'A4'
       end
+    end
+  end
+
+  def update_quantity
+    new_quantity = params[:quantity].to_i
+    service_spare_part = ServiceSparePart.find(params[:service_spare_part_id])
+    spare_part = service_spare_part.spare_part
+
+    if new_quantity != service_spare_part.quantity
+      increment_quantity = new_quantity - service_spare_part.quantity
+      if spare_part.is_available?(increment_quantity)
+        service_spare_part.adjust_quantity(new_quantity)
+        spare_part.adjust_quantity(increment_quantity)
+        render js: "toastr['success']('Stock actualizado correctamente.');", status: :ok
+      else
+        render js: "toastr['error']('Cantidad faltante.');", status: :bad_request
+      end
+    else
+      head :ok
     end
   end
 

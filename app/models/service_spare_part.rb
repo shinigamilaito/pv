@@ -1,6 +1,7 @@
 # Managed the spare_parts used in services
 class ServiceSparePart < ApplicationRecord
   belongs_to :service
+  belongs_to :spare_part
 
   def self.new_from(spare_part)
     service_spare_part = ServiceSparePart.new
@@ -8,6 +9,7 @@ class ServiceSparePart < ApplicationRecord
     service_spare_part.description = spare_part.description
     service_spare_part.price = spare_part.price
     service_spare_part.quantity = 1
+    service_spare_part.spare_part = spare_part
 
     service_spare_part
   end
@@ -24,6 +26,11 @@ class ServiceSparePart < ApplicationRecord
   	end
 
   	return total_cost
+  end
+
+  def adjust_quantity(new_quantity)
+    self.quantity = new_quantity
+    self.save
   end
 
 end

@@ -199,8 +199,6 @@
       })
     });
 
-  //$("#service_worforce").on("keydown", _.debounce(update_worforce, 1000));
-
   function update_worforce(newPrice) {
       $.ajax({
         url: "/services/update_worforce",
@@ -220,7 +218,7 @@
       });
   }
 
-  $("#service_discount").on("keydown", _.debounce(update_discount, 1000));
+  $("#service_discount").on("keydown", _.debounce(update_discount, 300));
 
   function update_discount() {
       $.ajax({

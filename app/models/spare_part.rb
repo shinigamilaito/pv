@@ -14,4 +14,9 @@ class SparePart < ApplicationRecord
     self.total >= quantity
   end
 
+  def adjust_quantity(change)
+    self.total = self.total - change
+    self.save
+  end
+
 end

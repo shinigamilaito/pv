@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     put 'update_worforce', on: :collection
     put 'update_discount', on: :collection
     get :generate_ticket, on: :member
+    put :update_quantity, on: :collection
   end
 
   resources :spare_parts do
