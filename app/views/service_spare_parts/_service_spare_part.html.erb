@@ -6,6 +6,11 @@
     <%= text_field_tag 'service_spare_part[quantity]', service_spare_part.quantity, id: "service_spare_part_#{service_spare_part.id}", class: 'form form-control', style: 'width: 70%', data: {id: service_spare_part.id} %>
   </td>
   <td><%= number_to_currency service_spare_part.price %></td>
+  <td>
+    <%= link_to delete_spare_part_services_path(service_spare_part_id: service_spare_part), style: 'padding-top: 0px;', class: 'btn btn-delete', method: :delete, remote: true do %>
+      <i class="fa fa-fw fa-times-circle"></i>
+    <% end %>
+  </td>
 </tr>
 
 <script>

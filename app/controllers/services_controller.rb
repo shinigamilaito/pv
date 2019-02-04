@@ -57,9 +57,6 @@ class ServicesController < ApplicationController
   end
 
   def add_spare_part
-    session[:worforce] ||= BigDecimal.new('0.00'.gsub(',',''))
-    session[:discount] ||= BigDecimal.new('0.00'.gsub(',',''))
-
     @service = Service.find(params[:service_id])
     spare_part = SparePart.find(params[:spare_part][:id])
     if spare_part.is_available?(1)
@@ -68,10 +65,7 @@ class ServicesController < ApplicationController
       service_spare_part.service = @service
       service_spare_part.save
 
-      total_worforce = BigDecimal.new(session[:worforce])
-      total_discount = BigDecimal.new(session[:discount])
-
-      @totals = @service.generate_totals(total_worforce, total_discount)
+      generate_totals
     else
       render js: "toastr['error']('Sin refacción. Las refacciones no son suficientes.');", status: :bad_request
     end
@@ -170,6 +164,15 @@ class ServicesController < ApplicationController
     end
   end
 
+  def delete_spare_part
+    service_spare_part = ServiceSparePart.find(params[:service_spare_part_id])
+    @service = service_spare_part.service
+    spare_part = service_spare_part.spare_part
+    spare_part.adjust_quantity(service_spare_part.quantity * -1)
+    service_spare_part.destroy
+    generate_totals
+  end
+
   private
 
   def service_params
@@ -180,6 +183,16 @@ class ServicesController < ApplicationController
   def clear_session_variables
     session[:worforce] = nil
     session[:discount] = nil
+  end
+
+  def generate_totals
+    session[:worforce] ||= BigDecimal.new('0.00'.gsub(',',''))
+    session[:discount] ||= BigDecimal.new('0.00'.gsub(',',''))
+
+    total_worforce = BigDecimal.new(session[:worforce])
+    total_discount = BigDecimal.new(session[:discount])
+
+    @totals = @service.generate_totals(total_worforce, total_discount)
   end
 
 end

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     put 'update_discount', on: :collection
     get :generate_ticket, on: :member
     put :update_quantity, on: :collection
+    delete :delete_spare_part, on: :collection
   end
 
   resources :spare_parts do
