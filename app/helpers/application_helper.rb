@@ -9,4 +9,8 @@ module ApplicationHelper
     uri_segments[2] == action ? 'active-sidebar' : ''
   end
 
+  def date_time_helper(datetime)
+    datetime.strftime('%d/%m/%Y - %I:%M %p')
+  end
+
 end

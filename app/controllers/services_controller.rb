@@ -108,10 +108,6 @@ class ServicesController < ApplicationController
   def update
     @service = Service.find(params[:id])
     @service.user = current_user
-    spare_parts_used = SparePart.find(session[:spare_part_ids])
-    service_spare_parts = ServiceSparePart.create_spare_parts_used(spare_parts_used)
-
-    @service.service_spare_parts = service_spare_parts
     @service.paid = true
 
     if params[:from_generic_price].eql?('true')

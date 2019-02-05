@@ -50,16 +50,12 @@
           </tr>
         </thead>
         <tbody id="spare_parts_used_by_service">
-          <% unless @service.service_spare_parts.blank? %>
-          <%= render partial: 'spare_parts/spare_part', collection: @service.service_spare_parts %>
-          <% end %>
+          <%= render @service.service_spare_parts %>
         </tbody>
       </table>
 
       <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
-        <% unless @service.service_spare_parts.blank? %>
-        <%= render 'services/totals_costs', totals: Service.generate_totals(@service.service_spare_parts, @service.worforce, @service.discount) %>
-        <% end %>
+        <%= render 'services/totals_costs', totals: @service.generate_totals(@service.worforce, @service.discount) %>        
       </div>
     </div>
   </div>
