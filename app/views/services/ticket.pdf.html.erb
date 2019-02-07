@@ -1,1 +1,48 @@
-<h1>TICKET FOR SERVICE WITH FOLIO <%= @service.folio %></h1>
+<% @service.equipment_customers.each do |equipment_customer| %>
+<h4>Descripción del Equipo:</h4>
+<div class="row description-equipment">
+  <div class="col-xs-12">
+      <h4 style="font-weight: bold; display: inline;"><%= equipment_customer.equipment.name %></h4>
+      <p style="display: inline;"><%= sanitize equipment_customer.description %></p>
+  </div>
+</div>
+<div class="row brand">
+  <div class="col-xs-6">
+    <h4 style="font-weight: bold; display: inline;">Marca: </h4>
+    <p style="display: inline;"><%= equipment_customer.brand.name %></p>
+  </div>
+  <div class="col-xs-6">
+    <h4 style="font-weight: bold; display: inline;">Modelo: </h4>
+    <p style="display: inline;"><%= equipment_customer.equipment_model.name %></p>
+  </div>
+</div>
+<div class="row brand text-center" style="margin: 10px;">
+  <h4 style="font-weight: bold;">COMPONENTES QUE DEJA CON EL EQUIPO</h4>
+</div>
+<div class="row">
+  <div class="col-xs-8">
+    <div class="form-group">
+      <div class="row">
+      <% Component.first(3).each do |component| %>
+        <div class="col-xs-4" style="display: inline-block; margin-bottom: 5px;">
+          <label style="font-size: 18px;">
+              <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component) %>
+              <%= component.name %>
+          </label>
+        </div>
+      <% end %>
+      </div>
+      <div class="row">
+      <% Component.last(3).each do |component| %>
+        <div class="col-xs-4" style="display: inline-block; margin-bottom: 5px;">
+          <label style="font-size: 18px;">
+              <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component) %>
+              <%= component.name %>
+          </label>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

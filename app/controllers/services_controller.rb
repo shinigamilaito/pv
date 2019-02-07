@@ -136,7 +136,11 @@ class ServicesController < ApplicationController
                template: 'services/ticket.pdf.html.erb',
                background: true,
                layout: 'pdf_layout.html.erb',
-               page_size: 'A4'
+               page_size: 'A4',
+               margin: {
+                 top: 70,
+                 bottom: 55
+               }
       end
     end
   end

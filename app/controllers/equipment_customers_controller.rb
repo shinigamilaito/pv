@@ -62,7 +62,10 @@ class EquipmentCustomersController < ApplicationController
   private
 
   def equipment_customer_params
-    params.require(:equipment_customer).permit(:service_id, :equipment_id, :brand_id, :equipment_model_id, :description)
+    params.require(:equipment_customer).permit(
+      :service_id, :equipment_id, :brand_id, :equipment_model_id, :description,
+      component_ids: []
+    )
   end
 
   def message_history_params

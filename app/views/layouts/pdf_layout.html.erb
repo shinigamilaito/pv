@@ -2,10 +2,20 @@
 <html>
 <head>
   <meta charset='utf-8' />
-    <%#= stylesheet_link_tag wicked_pdf_asset_base64("application.css") %>
+    <%= stylesheet_link_tag wicked_pdf_asset_base64("application.css") %>
     <%#= wicked_pdf_javascript_include_tag "application" %>
+  <script>
+    function position_brands() {
+      var elements = document.getElementsByClassName("brand");
+      var descriptions = document.getElementsByClassName("description-equipment");
+      for(i = 0; i < descriptions.length; i++) {
+        descriptions[i].style.height = descriptions[i].style.height + 50 + "px";
+      }      
+    }
+  </script>
+
 </head>
-<body>
+<body onload="position_brands()">
   <div class="container">
     <%= yield %>
   </div>

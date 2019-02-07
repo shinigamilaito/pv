@@ -34,4 +34,16 @@ namespace :db do
     end
     puts "End..."
   end
+
+  desc "Creando los componentes para las notas"
+  task add_components_equipment_customer: :environment do
+    puts "Started..."
+    componentes = ["Cargador", "Maletin", "Teclado", "Bateria", "Funda", "Ratón"]
+
+    componentes.each do |name_component|
+      Component.create(name: name_component)
+    end
+    p "Components created"
+    puts "End..."
+  end
 end
