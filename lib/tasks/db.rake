@@ -46,4 +46,18 @@ namespace :db do
     p "Components created"
     puts "End..."
   end
+
+  desc "Creando los tipos de cables para las notas"
+  task add_cable_types_equipment_customer: :environment do
+    puts "Started..."
+    CableType.destroy_all
+
+    cable_types = ["Cable USB"]
+
+    cable_types.each do |cable|
+      CableType.create(name: cable)
+    end
+    p "Cable Types created"
+    puts "End..."
+  end
 end

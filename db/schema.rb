@@ -10,16 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190203201936) do
+ActiveRecord::Schema.define(version: 20190208014049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "books", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "specifications"
+  end
+
+  create_table "cable_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "client_types", force: :cascade do |t|
@@ -39,6 +51,21 @@ ActiveRecord::Schema.define(version: 20190203201936) do
     t.string "home_phone"
   end
 
+  create_table "component_equipment_customers", force: :cascade do |t|
+    t.bigint "component_id"
+    t.bigint "equipment_customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["component_id"], name: "index_component_equipment_customers_on_component_id"
+    t.index ["equipment_customer_id"], name: "index_component_equipment_customers_on_equipment_customer_id"
+  end
+
+  create_table "components", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "equipment_customers", force: :cascade do |t|
     t.bigint "equipment_id"
     t.bigint "brand_id"
@@ -47,7 +74,9 @@ ActiveRecord::Schema.define(version: 20190203201936) do
     t.datetime "updated_at", null: false
     t.bigint "service_id"
     t.bigint "equipment_model_id"
+    t.bigint "cable_type_id"
     t.index ["brand_id"], name: "index_equipment_customers_on_brand_id"
+    t.index ["cable_type_id"], name: "index_equipment_customers_on_cable_type_id"
     t.index ["equipment_id"], name: "index_equipment_customers_on_equipment_id"
     t.index ["equipment_model_id"], name: "index_equipment_customers_on_equipment_model_id"
     t.index ["service_id"], name: "index_equipment_customers_on_service_id"
@@ -174,7 +203,10 @@ ActiveRecord::Schema.define(version: 20190203201936) do
     t.index ["rol_id"], name: "index_users_on_rol_id"
   end
 
+  add_foreign_key "component_equipment_customers", "components"
+  add_foreign_key "component_equipment_customers", "equipment_customers"
   add_foreign_key "equipment_customers", "brands"
+  add_foreign_key "equipment_customers", "cable_types"
   add_foreign_key "equipment_customers", "equipment_models"
   add_foreign_key "equipment_customers", "equipments"
   add_foreign_key "equipment_customers", "services"

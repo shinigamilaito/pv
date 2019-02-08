@@ -59,12 +59,16 @@ class EquipmentCustomersController < ApplicationController
     end
   end
 
+  def autocomplete_cable_types
+    @cable_types = CableType.search(params[:term]).order(created_at: :desc)
+  end
+
   private
 
   def equipment_customer_params
     params.require(:equipment_customer).permit(
       :service_id, :equipment_id, :brand_id, :equipment_model_id, :description,
-      component_ids: []
+      :cable_type_id, component_ids: []
     )
   end
 

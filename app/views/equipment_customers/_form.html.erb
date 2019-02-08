@@ -30,19 +30,35 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <label class="text-center" style="display: block;">COMPONENTES QUE DEJA CON EL EQUIPO</label>
-        <div class="text-center">
-        <% Component.all.each do |component| %>
-          <div style="display: inline-block; margin: 10px;">
+    <label class="text-center" style="display: block;">COMPONENTES QUE DEJA CON EL EQUIPO</label>
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <% Component.first(3).each do |component| %>
+          <div class="col-sm-4 text-left">
             <label>
                 <%= check_box_tag "equipment_customer[component_ids][]", component.id, new_equipment_customer.components.include?(component) %>
                 <%= component.name %>
             </label>
           </div>
         <% end %>
-        </div>
+      </div>
+      <div class="form-group row">
+        <% Component.last(3).each do |component| %>
+          <div class="col-sm-4 text-left">
+            <label>
+                <%= check_box_tag "equipment_customer[component_ids][]", component.id, new_equipment_customer.components.include?(component) %>
+                <%= component.name %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_model_id].first %>">
+        <label>Cable:</label>
+        <%= f.collection_select :cable_type_id, [], :id, :name, { prompt: "Seleccione un cable" }, class: "form-control autocomplete_cable_types", required: true %>
+        <div class="help-block"><%= new_equipment_customer.errors[:cable_type_id].first %></div>
       </div>
     </div>
   </div>
@@ -68,6 +84,16 @@
 
 <script>
   $(document).ready(function() {
+    $('.autocomplete_cable_types').select2({
+      minimumInputLength: 1,
+      ajax: {
+        delay: 250,
+        url: "/equipment_customers/autocomplete_cable_types",
+        dataType: 'json',
+        cache: true
+      }
+    });
+
     $('.autocomplete_equipments').select2({
       minimumInputLength: 1,
       ajax: {

@@ -14,18 +14,35 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <label class="text-center" style="display: block;">COMPONENTES QUE DEJA CON EL EQUIPO</label>
-        <div class="text-center">
-        <% Component.all.each do |component| %>
-          <div style="display: inline-block; margin: 10px;">
+    <label class="text-center" style="display: block;">COMPONENTES QUE DEJA CON EL EQUIPO</label>
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <% Component.first(3).each do |component| %>
+          <div class="col-sm-4 text-left">
             <label>
                 <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component), disabled: true %>
                 <%= component.name %>
             </label>
           </div>
         <% end %>
+      </div>
+      <div class="form-group row">
+        <% Component.last(3).each do |component| %>
+          <div class="col-sm-4 text-left">
+            <label>
+                <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component), disabled: true %>
+                <%= component.name %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group" style="margin-top: 15px;">
+        <label>Cable</label>
+        <div class="form-control" readonly>
+          <%= equipment_customer.cable_type.name if equipment_customer.cable_type %>
         </div>
       </div>
     </div>
