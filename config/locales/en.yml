@@ -63,7 +63,7 @@ en:
          attributes:
            folio:
              taken: "El número de folio ya ha sido asignado."
-       
+
        equipment:
           attributes:
             name:
@@ -74,3 +74,10 @@ en:
          attributes:
             folio:
               taken: "Ya existe un registro con este folio."
+
+       product:
+         attributes:
+            code:
+              taken: "Ya existe un producto con este folio."
+            name:
+              taken: 'Ya existe un producto con este nombre.'

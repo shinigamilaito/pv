@@ -35,6 +35,7 @@
 
 //= require clients
 //= require spare_parts
+//= require products
 //= require accordion
 
 //= require search
