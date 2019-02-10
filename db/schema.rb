@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190209215751) do
+ActiveRecord::Schema.define(version: 20190210022725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,21 @@ ActiveRecord::Schema.define(version: 20190209215751) do
     t.string "name"
   end
 
+  create_table "sale_products", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.integer "quantity"
+    t.decimal "price", precision: 10, scale: 2, default: "0.0"
+    t.bigint "product_id"
+    t.bigint "user_id"
+    t.bigint "sale_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_sale_products_on_product_id"
+    t.index ["sale_id"], name: "index_sale_products_on_sale_id"
+    t.index ["user_id"], name: "index_sale_products_on_user_id"
+  end
+
   create_table "sales", force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -231,6 +246,9 @@ ActiveRecord::Schema.define(version: 20190209215751) do
   add_foreign_key "incomes", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "message_histories", "users"
+  add_foreign_key "sale_products", "products"
+  add_foreign_key "sale_products", "sales"
+  add_foreign_key "sale_products", "users"
   add_foreign_key "sales", "users"
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "service_spare_parts", "spare_parts"

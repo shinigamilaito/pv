@@ -26,3 +26,11 @@ function setInteger($element) {
     rightAlign: false
   });
 }
+
+function setSpinner($element) {
+  $element.LoadingOverlay("show");
+}
+
+function deleteSpinner($element) {
+  $element.LoadingOverlay("hide", true);
+}

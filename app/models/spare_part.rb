@@ -6,7 +6,7 @@ class SparePart < ApplicationRecord
   end
 
   def decrement_total
-    self.total = self.total - 1
+    self.total -= 1
     self.save
   end
 

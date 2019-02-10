@@ -76,6 +76,26 @@ class ProductsController < ApplicationController
     @products = Product.search(params[:search]).order(created_at: :desc)
   end
 
+  def search_sales
+    product = Product.search_for_sales(params[:search]).order(created_at: :desc).first
+    @new_product = false
+
+    if product.present?
+      if product.is_available?(1)
+        if current_user.pending_in_sale?(product.code)
+          @product = adjust_product_in_sale(product)
+        else
+          @product = adjust_new_product_to_sale(product)
+          @new_product = true
+        end
+      else
+          render js: "toastr['error']('Producto no disponible.');", status: :bad_request
+      end
+    else
+      render js: "toastr['error']('Producto no encontrado.');", status: :bad_request
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
@@ -90,4 +110,20 @@ class ProductsController < ApplicationController
     def fixed_format_price
         params[:product][:price] = params[:product][:price].gsub('$ ', '').gsub(',','')
     end
+
+    def adjust_product_in_sale(product)
+      sale_product = current_user.give_me_product(product.code)
+      sale_product.adjust_quantity(1)
+      product.decrement_total
+      sale_product
+    end
+
+    def adjust_new_product_to_sale(product)
+      sale_product = SaleProduct.new_from(product)
+      sale_product.user = current_user
+      sale_product.save
+      product.decrement_total
+      sale_product
+    end
+
 end

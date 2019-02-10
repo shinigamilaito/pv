@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  resources :sales
+  resources :sales do
+    delete :delete_product, on: :collection
+  end
+
   resources :products do
     get :search, on: :collection
+    get :search_sales, on: :collection
   end
+
   get '/pages/issue_744' => 'pages#issue_744'
   get '/pages/issue_729' => 'pages#issue_729'
   get '/pages/issue_709' => 'pages#issue_709'
