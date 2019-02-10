@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sales
   resources :products do
     get :search, on: :collection
   end
@@ -26,7 +27,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  root "services#new"
+  root "sales#index"
 
   resources :services do
     get 'find_folios', on: :collection

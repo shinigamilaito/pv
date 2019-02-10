@@ -5,6 +5,14 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu background-gray" data-widget="tree"C">
         <li class="header background-gray" style="height: 30px; display: inline-block; width: 100%; text-align: center; padding-top: 20px;"></li>
+
+        <li class="<%= active_item('sales')%> <%= root_controller()%>">
+          <%= link_to sales_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
+            <i class="fa fa-fw fa-support"></i>
+            <span class="roboto-font" style="padding-left: 10px;">Ventas</span>
+          <% end %>
+        </li>
+
         <li class="<%= active_item('services')%>">
           <%= link_to new_service_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
             <i class="fa fa-fw fa-support"></i>
