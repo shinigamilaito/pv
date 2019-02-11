@@ -4,7 +4,7 @@
   <td><%= product.quantity %></td>
   <td><%= number_to_currency product.price %></td>
   <td style="width: 1px;">
-    <%= link_to delete_product_sales_path(product), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' }, style: 'padding: 3px 5px;' do %>
+    <%= link_to delete_product_sales_path(sale_product_id: product.id), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?', remote: true }, style: 'padding: 3px 5px;' do %>
       <i class="fa fa-fw fa-close"></i>
     <% end %>
   </td>
