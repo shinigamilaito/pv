@@ -138,8 +138,8 @@ class ServicesController < ApplicationController
                layout: 'pdf_layout.html.erb',
                page_size: 'A4',
                margin: {
-                 top: 70,
-                 bottom: 55
+                 top: 10,
+                 bottom: 40
                }
       end
     end
