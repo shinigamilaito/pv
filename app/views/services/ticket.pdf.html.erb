@@ -1,11 +1,48 @@
+<div class="row" style="border: 2px solid #3b8dbb; border-radius:10px">
+  <div class="col-xs-2">
+    <p style="font-size: 86px; margin-top: 15px; margin-bottom: 0px; font-weight: 700; color: #3b8dbb">PC</p>
+  </div>
+  <div class="col-xs-4" style="font-size: 46px; color: #3b8dbb">
+    <p style="
+    margin-top: 15px;
+    font-weight: 600;
+    margin-bottom: 0px;"">tienda & reparación</p>
+  </div>
+
+  <div class="col-xs-3" style="font-size: 16px;font-weight: 600;margin-top: 15px;">
+    <ul style="margin-bottom: 0px; list-style: none; letter-spacing: 1px;">
+      <li>- MEMORIAS</li>
+      <li>- REDES</li>
+      <li>- Cd's DVD's</li>
+      <li>- IMPRESORAS</li>
+      <li>- LAPTOPS</li>
+    </ul>
+  </div>
+
+  <div class="col-xs-3" style="font-size: 16px;font-weight: 600;margin-top: 15px;">
+    <ul style="margin-bottom: 0px; list-style: none; letter-spacing: 1px;">
+      <li>- ACCESORIOS</li>
+      <li>- SEGURIDAD</li>
+      <li>- BOCINAS</li>
+      <li>- COPIADORAS</li>
+      <li style="font-size: 15px;">- TINTA Y TONER</li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+</div>
+
 <% @service.equipment_customers.each do |equipment_customer| %>
 <h4>Descripción del Equipo:</h4>
+
 <div class="row description-equipment">
   <div class="col-xs-12">
       <h4 style="font-weight: bold; display: inline;"><%= equipment_customer.equipment.name %></h4>
       <p style="display: inline;"><%= sanitize equipment_customer.description %></p>
   </div>
 </div>
+
 <div class="row brand">
   <div class="col-xs-6">
     <h4 style="font-weight: bold; display: inline;">Marca: </h4>
@@ -16,9 +53,11 @@
     <p style="display: inline;"><%= equipment_customer.equipment_model.name %></p>
   </div>
 </div>
+
 <div class="row brand text-center" style="margin: 10px;">
   <h4 style="font-weight: bold;">COMPONENTES QUE DEJA CON EL EQUIPO</h4>
 </div>
+
 <div class="row">
   <div class="col-xs-8">
     <div class="form-group">
