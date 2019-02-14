@@ -39,7 +39,8 @@ Rails.application.routes.draw do
     get 'add_spare_part', on: :collection
     put 'update_worforce', on: :collection
     put 'update_discount', on: :collection
-    get :generate_ticket, on: :member
+    get :generate_service_note, on: :member
+    get :generate_ticket_paid, on: :member
     put :update_quantity, on: :collection
     delete :delete_spare_part, on: :collection
   end

@@ -6,6 +6,6 @@
       <% end %>
   <% end %>
   <% unless @service.equipment_customers.blank? %>
-    <%= render 'shared/generate_report', url_report: generate_ticket_service_path(@service, format: 'pdf') %>
+    <%= render 'shared/generate_report', url_report: generate_service_note_service_path(@service, format: 'pdf') %>
   <% end %>
 </div>

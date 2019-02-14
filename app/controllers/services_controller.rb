@@ -127,13 +127,13 @@ class ServicesController < ApplicationController
     end
   end
 
-  def generate_ticket
+  def generate_service_note
     respond_to do |format|
       format.pdf do
         @service = Service.find(params[:id])
         render pdf: 'report',
                #wkhtmltopdf: route_wicked,
-               template: 'services/ticket.pdf.html.erb',
+               template: 'services/note.pdf.html.erb',
                background: true,
                layout: 'pdf_layout.html.erb',
                page_size: 'A4',
@@ -171,6 +171,24 @@ class ServicesController < ApplicationController
     spare_part.adjust_quantity(service_spare_part.quantity * -1)
     service_spare_part.destroy
     generate_totals
+  end
+
+  def generate_ticket_paid
+    respond_to do |format|
+      format.pdf do
+        @service = Service.find(params[:id])
+        render pdf: 'report',
+               #wkhtmltopdf: route_wicked,
+               template: 'services/ticket.pdf.html.erb',
+               background: true,
+               layout: 'pdf_layout.html.erb',
+               page_size: 'A7',
+               margin: {
+                 top: 5,
+                 bottom: 4
+               }
+      end
+    end
   end
 
   private

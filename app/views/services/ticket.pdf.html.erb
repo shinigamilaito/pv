@@ -1,162 +1,85 @@
-<div class="row" style="border: 2px solid #3b8dbb; border-radius:10px">
-  <div class="col-xs-2">
-    <p style="font-size: 86px; margin-top: 15px; margin-bottom: 0px; font-weight: 700; color: #3b8dbb">PC</p>
-  </div>
-  <div class="col-xs-4" style="font-size: 46px; color: #3b8dbb">
-    <p style="
-    margin-top: 15px;
-    font-weight: 600;
-    margin-bottom: 0px;"">tienda & reparación</p>
-  </div>
-
-  <div class="col-xs-3" style="font-size: 16px;font-weight: 600;margin-top: 15px;">
-    <ul style="margin-bottom: 0px; list-style: none; letter-spacing: 1px;">
-      <li>- MEMORIAS</li>
-      <li>- REDES</li>
-      <li>- Cd's DVD's</li>
-      <li>- IMPRESORAS</li>
-      <li>- LAPTOPS</li>
-    </ul>
-  </div>
-
-  <div class="col-xs-3" style="font-size: 16px;font-weight: 600;margin-top: 15px;">
-    <ul style="margin-bottom: 0px; list-style: none; letter-spacing: 1px;">
-      <li>- ACCESORIOS</li>
-      <li>- SEGURIDAD</li>
-      <li>- BOCINAS</li>
-      <li>- COPIADORAS</li>
-      <li style="font-size: 15px;">- TINTA Y TONER</li>
-    </ul>
-  </div>
+<div class="text-center">
+  <p><strong>PC TIENDA & REPARACIÓN</strong></p>
+  <p style='margin-bottom: 0px;'>Domicilio</p>
+  <p style='margin-bottom: 0px;'>Calle 16 de Septiembre No. 6 y 3</p>
+  <p style='margin-bottom: 0px;'>Col. Centro, México, CP 69000</p>
+  <p style='margin-bottom: 0px;'>Heroica Ciudad de Huajuapan de León, Oaxaca</p>
+  <p style='margin-bottom: 0px;'>RFC. TTTT9999999ED</p>
+  <p>Sucursal: [Accesorios/Servicio/Imprenta]
 </div>
+<p><%= date_time_helper(Time.now) %></p>
+<p class=text-right>Folio: <%= @service.folio %></p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>CODIGO</th>
+      <th>CANT</th>
+      <th>DESCRIPCIÓN</th>
+      <th>PU</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @service.service_spare_parts.each do |service_spare_part| %>
+      <tr>
+        <td></td>
+        <td><%= service_spare_part.quantity %></td>
+        <td><%= service_spare_part.name_ticket %></td>
+        <td><%= number_to_currency service_spare_part.price %></td>
+        <td><%= number_to_currency service_spare_part.total_cost %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <div class="row">
-  <div class="col-xs-4 text-center" style="font-size: 14px;font-weight: 600;margin-top: 15px;">
-    <p style="margin-bottom: 0px;">16 DE SEPTIEMBRE #6 COL. CENTRO</p>
-    <P>HUAJUAPAN DE LEÓN, OAX.</p>
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Subtotal:</p>
   </div>
-  <div class="col-xs-4 text-center" style="font-size: 14px;font-weight: 600;margin-top: 15px;">
-    <p style="margin-bottom: 0px;">richard_1806@hotmail.com</p>
-    <p>printcci@hotmail.com</p>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @service.generate_totals(@service.worforce, @service.discount)[:total_products] %></p>
   </div>
-  <div class="col-xs-4 text-right" style="font-size: 28px;font-weight: 600;margin-top: 15px;">
-    <p>TEL: 53 2 55 21</p>
+
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Descuentos:</p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @service.generate_totals(@service.worforce, @service.discount)[:total_discount] %></p>
+  </div>
+
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>IVA al 16%:</p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency 0 %></p>
+  </div>
+
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'><strong>Total M.N.:</strong></p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency  @service.generate_totals(@service.worforce, @service.discount)[:total_final] %></p>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-8 text-right" style="font-size: 23px; font-weight: bold; margin-top: 15px; letter-spacing: 2px;">
-    <p>NOTA DE SERVICIO</p>
+<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Pago >> <%= @service.payment_type.name %></p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency 1500 %></p>
   </div>
 
-  <div class="col-xs-4 text-right" style="font-size: 23px; font-weight: 600;margin-top: 15px;">
-    <p>Fecha: <span><%= Date.current.strftime("%d/%m/%Y") %></span></p>
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Cambio:</p>
   </div>
-</div>
-
-<div class="text-left" style="border: 2px solid;">
-  <div class="row" style="margin-left: 1px; font-size: 16px; font-weight: 600; margin-top: 15px;">
-    <div class="col-xs-2">
-      <p>Nombre:</p>
-    </div>
-    <div class="col-xs-10">
-      <p><%= @service.client.formal_name %></p>
-    </div>
-  </div>
-
-  <div class="row" style="margin-left: 1px; font-size: 16px; font-weight: 600">
-    <div class="col-xs-2">
-      <p>Dirección:</p>
-    </div>
-    <div class="col-xs-10">
-      <p><%= @service.client.address %></p>
-    </div>
-  </div>
-
-  <div class="row" style="margin-top: 0px; margin-left: 1px; font-size: 16px; font-weight: 600;">
-    <div class="col-xs-2">
-      <p style="margin-top: 0px">Tel:</p>
-    </div>
-    <div class="col-xs-4">
-      <p style="margin-top: 0px"><%= @service.client.home_phone %></p>
-    </div>
-
-    <div class="col-xs-2">
-      <p style="margin-top: 0px">Cel:</p>
-    </div>
-    <div class="col-xs-4">
-      <p style="margin-top: 0px"><%= @service.client.mobile_phone %></p>
-    </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency 25.5 %></p>
   </div>
 </div>
 
-<% @service.equipment_customers.each do |equipment_customer| %>
-<h4>Descripción del Equipo:</h4>
+<p class="text-center" style="margin-bottom: 0px; font-size:12px">Documento sin efectos fiscales</p>
+<p class="text-center" style="font-size:12px; padding-bottom: 5px; border-bottom-style: dashed;">[ Políticas de Garantía ]</p>
 
-<div class="row description-equipment">
-  <div class="col-xs-12">
-      <h4 style="font-weight: bold; display: inline;"><%= equipment_customer.equipment.name %></h4>
-      <p style="display: inline;"><%= sanitize equipment_customer.description %></p>
-  </div>
-</div>
-
-<div class="row brand">
-  <div class="col-xs-6">
-    <h4 style="font-weight: bold; display: inline;">Marca: </h4>
-    <p style="display: inline;"><%= equipment_customer.brand.name %></p>
-  </div>
-  <div class="col-xs-6">
-    <h4 style="font-weight: bold; display: inline;">Modelo: </h4>
-    <p style="display: inline;"><%= equipment_customer.equipment_model.name %></p>
-  </div>
-</div>
-
-<div class="row brand text-center" style="margin: 10px;">
-  <h4 style="font-weight: bold;">COMPONENTES QUE DEJA CON EL EQUIPO</h4>
-</div>
-
-<div class="row">
-  <div class="col-xs-8">
-    <div class="form-group">
-      <div class="row">
-      <% Component.first(3).each do |component| %>
-        <div class="col-xs-4" style="display: inline-block; margin-bottom: 5px;">
-          <label style="font-size: 18px;">
-              <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component) %>
-              <%= component.name %>
-          </label>
-        </div>
-      <% end %>
-      </div>
-      <div class="row">
-      <% Component.last(3).each do |component| %>
-        <div class="col-xs-4" style="display: inline-block; margin-bottom: 5px;">
-          <label style="font-size: 18px;">
-              <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component) %>
-              <%= component.name %>
-          </label>
-        </div>
-      <% end %>
-      </div>
-    </div>
-  </div>
-  <div class="col-xs-4">
-    <div class="form-group" style="font-size: 18px;">
-      <label>Cable</label>
-      <div readonly>
-        <%= equipment_customer.cable_type.name if equipment_customer.cable_type %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<hr style="margin: 0px;">
-<% end %>
-
-<div class="row">
-  <div class="col-xs-12" style="font-size: 18px;">
-    <p class="text-center" style="color: red;"><span style="text-decoration: underline;">HORARIO:</span> 9:30 a.m. a 3:00 p.m. y 5:00 p.m. a 9:00 p.m.</p>
-    <p class="text-left" style="color: #3b8dbb; text-decoration: underline;">SU NOTA ES IMPORTANTE, NO LA PIERDA, SIN ELLA NO HAY GARANTÍA Y SU EQUIPO NO LE SERA ENTREGADO.</p>
-    <p class="text-left" style="color: #3b8dbb; text-decoration: underline;">DESPUÉS DE 30 DÍAS PC TIENDA Y REPARACIÓN NO SE HACE RESPONSABLE DEL, O LOS EQUIPOS.</p>
-  </div>
-</div>
+<p>Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>

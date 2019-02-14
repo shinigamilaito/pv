@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def date_time_helper(datetime)
-    datetime.strftime('%d/%m/%Y - %I:%M %p')
+    datetime.strftime('%A, %d %b %Y %I:%M:%S')
   end
 
 end

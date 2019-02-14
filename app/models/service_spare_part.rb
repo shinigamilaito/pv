@@ -33,4 +33,10 @@ class ServiceSparePart < ApplicationRecord
     self.save
   end
 
+  def name_ticket
+    return self.description unless self.description.empty?
+
+    self.name
+  end
+
 end
