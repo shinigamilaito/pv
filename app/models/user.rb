@@ -23,15 +23,4 @@ class User < ApplicationRecord
     where('CONCAT(LOWER(name), LOWER(first_name), LOWER(last_name)) LIKE :term OR LOWER(username) LIKE :term OR LOWER(email) LIKE :term' , term: "%#{term.downcase}%")
   end
 
-  def pending_in_sale?(product_code)
-    sale_products.where(code: product_code, sale_id: nil).first ? true : false
-  end
-
-  def give_me_product(product_code)
-    sale_products.where(code: product_code, sale_id: nil).first
-  end
-
-  def products_for_sale
-    sale_products.where(sale_id: nil)
-  end
 end

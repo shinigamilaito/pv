@@ -6,7 +6,7 @@
     <th>Precio</th>
     <th></th>
   </tr>
-  <% current_user.products_for_sale.each do |product| %>
+  <% @products_in_sale.each do |product| %>
     <%= render 'sales/product_sale', product: product %>
-  <% end %>  
+  <% end %>
 </tbody>
