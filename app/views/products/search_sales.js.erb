@@ -1,5 +1,8 @@
-<% if @new_product %>
-  $("#header-table-sales").after("<%= j render('sales/product_sale', product: @product) %>");
+<% new_product = @add_product[:new] %>
+<% product = @add_product[:product] %>
+
+<% if new_product %>
+  $("#header-table-sales").after("<%= j render('sales/product_sale', product: product) %>");
 <% else %>
-  $($("#sale_product_<%= @product.id %> td")[2]).html("<%= @product.quantity %>");
+  $($("#sale_product_<%= product.id %> td")[2]).html("<%= product.quantity %>");
 <% end %>

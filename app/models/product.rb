@@ -15,12 +15,12 @@ class Product < ApplicationRecord
     self.save
   end
 
-  def is_available?(quantity)
+  def available?(quantity)
     self.quantity >= quantity
   end
 
   def adjust_quantity(quantity)
     self.quantity += quantity
-    self.save 
+    self.save
   end
 end

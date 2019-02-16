@@ -24,7 +24,7 @@ class User < ApplicationRecord
   end
 
   def pending_in_sale?(product_code)
-    sale_products.where(code: product_code, sale_id: nil).blank? ? false : true
+    sale_products.where(code: product_code, sale_id: nil).first ? true : false
   end
 
   def give_me_product(product_code)

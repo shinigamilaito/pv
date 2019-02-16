@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'ticket_service/:id_service', to: 'pdfs#ticket_paid_services'
+
   resources :sales do
     delete :delete_product, on: :collection
   end
@@ -89,7 +91,6 @@ Rails.application.routes.draw do
     get :autocomplete_cable_types, on: :collection
   end
 
-  resources :client_types
   resources :payment_types
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
