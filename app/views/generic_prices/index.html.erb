@@ -4,9 +4,8 @@
       <div class="box-header text-center">
         <h3 class="box-title title-catalog">Precios Genéricos</h3>
           <%= link_to 'Registrar', new_generic_price_path, class: "btn btn-info pull-right" %>
-
       </div>
-      <!-- /.box-header -->
+
       <div class="box-body table-responsive no-padding">
         <%= render 'shared/search', id: 'search-generic-prices',
           placeholder: 'Buscar por nombre',
@@ -15,8 +14,7 @@
           <%= render 'body_generic_prices' %>
         </table>
       </div>
-      <!-- /.box-body -->
+
     </div>
-    <!-- /.box -->
   </div>
 </div>

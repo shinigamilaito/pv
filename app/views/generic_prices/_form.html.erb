@@ -3,7 +3,7 @@
     <div class="form-group <%= 'has-error' unless @generic_price.errors[:name].blank? %>">
       <label class="col-sm-2 control-label">Nombre</label>
       <div class="col-sm-10">
-        <%= f.text_field :name, class: "form-control", required: true %>
+        <%= f.text_field :name, class: "form-control", required: true, autofocus: true %>
         <span><%= @generic_price.errors[:name].first %></span>
       </div>
     </div>

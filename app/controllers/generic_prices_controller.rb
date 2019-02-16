@@ -22,11 +22,9 @@ class GenericPricesController < ApplicationController
       if @generic_price.save
         flash[:success] = 'Modelo creado exitosamente.'
         format.html { redirect_to generic_prices_url }
-        format.json { render :show, status: :created, location: @generic_price }
       else
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :new }
-        format.json { render json: @brand.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -36,11 +34,9 @@ class GenericPricesController < ApplicationController
       if @generic_price.update(generic_price_params)
         flash[:success] = 'Modelo actualizado correctamente.'
         format.html { redirect_to generic_prices_url }
-        format.json { render :show, status: :ok, location: @generic_price }
       else
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :edit }
-        format.json { render json: @generic_price.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,7 +47,6 @@ class GenericPricesController < ApplicationController
       respond_to do |format|
         flash[:success] = 'Modelo eliminado correctamente.'
         format.html { redirect_to generic_prices_url }
-        format.json { head :no_content }
       end
     rescue ActiveRecord::InvalidForeignKey => exception
       flash[:error] = 'El modelo ya esta en uso.'
@@ -68,12 +63,11 @@ class GenericPricesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_generic_price
       @generic_price = GenericPrice.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def generic_price_params
       params.require(:generic_price).permit(:name, :price)
     end
