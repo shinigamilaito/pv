@@ -34,3 +34,15 @@ function setSpinner($element) {
 function deleteSpinner($element) {
   $element.LoadingOverlay("hide", true);
 }
+
+function setupSelect(url) {
+  return {
+    minimumInputLength: 1,
+    ajax: {
+      delay: 250,
+      url: url,
+      dataType: 'json',
+      cache: true
+    }
+  }
+}

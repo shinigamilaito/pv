@@ -3,7 +3,7 @@
     <div class="form-group <%= 'has-error' unless @equipment.errors[:name].blank? %>">
       <label class="col-sm-3 control-label">Nombre</label>
       <div class="col-sm-8">
-        <%= f.text_field :name, class: "form-control", required: true %>
+        <%= f.text_field :name, class: "form-control", required: true, autofocus: true %>
         <span><%= @equipment.errors[:name].first %></span>
       </div>
     </div>
@@ -15,9 +15,9 @@
         <div class="invalid-feedback"><%= @equipment.errors[:specifications].first %></div>
       </div>
     </div>
-  <!-- /.box-body -->
+
   <div class="box-footer">
     <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block" %>
   </div>
-  <!-- /.box-footer -->
+
 <% end %>

@@ -3,29 +3,33 @@
 
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_id].first %>">
-        <label>Equipo:</label>
-        <%= f.collection_select :equipment_id, [], :id, :name, { prompt: "Seleccione un equipo" }, class: "form-control autocomplete_equipments", required: true %>
-        <div class="help-block"><%= new_equipment_customer.errors[:equipment_id].first %></div>
+      <div class="col-md-12" style="padding-left:0px;">
+        <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_id].first %>">
+          <label>Equipo:</label>
+          <%= f.collection_select :equipment_id, [], :id, :name, { prompt: "Seleccione un equipo" }, class: "form-control autocomplete_equipments", required: true, autofocus: true %>
+          <div class="help-block"><%= new_equipment_customer.errors[:equipment_id].first %></div>
+        </div>
+      </div>
+
+      <div class="col-md-12" style="padding-left:0px;">
+        <div class="form-group">
+          <label>Marca:</label>
+          <%= f.collection_select :brand_id, [], :id, :name, { prompt: "Seleccione una marca" }, class: "form-control autocomplete_brands", required: true %>
+          <div class="invalid-feedback"><%= new_equipment_customer.errors[:brand_id].first %></div>
+        </div>
+      </div>
+
+      <div class="col-md-12" style="padding-left:0px;">
+        <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_model_id].first %>">
+          <label>Modelo:</label>
+          <%= f.collection_select :equipment_model_id, [], :id, :name, { prompt: "Seleccione un modelo" }, class: "form-control autocomplete_equipment_models", required: true %>
+          <div class="help-block"><%= new_equipment_customer.errors[:equipment_model_id].first %></div>
+        </div>
       </div>
     </div>
 
     <div class="col-md-6">
-      <div class="form-group">
-        <label>Marca:</label>
-        <%= f.collection_select :brand_id, [], :id, :name, { prompt: "Seleccione una marca" }, class: "form-control autocomplete_brands", required: true %>
-        <div class="invalid-feedback"><%= new_equipment_customer.errors[:brand_id].first %></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_model_id].first %>">
-        <label>Modelo:</label>
-        <%= f.collection_select :equipment_model_id, [], :id, :name, { prompt: "Seleccione un modelo" }, class: "form-control autocomplete_equipment_models", required: true %>
-        <div class="help-block"><%= new_equipment_customer.errors[:equipment_model_id].first %></div>
-      </div>
+      <h2>COLOCAR LA IMAGEN</h2>
     </div>
   </div>
 
@@ -33,23 +37,13 @@
     <label class="text-center" style="display: block;">COMPONENTES QUE DEJA CON EL EQUIPO</label>
     <div class="col-sm-6">
       <div class="form-group row">
-        <% Component.first(3).each do |component| %>
-          <div class="col-sm-4 text-left">
-            <label>
-                <%= check_box_tag "equipment_customer[component_ids][]", component.id, new_equipment_customer.components.include?(component) %>
-                <%= component.name %>
-            </label>
-          </div>
+        <% components[0..2].each do |component| %>
+          <%= render 'components/component', component: component, is_present: select_component(new_equipment_customer, component), disabled: false %>
         <% end %>
       </div>
       <div class="form-group row">
-        <% Component.last(3).each do |component| %>
-          <div class="col-sm-4 text-left">
-            <label>
-                <%= check_box_tag "equipment_customer[component_ids][]", component.id, new_equipment_customer.components.include?(component) %>
-                <%= component.name %>
-            </label>
-          </div>
+        <% components[-3..-1].each do |component| %>
+          <%= render 'components/component', component: component, is_present: select_component(new_equipment_customer, component), disabled: :false %>
         <% end %>
       </div>
     </div>
@@ -75,7 +69,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <%= render 'equipment_customers/message_history_form', equipment_customer: new_equipment_customer %>
+      <%= render 'message_histories/form', equipment_customer: new_equipment_customer %>
     </div>
   </div>
 
@@ -84,45 +78,21 @@
 
 <script>
   $(document).ready(function() {
-    $('.autocomplete_cable_types').select2({
-      minimumInputLength: 1,
-      ajax: {
-        delay: 250,
-        url: "/equipment_customers/autocomplete_cable_types",
-        dataType: 'json',
-        cache: true
-      }
-    });
+    $('.autocomplete_cable_types').select2(
+      setupSelect("/equipment_customers/autocomplete_cable_types")
+    );
 
-    $('.autocomplete_equipments').select2({
-      minimumInputLength: 1,
-      ajax: {
-        delay: 250,
-        url: "/equipments/autocomplete",
-        dataType: 'json',
-        cache: true
-      }
-    });
+    $('.autocomplete_equipments').select2(
+      setupSelect("/equipments/autocomplete")
+    );
 
-    $('.autocomplete_brands').select2({
-      minimumInputLength: 1,
-      ajax: {
-        delay: 250,
-        url: "/brands/autocomplete",
-        dataType: 'json',
-        cache: true
-      }
-    });
+    $('.autocomplete_brands').select2(
+      setupSelect("/brands/autocomplete")
+    );
 
-    $('.autocomplete_equipment_models').select2({
-      minimumInputLength: 1,
-      ajax: {
-        delay: 250,
-        url: "/equipment_models/autocomplete",
-        dataType: 'json',
-        cache: true
-      }
-    });
+    $('.autocomplete_equipment_models').select2(
+      setupSelect("/equipment_models/autocomplete")
+    );
 
     $('.textarea_new_equipment_customer').wysihtml5();
   });

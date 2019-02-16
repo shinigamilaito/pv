@@ -1,12 +1,12 @@
 <div id="my-box">
-<button class="box-header with-border accordion_new">
-  <h3 class="box-title">[Nuevo Equipo]</h3>
-</button>
-<div class="panel">
-  <div class="row">
-    <%= render 'equipment_customers/form', new_equipment_customer: @new_equipment_customer, service: @service %>
+  <button class="box-header with-border accordion_new">
+    <h3 class="box-title">[Nuevo Equipo]</h3>
+  </button>
+  <div class="panel">
+    <div class="row">
+      <%= render 'equipment_customers/form', new_equipment_customer: @new_equipment_customer, service: @service, components: @components %>
+    </div>
   </div>
-</div>
 </div>
 
 <script>

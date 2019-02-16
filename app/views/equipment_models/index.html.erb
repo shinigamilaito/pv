@@ -4,9 +4,8 @@
       <div class="box-header text-center">
         <h3 class="box-title title-catalog">Modelos</h3>
           <%= link_to 'Registrar', new_equipment_model_path, class: "btn btn-info pull-right" %>
-
       </div>
-      <!-- /.box-header -->
+
       <div class="box-body table-responsive no-padding">
         <%= render 'shared/search', id: 'search-equipment_models',
           placeholder: 'Buscar por nombre o descripción',
@@ -15,8 +14,7 @@
             <%= render 'body_equipment_models' %>
         </table>
       </div>
-      <!-- /.box-body -->
+
     </div>
-    <!-- /.box -->
   </div>
 </div>
