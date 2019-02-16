@@ -7,6 +7,6 @@ class Client < ApplicationRecord
   end
 
 	def formal_name
-		"#{self.name} #{self.first_name} #{self.last_name}"
+		name + first_name + last_name
 	end
 end

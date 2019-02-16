@@ -5,7 +5,7 @@ class EmployesController < ApplicationController
 
   def new
     @user = User.new
-    @minimum_password_length = 6
+    set_minimum_password
   end
 
   def create
@@ -14,14 +14,14 @@ class EmployesController < ApplicationController
       flash[:success] = 'Usuario creado correctamente.'
       redirect_to employes_path
     else
-      @minimum_password_length = 6
+      set_minimum_password
       render 'new'
     end
   end
 
   def edit
     @user = User.find(params[:id])
-    @minimum_password_length = 6
+    set_minimum_password
   end
 
   def update
@@ -31,7 +31,7 @@ class EmployesController < ApplicationController
       flash[:success] = 'Usuario actualizado correctamente.'
       redirect_to employes_path
     else
-      @minimum_password_length = 6
+      set_minimum_password
       render 'edit'
     end
   end
@@ -44,5 +44,9 @@ class EmployesController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :first_name, :last_name, :username, :email, :password, :password_confirmation, :rol_id)
+  end
+
+  def set_minimum_password
+    @minimum_password_length = 6
   end
 end
