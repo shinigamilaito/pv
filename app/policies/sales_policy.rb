@@ -36,8 +36,9 @@ class SalesPolicy
 
   def delete(sale_product, product)
     ActiveRecord::Base.transaction do
+      @product = product
       quantity = sale_product.quantity
-      raise 'Error al actualizar la cantidad.' unless product.adjust_quantity(quantity)
+      raise 'Error al actualizar la cantidad.' unless adjust_quantity_product(quantity)
       raise 'Error al eliminar el producto.' unless sale_product.destroy
     end
   end
@@ -46,8 +47,8 @@ class SalesPolicy
 
   def adjust_product_in_sale
     ActiveRecord::Base.transaction do
-      raise 'No fue posible ajustar la cantidad del producto.' unless sale_product.adjust_quantity(1)
-      raise 'No fue posible decrementar el stock' unless product.decrement_total
+      raise 'No fue posible ajustar la cantidad del producto.' unless adjust_quantity_sale_product(1)
+      raise 'No fue posible decrementar el stock' unless decrement_total_product
       sale_product
     end
   end
@@ -57,7 +58,7 @@ class SalesPolicy
       sale_product = new_sale_product
       sale_product.user = user
       raise 'Producto no creado' unless sale_product.save
-      raise 'No fue posible decrementar el stock' unless product.decrement_total
+      raise 'No fue posible decrementar el stock' unless decrement_total_product
       sale_product
     end
   end
@@ -87,5 +88,20 @@ class SalesPolicy
     sale_product.product = product
 
     sale_product
+  end
+
+  def adjust_quantity_sale_product(new_quantity)
+    sale_product.quantity += new_quantity
+    sale_product.save
+  end
+
+  def decrement_total_product
+    product.quantity -= 1
+    product.save
+  end
+
+  def adjust_quantity_product(quantity)
+    product.quantity += quantity
+    product.save
   end
 end

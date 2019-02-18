@@ -5,18 +5,4 @@ class SparePart < ApplicationRecord
     where('LOWER(name) LIKE :term or LOWER(description) LIKE :term', term: "%#{term.downcase}%") if term.present?
   end
 
-  def decrement_total
-    self.total -= 1
-    self.save
-  end
-
-  def is_available?(quantity)
-    self.total >= quantity
-  end
-
-  def adjust_quantity(change)
-    self.total = self.total - change
-    self.save
-  end
-
 end

@@ -3,7 +3,7 @@ $("#list_equipments").html('<%= j render("list_equipments") %>');
 <% if @service.paid %>
   $("#paid").html('<%= j render('paid') %>');
 <% else %>
-  $("#paid").html('<%= j render('form_paid') %>');  
+  $("#paid").html('<%= j render('form_paid') %>');
 <% end %>
 
 toastr['success']('<%= @message %>');

@@ -6,7 +6,7 @@ class PdfsController < ApplicationController
       format.pdf do
         @ticket_service = TicketService.new(@service)
         render pdf: 'report',
-               wkhtmltopdf: route_wicked,
+               #wkhtmltopdf: route_wicked,
                template: 'pdfs/ticket_paid_service.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
@@ -25,7 +25,7 @@ class PdfsController < ApplicationController
         @note_service = NoteService.new(@service)
         @components = Component.order(:created_at)
         render pdf: 'report',
-               wkhtmltopdf: route_wicked,
+               #wkhtmltopdf: route_wicked,
                template: 'pdfs/note_service.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',

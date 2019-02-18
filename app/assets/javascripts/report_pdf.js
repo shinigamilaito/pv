@@ -7,12 +7,17 @@ function setPrint() {
   this.contentWindow.onbeforeunload = closePrint;
   this.contentWindow.onafterprint = closePrint;
   this.contentWindow.focus(); // Required for IE
-  $("#print-button").val("Imprimir");
+  if($elementPrintPDF != undefined) {
+    $elementPrintPDF.val("Imprimir");
+  }
   this.contentWindow.print();
 }
 
-function printPage(sURL) {
-  $("#print-button").val("Generando reporte...");
+function printPage(element, sURL) {
+  if(element != null) {
+    $elementPrintPDF = $('#' + element)
+    $elementPrintPDF.val("Generando reporte...");
+  }
   var oHiddFrame = document.createElement("iframe");
   oHiddFrame.onload = setPrint;
   oHiddFrame.style.visibility = "hidden";

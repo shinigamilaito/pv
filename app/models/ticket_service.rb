@@ -30,7 +30,7 @@ class TicketService
 
   def spare_parts
     spare_parts = []
-    spare_parts_sell.each { |local_spare_part| spare_parts << local_spare_part.public_data }
+    spare_parts_sell.each { |local_spare_part| spare_parts << public_data(local_spare_part) }
     spare_parts << worforce
     spare_parts
   end
@@ -47,13 +47,13 @@ class TicketService
   end
 
   def type_paid
-    service.type_paid
+    service.payment_type.name
   end
 
   private
 
   def spare_parts_sell
-    service.spare_parts
+    service.service_spare_parts.order(:created_at)
   end
 
   def worforce
@@ -91,11 +91,11 @@ class TicketService
   end
 
   def sub_total
-    service.generate_totals(service.worforce, service.discount)[:total_products]
+    total_to_paid[:total_products]
   end
 
   def discount
-    service.generate_totals(service.worforce, service.discount)[:total_discount]
+    total_to_paid[:total_discount]
   end
 
   def iva
@@ -103,7 +103,7 @@ class TicketService
   end
 
   def total
-    service.generate_totals(service.worforce, service.discount)[:total_final]
+    total_to_paid[:total_final]
   end
 
   def paid
@@ -112,5 +112,35 @@ class TicketService
 
   def change
     BigDecimal('25.50')
+  end
+
+  def public_data(spare_part)
+    {
+      code: '0001',
+      quantity: spare_part.quantity,
+      description: name_ticket(spare_part),
+      price: spare_part.price,
+      total: total_cost(spare_part)
+    }
+  end
+
+  def name_ticket(spare_part)
+    return spare_part.description unless spare_part.description.empty?
+
+    spare_part.name
+  end
+
+  def total_cost(spare_part)
+    BigDecimal(spare_part.price * spare_part.quantity)
+  end
+
+  def total_to_paid
+    return @totals if @totals.present?
+
+    total_calculator = TotalCalculator.new(service)
+    total_calculator.worforce = service.worforce
+    total_calculator.discount = service.discount
+
+    @totals = total_calculator.totals
   end
 end

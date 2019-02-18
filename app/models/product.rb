@@ -10,13 +10,4 @@ class Product < ApplicationRecord
     where('LOWER(code) LIKE :term', term: "#{term.downcase}") if term.present?
   end
 
-  def decrement_total
-    self.quantity -= 1
-    self.save
-  end
-
-  def adjust_quantity(quantity)
-    self.quantity += quantity
-    self.save
-  end
 end

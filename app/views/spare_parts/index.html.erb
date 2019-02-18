@@ -4,9 +4,8 @@
       <div class="box-header text-center">
         <h3 class="box-title title-catalog">Refacciones</h3>
         <%= link_to 'Registrar', new_spare_part_path, class: 'btn btn-primary pull-right' %>
-
       </div>
-      <!-- /.box-header -->
+
       <div class="box-body table-responsive no-padding">
         <%= render 'shared/search', id: 'search-spare-parts',
           placeholder: 'Buscar por nombre o descripción',
@@ -15,8 +14,7 @@
           <%= render 'body_spare_parts' %>
         </table>
       </div>
-      <!-- /.box-body -->
+
     </div>
-    <!-- /.box -->
   </div>
 </div>

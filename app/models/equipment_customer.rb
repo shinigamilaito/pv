@@ -17,12 +17,4 @@ class EquipmentCustomer < ApplicationRecord
   	where(client_id: params[:client_id], folio: params[:folio_number]).first
   end
 
-  #def self.load_associations(service_id)
-  #  EquipmentCustomer
-  #    .joins(:service, :equipment, :brand, :equipment_model, :cable_type)
-  #    .select('equipment_customers.*, services.id as service_id, equipments.name as equipment_name, brands.name as brand_name, equipment_models.name as equipment_model_name, cable_types.name as cable_type_name')
-  #    .where('services.id = ?', service_id)
-  #    .order('equipment_customers.created_at desc')
-  #end
-
 end
