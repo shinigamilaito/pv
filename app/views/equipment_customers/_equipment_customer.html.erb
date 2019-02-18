@@ -1,5 +1,5 @@
 <button class="box-header with-border accordion">
-  <h3 class="box-title"><%= equipment_customer.title_header.html_safe %></h3>
+  <h3 class="box-title"><%= title_header(equipment_customer).html_safe %></h3>
 </button>
 <div class="panel">
   <div class="row">
@@ -17,23 +17,13 @@
     <label class="text-center" style="display: block;">COMPONENTES QUE DEJA CON EL EQUIPO</label>
     <div class="col-sm-6">
       <div class="form-group row">
-        <% Component.first(3).each do |component| %>
-          <div class="col-sm-4 text-left">
-            <label>
-                <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component), disabled: true %>
-                <%= component.name %>
-            </label>
-          </div>
+        <% @components[0..2].each do |component| %>
+          <%= render 'components/component', component: component, is_present: select_component(equipment_customer, component), disabled: true %>
         <% end %>
       </div>
       <div class="form-group row">
-        <% Component.last(3).each do |component| %>
-          <div class="col-sm-4 text-left">
-            <label>
-                <%= check_box_tag "equipment_customer[component_ids][]", component.id, equipment_customer.components.include?(component), disabled: true %>
-                <%= component.name %>
-            </label>
-          </div>
+        <% @components[-3..-1].each do |component| %>
+          <%= render 'components/component', component: component, is_present: select_component(equipment_customer, component), disabled: true %>
         <% end %>
       </div>
     </div>
@@ -60,7 +50,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <%= render 'equipment_customers/message_history_form', equipment_customer: equipment_customer %>
+      <%= render 'message_histories/form', equipment_customer: equipment_customer %>
     </div>
     <div class="input-group col-sm-12">
       <% if @service.is_in_process? %>

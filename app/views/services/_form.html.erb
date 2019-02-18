@@ -16,12 +16,7 @@
   <div class="col-md-5" id="select_folios">
     <div class="form-group <%= 'has-error' unless @service.errors[:folio].blank? %>" id="service_folio">
       <label>Buscar/Agregar Folio</label>
-      <% unless @service.new_record? %>
-        <% folio = @service.folios_with_date_creation %>
-      <% else  %>
-        <% folio = nil %>
-      <% end %>
-      <%= select_tag 'service[folio]', options_for_select(@folios, folio), class: 'form-control autocomplete_folios', required: true %>
+      <%= select_tag 'service[folio]', options_for_select(@folios, @folio), class: 'form-control autocomplete_folios', required: true %>
       <div class="help-block"><%= @service.errors[:folio].first %></div>
     </div>
   </div>

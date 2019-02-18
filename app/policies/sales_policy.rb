@@ -37,8 +37,8 @@ class SalesPolicy
   def delete(sale_product, product)
     ActiveRecord::Base.transaction do
       quantity = sale_product.quantity
-      product.adjust_quantity(quantity)
-      sale_product.destroy
+      raise 'Error al actualizar la cantidad.' unless product.adjust_quantity(quantity)
+      raise 'Error al eliminar el producto.' unless sale_product.destroy
     end
   end
 

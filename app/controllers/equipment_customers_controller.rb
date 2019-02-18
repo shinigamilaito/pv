@@ -1,46 +1,22 @@
 class EquipmentCustomersController < ApplicationController
-
-  def search
-    @new_equipment_customer = EquipmentCustomer.new
-    unless params[:search].blank?
-      @equipment_customer = EquipmentCustomer.search(params[:search])
-
-      if @equipment_customer.blank?
-        flash[:error] = 'Cliente / Folio no encontrado.'
-        redirect_to search_equipment_customers_path
-
-      else
-        flash[:success] = 'Cliente / Folio encontrado correctamente.'
-        redirect_to @equipment_customer
-      end
-    end
-  end
-
-  def show
-    session[:spare_part_ids] = nil
-    session[:worforce] = nil
-    session[:discount] = nil
-    @new_equipment_customer = EquipmentCustomer.new
-    @equipment_customer = EquipmentCustomer.find(params[:id])
-  end
-
   def new
     @service = Service.find(params[:service_id])
     @new_equipment_customer = EquipmentCustomer.new
     @message_history = MessageHistory.new
+    @components = Component.all
   end
 
   def create
     message_history = MessageHistory.new(message_history_params)
     message_history.user = current_user
-    @new_equipment_customer = EquipmentCustomer.new(equipment_customer_params)
-    @new_equipment_customer.message_histories << message_history unless message_history.message.blank?
-    @service = @new_equipment_customer.service
+    equipment_customer = EquipmentCustomer.new(equipment_customer_params)
+    equipment_customer_service = EquipmentCustomerService.new(message_history, equipment_customer)
 
-    if @new_equipment_customer.save
+    if equipment_customer_service.create
+      @service = equipment_customer.service
+      @components = Component.all.order(created_at: :asc)
       render 'create'
     else
-      #@from_create_action_equipment_customers = true
       render 'new'
     end
   end
@@ -53,7 +29,8 @@ class EquipmentCustomersController < ApplicationController
     })
 
     if @equipment_customer.save
-      render 'add_history_message', status: :created
+      @service = @equipment_customer.service
+      render 'message_histories/add', status: :created
     else
       render 'fail_add_history_message', status: :bad_request
     end

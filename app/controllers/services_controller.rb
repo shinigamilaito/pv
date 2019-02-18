@@ -3,85 +3,73 @@ class ServicesController < ApplicationController
     if params[:service_id].present?
       @service = Service.find(params[:service_id])
       @service.employee = current_user
-      @folios = (Service.find_folios(@service.client_id)[:folios_present])
-      clear_session_variables
+      service_policy = ServicesPolicy.new(@service.client_id)
+      @folios = service_policy.find_folios[:folios_present]
+      @folio = service_policy.folios_with_date_creation(@service)
+      @components = Component.all.order(:created_at)
     else
       @service = Service.new
       @folios = []
-      clear_session_variables
     end
+
+    clear_variables
   end
 
   def create
-    clear_session_variables
-    folio = params[:service][:folio]
-    folio = folio.gsub(' ','')
-    folio = folio.split('-')[0]
-    folios = Service.all.map(&:folio)
+    clear_variables
+    services_policy = ServicesPolicy.new(params[:service][:client_id])
+    begin
+      @service = services_policy.create(params[:service], current_user)
 
-    unless folios.include?(folio)
-      @service = Service.new(service_params)
-      @service.user = current_user
-      @folios = folios
-      @folios << @service.folio
-
-      if @service.save(validate: false)
-        @service.employee = current_user
-        @message = 'Registro creado exitosamente.'
-        session[:service_id] ||= @service.id
-        render 'create', status: :created
+      if @service.new_record?
+        @folios = Service.pluck(:folio)
+        @folios << @service.folio
+        if @service.save(validate: false)
+          @service.employee = current_user
+          @components = Component.all.order(:created_at)
+          @message = 'Registro creado exitosamente.'
+          session[:service_id] ||= @service.id
+          render 'create', status: :created
+        else
+          raise 'Error al registrar el servicio.'
+        end
       else
-        render 'new', status: :unprocessable_entity
-      end
-    else
-      # Folio proporcionado esta en uso
-      @service = Service.where(client_id: params[:service][:client_id], folio: folio).first
-
-      if @service.blank?
-        @service = Service.new(service_params)
-        @service.employee = current_user
-        @folios = (Service.find_folios(params[:service][:client_id]))[:folios_present]
-        render 'new', status: :unprocessable_entity
-      else
-        @service.employee = current_user
+        @components = Component.all.order(:created_at)
         @message = 'Servicio encontrado exitosamente.'
         session[:service_id] ||= @service.id
         render 'create', status: :ok
       end
-
+    rescue StandardError => e
+      @service = Service.new(service_params)
+      @service.employee = current_user
+      @folios = services_policy.find_folios[:folios_present]
+      render 'new', status: :unprocessable_entity
     end
   end
 
   def find_folios
-    @folios = (Service.find_folios(params[:client][:id].to_i))[:folios_present]
+    service_policy = ServicesPolicy.new(params[:client][:id].to_i)
+    @folios = service_policy.find_folios[:folios_present]
   end
 
   def add_spare_part
     @service = Service.find(params[:service_id])
     spare_part = SparePart.find(params[:spare_part][:id])
-    if spare_part.is_available?(1)
-      spare_part.decrement_total()
-      service_spare_part = ServiceSparePart.new_from(spare_part)
-      service_spare_part.service = @service
-      service_spare_part.save
-
+    spare_part_service = SparePartService.new(@service, spare_part)
+    begin
+      spare_part_service.add
       generate_totals
-    else
-      render js: "toastr['error']('Sin refacción. Las refacciones no son suficientes.');", status: :bad_request
+    rescue StandardError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
 
   def update_worforce
     session[:worforce] = BigDecimal.new(params[:worforce].gsub(',',''))
-    session[:discount] ||= BigDecimal.new('0.00'.gsub(',',''))
-
-    total_worforce = BigDecimal.new(session[:worforce])
-    total_discount = BigDecimal.new(session[:discount])
-
     @service = Service.find(params[:service_id])
 
     if @service.service_spare_parts.present?
-      @totals = @service.generate_totals(total_worforce, total_discount)
+      @totals = generate_totals
       render 'add_spare_part'
     else
       head :ok
@@ -90,34 +78,21 @@ class ServicesController < ApplicationController
 
   def update_discount
     session[:discount] = BigDecimal.new(params[:discount].gsub(',',''))
-    session[:worforce] ||= BigDecimal.new('0.00'.gsub(',',''))
-
-    total_worforce = BigDecimal.new(session[:worforce])
-    total_discount = BigDecimal.new(session[:discount])
-
     @service = Service.find(params[:service_id])
 
     if @service.service_spare_parts.present?
-      @totals = @service.generate_totals(total_worforce, total_discount)
+      @totals = generate_totals
       render 'add_spare_part'
     else
       head :ok
     end
   end
 
+  # paid the service
   def update
-    @service = Service.find(params[:id])
-    @service.user = current_user
-    @service.paid = true
-
-    if params[:from_generic_price].eql?('true')
-      generic_price = GenericPrice.find(params[:price])
-      @service.generic_price = generic_price
-    else
-      @service.worforce = BigDecimal.new(params[:price])
-    end
-
-    clear_session_variables
+    services_policy = ServicesPolicy.new
+    @service = services_policy.paid(params, current_user)
+    clear_variables
 
     if @service.update(service_params)
       render 'update'
@@ -127,67 +102,30 @@ class ServicesController < ApplicationController
     end
   end
 
-  def generate_service_note
-    respond_to do |format|
-      format.pdf do
-        @service = Service.find(params[:id])
-        render pdf: 'report',
-               #wkhtmltopdf: route_wicked,
-               template: 'services/note.pdf.html.erb',
-               background: true,
-               layout: 'pdf_layout.html.erb',
-               page_size: 'A4',
-               margin: {
-                 top: 10,
-                 bottom: 40
-               }
-      end
-    end
-  end
-
   def update_quantity
     new_quantity = params[:quantity].to_i
     service_spare_part = ServiceSparePart.find(params[:service_spare_part_id])
-    spare_part = service_spare_part.spare_part
-
-    if new_quantity != service_spare_part.quantity
-      increment_quantity = new_quantity - service_spare_part.quantity
-      if spare_part.is_available?(increment_quantity)
-        service_spare_part.adjust_quantity(new_quantity)
-        spare_part.adjust_quantity(increment_quantity)
+    spare_part_service = SparePartService.new
+    begin
+      if spare_part_service.update_quantity(new_quantity, service_spare_part)
         render js: "toastr['success']('Stock actualizado correctamente.');", status: :ok
       else
-        render js: "toastr['error']('Cantidad faltante.');", status: :bad_request
+        head :ok
       end
-    else
-      head :ok
+    rescue StandardError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
 
   def delete_spare_part
+    spare_part_service = SparePartService.new
     service_spare_part = ServiceSparePart.find(params[:service_spare_part_id])
     @service = service_spare_part.service
-    spare_part = service_spare_part.spare_part
-    spare_part.adjust_quantity(service_spare_part.quantity * -1)
-    service_spare_part.destroy
-    generate_totals
-  end
-
-  def generate_ticket_paid
-    respond_to do |format|
-      format.pdf do
-        @service = Service.find(params[:id])
-        render pdf: 'report',
-               #wkhtmltopdf: route_wicked,
-               template: 'services/ticket.pdf.html.erb',
-               background: true,
-               layout: 'pdf_layout.html.erb',
-               page_size: 'A7',
-               margin: {
-                 top: 5,
-                 bottom: 4
-               }
-      end
+    begin
+      spare_part_service.delete(service_spare_part)
+      generate_totals
+    rescue StandardError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
 
@@ -198,7 +136,7 @@ class ServicesController < ApplicationController
       :date_of_entry, :discount, :departure_date, :image_client, :employee_id)
   end
 
-  def clear_session_variables
+  def clear_variables
     session[:worforce] = nil
     session[:discount] = nil
   end
@@ -206,11 +144,10 @@ class ServicesController < ApplicationController
   def generate_totals
     session[:worforce] ||= BigDecimal.new('0.00'.gsub(',',''))
     session[:discount] ||= BigDecimal.new('0.00'.gsub(',',''))
-
-    total_worforce = BigDecimal.new(session[:worforce])
-    total_discount = BigDecimal.new(session[:discount])
-
-    @totals = @service.generate_totals(total_worforce, total_discount)
+    total_calculator = TotalCalculator.new(@service)
+    total_calculator.worforce = BigDecimal.new(session[:worforce])
+    total_calculator.discount = BigDecimal.new(session[:discount])
+    @totals = total_calculator.totals
   end
 
 end

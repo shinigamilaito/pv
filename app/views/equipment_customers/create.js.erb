@@ -1,7 +1,7 @@
 $("#new-equipment-body").html('<%= j render(@service.equipment_customers.order(created_at: :desc)) %>');
-<% unless session[:spare_part_ids].blank? %>
-  $("#btn_paid").removeAttr("disabled");
-<% end %>
+<%# unless session[:spare_part_ids].blank? %>
+  //$("#btn_paid").removeAttr("disabled");
+<%# end %>
 toastr['success']('Equipo agregado exitosamente.');
 
 $(document).ready(function() {

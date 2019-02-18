@@ -18,7 +18,7 @@
       </div>
       <div class="form-group">
         <label class="col-md-5 control-label">Mano de Obra</label>
-        <div class="col-md-7 form-control"><%= number_to_currency @service.worforce %></div>
+        <div class="col-md-7 form-control"><%= number_to_currency worforce(@service) %></div>
       </div>
       <div class="form-group">
         <label class="col-md-5 control-label">Descuento</label>
@@ -55,7 +55,7 @@
       </table>
 
       <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
-        <%= render 'services/totals_costs', totals: @service.generate_totals(@service.worforce, @service.discount) %>        
+        <%= render 'services/totals_costs', totals: totals(@service) %>
       </div>
     </div>
   </div>

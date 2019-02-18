@@ -22,6 +22,7 @@
           <div class="invalid-feedback"><%= @service.errors[:date_of_entry].first %></div>
         </div>
       </div>
+
       <div class="form-group">
         <label class="col-md-5 control-label">Tipo de Pago</label>
         <div class="col-md-7">
@@ -45,6 +46,7 @@
           <div class="invalid-feedback"><%= @service.errors[:worforce].first %></div>
         </div>
       </div>
+
       <div class="form-group">
         <label class="col-md-5 control-label">Descuento</label>
         <div class="col-md-7">
@@ -55,6 +57,7 @@
           <div class="invalid-feedback"><%= @service.errors[:discount].first %></div>
         </div>
       </div>
+
       <div class="form-group">
         <label class="col-md-5 control-label">Fecha de Salida</label>
         <div class="col-md-7">
@@ -62,6 +65,7 @@
           <div class="invalid-feedback"><%= @service.errors[:departure_date].first %></div>
         </div>
       </div>
+
       <%= render "services/image_client" %>
     </div>
 

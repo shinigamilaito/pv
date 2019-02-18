@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'ticket_service/:id_service', to: 'pdfs#ticket_paid_services'
+  get 'ticket_service/:id_service', to: 'pdfs#ticket_paid_services', as: :generate_ticket_service
+  get 'note_service/:id_service', to: 'pdfs#note_services', as: :generate_note_service
 
   resources :sales do
     delete :delete_product, on: :collection
@@ -9,28 +10,6 @@ Rails.application.routes.draw do
     get :search, on: :collection
     get :search_sales, on: :collection
   end
-
-  get '/pages/issue_744' => 'pages#issue_744'
-  get '/pages/issue_729' => 'pages#issue_729'
-  get '/pages/issue_709' => 'pages#issue_709'
-  get '/pages/issue_45080858' => 'pages#issue_45080858'
-  get '/pages/issue_45329522' => 'pages#issue_45329522'
-  get '/pages/issue_672' => 'pages#issue_672'
-  get '/pages/issue_43980674' => 'pages#issue_43980674'
-  get '/pages/issue_608' => 'pages#issue_608'
-  get '/pages/issue_38311828' => 'pages#issue_38311828'
-  get '/pages/issue_540' => 'pages#issue_540'
-  get '/pages/issue_435' => 'pages#issue_435'
-  get '/pages/issue_124' => 'pages#issue_124'
-  get '/pages/issue_250' => 'pages#issue_250'
-  get '/pages/issue_353' => 'pages#issue_353'
-  get '/pages/issue_339' => 'pages#issue_339'
-  get '/pages/issue_330' => 'pages#issue_330'
-  get '/pages/issue_327' => 'pages#issue_327'
-  get '/pages/issue_326' => 'pages#issue_326'
-  get '/pages/issue_321' => 'pages#issue_321'
-  get '/pages/issue_428' => 'pages#issue_428'
-  get '/pages/issue_474' => 'pages#issue_474'
 
   devise_for :users
 
