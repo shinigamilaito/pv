@@ -34,4 +34,12 @@ class Service < ApplicationRecord
     	.where('CONCAT(LOWER(clients.name), LOWER(clients.first_name), LOWER(clients.last_name)) LIKE :term OR LOWER(services.folio) LIKE :term', term: "%#{term.downcase}%")
  	end
 
+  def real_worforce
+    if generic_price.present?
+      generic_price.price
+    else
+      worforce
+    end
+  end
+
 end

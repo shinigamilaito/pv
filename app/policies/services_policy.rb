@@ -53,8 +53,10 @@ class ServicesPolicy
     if service_params[:from_generic_price].eql?('true')
       generic_price = GenericPrice.find(price)
       service.generic_price = generic_price
+      service.worforce = BigDecimal.new('0.00')
     else
       service.worforce = BigDecimal.new(price)
+      service.generic_price = nil
     end
 
     service

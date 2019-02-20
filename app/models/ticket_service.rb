@@ -61,8 +61,8 @@ class TicketService
       code: '',
       quantity: 1,
       description: 'Mano de Obra',
-      price: service.worforce,
-      total: service.worforce
+      price: service.real_worforce,
+      total: service.real_worforce
     }
   end
 
@@ -138,7 +138,7 @@ class TicketService
     return @totals if @totals.present?
 
     total_calculator = TotalCalculator.new(service)
-    total_calculator.worforce = service.worforce
+    total_calculator.worforce = service.real_worforce
     total_calculator.discount = service.discount
 
     @totals = total_calculator.totals
