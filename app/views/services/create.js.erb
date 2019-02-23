@@ -1,4 +1,5 @@
 $("#list_equipments").html('<%= j render("list_equipments") %>');
+$("#form_service").html('<%= j render("form") %>');
 
 <% if @service.paid %>
   $("#paid").html('<%= j render('paid') %>');

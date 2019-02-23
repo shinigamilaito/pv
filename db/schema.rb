@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190210022725) do
+ActiveRecord::Schema.define(version: 20190223051959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,7 +187,6 @@ ActiveRecord::Schema.define(version: 20190210022725) do
 
   create_table "services", force: :cascade do |t|
     t.bigint "client_id"
-    t.string "folio"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -200,6 +199,7 @@ ActiveRecord::Schema.define(version: 20190210022725) do
     t.boolean "paid", default: false
     t.bigint "employee_id"
     t.bigint "generic_price_id"
+    t.integer "number_folio"
     t.index ["client_id"], name: "index_services_on_client_id"
     t.index ["employee_id"], name: "index_services_on_employee_id"
     t.index ["generic_price_id"], name: "index_services_on_generic_price_id"

@@ -1,6 +1,8 @@
 class ServicesPolicy
   attr_accessor :client_id
 
+  NEW_NOTE = 'NUEVA NOTA'
+
   def initialize(client_id = '')
     @client_id = client_id
   end
@@ -8,27 +10,28 @@ class ServicesPolicy
   def find_folios
     services = Service.where(client_id: client_id).order(created_at: :desc)
     folios_hash = {}
-    folios_hash[:folios] = services.map(&:folio)
+    folios_hash[:folios] = services.map(&:number_folio)
     folios_hash[:folios_present] = services.map do |service|
        folios_with_date_creation(service)
     end
 
+    folios_hash[:folios_present].unshift(NEW_NOTE)
     folios_hash
   end
 
   def create(service_params, user)
-    folio = service_params[:folio].gsub(' ','').split('-')[0]
-    folios = Service.pluck(:folio)
+    folio = service_params[:number_folio].gsub(' ','').split('-')[0].to_i
+    folios = Service.pluck(:number_folio).sort
     unless folios.include?(folio)
       service = Service.new({
         client_id: service_params[:client_id],
-        folio: folio
+        number_folio: Service.count + 1
       })
       service.user = user
       return service
     else
       # Folio proporcionado esta en uso
-      service = Service.where(client_id: client_id, folio: folio).first
+      service = Service.where(client_id: client_id, number_folio: folio).first
 
       if service.new_record?
         raise 'Código ya en uso'
@@ -41,7 +44,7 @@ class ServicesPolicy
 
   def folios_with_date_creation(service)
     paided = service.paid ? 'PAGADO' : 'EN PROCESO'
-    return "#{service.folio} - Creado: #{service.created_at.strftime('%A, %d %b %Y %I:%M:%S')}. #{paided}"
+    return "#{service.number_folio} - Creado: #{service.created_at.strftime('%A, %d %b %Y %I:%M:%S')}. #{paided}"
   end
 
   def paid(service_params, user)

@@ -19,7 +19,7 @@
                 <td><%= index + 1 %></td>
                 <td><%= link_to pending_service.client.formal_name, new_service_path(service_id: pending_service), target: "_blank" %></td>
                 <td><%= pending_service.updated_at.strftime("%d/%m/%Y - %I:%M %p") %></td>
-                <td><%= pending_service.folio %></td>
+                <td><%= pending_service.number_folio %></td>
               </tr>
             <% end %>
           </tbody>

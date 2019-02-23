@@ -25,7 +25,7 @@ class TicketService
   end
 
   def folio
-    service.folio
+    service.number_folio
   end
 
   def spare_parts

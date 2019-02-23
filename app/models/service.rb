@@ -10,9 +10,11 @@ class Service < ApplicationRecord
   has_many :service_spare_parts
 
   validates :client_id, presence: true
-  validates :folio, presence: true, uniqueness: {case_sensitive: true}
+  validates :number_folio, presence: true, uniqueness: {case_sensitive: true}
 
   mount_base64_uploader :image_client, ImageSupportUploader
+
+  before_save :set_number_folio
 
   def frequently_client_label
     total_services = Service.where(client_id: client_id).count
@@ -31,7 +33,7 @@ class Service < ApplicationRecord
   def self.search(term)
     Service.joins(:client)
       .where('services.paid = ?', true)
-    	.where('CONCAT(LOWER(clients.name), LOWER(clients.first_name), LOWER(clients.last_name)) LIKE :term OR LOWER(services.folio) LIKE :term', term: "%#{term.downcase}%")
+    	.where('CONCAT(LOWER(clients.name), LOWER(clients.first_name), LOWER(clients.last_name)) LIKE :term OR LOWER(services.number_folio) LIKE :term', term: "%#{term.downcase}%")
  	end
 
   def real_worforce
@@ -40,6 +42,10 @@ class Service < ApplicationRecord
     else
       worforce
     end
+  end
+
+  def set_number_folio
+    number_folio = Service.count + 1
   end
 
 end

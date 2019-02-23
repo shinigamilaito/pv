@@ -14,16 +14,16 @@
   </div>
 
   <div class="col-md-5" id="select_folios">
-    <div class="form-group <%= 'has-error' unless @service.errors[:folio].blank? %>" id="service_folio">
+    <div class="form-group <%= 'has-error' unless @service.errors[:number_folio].blank? %>" id="service_folio">
       <label>Buscar/Agregar Folio</label>
-      <%= select_tag 'service[folio]', options_for_select(@folios, @folio), class: 'form-control autocomplete_folios', required: true %>
-      <div class="help-block"><%= @service.errors[:folio].first %></div>
+      <%= select_tag 'service[number_folio]', options_for_select(@folios, @folio), class: 'form-control autocomplete_folios', required: true %>
+      <div class="help-block"><%= @service.errors[:number_folio].first %></div>
     </div>
   </div>
 
   <div class="col-md-2">
     <div class="form-group">
-      <%= f.submit 'Guardar - Buscar', class: 'btn btn-info btn-block', style: 'margin-top: 25px;', data: {disable_with: 'Accediendo...'} %>
+      <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'create-search-folio-button', style: 'margin-top: 25px;', data: {disable_with: 'Accediendo...'} %>
     </div>
   </div>
 
@@ -43,7 +43,6 @@
     templateResult: formatRepoClient,
     templateSelection: formatRepoSelectionClient
 	});
-
   $('.autocomplete_clients').on('select2:select', function (e) {
       var data = e.params.data;
       $.ajax({
@@ -63,8 +62,26 @@
   });
 
   $(document).ready(function() {
-    $('.autocomplete_folios').select2({
-      tags: true
+    $createSearchFolioButton = $('#create-search-folio-button');
+
+    $('.autocomplete_folios').select2();
+
+    $('.autocomplete_folios').on('select2:select', function (e) {
+      var textNote = e.params.data.text;
+      if (textNote != 'NUEVA NOTA') {
+        $createSearchFolioButton.val("Buscar");
+      } else {
+        $createSearchFolioButton.val("Registrar");
+      }
     });
+
+    <% if @folios.blank? || @folio.eql?('NUEVA NOTA') || @folio.nil? %>
+      console.log("Registrar...");
+      $createSearchFolioButton.val("Registrar");
+    <% else %>
+      console.log("Buscar..."),
+      $createSearchFolioButton.val("Buscar");
+    <% end %>
   });
+
 </script>

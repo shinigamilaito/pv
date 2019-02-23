@@ -1,12 +1,29 @@
 <div class="form-group", id="service_folio">
   <label>Folio</label>
-  <%= select_tag 'service[folio]', options_for_select(@folios), class: 'form-control autocomplete_folios', required: true %>    
+  <%= select_tag 'service[number_folio]', options_for_select(@folios), class: 'form-control autocomplete_folios', required: true %>
 </div>
 
 <script>
   $(document).ready(function() {
-    $('.autocomplete_folios').select2({
-      tags: true
+    $createSearchFolioButton = $('#create-search-folio-button');
+
+    $('.autocomplete_folios').select2();
+
+    $('.autocomplete_folios').on('select2:select', function (e) {
+      var textNote = e.params.data.text;
+      if (textNote != 'NUEVA NOTA') {
+        $createSearchFolioButton.val("Buscar");
+      } else {
+        $createSearchFolioButton.val("Registrar");
+      }
     });
+
+    <% if @folios.blank? || @folio.eql?('NUEVA NOTA') || @folio.nil? %>
+      console.log("Registrar...");
+      $createSearchFolioButton.val("Registrar");
+    <% else %>
+      console.log("Buscar..."),
+      $createSearchFolioButton.val("Buscar");
+    <% end %>
   });
 </script>

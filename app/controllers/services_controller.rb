@@ -20,13 +20,14 @@ class ServicesController < ApplicationController
     services_policy = ServicesPolicy.new(params[:service][:client_id])
     begin
       @service = services_policy.create(params[:service], current_user)
+      @folios = services_policy.find_folios[:folios_present]
+      @components = Component.all.order(:created_at)
 
       if @service.new_record?
-        @folios = Service.pluck(:folio)
-        @folios << @service.folio
         if @service.save(validate: false)
+          @folios = services_policy.find_folios[:folios_present]
+          @folio = services_policy.folios_with_date_creation(@service)
           @service.employee = current_user
-          @components = Component.all.order(:created_at)
           @message = 'Registro creado exitosamente.'
           session[:service_id] ||= @service.id
           render 'create', status: :created
@@ -34,7 +35,8 @@ class ServicesController < ApplicationController
           raise 'Error al registrar el servicio.'
         end
       else
-        @components = Component.all.order(:created_at)
+        @folios = services_policy.find_folios[:folios_present]
+        @folio = services_policy.folios_with_date_creation(@service)
         @message = 'Servicio encontrado exitosamente.'
         session[:service_id] ||= @service.id
         render 'create', status: :ok
@@ -132,7 +134,7 @@ class ServicesController < ApplicationController
   private
 
   def service_params
-    params.require(:service).permit(:client_id, :folio, :payment_type_id,
+    params.require(:service).permit(:client_id, :number_folio, :payment_type_id,
       :date_of_entry, :discount, :departure_date, :image_client, :employee_id)
   end
 
