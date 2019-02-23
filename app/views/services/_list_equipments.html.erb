@@ -3,7 +3,7 @@
     <h3 class="box-title">Equipos Ingresados</h3>
     <%= render 'services/generate_report_url' %>
   </div>
-  <div class="box-body" id="new-equipment-body">
+  <div class="box-body" id="new-equipment-body" style="padding-left: 0px; padding-right: 0px;">
     <%= render @service.equipment_customers.order(created_at: :desc) %>
   </div>
 </div>

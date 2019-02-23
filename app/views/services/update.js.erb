@@ -1,5 +1,8 @@
 $("#paid").html('<%= j render('paid') %>');
 $(".link-hover").remove();
 toastr['success']('Pago registrado correctamente.');
-$("#generate_report_url").html('<%= j render('generate_report_url') %>');
-printPage(null, '<%= generate_ticket_service_path(@service, format: 'pdf') %>');
+$("#header-services").html('<%= j render('services/header') %>');
+
+$(document).ready(function() {
+  $('#print-ticket').click();
+});

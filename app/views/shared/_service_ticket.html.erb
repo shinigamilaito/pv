@@ -1,0 +1,12 @@
+<%= link_to '#', class: "btn btn-default", id: "print-ticket"  do %>
+  <i class="fa fa-fw fa-file-text-o"></i>
+  Ticket
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $('#print-ticket').click(function() {
+      printPage('print-ticket', '<%= url_report %>');
+    });
+  });
+</script>

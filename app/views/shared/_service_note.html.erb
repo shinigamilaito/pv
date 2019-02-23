@@ -1,0 +1,12 @@
+<%= link_to '#', class: "btn btn-default text-left", id: "print-button"  do %>
+  <i class="fa fa-fw fa-file-text-o"></i>
+  Nota
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $('#print-button').click(function() {
+      printPage('print-button', '<%= url_report %>');
+    });
+  });
+</script>

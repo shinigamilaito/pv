@@ -1,3 +1,5 @@
+var titlePrint = ''
+
 function closePrint() {
   document.body.removeChild(this.__container__);
 }
@@ -8,7 +10,8 @@ function setPrint() {
   this.contentWindow.onafterprint = closePrint;
   this.contentWindow.focus(); // Required for IE
   if($elementPrintPDF != undefined) {
-    $elementPrintPDF.val("Imprimir");
+    $elementPrintPDF.html(titlePrint);
+    titlePrint = ''
   }
   this.contentWindow.print();
 }
@@ -16,7 +19,8 @@ function setPrint() {
 function printPage(element, sURL) {
   if(element != null) {
     $elementPrintPDF = $('#' + element)
-    $elementPrintPDF.val("Generando reporte...");
+    titlePrint = $elementPrintPDF.html();
+    $elementPrintPDF.html("Generando...");
   }
   var oHiddFrame = document.createElement("iframe");
   oHiddFrame.onload = setPrint;

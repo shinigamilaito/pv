@@ -1,4 +1,4 @@
-<div class="box-tools pull-right" id="generate_report_url">
+<div id="generate_service_note_url">
   <% unless @service.paid %>
     <%= link_to new_equipment_customer_path(service_id: @service.id), class: 'link-hover', data: {remote: true, disable_with: 'Accediendo...'} do %>
       <i class="fa fa-fw fa-plus-square" style="font-size: 2.2rem;"></i>
@@ -6,6 +6,9 @@
       <% end %>
   <% end %>
   <% unless @service.equipment_customers.blank? %>
-    <%= render 'shared/generate_report', url_report: generate_note_service_path(@service, format: 'pdf') %>
+    <%= render 'shared/service_note', url_report: generate_note_service_path(@service, format: 'pdf') %>
+  <% end %>
+  <% unless @service.is_in_process? %>
+    <%= render 'shared/service_ticket', url_report: generate_ticket_service_path(@service, format: 'pdf') %>
   <% end %>
 </div>
