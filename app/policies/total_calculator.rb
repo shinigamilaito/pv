@@ -14,7 +14,9 @@ class TotalCalculator
       total_products: total_products,
       total_worforce: worforce,
       total_discount: total_discount,
-      total_final: total_final
+      total_final: total_final,
+      paid_with: service.paid_with,
+      change: service.change
     }
   end
 

@@ -14,7 +14,59 @@
     </tr>
     <tr>
       <th>Total Final:</th>
-      <td><%= number_to_currency totals[:total_final] %></td>
+      <td id="total_to_paid"><%= number_to_currency totals[:total_final] %></td>
+    </tr>
+    <tr>
+      <th>Pago con:</th>
+      <% if @service.is_in_process? %>
+        <td>$<%= text_field_tag "service[paid_with]", '', id: 'paid_with_service', required: true %></td>
+      <% else %>
+        <td><%= number_to_currency totals[:paid_with] %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <th>Cambio:</th>
+      <% if @service.is_in_process? %>
+        <td>$<%= text_field_tag "service[change]", '', id: 'change-service', required: true, readonly: true %></td>
+      <% else %>
+        <td><%= number_to_currency totals[:change] %></td>
+      <% end %>
     </tr>
   </tbody>
 </table>
+
+<script>
+  $(document).ready(function() {
+    var $paidWithService = $('#paid_with_service');
+    var $change = $("#change-service");
+
+    setCurrency($paidWithService);
+    setCurrency($change)
+    obtainChange();
+
+    $paidWithService.keyup(function() {
+      obtainChange();
+    });
+  });
+
+  function obtainChange() {
+    var $paidWithService = $('#paid_with_service');
+    var $totalPaid = $('#total_to_paid');
+    var $change = $("#change-service");
+    var $btnPaid = $("#btn_paid");
+
+    var paidWith = Number($paidWithService.val().replace(/,/g, ""));
+    var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
+    var change = (paidWith - totalPaid).toFixed(2);
+    $change.val(change);
+    console.log(paidWith);
+    console.log(totalPaid);
+    console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+
+    if(change < 0) {
+      $btnPaid.attr("disabled", true);
+    } else {
+      $btnPaid.removeAttr("disabled");
+    }
+  }
+</script>

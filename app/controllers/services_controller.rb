@@ -1,4 +1,6 @@
 class ServicesController < ApplicationController
+  before_action :fixed_format_price, only: [:update]
+
   def new
     if params[:service_id].present?
       @service = Service.find(params[:service_id])
@@ -135,7 +137,8 @@ class ServicesController < ApplicationController
 
   def service_params
     params.require(:service).permit(:client_id, :number_folio, :payment_type_id,
-      :date_of_entry, :discount, :departure_date, :image_client, :employee_id)
+      :date_of_entry, :discount, :departure_date, :image_client, :employee_id,
+      :paid_with, :change)
   end
 
   def clear_variables
@@ -150,6 +153,11 @@ class ServicesController < ApplicationController
     total_calculator.worforce = BigDecimal.new(session[:worforce])
     total_calculator.discount = BigDecimal.new(session[:discount])
     @totals = total_calculator.totals
+  end
+
+  def fixed_format_price
+      params[:service][:paid_with] = params[:service][:paid_with].gsub('$ ', '').gsub(',','')
+      params[:service][:change] = params[:service][:change].gsub('$ ', '').gsub(',','')
   end
 
 end

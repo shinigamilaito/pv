@@ -11,6 +11,7 @@ class Service < ApplicationRecord
 
   validates :client_id, presence: true
   validates :number_folio, presence: true, uniqueness: {case_sensitive: true}
+  validates :paid_with, :change, presence: true, on: :update
 
   mount_base64_uploader :image_client, ImageSupportUploader
 
