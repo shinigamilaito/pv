@@ -8,9 +8,9 @@
     <th></th>
     <th></th>
   </tr>
-  <% @spare_parts.each_with_index do |spare_part, index| %>
+  <% @spare_parts.each do |spare_part| %>
     <tr>
-      <td><%= index + 1 %></td>
+      <td><%= spare_part.control_number %></td>
       <td><%= spare_part.name %></td>
       <td><%= number_to_currency spare_part.price %></td>
       <td><%= spare_part.total %></td>

@@ -15,7 +15,7 @@ class Service < ApplicationRecord
 
   mount_base64_uploader :image_client, ImageSupportUploader
 
-  before_save :set_number_folio
+  before_create :set_number_folio
 
   def frequently_client_label
     total_services = Service.where(client_id: client_id).count
@@ -46,7 +46,7 @@ class Service < ApplicationRecord
   end
 
   def set_number_folio
-    number_folio = Service.count + 1
+    self.number_folio = Service.count + 1
   end
 
 end

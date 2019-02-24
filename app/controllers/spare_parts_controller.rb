@@ -3,7 +3,7 @@ class SparePartsController < ApplicationController
   before_action :fixed_format_price, only: [:create, :update]
 
   def index
-    @spare_parts = SparePart.order(updated_at: :desc)
+    @spare_parts = SparePart.order(control_number: :desc)
   end
 
   def show
