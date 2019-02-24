@@ -3,6 +3,7 @@ class TicketService
 
   def initialize(service)
     @service = service
+    increment_total
   end
 
   def header
@@ -21,7 +22,7 @@ class TicketService
   end
 
   def ticket
-    '0001'
+    service.total_tickets
   end
 
   def folio
@@ -142,5 +143,10 @@ class TicketService
     total_calculator.discount = service.discount
 
     @totals = total_calculator.totals
+  end
+
+  def increment_total
+    service.total_tickets += 1
+    service.save
   end
 end
