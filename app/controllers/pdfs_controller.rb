@@ -5,9 +5,9 @@ class PdfsController < ApplicationController
     respond_to do |format|
       format.pdf do
         @service.total_tickets += 1
-        @service.save
-        @ticket_service = TicketService.new(@service)
-        render pdf: 'report',
+        if @service.save
+          @ticket_service = TicketService.new(@service)
+          render pdf: 'report',
                #wkhtmltopdf: route_wicked,
                template: 'pdfs/ticket_paid_service.pdf.html.erb',
                background: true,
@@ -17,6 +17,7 @@ class PdfsController < ApplicationController
                  top: 5,
                  bottom: 4
                }
+        end
       end
     end
   end
