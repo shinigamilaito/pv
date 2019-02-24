@@ -3,7 +3,6 @@ class TicketService
 
   def initialize(service)
     @service = service
-    increment_total
   end
 
   def header
@@ -145,8 +144,4 @@ class TicketService
     @totals = total_calculator.totals
   end
 
-  def increment_total
-    service.total_tickets += 1
-    service.save
-  end
 end

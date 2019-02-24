@@ -4,6 +4,8 @@ class PdfsController < ApplicationController
   def ticket_paid_services
     respond_to do |format|
       format.pdf do
+        @service.total_tickets += 1
+        @service.save
         @ticket_service = TicketService.new(@service)
         render pdf: 'report',
                #wkhtmltopdf: route_wicked,
