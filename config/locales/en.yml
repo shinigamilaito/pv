@@ -30,7 +30,36 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 en:
  date:
-   day_names: [Lunes, Martes, Miercoles, Jueves, Viernes, Sabado, Domingo]
+    abbr_day_names:
+    - Dom
+    - Lun
+    - Mar
+    - Mié
+    - Jue
+    - Vie
+    - Sáb
+    abbr_month_names:
+    -
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+    day_names:
+    - Domingo
+    - Lunes
+    - Martes
+    - Miércoles
+    - Jueves
+    - Viernes
+    - Sábado
 
  activerecord:
    models:

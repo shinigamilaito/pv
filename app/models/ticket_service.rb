@@ -17,7 +17,7 @@ class TicketService
   end
 
   def date
-      Time.now.strftime('%A, %d %b %Y %I:%M:%S')
+      ActionController::Base.helpers.l(Time.now, format: '%A, %d %b %Y %I:%M:%S')
   end
 
   def ticket
