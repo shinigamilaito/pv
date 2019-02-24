@@ -31,7 +31,7 @@
   <tbody>
     <% @ticket_service.spare_parts.each do |spare_part| %>
       <tr>
-        <td></td>
+        <td><%= spare_part[:code] %></td>
         <td><%= spare_part[:quantity] %></td>
         <td><%= spare_part[:description] %></td>
         <td><%= number_to_currency spare_part[:price] %></td>

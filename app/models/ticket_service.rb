@@ -91,7 +91,7 @@ class TicketService
   end
 
   def sub_total
-    total_to_paid[:total_products]
+    total_to_paid[:total_final]
   end
 
   def discount
@@ -103,20 +103,20 @@ class TicketService
   end
 
   def total
-    total_to_paid[:total_final]
+    sub_total - discount
   end
 
   def paid
-    BigDecimal('500.0')
+    service.paid_with
   end
 
   def change
-    BigDecimal('25.50')
+    service.change
   end
 
   def public_data(spare_part)
     {
-      code: '0001',
+      code: spare_part.control_number,
       quantity: spare_part.quantity,
       description: name_ticket(spare_part),
       price: spare_part.price,

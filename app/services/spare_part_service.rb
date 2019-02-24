@@ -59,6 +59,7 @@ class SparePartService
 
   def create_service_spare_part
     service_spare_part = ServiceSparePart.new
+    service_spare_part.control_number = spare_part.control_number
     service_spare_part.name = spare_part.name
     service_spare_part.description = spare_part.description
     service_spare_part.price = spare_part.price

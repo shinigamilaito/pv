@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 20190224135929) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "spare_part_id"
+    t.integer "control_number", default: 0
     t.index ["service_id"], name: "index_service_spare_parts_on_service_id"
     t.index ["spare_part_id"], name: "index_service_spare_parts_on_spare_part_id"
   end
