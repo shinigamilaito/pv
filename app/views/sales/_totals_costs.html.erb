@@ -1,0 +1,60 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <th style="width:80%" class="text-right">Total productos:</th>
+      <td><%= number_to_currency @totals_sale[:total_products] %></td>
+    </tr>
+    <tr>
+      <th class="text-right">Descuento:</th>
+      <td><%= number_to_currency @totals_sale[:total_discount] %></td>
+    </tr>
+    <tr>
+      <th class="text-right">Total Final:</th>
+      <td id="total_to_paid"><span class="label label-info"><%= number_to_currency @totals_sale[:total_final] %></span></td>
+    </tr>
+    <tr>
+      <th class="text-right">Pago con:</th>
+        <td>$<%= text_field_tag "sale[paid_with]", '', id: 'paid_with_sale', required: true %></td>
+    </tr>
+    <tr>
+      <th class="text-right">Cambio:</th>
+        <td>$<%= text_field_tag "sale[change]", '', id: 'change-sale', required: true, readonly: true %></td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function() {
+    var $paidWithService = $('#paid_with_service');
+    var $change = $("#change-service");
+
+    setCurrency($paidWithService);
+    setCurrency($change)
+    obtainChange();
+
+    $paidWithService.keyup(function() {
+      obtainChange();
+    });
+  });
+
+  function obtainChange() {
+    var $paidWithService = $('#paid_with_service');
+    var $totalPaid = $('#total_to_paid');
+    var $change = $("#change-service");
+    var $btnPaid = $("#btn_paid");
+
+    var paidWith = Number($paidWithService.val().replace(/,/g, ""));
+    var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
+    var change = (paidWith - totalPaid).toFixed(2);
+    $change.val(change);
+    console.log(paidWith);
+    console.log(totalPaid);
+    console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+
+    if(change < 0) {
+      $btnPaid.attr("disabled", true);
+    } else {
+      $btnPaid.removeAttr("disabled");
+    }
+  }
+</script>

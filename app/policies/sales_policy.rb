@@ -1,3 +1,4 @@
+# Before made the sale
 class SalesPolicy
   attr_reader :product_code, :user
 
@@ -41,6 +42,20 @@ class SalesPolicy
       raise 'Error al actualizar la cantidad.' unless adjust_quantity_product(quantity)
       raise 'Error al eliminar el producto.' unless sale_product.destroy
     end
+  end
+
+  def totals(discount = '0')
+    total_products = cost_products
+    total_discount = obtain_discount(discount)
+    total_final = total_products - total_discount
+
+    return {
+      total_products: total_products,
+      total_discount: total_discount,
+      total_final: total_final,
+      paid_with: BigDecimal.new('0'),
+      change: BigDecimal.new('0')
+    }
   end
 
   private
@@ -103,5 +118,26 @@ class SalesPolicy
   def adjust_quantity_product(quantity)
     product.quantity += quantity
     product.save
+  end
+
+  def cost_products
+    total = products_for_sale.inject(BigDecimal("0.00")) do |total, product|
+      total += total_cost(product)
+      total
+    end
+
+    total
+  end
+
+  def total_cost(product)
+    BigDecimal(product.price * product.quantity)
+  end
+
+  def obtain_discount(discount)
+    total_products = cost_products
+    total_discount = BigDecimal.new(discount)
+    total_percentaje = total_products * total_discount
+
+    return (total_percentaje / BigDecimal.new('100.00'))
   end
 end

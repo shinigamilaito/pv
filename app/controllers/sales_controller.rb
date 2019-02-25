@@ -3,7 +3,9 @@ class SalesController < ApplicationController
   before_action :set_sale_policy, only: [:index, :delete_product]
 
   def index
+    discount = session[:discount_sale] || '0'
     @products_in_sale = @sales_policy.products_for_sale
+    @totals_sale = @sales_policy.totals(discount)
   end
 
   def show
@@ -65,5 +67,9 @@ class SalesController < ApplicationController
 
     def set_sale_policy
       @sales_policy = SalesPolicy.new(current_user)
+    end
+
+    def clear_variables
+      session[:discount_sale] = nil
     end
 end
