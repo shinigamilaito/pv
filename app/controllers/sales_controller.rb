@@ -66,6 +66,13 @@ class SalesController < ApplicationController
     end
   end
 
+  def preview
+    paid_with = params[:paid_with].gsub(',','')
+    change = params[:change].gsub(',','')
+    discount = params[:discount]
+    @ticket_sale = TicketSale.new(current_user, paid_with, change, discount)
+  end
+
   private
 
     def set_sale

@@ -16,7 +16,36 @@
           <%= render "sales/totals_costs", total_sales: @total_sales %>
         </div>
       </div>
-
+      <div class="box-footer row">
+        <div class="col-sm-4 col-sm-offset-8">
+          <%= button_tag 'Realizar Venta', type: 'button', class: "btn btn-info btn-block pull-right", id: "make_sale_link" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<%= render 'sales/form_modal' %>
+
+<script>
+  $(document).ready(function() {
+    $('#make_sale_link').click(function() {
+      $.ajax({
+        url: "/sales/preview",
+        method: "get",
+        dataType: "script",
+        data: {
+          discount: $('#discount-sale').val(),
+          paid_with: $('#paid_with_sale').val(),
+          change: $('#change-sale').val()
+        },
+        beforeSend: function(xhr) {
+          setSpinner($('body'));
+        },
+        complete: function(xhr, status) {
+          deleteSpinner($('body'));
+        }
+      });
+    });
+  });
+</script>

@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 
   resources :sales do
     delete :delete_product, on: :collection
-    put 'update_discount', on: :collection
+    put :update_discount, on: :collection
+    get :preview, on: :collection
   end
 
   resources :products do

@@ -15,8 +15,8 @@
     </tr>
     <tr>
       <th class="text-right">Total Final:</th>
-      <td id="total_to_paid">
-        <span class="label label-info" style="font-size: 15px;"><%= number_to_currency total_sales[:total_final] %></span>
+      <td>
+        <span id="total_to_paid" class="label label-info" style="font-size: 15px;"><%= number_to_currency total_sales[:total_final] %></span>
       </td>
     </tr>
     <tr>
@@ -42,25 +42,25 @@
 
 <script>
   $(document).ready(function() {
-    var $paidWithService = $('#paid_with_service');
-    var $change = $("#change-service");
+    var $paidWithSale = $('#paid_with_sale');
+    var $change = $("#change-sale");
 
-    setCurrency($paidWithService);
+    setCurrency($paidWithSale);
     setCurrency($change)
-    obtainChange();
+    obtainChangeSale();
 
-    $paidWithService.keyup(function() {
-      obtainChange();
+    $paidWithSale.keyup(function() {
+      obtainChangeSale();
     });
   });
 
-  function obtainChange() {
-    var $paidWithService = $('#paid_with_service');
+  function obtainChangeSale() {
+    var $paidWithSale = $('#paid_with_sale');
     var $totalPaid = $('#total_to_paid');
-    var $change = $("#change-service");
-    var $btnPaid = $("#btn_paid");
+    var $change = $("#change-sale");
+    var $btnPaid = $("#make_sale_link");
 
-    var paidWith = Number($paidWithService.val().replace(/,/g, ""));
+    var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
     var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
     var change = (paidWith - totalPaid).toFixed(2);
     $change.val(change);
@@ -68,7 +68,7 @@
     console.log(totalPaid);
     console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
 
-    if(change < 0) {
+    if(change < 0 || totalPaid <= 0) {
       $btnPaid.attr("disabled", true);
     } else {
       $btnPaid.removeAttr("disabled");
