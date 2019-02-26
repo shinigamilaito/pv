@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :sales do
     delete :delete_product, on: :collection
+    put 'update_discount', on: :collection
   end
 
   resources :products do
@@ -71,6 +72,4 @@ Rails.application.routes.draw do
   end
 
   resources :payment_types
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

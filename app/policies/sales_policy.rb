@@ -52,6 +52,7 @@ class SalesPolicy
     return {
       total_products: total_products,
       total_discount: total_discount,
+      discount_percentage: discount,
       total_final: total_final,
       paid_with: BigDecimal.new('0'),
       change: BigDecimal.new('0')

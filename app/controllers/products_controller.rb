@@ -61,8 +61,10 @@ class ProductsController < ApplicationController
 
   def search_sales
     begin
+      discount = session[:discount_sale] || '0'
       sales_policy = SalesPolicy.new(params[:search], current_user)
       @add_product = sales_policy.add_product
+      @total_sales = sales_policy.totals(discount)
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
@@ -81,5 +83,5 @@ class ProductsController < ApplicationController
     def fixed_format_price
         params[:product][:price] = params[:product][:price].gsub('$ ', '').gsub(',','')
     end
-    
+
 end

@@ -2,23 +2,40 @@
   <tbody>
     <tr>
       <th style="width:80%" class="text-right">Total productos:</th>
-      <td><%= number_to_currency @totals_sale[:total_products] %></td>
+      <td><%= number_to_currency total_sales[:total_products] %></td>
     </tr>
     <tr>
       <th class="text-right">Descuento:</th>
-      <td><%= number_to_currency @totals_sale[:total_discount] %></td>
+      <td>
+        <div class="input-group">
+          <%= text_field_tag "sale[discount]", total_sales[:discount_percentage], class: "form-control form-control-sm", id: 'discount-sale', required: true %>
+          <span class="input-group-addon">%</span>
+        </div>
+      </td>
     </tr>
     <tr>
       <th class="text-right">Total Final:</th>
-      <td id="total_to_paid"><span class="label label-info"><%= number_to_currency @totals_sale[:total_final] %></span></td>
+      <td id="total_to_paid">
+        <span class="label label-info" style="font-size: 15px;"><%= number_to_currency total_sales[:total_final] %></span>
+      </td>
     </tr>
     <tr>
       <th class="text-right">Pago con:</th>
-        <td>$<%= text_field_tag "sale[paid_with]", '', id: 'paid_with_sale', required: true %></td>
+      <td>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <%= text_field_tag "sale[paid_with]", '', class: "form-control form-control-sm", id: 'paid_with_sale', required: true %>
+        </div>
+      </td>
     </tr>
     <tr>
       <th class="text-right">Cambio:</th>
-        <td>$<%= text_field_tag "sale[change]", '', id: 'change-sale', required: true, readonly: true %></td>
+        <td>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= text_field_tag "sale[change]", '', class: "form-control form-control-sm", id: 'change-sale', required: true, readonly: true %>
+          </div>
+        </td>
     </tr>
   </tbody>
 </table>
@@ -57,4 +74,25 @@
       $btnPaid.removeAttr("disabled");
     }
   }
+
+  var $discountSale = $("#discount-sale");
+  $discountSale.on("keydown", _.debounce(updateDiscountSale, 300));
+  setPercentage($discountSale);
+
+  function updateDiscountSale() {
+      $.ajax({
+        url: "/sales/update_discount",
+        method: "put",
+        dataType: "script",
+        data: {
+          discount: $(this).val()
+        },
+        beforeSend: function(xhr) {
+          $("#total_to_paid").LoadingOverlay("show");
+        },
+        complete: function(xhr, status) {
+          $("#total_to_paid").LoadingOverlay("hide", true);
+        }
+      });
+    }
 </script>

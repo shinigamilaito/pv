@@ -12,7 +12,9 @@
         <table class="table table-responsive table-hover table-condensed table-striped" id="sales_table">
           <%= render 'body_sales' %>
         </table>
-        <%= render "sales/totals_costs" %>
+        <div id="total_cost_sales">
+          <%= render "sales/totals_costs", total_sales: @total_sales %>
+        </div>
       </div>
 
     </div>

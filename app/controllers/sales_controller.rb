@@ -1,11 +1,11 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
-  before_action :set_sale_policy, only: [:index, :delete_product]
+  before_action :set_sale_policy, only: [:index, :delete_product, :update_discount]
 
   def index
     discount = session[:discount_sale] || '0'
     @products_in_sale = @sales_policy.products_for_sale
-    @totals_sale = @sales_policy.totals(discount)
+    @total_sales = @sales_policy.totals(discount)
   end
 
   def show
@@ -53,6 +53,17 @@ class SalesController < ApplicationController
     product = sale_product.product
     @sales_policy.delete(sale_product, product)
     @product = sale_product
+    @total_sales = @sales_policy.totals(session[:discount_sale])
+  end
+
+  def update_discount
+    session[:discount_sale] = BigDecimal.new(params[:discount].gsub(',',''))
+
+    if current_user.sale_products.present?
+      @total_sales = @sales_policy.totals(session[:discount_sale])
+    else
+      head :ok
+    end
   end
 
   private
