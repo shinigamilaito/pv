@@ -14,12 +14,19 @@
     </tr>
     <tr>
       <th>Total Final:</th>
-      <td id="total_to_paid"><%= number_to_currency totals[:total_final] %></td>
+      <td>
+        <span id="total_to_paid" class="label label-info" style="font-size: 15px;"><%= number_to_currency totals[:total_final] %></span>
+      </td>
     </tr>
     <tr>
       <th>Pago con:</th>
       <% if @service.is_in_process? %>
-        <td>$<%= text_field_tag "service[paid_with]", '', id: 'paid_with_service', required: true %></td>
+        <td>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= text_field_tag "service[paid_with]", '', class: "form-control form-control-sm", id: 'paid_with_service', required: true %>
+          </div>
+        </td>
       <% else %>
         <td><%= number_to_currency totals[:paid_with] %></td>
       <% end %>
@@ -27,7 +34,12 @@
     <tr>
       <th>Cambio:</th>
       <% if @service.is_in_process? %>
-        <td>$<%= text_field_tag "service[change]", '', id: 'change-service', required: true, readonly: true %></td>
+        <td>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= text_field_tag "service[change]", '', class: 'form-control form-control-sm', id: 'change-service', required: true, readonly: true %>
+          </div>
+        </td>
       <% else %>
         <td><%= number_to_currency totals[:change] %></td>
       <% end %>
@@ -63,7 +75,7 @@
     console.log(totalPaid);
     console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
 
-    if(change < 0) {
+    if(change < 0 || totalPaid <= 0) {
       $btnPaid.attr("disabled", true);
     } else {
       $btnPaid.removeAttr("disabled");
