@@ -3,6 +3,7 @@ class SalesController < ApplicationController
   before_action :set_sale_policy, only: [:index, :delete_product, :update_discount, :create]
 
   def index
+    clear_variables
     discount = session[:discount_sale] || '0'
     @products_in_sale = @sales_policy.products_for_sale
     @total_sales = @sales_policy.totals(discount)
@@ -24,7 +25,7 @@ class SalesController < ApplicationController
     @sales_service = SalesService.new(@sales_policy, @sale)
 
     if @sales_service.save
-      session[:discount_sale] = nil
+      clear_variables
       @products_in_sale = @sales_policy.products_for_sale
       @total_sales = @sales_policy.totals
     else
@@ -51,11 +52,12 @@ class SalesController < ApplicationController
   end
 
   def delete_product
+    discount = session[:discount_sale] || '0'
     sale_product = SaleProduct.includes(:product).find(params[:sale_product_id])
     product = sale_product.product
     @sales_policy.delete(sale_product, product)
     @product = sale_product
-    @total_sales = @sales_policy.totals(session[:discount_sale])
+    @total_sales = @sales_policy.totals(discount)
   end
 
   def update_discount
