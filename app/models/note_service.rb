@@ -5,6 +5,10 @@ class NoteService
     @service = service
   end
 
+  def folio
+    "##{service.number_folio}"
+  end
+
   def title
     'PC'
   end

@@ -56,7 +56,7 @@ class PdfsController < ApplicationController
                layout: 'pdf.html.erb',
                page_size: 'A4',
                margin: {
-                 top: 10,
+                 top: 1,
                  bottom: 40
                }
       end
