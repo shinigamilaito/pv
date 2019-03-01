@@ -12,7 +12,11 @@ class TotalCalculatorSale
   def totals
     total_products = cost_products
     total_discount = obtain_discount
-    total_final = total_products - total_discount
+    if sale.class == Sale
+      total_final = sale.total
+    else
+      total_final = total_products - total_discount
+    end
 
     return {
       total_products: total_products,
@@ -52,10 +56,15 @@ class TotalCalculatorSale
 
   def obtain_discount
     total_products = cost_products
-    total_discount = discount
-    total_percentaje = total_products * total_discount
+    if sale.class == Sale
+      total_discount = sale.discount
+      return total_discount
+    else
+      total_discount = discount
+      total_percentaje = total_products * total_discount
 
-    return (total_percentaje / BigDecimal.new('100.00'))
+      return (total_percentaje / BigDecimal.new('100.00'))
+    end
   end
 
   def sale_products

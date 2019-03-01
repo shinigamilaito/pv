@@ -1,7 +1,7 @@
 class TicketSale < Ticket
   attr_accessor :sale, :paid_with, :change_sale, :discount_percentaje
 
-  def initialize(sale, paid_with, change_sale, discount_percentaje)
+  def initialize(sale, paid_with = '0', change_sale = '0', discount_percentaje = '0')
     @sale = sale
     @paid_with = BigDecimal.new(paid_with)
     @change_sale = BigDecimal.new(change_sale)

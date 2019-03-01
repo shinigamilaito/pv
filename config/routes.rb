@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'ticket_service/:id_service', to: 'pdfs#ticket_paid_services', as: :generate_ticket_service
   get 'note_service/:id_service', to: 'pdfs#note_services', as: :generate_note_service
+  get 'ticket_sale/:id_sale', to: 'pdfs#ticket_paid_sales', as: :generate_ticket_sale
 
   resources :sales do
     delete :delete_product, on: :collection
@@ -22,8 +23,6 @@ Rails.application.routes.draw do
     get 'add_spare_part', on: :collection
     put 'update_worforce', on: :collection
     put 'update_discount', on: :collection
-    get :generate_service_note, on: :member
-    get :generate_ticket_paid, on: :member
     put :update_quantity, on: :collection
     delete :delete_spare_part, on: :collection
   end

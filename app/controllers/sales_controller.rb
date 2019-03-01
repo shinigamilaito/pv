@@ -1,6 +1,6 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
-  before_action :set_sale_policy, only: [:index, :delete_product, :update_discount]
+  before_action :set_sale_policy, only: [:index, :delete_product, :update_discount, :create]
 
   def index
     discount = session[:discount_sale] || '0'
@@ -20,13 +20,15 @@ class SalesController < ApplicationController
 
   def create
     @sale = Sale.new(sale_params)
+    @sale.user = current_user
+    @sales_service = SalesService.new(@sales_policy, @sale)
 
-    respond_to do |format|
-      if @sale.save
-        format.html { redirect_to @sale, notice: 'Sale was successfully created.' }
-      else
-        format.html { render :new }
-      end
+    if @sales_service.save
+      session[:discount_sale] = nil
+      @products_in_sale = @sales_policy.products_for_sale
+      @total_sales = @sales_policy.totals
+    else
+      render js: "toastr['error']('Intente nuevamente.');", status: :bad_request
     end
   end
 
@@ -71,6 +73,7 @@ class SalesController < ApplicationController
     change = params[:change].gsub(',','')
     discount = params[:discount]
     @ticket_sale = TicketSale.new(current_user, paid_with, change, discount)
+    @sale = Sale.new
   end
 
   private
@@ -80,7 +83,7 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:user_id)
+      params.require(:sale).permit(:subtotal, :discount, :total, :paid_with, :change)
     end
 
     def set_sale_policy

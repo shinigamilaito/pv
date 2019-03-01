@@ -11,11 +11,9 @@
 <!-- end_header -->
 
 <p><%= @ticket_sale.date %></p>
-<div class="row">
-  <p>
-    <span class='pull-left'>Ticket: <%= @ticket_sale.ticket %></span>
-  </p>
-</div>
+<p>
+  <span class='pull-left'>Ticket: <%= @ticket_sale.ticket %></span>
+</p>
 
 <table class="table">
   <thead>
@@ -89,31 +87,4 @@
 <p class="text-center" style="margin-bottom: 0px; font-size:12px">Documento sin efectos fiscales</p>
 <p class="text-center" style="font-size:12px; padding-bottom: 5px; border-bottom-style: dashed;">[ Políticas de Garantía ]</p>
 
-<p id="footer_ticket_sale">Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>
-
-<%= form_for(@sale, html: { class: "form-horizontal", remote: true }) do |f| %>
-  <%= hidden_field_tag 'sale[subtotal]', @ticket_sale.totals[:subtotal] %>
-  <%= hidden_field_tag 'sale[discount]', @ticket_sale.totals[:discount] %>
-  <%= hidden_field_tag 'sale[total]', @ticket_sale.totals[:total] %>
-  <%= hidden_field_tag 'sale[paid_with]', @ticket_sale.totals[:paid] %>
-  <%= hidden_field_tag 'sale[change]', @ticket_sale.totals[:change] %>
-  <div class="box-footer">
-    <div class="row">
-      <div class="col-sm-6">
-        <%= link_to "Cancelar", "#", class: "btn btn-danger pull-left btn-block", id: "cancel_sale" %>
-      </div>
-      <div class="col-sm-6">
-        <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block", id: "make_sale_button_form" %>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<script>
-  $(document).ready(function() {
-    $("#make_sale_button_form").focus();
-    $("#cancel_sale").click(function() {
-      $('#form-modal').modal('hide');
-    });
-  });
-</script>
+<p>Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>

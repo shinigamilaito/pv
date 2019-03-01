@@ -18,9 +18,12 @@ function setPrint() {
 
 function printPage(element, sURL) {
   if(element != null) {
-    $elementPrintPDF = $('#' + element)
+    $elementPrintPDF = $('#' + element);
     titlePrint = $elementPrintPDF.html();
     $elementPrintPDF.html("Generando...");
+  } else {
+    $elementPrintPDF = undefined;
+    titlePrint = '';
   }
   var oHiddFrame = document.createElement("iframe");
   oHiddFrame.onload = setPrint;

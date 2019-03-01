@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190224135929) do
+ActiveRecord::Schema.define(version: 20190301025148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,12 @@ ActiveRecord::Schema.define(version: 20190224135929) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "subtotal", precision: 10, scale: 2, default: "0.0"
+    t.decimal "discount", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total", precision: 10, scale: 2, default: "0.0"
+    t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
+    t.decimal "change", precision: 10, scale: 2, default: "0.0"
+    t.integer "total_tickets", default: 0
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
 
