@@ -71,25 +71,15 @@ class ServicesController < ApplicationController
   def update_worforce
     session[:worforce] = BigDecimal.new(params[:worforce].gsub(',',''))
     @service = Service.find(params[:service_id])
-
-    if @service.service_spare_parts.present?
-      @totals = generate_totals
-      render 'add_spare_part'
-    else
-      head :ok
-    end
+    generate_totals
+    render 'add_spare_part'
   end
 
   def update_discount
     session[:discount] = BigDecimal.new(params[:discount].gsub(',',''))
     @service = Service.find(params[:service_id])
-
-    if @service.service_spare_parts.present?
-      @totals = generate_totals
-      render 'add_spare_part'
-    else
-      head :ok
-    end
+    generate_totals
+    render 'add_spare_part'
   end
 
   # paid the service
