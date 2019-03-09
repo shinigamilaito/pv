@@ -21,11 +21,7 @@ class Ticket
       change: change
     }
   end
-
-  def date
-      ActionController::Base.helpers.l(Time.now, format: '%A, %d %b %Y %I:%M:%S')
-  end
-
+  
   def ticket
     ''
   end

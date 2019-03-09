@@ -16,6 +16,14 @@ class TicketSale < Ticket
     end
   end
 
+  def date
+    if sale.class == Sale
+      ActionController::Base.helpers.l(sale.updated_at, format: '%A, %d %b %Y %I:%M:%S')
+    else
+      ActionController::Base.helpers.l(Time.now, format: '%A, %d %b %Y %I:%M:%S')
+    end
+  end
+
   def products
     products = []
     products_sell.each { |local_product| products << public_data(local_product) }

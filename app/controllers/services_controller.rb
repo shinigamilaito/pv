@@ -102,7 +102,10 @@ class ServicesController < ApplicationController
     spare_part_service = SparePartService.new
     begin
       if spare_part_service.update_quantity(new_quantity, service_spare_part)
-        render js: "toastr['success']('Stock actualizado correctamente.');", status: :ok
+        @service = service_spare_part.service
+        generate_totals
+        render 'add_spare_part'
+        #render js: "toastr['success']('Stock actualizado correctamente.');", status: :ok
       else
         head :ok
       end
@@ -127,8 +130,7 @@ class ServicesController < ApplicationController
 
   def service_params
     params.require(:service).permit(:client_id, :number_folio, :payment_type_id,
-      :date_of_entry, :discount, :departure_date, :image_client, :employee_id,
-      :paid_with, :change)
+      :discount, :departure_date, :image_client, :paid_with, :change)
   end
 
   def clear_variables

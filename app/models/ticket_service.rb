@@ -9,6 +9,10 @@ class TicketService < Ticket
     service.total_tickets
   end
 
+  def date
+      ActionController::Base.helpers.l(service.updated_at, format: '%A, %d %b %Y %I:%M:%S')
+  end
+
   def folio
     service.number_folio
   end

@@ -50,7 +50,7 @@ class ServicesPolicy
 
   def paid(service_params, user)
     service = Service.find(service_params[:id])
-    service.user = user
+    service.employee = user
     service.paid = true
     price = service_params[:price]
 
