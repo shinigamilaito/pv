@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190309194741) do
+ActiveRecord::Schema.define(version: 20190310011455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,6 +175,8 @@ ActiveRecord::Schema.define(version: 20190309194741) do
     t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
     t.decimal "change", precision: 10, scale: 2, default: "0.0"
     t.integer "total_tickets", default: 0
+    t.bigint "payment_type_id"
+    t.index ["payment_type_id"], name: "index_sales_on_payment_type_id"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
 
@@ -259,6 +261,7 @@ ActiveRecord::Schema.define(version: 20190309194741) do
   add_foreign_key "sale_products", "products"
   add_foreign_key "sale_products", "sales"
   add_foreign_key "sale_products", "users"
+  add_foreign_key "sales", "payment_types"
   add_foreign_key "sales", "users"
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "service_spare_parts", "spare_parts"

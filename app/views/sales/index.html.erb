@@ -37,7 +37,8 @@
         data: {
           discount: $('#discount-sale').val(),
           paid_with: $('#paid_with_sale').val(),
-          change: $('#change-sale').val()
+          change: $('#change-sale').val(),
+          payment_type_id: $("#sale_payment_type_id").find("option:selected").attr('value')
         },
         beforeSend: function(xhr) {
           setSpinner($('body'));

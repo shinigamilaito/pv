@@ -97,6 +97,7 @@
   <%= hidden_field_tag 'sale[total]', @ticket_sale.totals[:total] %>
   <%= hidden_field_tag 'sale[paid_with]', @ticket_sale.totals[:paid] %>
   <%= hidden_field_tag 'sale[change]', @ticket_sale.totals[:change] %>
+  <%= hidden_field_tag 'sale[payment_type_id]', @sale.payment_type_id %>
   <div class="box-footer">
     <div class="row">
       <div class="col-sm-6">

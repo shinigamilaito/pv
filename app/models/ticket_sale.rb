@@ -1,11 +1,12 @@
 class TicketSale < Ticket
-  attr_accessor :sale, :paid_with, :change_sale, :discount_percentaje
+  attr_accessor :sale, :paid_with, :change_sale, :discount_percentaje, :payment_type
 
-  def initialize(sale, paid_with = '0', change_sale = '0', discount_percentaje = '0')
+  def initialize(sale, paid_with = '0', change_sale = '0', discount_percentaje = '0', payment_type = PaymentType.new)
     @sale = sale
     @paid_with = BigDecimal.new(paid_with)
     @change_sale = BigDecimal.new(change_sale)
     @discount_percentaje = BigDecimal.new(discount_percentaje)
+    @payment_type = payment_type
   end
 
   def ticket
@@ -32,7 +33,11 @@ class TicketSale < Ticket
   end
 
   def type_paid
-    'Efectivo'
+    if sale.class == Sale
+      sale.payment_type.name
+    else
+      payment_type.name
+    end
   end
 
   private

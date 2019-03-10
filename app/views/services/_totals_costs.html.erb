@@ -51,6 +51,7 @@
   $(document).ready(function() {
     var $paidWithService = $('#paid_with_service');
     var $change = $("#change-service");
+    var $paymentType = $("#service_payment_type_id");
 
     setCurrency($paidWithService);
     setCurrency($change)
@@ -58,6 +59,12 @@
 
     $paidWithService.keyup(function() {
       obtainChange();
+    });
+
+    updatePayment($paymentType.find("option:selected").attr('value'));
+
+    $paymentType.change(function() {
+      updatePayment($(this).find("option:selected").attr('value'));
     });
   });
 
@@ -81,4 +88,21 @@
       $btnPaid.removeAttr("disabled");
     }
   }
+
+  function updatePayment(paymentMethod) {
+    var $totalPaid = $('#total_to_paid');
+    var $paidWithService = $('#paid_with_service');
+    // Check payment method
+    if(paymentMethod != "" && paymentMethod != "1") {
+      var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
+      $paidWithService.val(totalToPaid);
+      $paidWithService.prop("readonly",true);
+      obtainChange();
+    } else {      
+      $paidWithService.val(0);
+      $paidWithService.prop("readonly",false);
+      obtainChange();
+    }
+  }
+
 </script>

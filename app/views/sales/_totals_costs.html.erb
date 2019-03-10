@@ -20,6 +20,14 @@
       </td>
     </tr>
     <tr>
+      <th class="text-right">Tipo de Pago:</th>
+      <td>
+        <div class="input-group">
+          <%= collection_select(:sale, :payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true)  %>
+        </div>
+      </td>
+    </tr>
+    <tr>
       <th class="text-right">Pago con:</th>
       <td>
         <div class="input-group">
@@ -44,6 +52,7 @@
   $(document).ready(function() {
     var $paidWithSale = $('#paid_with_sale');
     var $change = $("#change-sale");
+    var $paymentTypeSale = $("#sale_payment_type_id");
 
     setCurrency($paidWithSale);
     setCurrency($change)
@@ -51,6 +60,12 @@
 
     $paidWithSale.keyup(function() {
       obtainChangeSale();
+    });
+
+    //updatePaymentSale($paymentTypeSale.find("option:selected").attr('value'));
+
+    $paymentTypeSale.change(function() {
+      updatePaymentSale($(this).find("option:selected").attr('value'));
     });
   });
 
@@ -95,4 +110,20 @@
         }
       });
     }
+
+  function updatePaymentSale(paymentMethod) {
+      var $totalPaid = $('#total_to_paid');
+      var $paidWithSale = $('#paid_with_sale');
+      // Check payment method
+      if(paymentMethod != "" && paymentMethod != "1") {
+        var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
+        $paidWithSale.val(totalToPaid);
+        $paidWithSale.prop("readonly",true);
+        obtainChangeSale();
+      } else {        
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",false);
+        obtainChangeSale();
+      }
+  }
 </script>

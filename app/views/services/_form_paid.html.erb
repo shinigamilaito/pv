@@ -10,7 +10,7 @@
       <div class="form-group" style="margin-top: 25px;">
         <label class="col-md-4 control-label">Tipo de Pago</label>
         <div class="col-md-8">
-          <%= f.collection_select :payment_type_id, PaymentType.all, :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true %>
+          <%= f.collection_select :payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true %>
           <div class="invalid-feedback"><%= @service.errors[:payment_type_id].first %></div>
         </div>
       </div>

@@ -74,8 +74,10 @@ class SalesController < ApplicationController
     paid_with = params[:paid_with].gsub(',','')
     change = params[:change].gsub(',','')
     discount = params[:discount]
-    @ticket_sale = TicketSale.new(current_user, paid_with, change, discount)
+    payment_type = PaymentType.find(params[:payment_type_id])
+    @ticket_sale = TicketSale.new(current_user, paid_with, change, discount, payment_type)
     @sale = Sale.new
+    @sale.payment_type = payment_type
   end
 
   private
@@ -85,7 +87,9 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:subtotal, :discount, :total, :paid_with, :change)
+      params.require(:sale).permit(
+        :subtotal, :discount, :total, :paid_with, :change, :payment_type_id
+      )
     end
 
     def set_sale_policy
