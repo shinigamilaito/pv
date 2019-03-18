@@ -43,7 +43,7 @@ class ServicesPolicy
   end
 
   def folios_with_date_creation(service)
-    paided = service.paid ? 'PAGADO' : 'EN PROCESO'
+    paided = service.is_in_process? ? 'EN PROCESO' : 'PAGADO'
     date = ActionController::Base.helpers.l(service.created_at, format: '%A, %d %b %Y %I:%M:%S')
     return "#{service.number_folio} - Creado: #{date}. #{paided}"
   end

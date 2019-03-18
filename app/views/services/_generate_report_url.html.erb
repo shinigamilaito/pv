@@ -7,8 +7,5 @@
   <% end %>
   <% unless @service.equipment_customers.blank? %>
     <%= render 'shared/service_note', url_report: generate_note_service_path(@service, format: 'pdf') %>
-  <% end %>
-  <% unless @service.is_in_process? %>
-    <%= render 'shared/service_ticket', url_report: generate_ticket_service_path(@service, format: 'pdf') %>
-  <% end %>
+  <% end %>  
 </div>

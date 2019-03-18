@@ -57,7 +57,7 @@ class SparePartService
     spare_part.save
   end
 
-  def create_service_spare_part
+  def create_service_spare_part    
     service_spare_part = ServiceSparePart.new
     service_spare_part.control_number = spare_part.control_number
     service_spare_part.name = spare_part.name
@@ -65,6 +65,10 @@ class SparePartService
     service_spare_part.price = spare_part.price
     service_spare_part.quantity = 1
     service_spare_part.spare_part = spare_part
+    payments_policy = PaymentsPolicy.new(service)
+    payment = payments_policy.current_payment
+    payment.save
+    service_spare_part.payment = payment
     service_spare_part.service = service
     service_spare_part.save
     service_spare_part

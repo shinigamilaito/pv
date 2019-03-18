@@ -6,7 +6,7 @@
 <script>
   $(document).ready(function() {
     $('#print-button').click(function() {
-      printPage('print-button', '<%= url_report %>');
+      printPage($(this), '<%= url_report %>');
     });
   });
 </script>

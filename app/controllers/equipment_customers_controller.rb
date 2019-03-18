@@ -15,6 +15,9 @@ class EquipmentCustomersController < ApplicationController
     if equipment_customer_service.create
       @service = equipment_customer.service
       @components = Component.all.order(created_at: :asc)
+      @payments_policy = PaymentsPolicy.new(@service)
+      @equipments_not_paid = @payments_policy.equipments_not_paid
+      @payment = @payments_policy.current_payment
       render 'create'
     else
       render 'new'

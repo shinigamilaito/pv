@@ -1,20 +1,20 @@
 class TicketService < Ticket
-  attr_accessor :service
+  attr_accessor :payment
 
-  def initialize(service)
-    @service = service
+  def initialize(payment)
+    @payment = payment
   end
 
   def ticket
-    service.total_tickets
+    payment.ticket
   end
 
   def date
-      ActionController::Base.helpers.l(service.updated_at, format: '%A, %d %b %Y %I:%M:%S')
+      ActionController::Base.helpers.l(payment.updated_at, format: '%A, %d %b %Y %I:%M:%S')
   end
 
   def folio
-    service.number_folio
+    payment.service.number_folio
   end
 
   def spare_parts
@@ -25,13 +25,13 @@ class TicketService < Ticket
   end
 
   def type_paid
-    service.payment_type.name
+    payment.payment_type.name
   end
 
   private
 
   def spare_parts_sell
-    service.service_spare_parts.order(:created_at)
+    payment.service_spare_parts.order(:created_at)
   end
 
   def worforce
@@ -39,8 +39,8 @@ class TicketService < Ticket
       code: '',
       quantity: 1,
       description: 'Mano de Obra',
-      price: service.real_worforce,
-      total: service.real_worforce
+      price: payment.real_worforce,
+      total: payment.real_worforce
     }
   end
 
@@ -49,11 +49,11 @@ class TicketService < Ticket
   end
 
   def paid
-    service.paid_with
+    payment.paid_with
   end
 
   def change
-    service.change
+    payment.change
   end
 
   def public_data(spare_part)
@@ -79,9 +79,9 @@ class TicketService < Ticket
   def total_to_paid
     return @totals if @totals.present?
 
-    total_calculator = TotalCalculator.new(service)
-    total_calculator.worforce = service.real_worforce
-    total_calculator.discount = service.discount
+    total_calculator = TotalCalculator.new(payment.service, payment)
+    total_calculator.worforce = payment.real_worforce
+    total_calculator.discount = payment.discount
 
     @totals = total_calculator.totals
   end

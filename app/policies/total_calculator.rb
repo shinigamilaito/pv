@@ -1,8 +1,9 @@
 class TotalCalculator
-  attr_accessor :worforce, :discount, :service
+  attr_accessor :worforce, :discount, :service, :payment
 
-  def initialize(service)
+  def initialize(service, payment = nil)
     @service = service
+    @payment = payment
   end
 
   def totals
@@ -15,15 +16,28 @@ class TotalCalculator
       total_worforce: worforce,
       total_discount: total_discount,
       total_final: total_final,
-      paid_with: service.paid_with,
-      change: service.change
+      paid_with: payment.paid_with,
+      change: payment.change
     }
   end
 
   private
 
+  def current_payment
+    @payment
+  end
+
+  def payment
+    if current_payment.nil?
+      payments_policy = PaymentsPolicy.new(service)
+      return payments_policy.current_payment
+    else
+      return current_payment
+    end
+  end
+
   def cost_spare_parts
-    total = service_spare_parts.inject(BigDecimal("0.00")) do |total, spare_part|
+    total = payment.service_spare_parts.inject(BigDecimal("0.00")) do |total, spare_part|
       total += total_cost(spare_part)
       total
     end

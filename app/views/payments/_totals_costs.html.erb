@@ -51,7 +51,7 @@
   $(document).ready(function() {
     var $paidWithService = $('#paid_with_service');
     var $change = $("#change-service");
-    var $paymentType = $("#service_payment_type_id");
+    var $paymentType = $("#payment_payment_type_id");
 
     setCurrency($paidWithService);
     setCurrency($change)
@@ -98,7 +98,7 @@
       $paidWithService.val(totalToPaid);
       $paidWithService.prop("readonly",true);
       obtainChange();
-    } else {      
+    } else {
       $paidWithService.val(0);
       $paidWithService.prop("readonly",false);
       obtainChange();

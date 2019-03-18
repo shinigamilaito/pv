@@ -1,2 +1,2 @@
 $("#spare_parts_used_by_service").html('<%= j render(@service.service_spare_parts) %>');
-$("#total_to_paid_by_spare_parts_used_by_service").html('<%= j render("totals_costs", totals: @totals) %>');
+$("#total_to_paid_by_spare_parts_used_by_service").html('<%= j render("payments/totals_costs", totals: @totals) %>');

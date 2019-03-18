@@ -1,0 +1,7 @@
+<%= select_tag("equipment_customers[]", options_for_select(equipments_not_paid), class: 'form-control autocomplete_equipments', multiple: true, required: true) %>
+
+<script>
+  $(document).ready(function() {
+    $('.autocomplete_equipments').select2();
+  })
+</script>

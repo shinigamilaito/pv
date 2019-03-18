@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  payment_type: one
+  worforce: 9.99
+  discount: 9.99
+  departure_date: MyString
+  user: one
+  generic_price: one
+  paid_with: 9.99
+  change: 9.99
+  ticket: 1
+  service: one
+
+two:
+  payment_type: two
+  worforce: 9.99
+  discount: 9.99
+  departure_date: MyString
+  user: two
+  generic_price: two
+  paid_with: 9.99
+  change: 9.99
+  ticket: 1
+  service: two

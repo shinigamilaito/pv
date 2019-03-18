@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Payment type:</strong>
+  <%= @payment.payment_type %>
+</p>
+
+<p>
+  <strong>Worforce:</strong>
+  <%= @payment.worforce %>
+</p>
+
+<p>
+  <strong>Discount:</strong>
+  <%= @payment.discount %>
+</p>
+
+<p>
+  <strong>Departure date:</strong>
+  <%= @payment.departure_date %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @payment.user %>
+</p>
+
+<p>
+  <strong>Generic price:</strong>
+  <%= @payment.generic_price %>
+</p>
+
+<p>
+  <strong>Paid with:</strong>
+  <%= @payment.paid_with %>
+</p>
+
+<p>
+  <strong>Change:</strong>
+  <%= @payment.change %>
+</p>
+
+<p>
+  <strong>Ticket:</strong>
+  <%= @payment.ticket %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @payment.service %>
+</p>
+
+<%= link_to 'Edit', edit_payment_path(@payment) %> |
+<%= link_to 'Back', payments_path %>

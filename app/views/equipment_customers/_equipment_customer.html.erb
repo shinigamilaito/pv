@@ -1,5 +1,8 @@
 <button class="box-header with-border accordion">
   <h3 class="box-title"><%= title_header(equipment_customer).html_safe %></h3>
+  <% unless equipment_customer.is_in_process? %>
+    <%= render 'shared/service_ticket', url_report: generate_ticket_service_path(equipment_customer.payment, format: 'pdf'), equipment_customer: equipment_customer %>
+  <% end %>
 </button>
 <div class="panel">
   <div class="row">
@@ -53,13 +56,12 @@
       <%= render 'message_histories/form', equipment_customer: equipment_customer %>
     </div>
     <div class="input-group col-sm-12">
-      <% if @service.is_in_process? %>
+      <% if equipment_customer.is_in_process? %>
         <button type="button" id="add-history-message-<%= equipment_customer.id %>" class="btn btn-primary btn-block" data-disable-with="Guardar">Guardar</button>
       <% end %>
     </div>
   </div>
 </div>
-
 
 <script>
   $("#equipment_customer_<%= equipment_customer.id %>").boxWidget({});

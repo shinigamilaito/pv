@@ -4,6 +4,7 @@ class EquipmentCustomer < ApplicationRecord
   belongs_to :equipment_model
   belongs_to :service
   belongs_to :cable_type
+  belongs_to :payment, optional: true
 
   has_many :message_histories
 
@@ -17,4 +18,11 @@ class EquipmentCustomer < ApplicationRecord
   	where(client_id: params[:client_id], folio: params[:folio_number]).first
   end
 
+  def is_in_process?
+    if self.payment.nil?
+      return true
+    else
+      return self.payment.paid ? false : true
+    end
+  end
 end

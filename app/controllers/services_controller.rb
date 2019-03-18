@@ -24,6 +24,9 @@ class ServicesController < ApplicationController
       @service = services_policy.create(params[:service], current_user)
       @folios = services_policy.find_folios[:folios_present]
       @components = Component.all.order(:created_at)
+      payments_policy = PaymentsPolicy.new(@service)
+      @payment = payments_policy.current_payment
+      @equipments_not_paid = payments_policy.equipments_not_paid
 
       if @service.new_record?
         if @service.save(validate: false)
@@ -63,6 +66,7 @@ class ServicesController < ApplicationController
     begin
       spare_part_service.add
       generate_totals
+      @payment = PaymentsPolicy.new(@service).current_payment
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
@@ -72,28 +76,16 @@ class ServicesController < ApplicationController
     session[:worforce] = BigDecimal.new(params[:worforce].gsub(',',''))
     @service = Service.find(params[:service_id])
     generate_totals
+    @payment = PaymentsPolicy.new(@service).current_payment
     render 'add_spare_part'
   end
 
   def update_discount
     session[:discount] = BigDecimal.new(params[:discount].gsub(',',''))
     @service = Service.find(params[:service_id])
+    @payment = PaymentsPolicy.new(@service).current_payment
     generate_totals
     render 'add_spare_part'
-  end
-
-  # paid the service
-  def update
-    services_policy = ServicesPolicy.new
-    @service = services_policy.paid(params, current_user)
-    clear_variables
-
-    if @service.update(service_params)
-      render 'update'
-    else
-      flash.now[:error] = 'Proporcione los datos correctos.'
-      render 'form_paid'
-    end
   end
 
   def update_quantity
@@ -104,6 +96,7 @@ class ServicesController < ApplicationController
       if spare_part_service.update_quantity(new_quantity, service_spare_part)
         @service = service_spare_part.service
         generate_totals
+        @payment = PaymentsPolicy.new(@service).current_payment
         render 'add_spare_part'
         #render js: "toastr['success']('Stock actualizado correctamente.');", status: :ok
       else
@@ -120,6 +113,7 @@ class ServicesController < ApplicationController
     @service = service_spare_part.service
     begin
       spare_part_service.delete(service_spare_part)
+      @payment = PaymentsPolicy.new(@service).current_payment
       generate_totals
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request
@@ -145,11 +139,6 @@ class ServicesController < ApplicationController
     total_calculator.worforce = BigDecimal.new(session[:worforce])
     total_calculator.discount = BigDecimal.new(session[:discount])
     @totals = total_calculator.totals
-  end
-
-  def fixed_format_price
-      params[:service][:paid_with] = params[:service][:paid_with].gsub('$ ', '').gsub(',','')
-      params[:service][:change] = params[:service][:change].gsub('$ ', '').gsub(',','')
   end
 
 end

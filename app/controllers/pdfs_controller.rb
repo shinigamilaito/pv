@@ -1,5 +1,5 @@
 class PdfsController < ApplicationController
-  before_action :set_service, only: [:ticket_paid_services, :note_services]
+  before_action :set_service, only: [:note_services]
   before_action :set_sale, only: [:ticket_paid_sales]
 
   def ticket_paid_sales
@@ -24,11 +24,11 @@ class PdfsController < ApplicationController
   end
 
   def ticket_paid_services
+    @payment = Payment.find(params[:id_payment])
     respond_to do |format|
       format.pdf do
-        @service.total_tickets += 1
-        if @service.save
-          @ticket_service = TicketService.new(@service)
+        if @payment.save
+          @ticket_service = TicketService.new(@payment)
           render pdf: 'report',
                #wkhtmltopdf: route_wicked,
                template: 'pdfs/ticket_paid_service.pdf.html.erb',

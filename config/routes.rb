@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'ticket_service/:id_service', to: 'pdfs#ticket_paid_services', as: :generate_ticket_service
+  resources :payments
+  get 'ticket_service/:id_payment', to: 'pdfs#ticket_paid_services', as: :generate_ticket_service
   get 'note_service/:id_service', to: 'pdfs#note_services', as: :generate_note_service
   get 'ticket_sale/:id_sale', to: 'pdfs#ticket_paid_sales', as: :generate_ticket_sale
 

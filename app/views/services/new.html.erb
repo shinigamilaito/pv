@@ -16,9 +16,9 @@
 <div id="paid">
   <% unless @service.new_record? %>
     <% if @service.paid %>
-      <%= render 'services/paid' %>
+      <%#= render 'services/paid' %>
     <% else %>
-      <%= render 'services/form_paid' %>
+      <%= render 'payments/form' %>
     <% end %>
   <% end %>
 </div>

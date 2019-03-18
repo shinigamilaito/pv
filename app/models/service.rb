@@ -8,6 +8,7 @@ class Service < ApplicationRecord
 
   has_many :equipment_customers
   has_many :service_spare_parts
+  has_many :payments
 
   validates :client_id, presence: true
   validates :number_folio, presence: true, uniqueness: {case_sensitive: true}
@@ -28,7 +29,7 @@ class Service < ApplicationRecord
   end
 
   def is_in_process?
-    self.paid ? false : true
+    return equipment_customers.where('payment_id IS NULL', false).blank? ? false : true
   end
 
   def self.search(term)
@@ -36,14 +37,6 @@ class Service < ApplicationRecord
       .where('services.paid = ?', true)
     	.where('CONCAT(LOWER(clients.name), LOWER(clients.first_name), LOWER(clients.last_name)) LIKE :term OR LOWER(services.number_folio) LIKE :term', term: "%#{term.downcase}%")
  	end
-
-  def real_worforce
-    if generic_price.present?
-      generic_price.price
-    else
-      worforce
-    end
-  end
 
   def set_number_folio
     self.number_folio = Service.count + 1

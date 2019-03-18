@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190310011455) do
+ActiveRecord::Schema.define(version: 20190317023409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,10 +75,12 @@ ActiveRecord::Schema.define(version: 20190310011455) do
     t.bigint "service_id"
     t.bigint "equipment_model_id"
     t.bigint "cable_type_id"
+    t.bigint "payment_id"
     t.index ["brand_id"], name: "index_equipment_customers_on_brand_id"
     t.index ["cable_type_id"], name: "index_equipment_customers_on_cable_type_id"
     t.index ["equipment_id"], name: "index_equipment_customers_on_equipment_id"
     t.index ["equipment_model_id"], name: "index_equipment_customers_on_equipment_model_id"
+    t.index ["payment_id"], name: "index_equipment_customers_on_payment_id"
     t.index ["service_id"], name: "index_equipment_customers_on_service_id"
   end
 
@@ -137,6 +139,26 @@ ActiveRecord::Schema.define(version: 20190310011455) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.bigint "payment_type_id"
+    t.decimal "worforce", precision: 10, scale: 2, default: "0.0"
+    t.decimal "discount", precision: 10, scale: 2, default: "0.0"
+    t.string "departure_date"
+    t.bigint "user_id"
+    t.bigint "generic_price_id"
+    t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
+    t.decimal "change", precision: 10, scale: 2, default: "0.0"
+    t.integer "ticket", default: 0
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "paid", default: false
+    t.index ["generic_price_id"], name: "index_payments_on_generic_price_id"
+    t.index ["payment_type_id"], name: "index_payments_on_payment_type_id"
+    t.index ["service_id"], name: "index_payments_on_service_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "code"
     t.string "name"
@@ -190,6 +212,8 @@ ActiveRecord::Schema.define(version: 20190310011455) do
     t.datetime "updated_at", null: false
     t.bigint "spare_part_id"
     t.integer "control_number", default: 0
+    t.bigint "payment_id"
+    t.index ["payment_id"], name: "index_service_spare_parts_on_payment_id"
     t.index ["service_id"], name: "index_service_spare_parts_on_service_id"
     t.index ["spare_part_id"], name: "index_service_spare_parts_on_spare_part_id"
   end
@@ -252,17 +276,23 @@ ActiveRecord::Schema.define(version: 20190310011455) do
   add_foreign_key "equipment_customers", "cable_types"
   add_foreign_key "equipment_customers", "equipment_models"
   add_foreign_key "equipment_customers", "equipments"
+  add_foreign_key "equipment_customers", "payments"
   add_foreign_key "equipment_customers", "services"
   add_foreign_key "incomes", "clients"
   add_foreign_key "incomes", "services"
   add_foreign_key "incomes", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "message_histories", "users"
+  add_foreign_key "payments", "generic_prices"
+  add_foreign_key "payments", "payment_types"
+  add_foreign_key "payments", "services"
+  add_foreign_key "payments", "users"
   add_foreign_key "sale_products", "products"
   add_foreign_key "sale_products", "sales"
   add_foreign_key "sale_products", "users"
   add_foreign_key "sales", "payment_types"
   add_foreign_key "sales", "users"
+  add_foreign_key "service_spare_parts", "payments"
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "service_spare_parts", "spare_parts"
   add_foreign_key "services", "clients"
