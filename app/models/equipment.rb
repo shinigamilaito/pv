@@ -1,3 +1,4 @@
+# Laptop, Impresora, etc
 class Equipment < ApplicationRecord
 	validates :name, presence: true, uniqueness: {case_sensitive: true}
 

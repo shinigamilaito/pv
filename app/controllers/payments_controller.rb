@@ -17,31 +17,43 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    service = Service.find(params[:payment][:service_id])
-    payments_policy = PaymentsPolicy.new(service)
-    @payment = payments_policy.save(params, current_user)
-    clear_variables
+    begin
+      ActiveRecord::Base.transaction do
+        service = Service.find(params[:payment][:service_id])
+        payments_policy = PaymentsPolicy.new(service)
+        @payment = payments_policy.save(params, current_user)
+        clear_variables
 
-    if @payment.save
-      @components = Component.all.order(:created_at)
-      @equipments_not_paid = payments_policy.equipments_not_paid
-    else
-      render js: "toastr['error']('Error al escribir los datos del pago. Intente nuevamente.');", status: :bad_request
+        if @payment.save
+          @components = Component.all.order(:created_at)
+          @equipments_not_paid = payments_policy.equipments_not_paid
+        else
+          raise 'Error al escribir los datos del pago. Intente nuevamente.'
+        end
+      end
+    rescue StandarError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
 
   def update
-    service = Service.find(params[:payment][:service_id])
-    payments_policy = PaymentsPolicy.new(service)
-    @payment = payments_policy.save(params, current_user)
-    clear_variables
+    begin
+      ActiveRecord::Base.transaction do
+        service = Service.find(params[:payment][:service_id])
+        payments_policy = PaymentsPolicy.new(service)
+        @payment = payments_policy.save(params, current_user)
+        clear_variables
 
-    if @payment.save
-      @components = Component.all.order(:created_at)
-      @equipments_not_paid = payments_policy.equipments_not_paid
-      render :create
-    else
-      render js: "toastr['error']('Error al escribir los datos del pago. Intente nuevamente.');", status: :bad_request
+        if @payment.save
+          @components = Component.all.order(:created_at)
+          @equipments_not_paid = payments_policy.equipments_not_paid
+          render :create
+        else
+          raise 'Error al escribir los datos del pago. Intente nuevamente.'
+        end
+      end
+    rescue StandarError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
 

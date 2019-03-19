@@ -21,30 +21,32 @@ class ServicesController < ApplicationController
     clear_variables
     services_policy = ServicesPolicy.new(params[:service][:client_id])
     begin
-      @service = services_policy.create(params[:service], current_user)
-      @folios = services_policy.find_folios[:folios_present]
-      @components = Component.all.order(:created_at)
-      payments_policy = PaymentsPolicy.new(@service)
-      @payment = payments_policy.current_payment
-      @equipments_not_paid = payments_policy.equipments_not_paid
+      PgLock.new(name: "create_service").lock do
+        @service = services_policy.create(params[:service], current_user)
+        @folios = services_policy.find_folios[:folios_present]
+        @components = Component.all.order(:created_at)
+        payments_policy = PaymentsPolicy.new(@service)
+        @payment = payments_policy.current_payment
+        @equipments_not_paid = payments_policy.equipments_not_paid
 
-      if @service.new_record?
-        if @service.save(validate: false)
+        if @service.new_record?
+          if @service.save(validate: false)
+            @folios = services_policy.find_folios[:folios_present]
+            @folio = services_policy.folios_with_date_creation(@service)
+            @service.employee = current_user
+            @message = 'Registro creado exitosamente.'
+            session[:service_id] ||= @service.id
+            render 'create', status: :created
+          else
+            raise 'Error al registrar el servicio.'
+          end
+        else
           @folios = services_policy.find_folios[:folios_present]
           @folio = services_policy.folios_with_date_creation(@service)
-          @service.employee = current_user
-          @message = 'Registro creado exitosamente.'
+          @message = 'Servicio encontrado exitosamente.'
           session[:service_id] ||= @service.id
-          render 'create', status: :created
-        else
-          raise 'Error al registrar el servicio.'
+          render 'create', status: :ok
         end
-      else
-        @folios = services_policy.find_folios[:folios_present]
-        @folio = services_policy.folios_with_date_creation(@service)
-        @message = 'Servicio encontrado exitosamente.'
-        session[:service_id] ||= @service.id
-        render 'create', status: :ok
       end
     rescue StandardError => e
       @service = Service.new(service_params)
@@ -98,7 +100,6 @@ class ServicesController < ApplicationController
         generate_totals
         @payment = PaymentsPolicy.new(@service).current_payment
         render 'add_spare_part'
-        #render js: "toastr['success']('Stock actualizado correctamente.');", status: :ok
       else
         head :ok
       end

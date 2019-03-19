@@ -1,3 +1,4 @@
+# Pago realizado por el servicio
 class Payment < ApplicationRecord
   belongs_to :payment_type, optional: true
   belongs_to :user, optional: true
@@ -14,5 +15,5 @@ class Payment < ApplicationRecord
       worforce
     end
   end
-  
+
 end

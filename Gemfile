@@ -46,7 +46,7 @@ group :development do
 end
 
 group :production do
-   gem "wkhtmltopdf-heroku"
+   #gem "wkhtmltopdf-heroku"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -61,3 +61,5 @@ gem 'carrierwave-base64'
 #gem 'pdfkit'
 gem "render_anywhere", require: false
 gem 'wicked_pdf'
+
+gem 'pg_lock'

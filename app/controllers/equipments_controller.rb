@@ -71,8 +71,5 @@ class EquipmentsController < ApplicationController
     def equipment_params
       params.require(:equipment).permit(:name, :specifications)
     end
-
-    #def equipment_in_use
-    #  redirect_to equipments_url
-    #end
+    
 end

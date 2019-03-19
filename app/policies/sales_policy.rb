@@ -8,27 +8,29 @@ class SalesPolicy
   end
 
   def add_product
-    new_product = false
+    PgLock.new(name: "sales_policy_add_product").lock do
+      new_product = false
 
-    if product.present?
-      if available?
-        if pending_in_sale?
-          product = adjust_product_in_sale
+      if product.present?
+        if available?
+          if pending_in_sale?
+            product = adjust_product_in_sale
+          else
+            product = adjust_new_product_to_sale
+            new_product = true
+          end
         else
-          product = adjust_new_product_to_sale
-          new_product = true
+          raise 'Producto no disponible.'
         end
       else
-        raise 'Producto no disponible.'
+        raise 'Producto no encontrado.'
       end
-    else
-      raise 'Producto no encontrado.'
-    end
 
-    return {
-      new: new_product,
-      product: product
-    }
+      return {
+        new: new_product,
+        product: product
+      }
+    end
   end
 
   def products_for_sale
@@ -36,11 +38,13 @@ class SalesPolicy
   end
 
   def delete(sale_product, product)
-    ActiveRecord::Base.transaction do
-      @product = product
-      quantity = sale_product.quantity
-      raise 'Error al actualizar la cantidad.' unless adjust_quantity_product(quantity)
-      raise 'Error al eliminar el producto.' unless sale_product.destroy
+    PgLock.new(name: "sales_policy_add_product").lock do
+      ActiveRecord::Base.transaction do
+        @product = product
+        quantity = sale_product.quantity
+        raise 'Error al actualizar la cantidad.' unless adjust_quantity_product(quantity)
+        raise 'Error al eliminar el producto.' unless sale_product.destroy
+      end
     end
   end
 

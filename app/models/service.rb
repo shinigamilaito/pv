@@ -29,7 +29,11 @@ class Service < ApplicationRecord
   end
 
   def is_in_process?
-    return equipment_customers.where('payment_id IS NULL', false).blank? ? false : true
+    if equipment_customers.blank?
+      return true
+    else
+      return equipment_customers.where('payment_id IS NULL', false).blank? ? false : true
+    end
   end
 
   def self.search(term)

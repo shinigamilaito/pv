@@ -86,4 +86,8 @@ class TicketService < Ticket
     @totals = total_calculator.totals
   end
 
+  def sub_total
+    total_to_paid[:total_products] + total_to_paid[:total_worforce]
+  end
+
 end
