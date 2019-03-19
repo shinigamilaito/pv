@@ -19,16 +19,18 @@ class PaymentsController < ApplicationController
   def create
     begin
       ActiveRecord::Base.transaction do
-        service = Service.find(params[:payment][:service_id])
-        payments_policy = PaymentsPolicy.new(service)
-        @payment = payments_policy.save(params, current_user)
-        clear_variables
+        PgLock.new(name: "payments_controller_create").lock do
+          service = Service.find(params[:payment][:service_id])
+          payments_policy = PaymentsPolicy.new(service)
+          @payment = payments_policy.save(params, current_user)
+          clear_variables
 
-        if @payment.save
-          @components = Component.all.order(:created_at)
-          @equipments_not_paid = payments_policy.equipments_not_paid
-        else
-          raise 'Error al escribir los datos del pago. Intente nuevamente.'
+          if @payment.save
+            @components = Component.all.order(:created_at)
+            @equipments_not_paid = payments_policy.equipments_not_paid
+          else
+            raise 'Error al escribir los datos del pago. Intente nuevamente.'
+          end
         end
       end
     rescue StandarError => e
@@ -39,17 +41,19 @@ class PaymentsController < ApplicationController
   def update
     begin
       ActiveRecord::Base.transaction do
-        service = Service.find(params[:payment][:service_id])
-        payments_policy = PaymentsPolicy.new(service)
-        @payment = payments_policy.save(params, current_user)
-        clear_variables
+        PgLock.new(name: "payments_controller_update").lock do
+          service = Service.find(params[:payment][:service_id])
+          payments_policy = PaymentsPolicy.new(service)
+          @payment = payments_policy.save(params, current_user)
+          clear_variables
 
-        if @payment.save
-          @components = Component.all.order(:created_at)
-          @equipments_not_paid = payments_policy.equipments_not_paid
-          render :create
-        else
-          raise 'Error al escribir los datos del pago. Intente nuevamente.'
+          if @payment.save
+            @components = Component.all.order(:created_at)
+            @equipments_not_paid = payments_policy.equipments_not_paid
+            render :create
+          else
+            raise 'Error al escribir los datos del pago. Intente nuevamente.'
+          end
         end
       end
     rescue StandarError => e

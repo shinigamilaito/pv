@@ -27,7 +27,7 @@ class PdfsController < ApplicationController
     @payment = Payment.find(params[:id_payment])
     respond_to do |format|
       format.pdf do
-        if @payment.save
+        #if @payment.save
           @ticket_service = TicketService.new(@payment)
           render pdf: 'report',
                #wkhtmltopdf: route_wicked,
@@ -39,7 +39,7 @@ class PdfsController < ApplicationController
                  top: 5,
                  bottom: 4
                }
-        end
+        #end
       end
     end
   end

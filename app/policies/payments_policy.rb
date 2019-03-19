@@ -22,7 +22,7 @@ class PaymentsPolicy
       .collect {|e_c| [ e_c.equipment.name, e_c.id ] }
   end
 
-  def save(params, user)    
+  def save(params, user)
     price = params[:price]
     payment = current_payment
 
@@ -45,6 +45,14 @@ class PaymentsPolicy
       payment.generic_price = nil
     end
 
-    payment
+    payment.ticket = set_payment_number
+
+    return payment
+  end
+
+  private
+
+  def set_payment_number
+    return Payment.where('paid = ?', true).count + 1
   end
 end
