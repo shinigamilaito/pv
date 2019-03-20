@@ -62,7 +62,7 @@
       obtainChangeSale();
     });
 
-    //updatePaymentSale($paymentTypeSale.find("option:selected").attr('value'));
+    updatePaymentSale($paymentTypeSale.find("option:selected").attr('value'));
 
     $paymentTypeSale.change(function() {
       updatePaymentSale($(this).find("option:selected").attr('value'));
@@ -115,12 +115,19 @@
       var $totalPaid = $('#total_to_paid');
       var $paidWithSale = $('#paid_with_sale');
       // Check payment method
-      if(paymentMethod != "" && paymentMethod != "1") {
+      if(paymentMethod == "") { // No selecciono metodo de pago
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",true);
+        obtainChangeSale();
+        return;
+      }
+
+      if(paymentMethod != "1") {
         var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
         $paidWithSale.val(totalToPaid);
         $paidWithSale.prop("readonly",true);
         obtainChangeSale();
-      } else {        
+      } else {
         $paidWithSale.val(0);
         $paidWithSale.prop("readonly",false);
         obtainChangeSale();

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190317023409) do
+ActiveRecord::Schema.define(version: 20190320124643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 20190317023409) do
     t.decimal "total", precision: 10, scale: 2, default: "0.0"
     t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
     t.decimal "change", precision: 10, scale: 2, default: "0.0"
-    t.integer "total_tickets", default: 0
+    t.integer "ticket", default: 0
     t.bigint "payment_type_id"
     t.index ["payment_type_id"], name: "index_sales_on_payment_type_id"
     t.index ["user_id"], name: "index_sales_on_user_id"

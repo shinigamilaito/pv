@@ -5,8 +5,8 @@ class PdfsController < ApplicationController
   def ticket_paid_sales
     respond_to do |format|
       format.pdf do
-        @sale.total_tickets += 1
-        if @sale.save
+        #@sale.total_tickets += 1
+        #if @sale.save
           @ticket_sale = TicketSale.new(@sale)
           render pdf: 'report',
                #wkhtmltopdf: route_wicked,
@@ -18,7 +18,7 @@ class PdfsController < ApplicationController
                  top: 5,
                  bottom: 4
                }
-        end
+        #end
       end
     end
   end

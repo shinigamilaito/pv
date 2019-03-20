@@ -11,7 +11,7 @@ class TicketSale < Ticket
 
   def ticket
     if sale.class == Sale
-      sale.total_tickets
+      sale.ticket
     else
       ''
     end

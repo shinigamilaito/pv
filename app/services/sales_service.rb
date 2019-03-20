@@ -6,10 +6,13 @@ class SalesService
   end
 
   def save
-    @sales_policy.products_for_sale.each do |product|
-      @sale.sale_products << product
-    end
+    PgLock.new(name: "sales_service_save").lock do
+      @sales_policy.products_for_sale.each do |product|
+        @sale.sale_products << product
+      end
 
-    @sale.save
+      @sale.ticket = Sale.count + 1
+      @sale.save
+    end
   end
 end
