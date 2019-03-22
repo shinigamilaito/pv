@@ -25,20 +25,14 @@ class Service < ApplicationRecord
 
   def is_in_process?
     return false if self.new_record?
-    
+
     if equipment_customers.blank?
       return true
     else
       return equipment_customers.where('payment_id IS NULL', false).blank? ? false : true
     end
   end
-
-  def self.search(term)
-    Service.joins(:client)
-      .where('services.paid = ?', true)
-    	.where('CONCAT(LOWER(clients.name), LOWER(clients.first_name), LOWER(clients.last_name)) LIKE :term OR LOWER(services.number_folio) LIKE :term', term: "%#{term.downcase}%")
- 	end
-
+  
   def set_number_folio
     self.number_folio = Service.count + 1
   end

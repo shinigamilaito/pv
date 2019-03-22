@@ -18,4 +18,16 @@ class Payment < ApplicationRecord
     end
   end
 
+  def self.search(term)
+    if term.to_i != 0
+      Payment
+        .joins(service: :client)
+      	.where('payments.paid = ? AND services.number_folio = ?', true, term.to_i)
+    else
+      Payment.joins(service: :client)
+        .where('payments.paid = ?', true)
+        .where('CONCAT(LOWER(clients.name), LOWER(clients.first_name), LOWER(clients.last_name)) LIKE :term', term: "%#{term.downcase}%")
+    end
+ 	end
+
 end

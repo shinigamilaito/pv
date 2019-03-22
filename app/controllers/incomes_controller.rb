@@ -4,10 +4,10 @@ class IncomesController < ApplicationController
   end
 
   def pending_services
-    @pending_services = Service.where(paid: false).order(updated_at: :desc)
+    @pending_services = Payment.where(paid: false).order(updated_at: :desc)
   end
 
   def search
-    @incomes = Service.search(params[:search]).order(created_at: :desc)
+    @incomes = Payment.search(params[:search]).order(created_at: :desc)
   end
 end
