@@ -24,6 +24,8 @@ class Service < ApplicationRecord
   end
 
   def is_in_process?
+    return false if self.new_record?
+    
     if equipment_customers.blank?
       return true
     else

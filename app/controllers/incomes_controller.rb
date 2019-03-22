@@ -1,6 +1,6 @@
 class IncomesController < ApplicationController
   def index
-    @incomes = Service.where(paid: true).order(updated_at: :desc)
+    @incomes = Payment.where(paid: true).order(updated_at: :desc)
   end
 
   def pending_services

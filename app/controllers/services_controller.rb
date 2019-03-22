@@ -3,11 +3,14 @@ class ServicesController < ApplicationController
 
   def new
     if params[:service_id].present?
-      @service = Service.find(params[:service_id])      
+      @service = Service.find(params[:service_id])
       service_policy = ServicesPolicy.new(@service.client_id)
       @folios = service_policy.find_folios[:folios_present]
       @folio = service_policy.folios_with_date_creation(@service)
       @components = Component.all.order(:created_at)
+      payments_policy = PaymentsPolicy.new(@service)
+      @payment = payments_policy.current_payment
+      @equipments_not_paid = payments_policy.equipments_not_paid
     else
       @service = Service.new
       @folios = []

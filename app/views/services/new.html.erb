@@ -14,11 +14,9 @@
 </div>
 
 <div id="paid">
-  <% unless @service.new_record? %>
-    <% if @service.paid %>
-      <%#= render 'services/paid' %>
-    <% else %>
-      <%= render 'payments/form' %>
-    <% end %>
+  <% unless @service.is_in_process? %>
+
+  <% else %>
+    <%= render 'payments/form', payment: @payment, service: @service, equipments_not_paid: @equipments_not_paid %>
   <% end %>
 </div>

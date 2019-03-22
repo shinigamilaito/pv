@@ -1,9 +1,9 @@
 module ServicesHelper
 
-  def totals(service)
-    total_calculator = TotalCalculator.new(service)
-    total_calculator.worforce = service.real_worforce
-    total_calculator.discount = service.discount
+  def totals(income)
+    total_calculator = TotalCalculator.new(income.service, income)
+    total_calculator.worforce = income.real_worforce
+    total_calculator.discount = income.discount
     total_calculator.totals
   end
 
