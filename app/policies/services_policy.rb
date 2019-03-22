@@ -35,8 +35,7 @@ class ServicesPolicy
 
       if service.new_record?
         raise 'Código ya en uso'
-      else
-        service.employee = user
+      else        
         return service
       end
     end
@@ -47,23 +46,5 @@ class ServicesPolicy
     date = ActionController::Base.helpers.l(service.created_at, format: '%A, %d %b %Y %I:%M:%S')
     return "#{service.number_folio} - Creado: #{date}. #{paided}"
   end
-
-  #def paid(service_params, user)
-    #service = Service.find(service_params[:id])
-    #service.employee = user
-    #service.paid = true
-    #price = service_params[:price]
-
-    #if service_params[:from_generic_price].eql?('true')
-      #generic_price = GenericPrice.find(price)
-      #service.generic_price = generic_price
-      #service.worforce = BigDecimal.new('0.00')
-    #else
-      #service.worforce = BigDecimal.new(price)
-      #service.generic_price = nil
-    #end
-
-    #service
-  #end
 
 end

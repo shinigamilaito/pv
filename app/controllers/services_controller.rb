@@ -3,8 +3,7 @@ class ServicesController < ApplicationController
 
   def new
     if params[:service_id].present?
-      @service = Service.find(params[:service_id])
-      @service.employee = current_user
+      @service = Service.find(params[:service_id])      
       service_policy = ServicesPolicy.new(@service.client_id)
       @folios = service_policy.find_folios[:folios_present]
       @folio = service_policy.folios_with_date_creation(@service)
@@ -33,7 +32,6 @@ class ServicesController < ApplicationController
           if @service.save(validate: false)
             @folios = services_policy.find_folios[:folios_present]
             @folio = services_policy.folios_with_date_creation(@service)
-            @service.employee = current_user
             @message = 'Registro creado exitosamente.'
             session[:service_id] ||= @service.id
             render 'create', status: :created
@@ -50,7 +48,6 @@ class ServicesController < ApplicationController
       end
     rescue StandardError => e
       @service = Service.new(service_params)
-      @service.employee = current_user
       @folios = services_policy.find_folios[:folios_present]
       render 'new', status: :unprocessable_entity
     end

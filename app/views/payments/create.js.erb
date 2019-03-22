@@ -2,7 +2,7 @@ toastr['success']('Pago registrado correctamente.');
 $("#new-equipment-body").html('<%= j render(@payment.service.equipment_customers.order(created_at: :desc)) %>');
 <% if @equipments_not_paid.blank? %>
   //$(".link-hover").remove();
-  $('#paid').html('<p>Todos los pagos han sido realizados.</p>');
+  $('#paid').html('<p class="text-center">Todos los pagos han sido realizados.</p>');
 <% else %>
   $("#equipments_customers_for_paid").html('<%= j render('payments/equipments_customers_for_paid', equipments_not_paid: @equipments_not_paid) %>');
 <% end %>
@@ -12,5 +12,5 @@ $(document).ready(function() {
 
   var acc = document.getElementsByClassName("accordion");
   activeAcordionPanels(acc);
-  
+
 });

@@ -3,7 +3,7 @@ $("#header-services").html('<%= j render('services/header') %>');
 
 <% if @equipments_not_paid.blank? %>
   //$(".link-hover").remove(); No anadir mas equipos al servicio
-  $('#paid').html('<p>Todos los pagos han sido realizados.</p>');
+  $('#paid').html('<p class="text-center">Todos los pagos han sido realizados.</p>');
 <% else %>
   $("#paid").html('<%= j render('payments/form', payment: @payment, service: @service, equipments_not_paid: @equipments_not_paid) %>');
   $("#equipments_customers_for_paid").html('<%= j render('payments/equipments_customers_for_paid', equipments_not_paid: @equipments_not_paid) %>');

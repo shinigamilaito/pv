@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190320124643) do
+ActiveRecord::Schema.define(version: 20190322022201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,22 +223,10 @@ ActiveRecord::Schema.define(version: 20190320124643) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "payment_type_id"
-    t.decimal "worforce", precision: 10, scale: 2, default: "0.0"
-    t.decimal "discount", precision: 10, scale: 2, default: "0.0"
-    t.string "departure_date"
     t.string "image_client"
     t.boolean "paid", default: false
-    t.bigint "employee_id"
-    t.bigint "generic_price_id"
     t.integer "number_folio"
-    t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
-    t.decimal "change", precision: 10, scale: 2, default: "0.0"
-    t.integer "total_tickets", default: 0
     t.index ["client_id"], name: "index_services_on_client_id"
-    t.index ["employee_id"], name: "index_services_on_employee_id"
-    t.index ["generic_price_id"], name: "index_services_on_generic_price_id"
-    t.index ["payment_type_id"], name: "index_services_on_payment_type_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
 
@@ -296,8 +284,5 @@ ActiveRecord::Schema.define(version: 20190320124643) do
   add_foreign_key "service_spare_parts", "services"
   add_foreign_key "service_spare_parts", "spare_parts"
   add_foreign_key "services", "clients"
-  add_foreign_key "services", "generic_prices"
-  add_foreign_key "services", "payment_types"
   add_foreign_key "services", "users"
-  add_foreign_key "services", "users", column: "employee_id"
 end
