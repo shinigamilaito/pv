@@ -1,0 +1,31 @@
+<!-- Muestra los datos de un pago realizado en servicios -->
+<table class="table">
+  <tbody>
+    <tr>
+      <th style="width:50%">Total productos:</th>
+      <td><%= number_to_currency totals[:total_products] %></td>
+    </tr>
+    <tr>
+      <th>Total mano de obra:</th>
+      <td><%= number_to_currency totals[:total_worforce] %></td>
+    </tr>
+    <tr>
+      <th>Descuento:</th>
+      <td><%= number_to_currency totals[:total_discount] %></td>
+    </tr>
+    <tr>
+      <th>Total Final:</th>
+      <td>
+        <span id="total_to_paid" class="label label-info" style="font-size: 15px;"><%= number_to_currency totals[:total_final] %></span>
+      </td>
+    </tr>
+    <tr>
+      <th>Pago con:</th>
+      <td><%= number_to_currency totals[:paid_with] %></td>
+    </tr>
+    <tr>
+      <th>Cambio:</th>
+      <td><%= number_to_currency totals[:change] %></td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,10 @@
+<% service.finished_payments.each do |payment| %>
+  <%= render "payments/payment", payment: payment %>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    var acc = document.getElementsByClassName("accordion_payment");
+    activeAcordionPanels(acc);
+  });
+</script>

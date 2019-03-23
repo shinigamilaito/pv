@@ -32,9 +32,13 @@ class Service < ApplicationRecord
       return equipment_customers.where('payment_id IS NULL', false).blank? ? false : true
     end
   end
-  
+
   def set_number_folio
     self.number_folio = Service.count + 1
+  end
+
+  def finished_payments
+    payments.where('paid = ?', true)
   end
 
 end

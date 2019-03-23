@@ -7,10 +7,13 @@ $("#new-equipment-body").html('<%= j render(@payment.service.equipment_customers
   $("#equipments_customers_for_paid").html('<%= j render('payments/equipments_customers_for_paid', equipments_not_paid: @equipments_not_paid) %>');
 <% end %>
 
+// Mostrar los pagos realizados
+$("#list_payments").html('<%= j render("payments/finished", service: @payment.service) %>');
+
 $(document).ready(function() {
   $("#print-ticket<%= @payment.equipment_customers.first.id %>").click();
 
   var acc = document.getElementsByClassName("accordion");
   activeAcordionPanels(acc);
-
+  
 });

@@ -1,4 +1,5 @@
 $("#list_equipments").html('<%= j render("list_equipments") %>');
+$("#list_payments").html('<%= j render("payments/finished", service: @service) %>');
 $("#form_service").html('<%= j render("form") %>');
 
 <% if @equipments_not_paid.blank? %>

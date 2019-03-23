@@ -15,8 +15,11 @@
 
 <div id="paid">
   <% unless @service.is_in_process? %>
-
   <% else %>
     <%= render 'payments/form', payment: @payment, service: @service, equipments_not_paid: @equipments_not_paid %>
   <% end %>
+</div>
+
+<div id="list_payments">
+  <%= render "payments/finished", service: @service %>
 </div>

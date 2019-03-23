@@ -1,0 +1,69 @@
+<button class="box-header header_paid with-border accordion_payment">
+  <h3 class="box-title"><%= "Pago con número de Ticket: #{payment.ticket}" %></h3>
+</button>
+<div class="panel">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label class="col-md-5 control-label">Equipos:</label>
+        <div class="col-md-7 form-control" style="height:auto;">
+          <ol>
+            <% payment.equipment_customers.each do |equipment_customer| %>
+              <li><%= equipment_customer.equipment.name %></li>
+              <% end %>
+          </ol>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-5 control-label">Cobrado por</label>
+        <div class="col-md-7 form-control"><%= payment.user.formal_name %></div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Tipo de Pago</label>
+        <div class="col-md-7 form-control"><%= payment.payment_type.name %></div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Mano de Obra</label>
+        <div class="col-md-7 form-control"><%= number_to_currency payment.real_worforce %></div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Descuento</label>
+        <div class="col-md-7 form-control"><%= number_to_percentage payment.discount, precision: 2 %></div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-5 control-label">Fecha de Salida</label>
+        <div class="col-md-7 form-control" style="margin-bottom: 10px;"><%= payment.departure_date %></div>
+      </div>
+
+      <% if payment.service.image_client_url.present? %>
+            <%= image_tag(payment.service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+      <% end %>
+
+    </div>
+
+    <div class="col-md-7">
+      <div class="form-group text-center">
+        <label>Refacciones usadas</label>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+        <tbody id="spare_parts_used_by_service">
+          <%= render payment.service_spare_parts %>
+        </tbody>
+      </table>
+
+      <div class="table-responsive" id="total_to_paid_by_spare_parts_used_by_service">
+        <%= render 'payments/total', totals: totals(payment) %>
+      </div>
+    </div>
+  </div>
+</div>
