@@ -4,7 +4,7 @@ class IncomesController < ApplicationController
   end
 
   def pending_services
-    @pending_services = Payment.where(paid: false).order(updated_at: :desc)
+    @pending_services = ServicesPolicy.pending_services.order(updated_at: :desc)
   end
 
   def search

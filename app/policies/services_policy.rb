@@ -35,7 +35,7 @@ class ServicesPolicy
 
       if service.new_record?
         raise 'Código ya en uso'
-      else        
+      else
         return service
       end
     end
@@ -45,6 +45,11 @@ class ServicesPolicy
     paided = service.is_in_process? ? 'EN PROCESO' : 'PAGADO'
     date = ActionController::Base.helpers.l(service.created_at, format: '%A, %d %b %Y %I:%M:%S')
     return "#{service.number_folio} - Creado: #{date}. #{paided}"
+  end
+
+  def self.pending_services
+    Service.joins(:equipment_customers)
+           .where("equipment_customers.payment_id IS NULL")
   end
 
 end
