@@ -12,7 +12,7 @@ class PaymentsPolicy
       return Payment.new(service_id: service.id)
     else
       return current_payment
-    end
+    end    
   end
 
   def equipments_not_paid
@@ -47,6 +47,8 @@ class PaymentsPolicy
 
     payment.ticket = set_payment_number
 
+    save_image(params[:image_client])
+
     return payment
   end
 
@@ -54,5 +56,10 @@ class PaymentsPolicy
 
   def set_payment_number
     return Payment.where('paid = ?', true).count + 1
+  end
+
+  def save_image(image)
+    service.image_client = image
+    raise 'Error al registrar la imagen.' unless service.save
   end
 end
