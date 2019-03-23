@@ -3,7 +3,7 @@ class EquipmentCustomer < ApplicationRecord
   belongs_to :brand
   belongs_to :equipment_model
   belongs_to :service
-  belongs_to :cable_type
+  belongs_to :cable_type, optional: true
   belongs_to :payment, optional: true
 
   has_many :message_histories

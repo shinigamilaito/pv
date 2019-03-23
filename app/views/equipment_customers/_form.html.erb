@@ -45,9 +45,9 @@
     </div>
 
     <div class="col-sm-6">
-      <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:equipment_model_id].first %>">
+      <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:cable_type_id].first %>">
         <label>Cable:</label>
-        <%= f.collection_select :cable_type_id, [], :id, :name, { prompt: "Seleccione un cable" }, class: "form-control autocomplete_cable_types", required: true %>
+        <%= f.collection_select :cable_type_id, [], :id, :name, { prompt: "Seleccione un cable" }, class: "form-control autocomplete_cable_types" %>
         <div class="help-block"><%= new_equipment_customer.errors[:cable_type_id].first %></div>
       </div>
     </div>
