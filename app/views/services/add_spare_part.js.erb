@@ -1,4 +1,4 @@
-$("#spare_parts_used_by_service").html('<%= j render(@payment.service_spare_parts) %>');
+$("#spare_parts_used_by_service").html('<%= j render(@payment.service_spare_parts.order(:created_at)) %>');
 $("#total_to_paid_by_spare_parts_used_by_service").html('<%= j render("payments/totals_costs", totals: @totals) %>');
 
 <% unless @service.equipment_customers.blank? %>
