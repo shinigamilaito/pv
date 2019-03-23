@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :translate]
   before_action :fixed_format_price, only: [:create, :update]
 
   def index
@@ -70,6 +70,18 @@ class ProductsController < ApplicationController
     end
   end
 
+  def translate
+    begin
+      translate_items = TranslateItems.new
+      translate_items.translate_products_to_spare_parts(@product)
+      flash[:notice] = 'Traspaso exitoso.'
+      redirect_to products_url and return
+    rescue StandardError => e
+      flash[:error] = "#{e.message}"
+      redirect_to products_url and return
+    end
+  end
+
   private
 
     def set_product
@@ -77,7 +89,7 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:code, :name, :quantity, :price)
+      params.require(:product).permit(:code, :name, :quantity, :price, :description)
     end
 
     def fixed_format_price

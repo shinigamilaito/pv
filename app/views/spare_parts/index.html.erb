@@ -8,7 +8,7 @@
 
       <div class="box-body table-responsive no-padding">
         <%= render 'shared/search', id: 'search-spare-parts',
-          placeholder: 'Buscar por nombre o descripción',
+          placeholder: 'Buscar por código ó nombre',
           remote_url: '/spare_parts/search' %>
         <table class="table table-responsive table-hover table-condensed table-striped" id="spare_parts_table">
           <%= render 'body_spare_parts' %>

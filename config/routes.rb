@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :spare_parts do
     get :autocomplete, on: :collection
     get :search, on: :collection
+    post :translate, on: :member
   end
 
   resources :services, only: [:new, :create] do
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
   resources :products do
     get :search, on: :collection
     get :search_sales, on: :collection
+    post :translate, on: :member
   end
 
   get 'ticket_service/:id_payment', to: 'pdfs#ticket_paid_services', as: :generate_ticket_service

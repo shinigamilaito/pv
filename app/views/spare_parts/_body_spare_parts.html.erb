@@ -1,20 +1,24 @@
 <tbody>
   <tr>
     <th>No.</th>
+    <th>Código</th>
     <th>Nombre</th>
     <th>Precio</th>
     <th>Stock</th>
     <th>Descripción</th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
-  <% @spare_parts.each do |spare_part| %>
+  <% @spare_parts.each_with_index do |spare_part, index| %>
     <tr>
-      <td><%= spare_part.control_number %></td>
+      <td><%= index +1 %></td>
+      <td><%= spare_part.code %></td>
       <td><%= spare_part.name %></td>
       <td><%= number_to_currency spare_part.price %></td>
       <td><%= spare_part.total %></td>
       <td><%= spare_part.description %></td>
+      <td style="width: 1px;"><%= link_to 'Traspasar', translate_spare_part_path(spare_part), method: :post, class: 'btn',  data: { confirm: "Se traspasará una unidad al cátalogo de productos. \n ¿Está usted seguro?" } if current_user.admin? %></td>
       <td style="width: 1px;"><%= link_to 'Actualizar', edit_spare_part_path(spare_part), class: "btn btn-edit" if current_user.admin? %></td>
       <td style="width: 1px;"><%= link_to 'Eliminar', spare_part, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } if current_user.admin? %></td>
     </tr>

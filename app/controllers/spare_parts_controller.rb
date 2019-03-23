@@ -1,9 +1,9 @@
 class SparePartsController < ApplicationController
-  before_action :set_spare_part, only: [:show, :edit, :update, :destroy]
+  before_action :set_spare_part, only: [:show, :edit, :update, :destroy, :translate]
   before_action :fixed_format_price, only: [:create, :update]
 
   def index
-    @spare_parts = SparePart.order(control_number: :desc)
+    @spare_parts = SparePart.order(updated_at: :desc)
   end
 
   def show
@@ -64,15 +64,26 @@ class SparePartsController < ApplicationController
     @spare_parts = SparePart.search(params[:search]).order(created_at: :desc)
   end
 
+  def translate
+    begin
+      translate_items = TranslateItems.new
+      translate_items.translate_spare_parts_to_products(@spare_part)
+      flash[:notice] = 'Traspaso exitoso.'
+      redirect_to spare_parts_url and return
+    rescue StandardError => e
+      flash[:error] = "#{e.message}"
+      redirect_to spare_parts_url and return
+    end
+  end
+
   private
 
     def set_spare_part
       @spare_part = SparePart.find(params[:id])
     end
 
-
     def spare_part_params
-      params.require(:spare_part).permit(:name, :description, :price, :total)
+      params.require(:spare_part).permit(:name, :description, :price, :total, :code)
     end
 
     def fixed_format_price
