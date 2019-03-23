@@ -5,6 +5,7 @@ class SalesController < ApplicationController
   def index
     clear_variables
     discount = session[:discount_sale] || '0'
+    @sales_policy.remove_products_in_sale
     @products_in_sale = @sales_policy.products_for_sale
     @total_sales = @sales_policy.totals(discount)
   end

@@ -63,6 +63,12 @@ class SalesPolicy
     }
   end
 
+  def remove_products_in_sale
+    products_for_sale.each do |sale_product|
+      delete(sale_product, sale_product.product)
+    end
+  end
+
   private
 
   def adjust_product_in_sale
