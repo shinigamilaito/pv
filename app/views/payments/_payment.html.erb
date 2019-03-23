@@ -36,8 +36,8 @@
         <div class="col-md-7 form-control" style="margin-bottom: 10px;"><%= payment.departure_date %></div>
       </div>
 
-      <% if payment.service.image_client_url.present? %>
-            <%= image_tag(payment.service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+      <% if payment.service.image_client_url.present? && index == 0 %>
+          <%= image_tag(payment.service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
       <% end %>
 
     </div>

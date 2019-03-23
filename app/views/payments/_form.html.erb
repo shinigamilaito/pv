@@ -58,7 +58,9 @@
           </div>
         </div>
 
-        <%= render "services/image_client" %>
+        <% unless @service.image_client.present? %>
+          <%= render "services/image_client" %>
+        <% end %>
       </div>
 
       <div class="col-md-7">
@@ -242,6 +244,7 @@
 
 <script>
     $(document).ready(function() {
+      <% unless @service.image_client.present? %>
       var streamObject;
       var $takepicturebutton = $("#takepicture");
       var width = 320;
@@ -352,6 +355,6 @@
         var track = streamObject.getTracks()[0];
         track.stop();
       });
-
+      <% end %>
     });
 </script>

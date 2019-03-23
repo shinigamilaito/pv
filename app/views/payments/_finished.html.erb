@@ -1,5 +1,5 @@
-<% service.finished_payments.each do |payment| %>
-  <%= render "payments/payment", payment: payment %>
+<% service.finished_payments.each_with_index do |payment, index| %>
+  <%= render "payments/payment", payment: payment, index: index %>
 <% end %>
 
 <script>

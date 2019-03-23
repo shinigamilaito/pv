@@ -12,7 +12,7 @@ class PaymentsPolicy
       return Payment.new(service_id: service.id)
     else
       return current_payment
-    end    
+    end
   end
 
   def equipments_not_paid
@@ -59,7 +59,9 @@ class PaymentsPolicy
   end
 
   def save_image(image)
-    service.image_client = image
-    raise 'Error al registrar la imagen.' unless service.save
+    unless image.blank?
+      service.image_client = image
+      raise 'Error al registrar la imagen.' unless service.save
+    end
   end
 end
