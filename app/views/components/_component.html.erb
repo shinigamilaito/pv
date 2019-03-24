@@ -1,6 +1,13 @@
 <div class="col-sm-4 text-left">
   <label>
-      <%= check_box_tag "equipment_customer[component_ids][]", component.id, check_component, disabled: disabled %>
-      <%= component.name %>
+      <% if check_component %>
+        <del style="background-color: gray;">
+          <%= check_box_tag "equipment_customer[component_ids][]", component.id, check_component, disabled: disabled %>
+          <%= component.name %>
+        </del>
+      <% else %>
+        <%= check_box_tag "equipment_customer[component_ids][]", component.id, check_component, disabled: disabled %>
+        <%= component.name %>
+      <% end %>
   </label>
 </div>
