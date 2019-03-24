@@ -1,0 +1,2 @@
+$($("#sale_product_<%= @product.id %> td")[4]).html("<%= number_to_currency @product.total %>");
+$('#total_cost_sales').html("<%= j render('sales/totals_costs', total_sales: @total_sales) %>");

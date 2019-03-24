@@ -2,6 +2,13 @@
   <td><%= product.code %></td>
   <td><%= product.name %></td>
   <td><%= product.quantity %></td>
+  <td>
+    <div class="input-group">
+      <%= hidden_field_tag :preview_discount, product.discount, id: "sale_preview_discount_#{product.id}" %>
+      <%= text_field_tag 'sale[discount]', product.discount, id: "sale_discount_#{product.id}", class: 'form form-control', style: 'width: 70%', data: {id: product.id} %>
+      <span class="input-group-addon">%</span>
+    </div>
+  </td>
   <td><%= number_to_currency product.total %></td>
   <td style="width: 1px;">
     <%= link_to delete_product_sales_path(sale_product_id: product.id), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?', remote: true }, style: 'padding: 3px 5px;' do %>
@@ -9,3 +16,47 @@
     <% end %>
   </td>
 </tr>
+
+<script>
+  $(document).ready(function() {
+    var $elementDiscount = $("#sale_discount_<%= product.id %>");
+    var originalDiscount = $elementDiscount.val();
+    console.log("originalDiscount Before", originalDiscount);
+    $elementDiscount.on("keydown", _.debounce(update_discount_product, 2000));
+    setPercentage($elementDiscount);
+
+    function update_discount_product() {
+      var $that = $(this);
+      var newValue = $that.val();
+      var $elementPreviewDiscount = $("#sale_preview_discount_<%= product.id %>");
+
+      if(newValue >= 0 && newValue < 100) {
+        $elementPreviewDiscount.val(newValue);
+
+        $.ajax({
+          url: "/sales/update_discount_product",
+          method: "post",
+          dataType: "script",
+          data: {
+            discount: newValue,
+            sale_product_id: $that.data('id')
+          },
+          beforeSend: function(xhr) {
+            $that.LoadingOverlay("show");
+          },
+          complete: function(xhr, status) {
+            if(xhr.status == 400) {
+              $that.val(originalDiscount);
+            }
+            $that.LoadingOverlay("hide", true);
+          }
+        });
+
+      } else {
+        console.log("Put originalDiscount", originalDiscount);
+        $that.val($elementPreviewDiscount.val());
+        return;
+      }
+    }
+  });
+</script>

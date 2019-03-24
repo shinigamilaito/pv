@@ -1,6 +1,6 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
-  before_action :set_sale_policy, only: [:index, :delete_product, :update_discount, :create]
+  before_action :set_sale_policy, except: [:show, :new, :edit, :update, :destroy]
 
   def index
     clear_variables
@@ -61,6 +61,7 @@ class SalesController < ApplicationController
     @total_sales = @sales_policy.totals(discount)
   end
 
+  # Actualizar el descuento de la venta
   def update_discount
     session[:discount_sale] = BigDecimal.new(params[:discount].gsub(',',''))
 
@@ -79,6 +80,15 @@ class SalesController < ApplicationController
     @ticket_sale = TicketSale.new(current_user, paid_with, change, discount, payment_type)
     @sale = Sale.new
     @sale.payment_type = payment_type
+  end
+
+  # Actualizar el descuento del producto
+  def update_discount_product
+    sale_product_id = params[:sale_product_id]
+    discount_percentage = BigDecimal.new(params[:discount].gsub(',', ''))
+    discount_sale_percentage = session[:discount_sale] || BigDecimal.new('0')
+    @product = @sales_policy.obtain_discount_by_product(sale_product_id, discount_percentage)
+    @total_sales = @sales_policy.totals(discount_sale_percentage)
   end
 
   private

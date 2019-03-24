@@ -76,7 +76,7 @@ class TotalCalculatorSale
   end
 
   def total_cost(product)
-    BigDecimal(product.price * product.quantity)
+    BigDecimal(product.real_price * product.quantity)
   end
 
 end

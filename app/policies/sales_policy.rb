@@ -69,6 +69,19 @@ class SalesPolicy
     end
   end
 
+  # Obtener el precio para el producto al aplicar
+  # un descuento en porcentaje
+  def obtain_discount_by_product(sale_product_id, discount_percentage)
+    @sale_product = SaleProduct.find(sale_product_id)
+    if discount_percentage != @sale_product.discount
+      @sale_product.discount = discount_percentage
+      #@sale_product.price -= (discount_percentage * @sale_product.price) / 100.0
+      @sale_product.save
+    end
+
+    return @sale_product
+  end
+
   private
 
   def adjust_product_in_sale
@@ -141,7 +154,7 @@ class SalesPolicy
   end
 
   def total_cost(product)
-    BigDecimal(product.price * product.quantity)
+    BigDecimal(product.real_price * product.quantity)
   end
 
   def obtain_discount(discount)

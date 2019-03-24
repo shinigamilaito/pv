@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     delete :delete_product, on: :collection
     put :update_discount, on: :collection
     get :preview, on: :collection
+    post :update_discount_product, on: :collection
   end
 
   resources :products do
