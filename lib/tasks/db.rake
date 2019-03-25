@@ -60,4 +60,29 @@ namespace :db do
     p "Cable Types created"
     puts "End..."
   end
+
+  desc "Reseteando los datos de la BD"
+  task clear_db: :environment do
+    puts "Started clear DB"
+    MessageHistory.destroy_all
+    puts "MessageHistory destroyed"
+    ComponentEquipmentCustomer.destroy_all
+    puts "ComponentEquipmentCustomer destroyed"
+    EquipmentCustomer.destroy_all
+    puts "EquipmentCustomer destroyed"
+    SaleProduct.destroy_all
+    puts "SaleProduct destroyed"
+    Product.destroy_all
+    puts "Product destroyed"
+    Sale.destroy_all
+    puts "Sale destroyed"
+    ServiceSparePart.destroy_all
+    puts "ServiceSparePart destroyed"
+    Payment.destroy_all
+    puts "Payment destroyed"
+    Service.destroy_all
+    puts "Service destroyed"
+    SparePart.destroy_all
+    puts "SparePart destroyed"
+  end
 end
