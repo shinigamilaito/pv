@@ -59,7 +59,7 @@ class EquipmentsController < ApplicationController
   end
 
   def search
-    @equipments = Equipment.search(params[:search]).order(created_at: :desc)
+    @equipments = Equipment.search_index(params[:search]).order(created_at: :desc)
   end
 
   private
@@ -71,5 +71,5 @@ class EquipmentsController < ApplicationController
     def equipment_params
       params.require(:equipment).permit(:name, :specifications)
     end
-    
+
 end
