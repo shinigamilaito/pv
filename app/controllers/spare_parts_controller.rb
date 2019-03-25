@@ -83,7 +83,7 @@ class SparePartsController < ApplicationController
     end
 
     def spare_part_params
-      params.require(:spare_part).permit(:name, :description, :price, :total, :code)
+      params.require(:spare_part).permit(:name, :description, :price, :total, :code, :stock_minimum)
     end
 
     def fixed_format_price

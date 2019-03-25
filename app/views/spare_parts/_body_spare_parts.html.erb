@@ -5,6 +5,7 @@
     <th>Nombre</th>
     <th>Precio</th>
     <th>Stock</th>
+    <th>Stock Minimo</th>
     <th>Descripción</th>
     <th></th>
     <th></th>
@@ -17,6 +18,7 @@
       <td><%= spare_part.name %></td>
       <td><%= number_to_currency spare_part.price %></td>
       <td><%= spare_part.total %></td>
+      <td><%= spare_part.stock_minimum %></td>
       <td><%= spare_part.description %></td>
       <td style="width: 1px;"><%= link_to 'Traspasar', translate_spare_part_path(spare_part), method: :post, class: 'btn',  data: { confirm: "Se traspasará una unidad al cátalogo de productos. \n ¿Está usted seguro?" } if current_user.admin? %></td>
       <td style="width: 1px;"><%= link_to 'Actualizar', edit_spare_part_path(spare_part), class: "btn btn-edit" if current_user.admin? %></td>
