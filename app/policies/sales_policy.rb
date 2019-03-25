@@ -7,14 +7,14 @@ class SalesPolicy
     @user = user
   end
 
-  def add_product
+  def add_product(quantity = 1)
     PgLock.new(name: "sales_policy_add_product").lock do
       new_product = false
 
       if product.present?
         if available?
           if pending_in_sale?
-            product = adjust_product_in_sale
+            product = adjust_product_in_sale(quantity)
           else
             product = adjust_new_product_to_sale
             new_product = true
@@ -81,13 +81,13 @@ class SalesPolicy
 
     return @sale_product
   end
-
+  
   private
 
-  def adjust_product_in_sale
+  def adjust_product_in_sale(quantity)
     ActiveRecord::Base.transaction do
-      raise 'No fue posible ajustar la cantidad del producto.' unless adjust_quantity_sale_product(1)
-      raise 'No fue posible decrementar el stock' unless decrement_total_product
+      raise 'No fue posible ajustar la cantidad del producto.' unless adjust_quantity_sale_product(quantity)
+      raise 'No fue posible decrementar el stock' unless decrement_total_product(quantity)
       sale_product
     end
   end
@@ -97,7 +97,7 @@ class SalesPolicy
       sale_product = new_sale_product
       sale_product.user = user
       raise 'Producto no creado' unless sale_product.save
-      raise 'No fue posible decrementar el stock' unless decrement_total_product
+      raise 'No fue posible decrementar el stock' unless decrement_total_product(1)
       sale_product
     end
   end
@@ -130,15 +130,22 @@ class SalesPolicy
   end
 
   def adjust_quantity_sale_product(new_quantity)
-    sale_product.quantity += new_quantity
+    if new_quantity == 1
+      sale_product.quantity += new_quantity
+    else
+      raise 'Error al ajustar el stock' unless adjust_quantity_product(sale_product.quantity)
+      sale_product.quantity = new_quantity
+    end
     sale_product.save
   end
 
-  def decrement_total_product
-    product.quantity -= 1
+  def decrement_total_product(quantity)
+    product.quantity -= quantity
     product.save
   end
 
+  # Se restablece la cantidad del producto
+  # después de eliminarlo de la venta
   def adjust_quantity_product(quantity)
     product.quantity += quantity
     product.save

@@ -91,6 +91,21 @@ class SalesController < ApplicationController
     @total_sales = @sales_policy.totals(discount_sale_percentage)
   end
 
+  # Actualizar las cantidades del producto
+  def update_quantity_product
+    begin
+      discount = session[:discount_sale] || '0'
+      quantity = params[:quantity].to_i
+      sale_product = SaleProduct.find(params[:sale_product_id])
+      sales_policy = SalesPolicy.new(sale_product.code, current_user)
+      @add_product = sales_policy.add_product(quantity)
+      @total_sales = sales_policy.totals(discount)
+      render 'products/search_sales'
+    rescue StandardError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
+    end
+  end
+
   private
 
     def set_sale

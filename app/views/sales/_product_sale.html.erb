@@ -1,11 +1,16 @@
 <tr id="sale_product_<%= product.id %>">
   <td><%= product.code %></td>
   <td><%= product.name %></td>
-  <td><%= product.quantity %></td>
-  <td>
+  <td style="width: 18%;">
+    <div class="input-group">
+      <%= hidden_field_tag :preview_quantity, product.quantity, id: "sale_preview_quantitys_#{product.id}" %>
+      <%= text_field_tag 'sale[quantity]', product.quantity, id: "sale_quantity_#{product.id}", class: 'form form-control', style: 'width: 70%', data: {id: product.id}, autocomplete: "off" %>
+    </div>
+  </td>
+  <td style="width: 18%;">
     <div class="input-group">
       <%= hidden_field_tag :preview_discount, product.discount, id: "sale_preview_discount_#{product.id}" %>
-      <%= text_field_tag 'sale[discount]', product.discount, id: "sale_discount_#{product.id}", class: 'form form-control', style: 'width: 70%', data: {id: product.id} %>
+      <%= text_field_tag 'sale[discount]', product.discount, id: "sale_discount_#{product.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: product.id}, autocomplete: "off" %>
       <span class="input-group-addon">%</span>
     </div>
   </td>
@@ -17,13 +22,17 @@
   </td>
 </tr>
 
+<!-- Update discount -->
 <script>
   $(document).ready(function() {
     var $elementDiscount = $("#sale_discount_<%= product.id %>");
     var originalDiscount = $elementDiscount.val();
     console.log("originalDiscount Before", originalDiscount);
-    $elementDiscount.on("keydown", _.debounce(update_discount_product, 2000));
-    setPercentage($elementDiscount);
+    $elementDiscount.on("keydown", _.debounce(update_discount_product, 1000));
+    $elementDiscount.inputmask("percentage", {
+      rightAlign: false,
+      "suffix": "" 
+    });
 
     function update_discount_product() {
       var $that = $(this);
@@ -55,6 +64,51 @@
       } else {
         console.log("Put originalDiscount", originalDiscount);
         $that.val($elementPreviewDiscount.val());
+        return;
+      }
+    }
+  });
+</script>
+
+<!-- Update quantity -->
+<script>
+  $(document).ready(function() {
+    var $elementQuantity = $("#sale_quantity_<%= product.id %>");
+    var originalQuantity = $elementQuantity.val();
+    console.log("originalQuantity Before", originalQuantity);
+    $elementQuantity.on("keydown", _.debounce(update_quantity_product, 1000));
+    setInteger($elementQuantity);
+
+    function update_quantity_product() {
+      var $that = $(this);
+      var newValue = $that.val();
+      var $elementPreviewQuantity = $("#sale_preview_quantity_<%= product.id %>");
+
+      if(newValue > 0) {
+        $elementPreviewQuantity.val(newValue);
+
+        $.ajax({
+          url: "/sales/update_quantity_product",
+          method: "post",
+          dataType: "script",
+          data: {
+            quantity: newValue,
+            sale_product_id: $that.data('id')
+          },
+          beforeSend: function(xhr) {
+            $that.LoadingOverlay("show");
+          },
+          complete: function(xhr, status) {
+            if(xhr.status == 400) {
+              $that.val(originalQuantity);
+            }
+            $that.LoadingOverlay("hide", true);
+          }
+        });
+
+      } else {
+        console.log("Put originalQuantity", originalQuantity);
+        $that.val($elementPreviewQuantity.val());
         return;
       }
     }
