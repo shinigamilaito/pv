@@ -98,7 +98,7 @@ class SalesController < ApplicationController
       quantity = params[:quantity].to_i
       sale_product = SaleProduct.find(params[:sale_product_id])
       sales_policy = SalesPolicy.new(sale_product.code, current_user)
-      @add_product = sales_policy.add_product(quantity)
+      @add_product = sales_policy.add_product(quantity, false)
       @total_sales = sales_policy.totals(discount)
       render 'products/search_sales'
     rescue StandardError => e

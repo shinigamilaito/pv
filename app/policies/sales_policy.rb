@@ -7,14 +7,14 @@ class SalesPolicy
     @user = user
   end
 
-  def add_product(quantity = 1)
+  def add_product(quantity = 1, is_increment = true)
     PgLock.new(name: "sales_policy_add_product").lock do
       new_product = false
 
       if product.present?
-        if available?
+        if available?(quantity)
           if pending_in_sale?
-            product = adjust_product_in_sale(quantity)
+            product = adjust_product_in_sale(quantity, is_increment)
           else
             product = adjust_new_product_to_sale
             new_product = true
@@ -81,12 +81,12 @@ class SalesPolicy
 
     return @sale_product
   end
-  
+
   private
 
-  def adjust_product_in_sale(quantity)
+  def adjust_product_in_sale(quantity, is_increment)
     ActiveRecord::Base.transaction do
-      raise 'No fue posible ajustar la cantidad del producto.' unless adjust_quantity_sale_product(quantity)
+      raise 'No fue posible ajustar la cantidad del producto.' unless adjust_quantity_sale_product(quantity, is_increment)
       raise 'No fue posible decrementar el stock' unless decrement_total_product(quantity)
       sale_product
     end
@@ -106,8 +106,8 @@ class SalesPolicy
     @product ||= Product.search_for_sales(product_code).order(created_at: :desc).first
   end
 
-  def available?
-    product.quantity >= 1
+  def available?(quantity)
+    product.quantity >= quantity
   end
 
   def pending_in_sale?
@@ -129,8 +129,8 @@ class SalesPolicy
     sale_product
   end
 
-  def adjust_quantity_sale_product(new_quantity)
-    if new_quantity == 1
+  def adjust_quantity_sale_product(new_quantity, is_increment)
+    if is_increment
       sale_product.quantity += new_quantity
     else
       raise 'Error al ajustar el stock' unless adjust_quantity_product(sale_product.quantity)
