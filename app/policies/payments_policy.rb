@@ -47,9 +47,16 @@ class PaymentsPolicy
 
     payment.ticket = set_payment_number
 
-    save_image(params[:image_client])
-
     return payment
+  end
+
+  def save_image(image)
+    unless image.blank?
+      service.image_client = image
+      return service.save
+    end
+
+    return false
   end
 
   private
@@ -58,10 +65,5 @@ class PaymentsPolicy
     return Payment.where('paid = ?', true).count + 1
   end
 
-  def save_image(image)
-    unless image.blank?
-      service.image_client = image
-      raise 'Error al registrar la imagen.' unless service.save
-    end
-  end
+
 end

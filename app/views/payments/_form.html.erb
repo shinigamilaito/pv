@@ -4,8 +4,7 @@
 <div class="panel" id="panel_show_form_payments">
   <%= form_for(payment, { html: {class: 'form-horizontal', remote: true }}) do |f| %>
     <%= hidden_field_tag 'payment[service_id]', service.id %>
-    <%= hidden_field_tag :image_client, nil, id: 'image_web_cam' %>
-
+    
     <div class="row">
       <div class="col-md-5">
         <div class="form-group" style="margin-top: 25px;">
@@ -57,10 +56,6 @@
             <div class="invalid-feedback"><%= payment.errors[:departure_date].first %></div>
           </div>
         </div>
-
-        <% unless @service.image_client.present? %>
-          <%= render "services/image_client" %>
-        <% end %>
       </div>
 
       <div class="col-md-7">
@@ -93,6 +88,21 @@
       </div>
     </div>
   <% end %>
+
+  <div class="row">
+    <div class="col-md-5" id="form-capture-image-client">
+      <% unless service.image_client.present? %>
+        <%= form_for(service, { html: {class: 'form-horizontal', remote: true }}) do |f| %>
+          <%= hidden_field_tag :image_client, nil, id: 'image_web_cam' %>
+          <%= render "services/image_client" %>
+          <%= f.submit 'Guardar Foto', class: 'btn btn-default btn-flat', style: "width: 100%" %>
+        <% end %>
+      <% else %>
+          <%= image_tag(service.image_client_url.to_s, class: "img-thumbnail img-responsive center-block") %>
+      <% end %>
+    </div>
+  </div>
+
 </div>
 
 <script>

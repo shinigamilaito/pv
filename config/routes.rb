@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     post :translate, on: :member
   end
 
-  resources :services, only: [:new, :create] do
+  resources :services, only: [:new, :create, :update] do
     get :find_folios, on: :collection
     get :add_spare_part, on: :collection
     put :update_worforce, on: :collection

@@ -1,6 +1,4 @@
 class ServicesController < ApplicationController
-  before_action :fixed_format_price, only: [:update]
-
   def new
     if params[:service_id].present?
       @service = Service.find(params[:service_id])
@@ -53,6 +51,16 @@ class ServicesController < ApplicationController
       @service = Service.new(service_params)
       @folios = services_policy.find_folios[:folios_present]
       render 'new', status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @service = Service.find(params[:id])
+    payments_policy = PaymentsPolicy.new(@service)
+    if payments_policy.save_image(params[:image_client])
+      render js: "toastr['success']('Foto exitosamente guardada.');", status: :created
+    else
+      render js: "toastr['error']('Intente nuevamente.');", status: :bad_request
     end
   end
 
