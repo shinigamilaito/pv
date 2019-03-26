@@ -1,5 +1,6 @@
 class GenericPricesController < ApplicationController
   before_action :set_generic_price, only: [:show, :edit, :update, :destroy]
+  before_action :fixed_format_price, only: [:create, :update]
 
   def index
     @generic_prices = GenericPrice.order(updated_at: :desc)
@@ -70,5 +71,9 @@ class GenericPricesController < ApplicationController
 
     def generic_price_params
       params.require(:generic_price).permit(:name, :price)
+    end
+
+    def fixed_format_price
+        params[:generic_price][:price] = params[:generic_price][:price].gsub(',','')
     end
 end
