@@ -30,18 +30,19 @@ class PdfsController < ApplicationController
                template: 'pdfs/ticket_paid_service.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
-               dpi: 348,
+               dpi: 380,
                page_height: '3000mm',
-               zoom: 1,
-               disable_smart_shrinking: true,
+               #zoom: 1,
+               #disable_smart_shrinking: true,
                page_width: '58mm',
+               grayscale: false,
                lowquality: false,
                #page_size: 'P16',
                margin: {
                  left: 0,
+                 right: 0,
                  top: 5,
-                 bottom: 4,
-                 right: 0
+                 bottom: 4
                }
       end
     end

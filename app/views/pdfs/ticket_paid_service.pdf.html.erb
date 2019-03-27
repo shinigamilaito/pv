@@ -1,11 +1,11 @@
 <!-- header -->
 <div class="text-center">
   <p><strong><%= @ticket_service.header[:title] %></strong></p>
-  <p style='margin-bottom: 0px;'>Domicilio</p>
-  <p style='margin-bottom: 0px;'><%= @ticket_service.header[:street] %></p>
-  <p style='margin-bottom: 0px;'><%= @ticket_service.header[:address] %></p>
-  <p style='margin-bottom: 0px;'><%= @ticket_service.header[:city] %></p>
-  <p style='margin-bottom: 0px;'>RFC. <%= @ticket_service.header[:rfc] %></p>
+  <p style='margin-bottom: 0px;'><strong>Domicilio</strong></p>
+  <p style='margin-bottom: 0px;'><strong><%= @ticket_service.header[:street] %></strong></p>
+  <p style='margin-bottom: 0px;'><strong><%= @ticket_service.header[:address] %></strong></p>
+  <p style='margin-bottom: 0px;'><strong><%= @ticket_service.header[:city] %></strong></p>
+  <p style='margin-bottom: 0px;'><strong>RFC. <%= @ticket_service.header[:rfc] %></strong></p>
   <p>Sucursal: <%= @ticket_service.header[:sucursal] %></p>
 </div>
 <!-- end_header -->
@@ -13,9 +13,9 @@
 <p><%= @ticket_service.date %></p>
 <div class="row">
   <div class="col-xs-12">
-    <p>
+    <p><strong>
       <span class='pull-left'>Ticket: <%= @ticket_service.ticket %></span>
-      <span class='pull-right'>Folio: <%= @ticket_service.folio %></span>
+      <span class='pull-right'>Folio: <%= @ticket_service.folio %></span></strong>
     </p>
   </div>
 </div>
