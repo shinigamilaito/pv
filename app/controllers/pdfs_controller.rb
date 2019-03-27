@@ -32,8 +32,9 @@ class PdfsController < ApplicationController
                layout: 'pdf.html.erb',
                dpi: 348,
                page_height: '3000mm',
-               page_width: '56mm',
-               #page_size: 'A7',
+               page_width: '58mm',
+               lowquality: false,
+               #page_size: 'P16',
                margin: {
                  left: 0,
                  top: 5,
