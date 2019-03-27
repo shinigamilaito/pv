@@ -10,13 +10,13 @@
       var descriptions = document.getElementsByClassName("description-equipment");
       for(i = 0; i < descriptions.length; i++) {
         descriptions[i].style.height = descriptions[i].style.height + 50 + "px";
-      }      
+      }
     }
   </script>
 
 </head>
 <body onload="position_brands()">
-  <div class="container">
+  <div class="container" style="margin: 0; padding: 0;">
     <%= yield %>
   </div>
 </body>
