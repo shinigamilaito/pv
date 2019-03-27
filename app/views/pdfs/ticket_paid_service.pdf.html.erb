@@ -12,34 +12,40 @@
 
 <p><%= @ticket_service.date %></p>
 <div class="row">
-  <p>
-    <span class='pull-left'>Ticket: <%= @ticket_service.ticket %></span>
-    <span class='pull-right'>Folio: <%= @ticket_service.folio %></span>
-  </p>
+  <div class="col-xs-12">
+    <p>
+      <span class='pull-left'>Ticket: <%= @ticket_service.ticket %></span>
+      <span class='pull-right'>Folio: <%= @ticket_service.folio %></span>
+    </p>
+  </div>
 </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>CODIGO</th>
-      <th>CANT</th>
-      <th>DESCRIPCIÓN</th>
-      <th>PU</th>
-      <th>TOTAL</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @ticket_service.spare_parts.each do |spare_part| %>
-      <tr>
-        <td><%= spare_part[:code] %></td>
-        <td><%= spare_part[:quantity] %></td>
-        <td><%= spare_part[:description] %></td>
-        <td><%= number_to_currency spare_part[:price] %></td>
-        <td><%= number_to_currency spare_part[:total] %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>CODIGO</th>
+          <th>CANT</th>
+          <th>DESCRIPCIÓN</th>
+          <th>PU</th>
+          <th>TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @ticket_service.spare_parts.each do |spare_part| %>
+          <tr>
+            <td><%= spare_part[:code] %></td>
+            <td><%= spare_part[:quantity] %></td>
+            <td><%= spare_part[:description] %></td>
+            <td><%= number_to_currency spare_part[:price] %></td>
+            <td><%= number_to_currency spare_part[:total] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</di>
 
 <div class="row">
   <div class="col-xs-8 text-right">
@@ -87,7 +93,11 @@
   </div>
 </div>
 
-<p class="text-center" style="margin-bottom: 0px; font-size:12px">Documento sin efectos fiscales</p>
-<p class="text-center" style="font-size:12px; padding-bottom: 5px; border-bottom-style: dashed;">[ Políticas de Garantía ]</p>
+<div class="row">
+  <div class="col-xs-12">
+    <p class="text-center" style="margin-bottom: 0px; font-size:12px">Documento sin efectos fiscales</p>
+    <p class="text-center" style="font-size:12px; padding-bottom: 5px; border-bottom-style: dashed;">[ Políticas de Garantía ]</p>
 
-<p>Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>
+    <p class="text-center">Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>
+  </div>
+</div>

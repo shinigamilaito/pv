@@ -30,14 +30,15 @@ class PdfsController < ApplicationController
                template: 'pdfs/ticket_paid_service.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
-               dpi: 300,
-               #page_width: '2.3',
-               page_size: 'A7',
+               dpi: 600,
+               page_height: '3000mm',
+               page_width: '56mm',
+               #page_size: 'A7',
                margin: {
-                 left: 1,
+                 left: 0,
                  top: 5,
                  bottom: 4,
-                 right: 1
+                 right: 0
                }
       end
     end
