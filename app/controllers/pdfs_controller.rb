@@ -26,11 +26,11 @@ class PdfsController < ApplicationController
       format.pdf do
         @ticket_service = TicketService.new(@payment)
         render pdf: 'report',
-               #wkhtmltopdf: route_wicked,
+               wkhtmltopdf: route_wicked,
                template: 'pdfs/ticket_paid_service.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
-               dpi: 600,
+               dpi: 72,
                page_height: '3000mm',
                page_width: '56mm',
                #page_size: 'A7',
