@@ -7,12 +7,20 @@ class PdfsController < ApplicationController
       format.pdf do
         @ticket_sale = TicketSale.new(@sale)
         render pdf: 'report',
-               wkhtmltopdf: route_wicked,
+               #wkhtmltopdf: route_wicked,
                template: 'pdfs/ticket_paid_sale.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
-               page_size: 'A8',
+               dpi: 380,
+               page_height: '3000mm',
+               #zoom: 1,
+               #disable_smart_shrinking: true,
+               page_width: '58mm',
+               grayscale: false,
+               lowquality: false,
                margin: {
+                 left: 0,
+                 right: 0,
                  top: 5,
                  bottom: 4
                }
@@ -54,12 +62,11 @@ class PdfsController < ApplicationController
         @note_service = NoteService.new(@service)
         @components = Component.order(:created_at)
         render pdf: 'report',
-               wkhtmltopdf: route_wicked,
+               #wkhtmltopdf: route_wicked,
                template: 'pdfs/note_service.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
-               page_width: '2.3in',
-               dpi: 300,
+               page_size: 'A4',
                margin: {
                  top: 1,
                  bottom: 40

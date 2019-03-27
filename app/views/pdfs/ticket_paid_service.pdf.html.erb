@@ -1,45 +1,45 @@
 <!-- header -->
-<div class="text-center">
-  <p style="font-size: 30px;"><strong><%= @ticket_service.header[:title] %></strong></p>
-  <p style='margin-bottom: 0px; font-size: 25px;'>Domicilio</p>
-  <p style='margin-bottom: 0px; font-size: 25px;'><%= @ticket_service.header[:street] %></p>
-  <p style='margin-bottom: 0px; font-size: 25px;'><%= @ticket_service.header[:address] %></p>
-  <p style='margin-bottom: 0px; font-size: 25px;'><%= @ticket_service.header[:city] %></p>
-  <p style='margin-bottom: 0px; font-size: 25px;'>RFC. <%= @ticket_service.header[:rfc] %></p>
-  <p style="font-size: 25px;">Sucursal: <%= @ticket_service.header[:sucursal] %></p>
+<div class="text-center" style="margin-left: 0; margin-right: 0;">
+  <p style="font-size: 28px; margin-left: 0; margin-right: 0;"><strong><%= @ticket_service.header[:title] %></strong></p>
+  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>Domicilio</p>
+  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= @ticket_service.header[:street] %></p>
+  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= @ticket_service.header[:address] %></p>
+  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= @ticket_service.header[:city] %></p>
+  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>RFC. <%= @ticket_service.header[:rfc] %></p>
+  <p style="font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;">Sucursal: <%= @ticket_service.header[:sucursal] %></p>
 </div>
 <!-- end_header -->
 
-<p style="font-size: 25px; margin: 0; padding: 0; font-weight: 700;"><%= @ticket_service.date %></p>
-<div class="row">
-  <div class="col-xs-12">
-    <p>
-      <span class='pull-left' style='font-size: 25px;'>Ticket: <%= @ticket_service.ticket %></span>
-      <span class='pull-right' style='font-size: 25px;'>Folio: <%= @ticket_service.folio %></span>
+<p style="font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;"><%= @ticket_service.date %></p>
+<div class="row" style="margin-left: 0; margin-right: 0;">
+  <div class="col-xs-12" style="margin-left: 0; margin-right: 0;">
+    <p style="margin-left: 0; margin-right: 0;">
+      <span class='pull-left' style='font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>Ticket: <%= @ticket_service.ticket %></span>
+      <span class='pull-right' style='font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>Folio: <%= @ticket_service.folio %></span>
     </p>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-12">
-    <table class="table table-condensed">
-      <thead>
-        <tr>
-          <th style="font-size: 16px;">CODIGO</th>
-          <th style="font-size: 16px;">CANT</th>
-          <th style="font-size: 16px;">DESCRIPCIÓN</th>
-          <th style="font-size: 16px;">PU</th>
-          <th style="font-size: 16px;">TOTAL</th>
+<div class="row" style="margin-left: 0; margin-right: 0;">
+  <div class="col-xs-12" style="margin-left: 0; margin-right: 0;">
+    <table class="table table-condensed" style="margin-left: 0; margin-right: 0;">
+      <thead style="margin-left: 0; margin-right: 0;">
+        <tr style="margin-left: 0; margin-right: 0;">
+          <th style="font-size: 16px; font-weight: 700;">CODIGO</th>
+          <th style="font-size: 16px; font-weight: 700;">CANT</th>
+          <th style="font-size: 16px; font-weight: 700;">DESCRIPCIÓN</th>
+          <th style="font-size: 16px; font-weight: 700;">PU</th>
+          <th style="font-size: 16px; font-weight: 700;">TOTAL</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody style="margin-left: 0; margin-right: 0;">
         <% @ticket_service.spare_parts.each do |spare_part| %>
-          <tr>
-            <td style="font-size: 16px;"><%= spare_part[:code] %></td>
-            <td style="font-size: 16px;"><%= spare_part[:quantity] %></td>
-            <td style="font-size: 16px;"><%= spare_part[:description] %></td>
-            <td style="font-size: 16px;"><%= number_to_currency spare_part[:price] %></td>
-            <td style="font-size: 16px;"><%= number_to_currency spare_part[:total] %></td>
+          <tr style="margin-left: 0; margin-right: 0;">
+            <td style="font-size: 16px; font-weight: 700;"><%= spare_part[:code] %></td>
+            <td style="font-size: 16px; font-weight: 700;"><%= spare_part[:quantity] %></td>
+            <td style="font-size: 16px; font-weight: 700;"><%= spare_part[:description] %></td>
+            <td style="font-size: 16px; font-weight: 700;"><%= number_to_currency spare_part[:price] %></td>
+            <td style="font-size: 16px; font-weight: 700;"><%= number_to_currency spare_part[:total] %></td>
           </tr>
         <% end %>
       </tbody>
@@ -47,57 +47,57 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-8 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'>Subtotal:</p>
+<div class="row" style="margin-left: 0; margin-right: 0;">
+  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Subtotal:</p>
   </div>
-  <div class="col-xs-4 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'><%= number_to_currency @ticket_service.totals[:subtotal] %></p>
-  </div>
-
-  <div class="col-xs-8 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'>Descuentos:</p>
-  </div>
-  <div class="col-xs-4 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'><%= number_to_currency @ticket_service.totals[:discount] %></p>
+  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:subtotal] %></p>
   </div>
 
-  <div class="col-xs-8 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'>IVA al 16%:</p>
+  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Descuentos:</p>
   </div>
-  <div class="col-xs-4 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'><%= number_to_currency @ticket_service.totals[:iva] %></p>
+  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:discount] %></p>
   </div>
 
-  <div class="col-xs-8 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'><strong>Total M.N.:</strong></p>
+  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>IVA al 16%:</p>
   </div>
-  <div class="col-xs-4 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'><%= number_to_currency @ticket_service.totals[:total] %></p>
+  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:iva] %></p>
+  </div>
+
+  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; margin-left: 0; margin-right: 0;'><strong>Total M.N.:</strong></p>
+  </div>
+  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:total] %></p>
   </div>
 </div>
 
-<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-  <div class="col-xs-8 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'>Pago >> <%= @ticket_service.type_paid %></p>
+<div class="row" style="margin-top: 20px; margin-bottom: 20px; margin-left: 0; margin-right: 0;">
+  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Pago >> <%= @ticket_service.type_paid %></p>
   </div>
-  <div class="col-xs-4 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'><%= number_to_currency @ticket_service.totals[:paid] %></p>
+  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:paid] %></p>
   </div>
 
-  <div class="col-xs-8 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'>Cambio:</p>
+  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Cambio:</p>
   </div>
-  <div class="col-xs-4 text-right">
-    <p style='margin-bottom: 0px; font-size: 25px;'><%= number_to_currency @ticket_service.totals[:change] %></p>
+  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
+    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:change] %></p>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-12">
-    <p class="text-center" style="margin-bottom: 0px; font-size:20px">Documento sin efectos fiscales</p>
-    <p class="text-center" style="font-size:20px; padding-bottom: 5px; border-bottom-style: dashed;">[ Políticas de Garantía ]</p>
+<div class="row" style="margin-left: 0; margin-right: 0;">
+  <div class="col-xs-12" style="margin-left: 0; margin-right: 0;">
+    <p class="text-center" style="margin-bottom: 0px; font-size:20px; font-weight: 700; margin-left: 0; margin-right: 0;">Documento sin efectos fiscales</p>
+    <p class="text-center" style="font-size:20px; padding-bottom: 5px; border-bottom-style: dashed; font-weight: 700; margin-left: 0; margin-right: 0;">[ Políticas de Garantía ]</p>
 
-    <p style="font-size:20px;" class="text-center">Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>
+    <p style="font-size:20px; font-weight: 700; margin-left: 0; margin-right: 0;" class="text-center">Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>
   </div>
 </div>
