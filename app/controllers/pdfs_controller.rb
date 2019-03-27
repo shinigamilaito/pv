@@ -32,6 +32,8 @@ class PdfsController < ApplicationController
                layout: 'pdf.html.erb',
                dpi: 348,
                page_height: '3000mm',
+               zoom: 1,
+               disable_smart_shrinking: true,
                page_width: '58mm',
                lowquality: false,
                #page_size: 'P16',
