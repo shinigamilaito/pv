@@ -60,14 +60,14 @@ class ProductsController < ApplicationController
   end
 
   def search_sales
-    #begin
+    begin
       discount = session[:discount_sale] || '0'
-      sales_policy = SalesPolicy.new(params[:search].to_i, current_user)
+      sales_policy = SalesPolicy.new(params[:search], current_user)
       @add_product = sales_policy.add_product(1, true)
       @total_sales = sales_policy.totals(discount)
-    #rescue StandardError => e
-      #render js: "toastr['error']('#{e.message}');", status: :bad_request
-    #end
+    rescue StandardError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
+    end
   end
 
   def translate
