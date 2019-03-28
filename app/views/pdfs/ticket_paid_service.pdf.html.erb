@@ -1,103 +1,169 @@
 <!-- header -->
-<div class="text-center" style="margin-left: 0; margin-right: 0;">
-  <p style="font-size: 28px; margin-left: 0; margin-right: 0;"><strong><%= @ticket_service.header[:title] %></strong></p>
-  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>Domicilio</p>
-  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= @ticket_service.header[:street] %></p>
-  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= @ticket_service.header[:address] %></p>
-  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= @ticket_service.header[:city] %></p>
-  <p style='margin-bottom: 0px; font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>RFC. <%= @ticket_service.header[:rfc] %></p>
-  <p style="font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;">Sucursal: <%= @ticket_service.header[:sucursal] %></p>
+<div class="row">
+<p style='margin: 0; text-align: center;'>
+  <strong><%= @ticket_service.header[:title] %></strong>
+</p>
+<p style='margin: 5px 0 0 0; text-align: center;'>
+  <strong>Domicilio</strong>
+</p>
+<p style='margin: 0; text-align: center;'>
+  <strong><%= @ticket_service.header[:street] %></strong>
+</p>
+<p style='margin: 0; text-align: center;'>
+  <strong><%= @ticket_service.header[:address] %></strong>
+</p>
+<p style='margin: 0; text-align: center;'>
+  <strong><%= @ticket_service.header[:city] %></strong>
+</p>
+<p style='margin: 5px 0 0 0; text-align: center;'>
+  <strong>RFC. <%= @ticket_service.header[:rfc] %></strong>
+</p>
+<p style='margin: 5px 0 0 0; text-align: center;'>
+  <strong>Sucursal: <%= @ticket_service.header[:sucursal] %></strong>
+</p>
 </div>
 <!-- end_header -->
 
-<p style="font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;"><%= @ticket_service.date %></p>
-<div class="row" style="margin-left: 0; margin-right: 0;">
-  <div class="col-xs-12" style="margin-left: 0; margin-right: 0;">
-    <p style="margin-left: 0; margin-right: 0;">
-      <span class='pull-left' style='font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>Ticket: <%= @ticket_service.ticket %></span>
-      <span class='pull-right' style='font-size: 23px; font-weight: 700; margin-left: 0; margin-right: 0;'>Folio: <%= @ticket_service.folio %></span>
+<div class="row">
+  <p style="margin: 5px 0 0 0;">
+    <strong><%= @ticket_service.date %></strong>
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block;'>
+        <strong>Ticket: <%= @ticket_service.ticket %></strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Folio: <%= @ticket_service.folio %></strong>
+      </span>
     </p>
   </div>
 </div>
 
-<div class="row" style="margin-left: 0; margin-right: 0;">
-  <div class="col-xs-12" style="margin-left: 0; margin-right: 0;">
-    <table class="table table-condensed" style="margin-left: 0; margin-right: 0;">
-      <thead style="margin-left: 0; margin-right: 0;">
-        <tr style="margin-left: 0; margin-right: 0;">
-          <th style="font-size: 16px; font-weight: 700;">CODIGO</th>
-          <th style="font-size: 16px; font-weight: 700;">CANT</th>
-          <th style="font-size: 16px; font-weight: 700;">DESCRIPCIÓN</th>
-          <th style="font-size: 16px; font-weight: 700;">PU</th>
-          <th style="font-size: 16px; font-weight: 700;">TOTAL</th>
+<div style="clear: both"></div>
+<!--<div class="row" style="margin-left: 0; margin-right: 0;">
+  <div class="col-xs-12" style="margin-left: 0; margin-right: 0;">-->
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>CODIGO</th>
+          <th colspan="2">DESCRIPCIÓN</th>
+        </tr>
+        <tr>
+          <th>CANT</th>
+          <th>PU</th>
+          <th>TOTAL</th>
         </tr>
       </thead>
-      <tbody style="margin-left: 0; margin-right: 0;">
+      <tbody>
         <% @ticket_service.spare_parts.each do |spare_part| %>
-          <tr style="margin-left: 0; margin-right: 0;">
-            <td style="font-size: 16px; font-weight: 700;"><%= spare_part[:code] %></td>
-            <td style="font-size: 16px; font-weight: 700;"><%= spare_part[:quantity] %></td>
-            <td style="font-size: 16px; font-weight: 700;"><%= spare_part[:description] %></td>
-            <td style="font-size: 16px; font-weight: 700;"><%= number_to_currency spare_part[:price] %></td>
-            <td style="font-size: 16px; font-weight: 700;"><%= number_to_currency spare_part[:total] %></td>
+          <tr>
+            <td><%= spare_part[:code] %></td>
+            <td colspan="2"><%= spare_part[:description] %></td>
+          </tr>
+          <tr>
+            <td><%= spare_part[:quantity] %></td>
+            <td><%= number_to_currency spare_part[:price] %></td>
+            <td><%= number_to_currency spare_part[:total] %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
+  <!--</div>
+</div>-->
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Subtotal:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_service.totals[:subtotal] %></strong>
+      </span>
+    </p>
   </div>
 </div>
 
-<div class="row" style="margin-left: 0; margin-right: 0;">
-  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Subtotal:</p>
-  </div>
-  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:subtotal] %></p>
-  </div>
-
-  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Descuentos:</p>
-  </div>
-  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:discount] %></p>
-  </div>
-
-  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>IVA al 16%:</p>
-  </div>
-  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:iva] %></p>
-  </div>
-
-  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; margin-left: 0; margin-right: 0;'><strong>Total M.N.:</strong></p>
-  </div>
-  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:total] %></p>
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Descuentos:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_service.totals[:discount] %></strong>
+      </span>
+    </p>
   </div>
 </div>
 
-<div class="row" style="margin-top: 20px; margin-bottom: 20px; margin-left: 0; margin-right: 0;">
-  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Pago >> <%= @ticket_service.type_paid %></p>
-  </div>
-  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:paid] %></p>
-  </div>
-
-  <div class="col-xs-8 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'>Cambio:</p>
-  </div>
-  <div class="col-xs-4 text-right" style="margin-left: 0; margin-right: 0;">
-    <p style='margin-bottom: 0px; font-size: 25px; font-weight: 700; margin-left: 0; margin-right: 0;'><%= number_to_currency @ticket_service.totals[:change] %></p>
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>IVA al 16%:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_service.totals[:iva] %></strong>
+      </span>
+    </p>
   </div>
 </div>
 
-<div class="row" style="margin-left: 0; margin-right: 0;">
-  <div class="col-xs-12" style="margin-left: 0; margin-right: 0;">
-    <p class="text-center" style="margin-bottom: 0px; font-size:20px; font-weight: 700; margin-left: 0; margin-right: 0;">Documento sin efectos fiscales</p>
-    <p class="text-center" style="font-size:20px; padding-bottom: 5px; border-bottom-style: dashed; font-weight: 700; margin-left: 0; margin-right: 0;">[ Políticas de Garantía ]</p>
-
-    <p style="font-size:20px; font-weight: 700; margin-left: 0; margin-right: 0;" class="text-center">Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Total M.N.:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_service.totals[:total] %></strong>
+      </span>
+    </p>
   </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Pago >> <%= @ticket_service.type_paid %></strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_service.totals[:paid] %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+
+<div style="clear: both"></div>
+
+<div class="row" style="margin: 10px 0 0 0">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Cambio:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_service.totals[:change] %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+
+<div style="clear: both"></div>
+
+<div class="row">
+  <p style='margin: 10px 0 0 0; text-align: center;'>
+    <strong>Documento sin efectos fiscales</strong>
+  </p>
+  <p style="margin: 5px 0 0 0; text-align: center;">
+    <strong>[ Políticas de Garantía ]</strong>
+  </p>
+  <p style="margin: 5px 0 0 0; text-align: center;">
+    <strong>Si requiere factura, favor de solicitarla al momento de efectuar su compra.</strong>
+  </p>
 </div>
