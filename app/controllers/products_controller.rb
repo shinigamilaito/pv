@@ -62,7 +62,7 @@ class ProductsController < ApplicationController
   def search_sales
     #begin
       discount = session[:discount_sale] || '0'
-      sales_policy = SalesPolicy.new(params[:search], current_user)
+      sales_policy = SalesPolicy.new(params[:search].to_i, current_user)
       @add_product = sales_policy.add_product(1, true)
       @total_sales = sales_policy.totals(discount)
     #rescue StandardError => e
