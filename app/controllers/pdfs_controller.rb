@@ -41,11 +41,11 @@ class PdfsController < ApplicationController
                #dpi: 380,
                #page_height: '3000mm',
                show_as_html: true,
-               zoom: 0.78125,
+               #zoom: 0.78125,
                #disable_smart_shrinking: true,
                #page_width: '58mm',
                #grayscale: false,
-               #lowquality: false,
+               lowquality: true,
                page_size: 'A8',
                margin: {
                  left: 0,
