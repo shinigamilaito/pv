@@ -71,13 +71,13 @@ class PdfsController < ApplicationController
                template: 'pdfs/note_service.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
-               page_size: 'A4',
+               page_size: 'Letter',
                #show_as_html: true,
                margin: {
                  left: 0,
                  right: 0,
                  top: 5,
-                 bottom: 40
+                 bottom: 4
                }
       end
     end
