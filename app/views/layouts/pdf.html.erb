@@ -13,9 +13,46 @@
       }
     }
   </script>
-
-
+  <style>
+    .m-t-20 { margin-top: 20px; }
+    .m-b-10 { margin-bottom: 10px; }
+    .m-b-20 { margin-bottom: 20px; }
+    .m-l-15 { margin-left: 15px; }
+    .not-margin { margin: 0; }
+    .not-margin-top { margin-top: 0; }
+    .border { border: 1px solid; }
+    .border-left { border-left: 1px solid; }
+    .border-not-top {
+      border-left: 1px solid;
+      border-right: 1px solid;
+      border-bottom: 1px solid;
+    }
+    .b-t-d { border-top: 2px dashed; }
+    .red { color: red; }
+    .number-folio {
+      font-size: 48px;
+      display: inline-block;
+    }
+    .f-s-a-f { font-size: 22px; }
+    .section-blue {
+      background-color: #03a;
+      height: 30px;
+    }
+    .b-c-g { background-color: grey; }
+    .row-eq-height {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+    }
+    .term-cond {
+      padding-inline-start: 0;
+      list-style-size: 15px;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
+
 <body onload="position_brands()">
   <div class="container-fluid">
     <%= yield %>

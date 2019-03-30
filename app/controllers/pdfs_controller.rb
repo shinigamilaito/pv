@@ -41,7 +41,8 @@ class PdfsController < ApplicationController
                background: true,
                layout: 'pdf.html.erb',
                #dpi: 380,
-               #page_height: '3000mm',
+               #page_width: '58mm',
+               #page_height: '200mm',
                show_as_html: true,
                #zoom: 1.28,
                #dpi: 380,
@@ -71,8 +72,11 @@ class PdfsController < ApplicationController
                background: true,
                layout: 'pdf.html.erb',
                page_size: 'A4',
+               #show_as_html: true,
                margin: {
-                 top: 1,
+                 left: 0,
+                 right: 0,
+                 top: 5,
                  bottom: 40
                }
       end

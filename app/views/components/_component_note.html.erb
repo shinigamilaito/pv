@@ -1,13 +1,15 @@
 <div class="col-xs-4" style="display: inline-block; margin-bottom: 5px;">
-  <label style="font-size: 18px;">
     <% if check_component %>
-      <del style="background-color: gray;">
-        <%= check_box_tag "equipment_customer[component_ids][]", component.id, check_component %>
-        <%= component.name %>
-      </del>
+      <label style="font-size: 18px; background-color: gray;">
+        <del>
+          <%= check_box_tag "equipment_customer[component_ids][]", component.id, check_component, style: "margin-right: 10px; width: 18px; height: 18px;" %>
+          <%= component.name %>
+        </del>
+      </label>
     <% else %>
-      <%= check_box_tag "equipment_customer[component_ids][]", component.id, check_component %>
-      <%= component.name %>
+      <label style="font-size: 18px;">
+        <%= check_box_tag "equipment_customer[component_ids][]", component.id, check_component, style: "margin-right: 10px; width: 18px; height: 18px;" %>
+        <%= component.name %>
+      </label>
     <% end %>
-  </label>
 </div>

@@ -48,7 +48,7 @@ class EquipmentCustomersController < ApplicationController
   def equipment_customer_params
     params.require(:equipment_customer).permit(
       :service_id, :equipment_id, :brand_id, :equipment_model_id, :description,
-      :cable_type_id, component_ids: []
+      :cable_type_id, :serie_number, component_ids: []
     )
   end
 

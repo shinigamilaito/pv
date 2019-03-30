@@ -6,11 +6,19 @@
 </button>
 <div class="panel">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="form-group" style="margin-top: 15px;">
         <label>Modelo</label>
         <div class="form-control" readonly>
           <%= equipment_customer.equipment_model.name %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group" style="margin-top: 15px;">
+        <label>No. de Serie</label>
+        <div class="form-control" readonly>
+          <%= equipment_customer.serie_number %>
         </div>
       </div>
     </div>

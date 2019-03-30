@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190325002349) do
+ActiveRecord::Schema.define(version: 20190330194639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20190325002349) do
     t.text "address"
     t.string "mobile_phone"
     t.string "home_phone"
+    t.string "email"
   end
 
   create_table "component_equipment_customers", force: :cascade do |t|
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20190325002349) do
     t.bigint "equipment_model_id"
     t.bigint "cable_type_id"
     t.bigint "payment_id"
+    t.string "serie_number"
     t.index ["brand_id"], name: "index_equipment_customers_on_brand_id"
     t.index ["cable_type_id"], name: "index_equipment_customers_on_cable_type_id"
     t.index ["equipment_id"], name: "index_equipment_customers_on_equipment_id"

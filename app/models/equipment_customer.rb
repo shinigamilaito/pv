@@ -13,6 +13,7 @@ class EquipmentCustomer < ApplicationRecord
   accepts_nested_attributes_for :component_equipment_customers, allow_destroy: true
 
   validates :equipment_id, :brand_id, :equipment_model_id, :service_id, presence: true
+  validates :serie_number, presence: true
 
   def self.search(params)
   	where(client_id: params[:client_id], folio: params[:folio_number]).first

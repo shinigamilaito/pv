@@ -6,38 +6,27 @@ class NoteService
   end
 
   def folio
-    "##{service.number_folio}"
-  end
-
-  def title
-    'PC'
-  end
-
-  def subtitle
-    'tienda & reparación'
+    "%06d" % service.number_folio
   end
 
   def street
-    '16 DE SEPTIEMBRE #6 COL. CENTRO'
+    '16 de Septiembre # 3 Col. Centro'
   end
 
   def city
-    'HUAJUAPAN DE LEÓN, OAX.'
+    'Huajuapan de Leon Oax. c.p. 69000'
   end
 
-  def emails
+  def email
+    'richard_1806@hotmail.com'
+  end
+
+  def telephones
     {
-      one: email_one,
-      two: email_two
+      one: 'Tel: 53 2 55 21',
+      two: 'Tel: 53 0 09 29'
     }
-  end
 
-  def telephone
-    'TEL: 53 2 55 21'
-  end
-
-  def header
-    'NOTA DE SERVICIO'
   end
 
   def date
@@ -49,7 +38,7 @@ class NoteService
       name: client_name,
       address: client_address,
       home_phone: client_home_phone,
-      mobile_phone: client_mobile_phone
+      email: client_email
     }
   end
 
@@ -58,14 +47,6 @@ class NoteService
  end
 
  private
-
- def email_one
-   'richard_1806@hotmail.com'
- end
-
- def email_two
-   'richard_1806@hotmail.com'
- end
 
  def client_name
    service.client.formal_name
@@ -81,6 +62,10 @@ end
 
 def client_mobile_phone
   service.client.mobile_phone
+end
+
+def client_email
+  service.client.email
 end
 
 end
