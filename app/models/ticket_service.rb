@@ -10,7 +10,7 @@ class TicketService < Ticket
   end
 
   def date
-      ActionController::Base.helpers.l(payment.updated_at, format: '%A, %d %b %Y %I:%M:%S')
+      ActionController::Base.helpers.l(payment.updated_at, format: '%A, %d %b %Y')
   end
 
   def folio

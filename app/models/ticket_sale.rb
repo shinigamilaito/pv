@@ -19,9 +19,9 @@ class TicketSale < Ticket
 
   def date
     if sale.class == Sale
-      ActionController::Base.helpers.l(sale.updated_at, format: '%A, %d %b %Y %I:%M:%S')
+      ActionController::Base.helpers.l(sale.updated_at, format: '%A, %d %b %Y')
     else
-      ActionController::Base.helpers.l(Time.now, format: '%A, %d %b %Y %I:%M:%S')
+      ActionController::Base.helpers.l(Time.now, format: '%A, %d %b %Y')
     end
   end
 

@@ -8,7 +8,7 @@ class Product < ApplicationRecord
   end
 
   def self.search_for_sales(term)
-    where('LOWER(code) LIKE :term', term: "#{term.downcase}") if term.present?
+    where('LOWER(code) = ?', "#{term.downcase}") if term.present?
   end
 
 end

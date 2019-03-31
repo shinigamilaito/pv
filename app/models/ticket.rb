@@ -15,13 +15,12 @@ class Ticket
     {
       subtotal: sub_total,
       discount: discount,
-      iva: iva,
       total: total,
       paid: paid,
       change: change
     }
   end
-  
+
   def ticket
     ''
   end
@@ -33,23 +32,19 @@ class Ticket
   end
 
   def street
-    'Calle 16 de Septiembre No. 6 y 3'
+    'Calle 16 de Septiembre No. 6'
   end
 
   def address
-    'Col. Centro, México, CP 69000'
+    'Col. Centro, CP 69000'
   end
 
   def city
-    'Heroica Ciudad de Huajuapan de León, Oaxaca'
+    'Huajuapan, Oax.'
   end
 
   def rfc
     'TTTT9999999ED'
-  end
-
-  def iva
-    BigDecimal('0.00')
   end
 
   def sub_total
