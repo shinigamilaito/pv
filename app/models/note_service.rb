@@ -65,7 +65,7 @@ def client_mobile_phone
 end
 
 def client_email
-  service.client.email
+  service.client.email || ""
 end
 
 end
