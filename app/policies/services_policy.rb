@@ -50,6 +50,7 @@ class ServicesPolicy
   def self.pending_services
     Service.joins(:equipment_customers)
            .where("equipment_customers.payment_id IS NULL")
+           .distinct
   end
 
 end

@@ -15,6 +15,8 @@ class EquipmentCustomer < ApplicationRecord
   validates :equipment_id, :brand_id, :equipment_model_id, :service_id, presence: true
   validates :serie_number, presence: true
 
+  after_create :update_service
+
   def self.search(params)
   	where(client_id: params[:client_id], folio: params[:folio_number]).first
   end
@@ -25,5 +27,11 @@ class EquipmentCustomer < ApplicationRecord
     else
       return self.payment.paid ? false : true
     end
+  end
+
+  def update_service
+    service = self.service
+    service.updated_at = self.created_at
+    service.save
   end
 end
