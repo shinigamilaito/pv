@@ -64,6 +64,6 @@ gem 'carrierwave-base64'
 
 #gem 'pdfkit'
 gem "render_anywhere", require: false
-gem 'wicked_pdf'
+#gem 'wicked_pdf'
 
 gem 'pg_lock'
