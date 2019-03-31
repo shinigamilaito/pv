@@ -54,9 +54,8 @@
 
     <div class="col-sm-6">
       <div class="form-group <%= 'has-error' if new_equipment_customer.errors[:cable_type_id].first %>">
-        <label>Cable:</label>
-        <%= f.collection_select :cable_type_id, [], :id, :name, { prompt: "Seleccione un cable" }, class: "form-control autocomplete_cable_types" %>
-        <div class="help-block"><%= new_equipment_customer.errors[:cable_type_id].first %></div>
+        <%= f.text_area :component_description, class: "form-control", style: "resize: none;", placeholder: "Otros" %>
+        <div class="invalid-feedback"><%= new_equipment_customer.errors[:component_description].first %></div>
       </div>
     </div>
   </div>

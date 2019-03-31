@@ -57,11 +57,6 @@
         <%= sanitize(equipment_customer.description) %>
       </div>
     </div>
-    <div class="row border-not-top">
-      <div class="col-xs-12">
-        <p>Descripción del estado general: <span class="red">¿DE DONDE SE SACARA LA INFO?</span></p>
-      </div>
-    </div>
 
     <h4>Componentes que deja con el equipo:</h4>
 
@@ -79,10 +74,7 @@
         </div>
       </div>
       <div class="col-xs-6 border">
-        <p><span class="red">¿DE DONDE SE SACARA LA INFO?</span>
-          <!--<label>Cable</label>-->
-          <%#= equipment_customer.cable_type.name if equipment_customer.cable_type %>
-        </p>
+        <%= sanitize equipment_customer.component_description %>
       </div>
     </div>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190330194639) do
+ActiveRecord::Schema.define(version: 20190331131812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20190330194639) do
     t.bigint "cable_type_id"
     t.bigint "payment_id"
     t.string "serie_number"
+    t.text "component_description"
     t.index ["brand_id"], name: "index_equipment_customers_on_brand_id"
     t.index ["cable_type_id"], name: "index_equipment_customers_on_cable_type_id"
     t.index ["equipment_id"], name: "index_equipment_customers_on_equipment_id"

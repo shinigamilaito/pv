@@ -41,9 +41,8 @@
 
     <div class="col-sm-6">
       <div class="form-group" style="margin-top: 15px;">
-        <label>Cable</label>
-        <div class="form-control" readonly>
-          <%= equipment_customer.cable_type.name if equipment_customer.cable_type %>
+        <div class="form-control" readonly style="height: 50px; overflow: auto;">
+          <%= sanitize equipment_customer.component_description %>
         </div>
       </div>
     </div>
