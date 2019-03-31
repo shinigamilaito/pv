@@ -65,7 +65,11 @@ def client_mobile_phone
 end
 
 def client_email
-  service.client.email || ""
+  if service.client.email.nil?
+    return " "
+  else
+    return service.client.email || ""
+  end
 end
 
 end
