@@ -85,7 +85,7 @@
       var $elementPreviewQuantity = $("#sale_preview_quantity_<%= product.id %>");
 
       if(newValue > 0) {
-        $elementPreviewQuantity.val(newValue);
+        //$elementPreviewQuantity.val(newValue);
 
         $.ajax({
           url: "/sales/update_quantity_product",
@@ -100,7 +100,9 @@
           },
           complete: function(xhr, status) {
             if(xhr.status == 400) {
-              $that.val(originalQuantity);
+              $that.val($elementPreviewQuantity.val());
+            } else {
+              $elementPreviewQuantity.val(newValue);
             }
             $that.LoadingOverlay("hide", true);
           }

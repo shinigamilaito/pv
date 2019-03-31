@@ -12,7 +12,7 @@ class SalesPolicy
       new_product = false
 
       if product.present?
-        if available?(quantity)
+        if available?(quantity, is_increment)
           if pending_in_sale?
             product = adjust_product_in_sale(quantity, is_increment)
           else
@@ -106,8 +106,16 @@ class SalesPolicy
     @product ||= Product.search_for_sales(product_code).order(created_at: :desc).first
   end
 
-  def available?(quantity)
-    product.quantity >= quantity
+  def available?(quantity, is_increment)
+    if pending_in_sale?
+      unless is_increment
+        product.quantity + sale_product.quantity >= quantity
+      else
+        product.quantity >= quantity
+      end
+    else
+      product.quantity >= quantity
+    end
   end
 
   def pending_in_sale?
