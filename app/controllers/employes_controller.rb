@@ -1,4 +1,6 @@
 class EmployesController < ApplicationController
+  before_action :check_is_admin, except: [:search]
+
   def index
     @users = User.order(created_at: :desc)
   end
@@ -48,5 +50,11 @@ class EmployesController < ApplicationController
 
   def set_minimum_password
     @minimum_password_length = 6
+  end
+
+  def check_is_admin
+    unless current_user.admin?
+      redirect_to root_path
+    end
   end
 end

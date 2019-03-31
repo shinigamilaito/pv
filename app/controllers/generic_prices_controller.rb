@@ -1,4 +1,5 @@
 class GenericPricesController < ApplicationController
+  before_action :check_is_admin, except: [:autocomplete, :search]
   before_action :set_generic_price, only: [:show, :edit, :update, :destroy]
   before_action :fixed_format_price, only: [:create, :update]
 
@@ -75,5 +76,11 @@ class GenericPricesController < ApplicationController
 
     def fixed_format_price
         params[:generic_price][:price] = params[:generic_price][:price].gsub(',','')
+    end
+
+    def check_is_admin
+      unless current_user.admin?
+        redirect_to root_path
+      end
     end
 end

@@ -1,4 +1,6 @@
 class IncomesController < ApplicationController
+  before_action :check_is_admin, except: [:pending_services, :search]
+
   def index
     @incomes = Payment.where(paid: true).order(updated_at: :desc)
   end
@@ -9,5 +11,13 @@ class IncomesController < ApplicationController
 
   def search
     @incomes = Payment.search(params[:search]).order(created_at: :desc)
+  end
+
+  private
+
+  def check_is_admin
+    unless current_user.admin?
+      redirect_to root_path
+    end
   end
 end
