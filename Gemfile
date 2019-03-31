@@ -43,13 +43,13 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  #gem 'wicked_pdf'
+  gem 'wicked_pdf'
 end
 
 group :production do
-   #gem "wkhtmltopdf-heroku"
-   gem 'wkhtmltopdf-heroku', '2.12.4.0'
-   gem 'wicked_pdf', '1.2.1'
+   gem "wkhtmltopdf-heroku"
+   #gem 'wkhtmltopdf-heroku', '2.12.4.0'
+   #gem 'wicked_pdf', '1.2.1'
     #gem "wkhtmltopdf-binary"
 end
 
@@ -64,6 +64,6 @@ gem 'carrierwave-base64'
 
 #gem 'pdfkit'
 gem "render_anywhere", require: false
-#gem 'wicked_pdf'
+gem 'wicked_pdf'
 
 gem 'pg_lock'
