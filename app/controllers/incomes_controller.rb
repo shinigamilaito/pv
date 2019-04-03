@@ -9,6 +9,10 @@ class IncomesController < ApplicationController
     @pending_services = ServicesPolicy.pending_services.order(updated_at: :desc)
   end
 
+  def pending_service_by_client
+    @pending_services = ServicesPolicy.pending_service_by_client(params[:search]).order(updated_at: :desc)
+  end
+
   def search
     @incomes = Payment.search(params[:search]).order(created_at: :desc)
   end

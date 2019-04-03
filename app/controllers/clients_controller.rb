@@ -57,6 +57,10 @@ class ClientsController < ApplicationController
     @clients = Client.search(params[:term]).order(created_at: :desc)
   end
 
+  def search
+    @clients = Client.search(params[:search]).order(created_at: :desc)
+  end
+
   private
 
     def set_client

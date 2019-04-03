@@ -51,19 +51,18 @@ group :production do
    #gem 'wkhtmltopdf-heroku', '2.12.4.0'
    #gem 'wicked_pdf', '1.2.1'
     #gem "wkhtmltopdf-binary"
-    gem 'wkhtmltopdf-binary'
+    #gem 'wkhtmltopdf-binary'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-#gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #For Windows it works with CofferScript v1.8
-#gem 'coffee-script-source', '1.8.0'
+gem 'coffee-script-source', '1.8.0'
 gem 'devise'
 gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
 gem 'carrierwave', '~> 1.0'
 gem 'carrierwave-base64'
 
-#gem 'pdfkit'
 gem "render_anywhere", require: false
 gem 'wicked_pdf', '1.1.0'
 

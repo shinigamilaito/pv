@@ -53,4 +53,10 @@ class ServicesPolicy
            .distinct
   end
 
+  def self.pending_service_by_client(client)
+    pending_services
+      .joins(:client)
+      .where('LOWER(name) LIKE :term or LOWER(first_name) LIKE :term or LOWER(last_name) LIKE :term', term: "%#{client.downcase}%")
+  end
+
 end
