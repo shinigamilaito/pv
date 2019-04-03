@@ -1,5 +1,5 @@
 class IncomesController < ApplicationController
-  before_action :check_is_admin, except: [:pending_services, :search]
+  before_action :check_is_admin, only: [:index]
 
   def index
     @incomes = Payment.where(paid: true).order(updated_at: :desc)
