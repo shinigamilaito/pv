@@ -12,7 +12,7 @@ class EquipmentCustomer < ApplicationRecord
   has_many :components, :through => :component_equipment_customers
   accepts_nested_attributes_for :component_equipment_customers, allow_destroy: true
 
-  validates :equipment_id, :brand_id, :equipment_model_id, :service_id, presence: true
+  validates :equipment_id, :brand_id, :service_id, presence: true
   validates :serie_number, presence: true
 
   after_create :update_service

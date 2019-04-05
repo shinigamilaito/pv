@@ -47,7 +47,7 @@ group :development do
 end
 
 group :production do
-   #gem "wkhtmltopdf-heroku"
+   gem "wkhtmltopdf-heroku"
    #gem 'wkhtmltopdf-heroku', '2.12.4.0'
    #gem 'wicked_pdf', '1.2.1'
     #gem "wkhtmltopdf-binary"

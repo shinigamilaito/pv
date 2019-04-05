@@ -10,6 +10,15 @@ class EquipmentCustomersController < ApplicationController
     message_history = MessageHistory.new(message_history_params)
     message_history.user = current_user
     equipment_customer = EquipmentCustomer.new(equipment_customer_params)
+    equipment_model_name = params[:equipment_customer][:equipment_model_id]
+
+    if equipment_model_name.to_i == 0 #Crear el equipment_model
+      equipment_customer.equipment_model = EquipmentModel.new(
+        name: equipment_model_name,
+        description: equipment_model_name
+      )
+    end
+
     equipment_customer_service = EquipmentCustomerService.new(message_history, equipment_customer)
 
     if equipment_customer_service.create
