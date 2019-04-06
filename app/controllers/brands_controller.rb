@@ -2,7 +2,16 @@ class BrandsController < ApplicationController
   before_action :set_brand, only: [:show, :edit, :update, :destroy]
 
   def index
-    @brands = Brand.order(updated_at: :desc)
+    @brands = Brand
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :search }
+    end
   end
 
   def show
@@ -60,7 +69,12 @@ class BrandsController < ApplicationController
   end
 
   def search
-    @brands = Brand.search_index(params[:search]).order(created_at: :desc)
+    @brands = Brand
+      .search_index(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   private

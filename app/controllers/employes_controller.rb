@@ -2,7 +2,16 @@ class EmployesController < ApplicationController
   before_action :check_is_admin, except: [:search]
 
   def index
-    @users = User.order(created_at: :desc)
+    @users = User
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :search }
+    end
   end
 
   def new
@@ -39,7 +48,12 @@ class EmployesController < ApplicationController
   end
 
   def search
-    @users = User.search(params[:search]).order(created_at: :desc)
+    @users = User
+      .search(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   private

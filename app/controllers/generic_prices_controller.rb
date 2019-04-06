@@ -4,7 +4,16 @@ class GenericPricesController < ApplicationController
   before_action :fixed_format_price, only: [:create, :update]
 
   def index
-    @generic_prices = GenericPrice.order(updated_at: :desc)
+    @generic_prices = GenericPrice
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :search }
+    end
   end
 
   def show
@@ -61,7 +70,12 @@ class GenericPricesController < ApplicationController
   end
 
   def search
-    @generic_prices = GenericPrice.search(params[:search]).order(created_at: :desc)
+    @generic_prices = GenericPrice
+      .search(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   private

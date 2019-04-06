@@ -8,6 +8,7 @@
     <th></th>
   </tr>
   <% @users.each_with_index do |employe, index| %>
-    <%= render 'employes/employe', employe: employe, index: index %>
+    <%= render 'employes/employe', employe: employe, index: @index %>
+    <% @index += 1 %>
   <% end %>
 </tbody>
