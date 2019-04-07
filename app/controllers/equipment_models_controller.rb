@@ -2,7 +2,16 @@ class EquipmentModelsController < ApplicationController
   before_action :set_equipment_model, only: [:show, :edit, :update, :destroy]
 
   def index
-    @equipment_models = EquipmentModel.order(updated_at: :desc)
+    @equipment_models = EquipmentModel
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :search }
+    end
   end
 
   def show
@@ -59,7 +68,12 @@ class EquipmentModelsController < ApplicationController
   end
 
   def search
-    @equipment_models = EquipmentModel.search_index(params[:search]).order(created_at: :desc)
+    @equipment_models = EquipmentModel
+      .search_index(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   private
@@ -70,5 +84,5 @@ class EquipmentModelsController < ApplicationController
 
     def equipment_model_params
       params.require(:equipment_model).permit(:name, :description)
-    end
+    end  
 end

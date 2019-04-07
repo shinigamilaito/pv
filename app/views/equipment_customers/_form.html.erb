@@ -89,13 +89,59 @@
       setupSelect("/equipments/autocomplete")
     );
 
-    $('.autocomplete_brands').select2(
-      setupSelect("/brands/autocomplete")
-    );
+    $('.autocomplete_brands').select2({
+      tags: true,
+      minimumInputLength: 1,
+      ajax: {
+        delay: 250,
+        url: "/brands/autocomplete",
+        dataType: 'json',
+        cache: true
+      },
+      createTag: function (params) {
+        console.log("Tag created...");
+        var term = $.trim(params.term);
 
-    $('.autocomplete_equipment_models').select2(
-      setupSelect("/equipment_models/autocomplete")
-    );
+        if (isNaN(term)) {
+          return {
+            id: term,
+            text: term,
+            newTag: true // add additional parameters
+          }
+
+        } else {
+          console.log("Tag no valid");
+          return null;
+        }
+      }
+    });
+
+    $('.autocomplete_equipment_models').select2({
+        tags: true,
+        minimumInputLength: 1,
+        ajax: {
+          delay: 250,
+          url: "/equipment_models/autocomplete",
+          dataType: 'json',
+          cache: true
+        },
+        createTag: function (params) {
+          console.log("Tag created...");
+          var term = $.trim(params.term);
+
+          if (isNaN(term)) {
+            return {
+              id: term,
+              text: term,
+              newTag: true // add additional parameters
+            }
+
+          } else {
+            console.log("Tag no valid");
+            return null;
+          }
+        }
+    });
 
     $('.textarea_new_equipment_customer').wysihtml5();
   });

@@ -48,10 +48,7 @@ end
 
 group :production do
    #gem "wkhtmltopdf-heroku"
-   #gem 'wkhtmltopdf-heroku', '2.12.4.0'
-   #gem 'wicked_pdf', '1.2.1'
-    #gem "wkhtmltopdf-binary"
-    gem 'wkhtmltopdf-binary'
+   gem "wkhtmltopdf-binary"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -62,9 +59,7 @@ gem 'devise'
 gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
 gem 'carrierwave', '~> 1.0'
 gem 'carrierwave-base64'
-
-#gem 'pdfkit'
 gem "render_anywhere", require: false
 gem 'wicked_pdf', '1.1.0'
-
 gem 'pg_lock'
+gem 'will_paginate', '~> 3.1.1'

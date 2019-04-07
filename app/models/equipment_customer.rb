@@ -12,10 +12,11 @@ class EquipmentCustomer < ApplicationRecord
   has_many :components, :through => :component_equipment_customers
   accepts_nested_attributes_for :component_equipment_customers, allow_destroy: true
 
-  validates :equipment_id, :brand_id, :equipment_model_id, :service_id, presence: true
+  validates :equipment_id, :service_id, presence: true
   validates :serie_number, presence: true
 
   after_create :update_service
+  after_update :update_service
 
   def self.search(params)
   	where(client_id: params[:client_id], folio: params[:folio_number]).first
@@ -31,7 +32,7 @@ class EquipmentCustomer < ApplicationRecord
 
   def update_service
     service = self.service
-    service.updated_at = self.created_at
+    service.updated_at = self.updated_at
     service.save
   end
 end

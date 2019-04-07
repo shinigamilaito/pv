@@ -9,12 +9,13 @@
   </tr>
   <% @incomes.each_with_index do |income, index| %>
     <tr>
-      <td><%= index + 1 %></td>
+      <td><%= @index %></td>
       <td><%= link_to income.service.client.formal_name, new_service_path(service_id: income.service), target: '_blank' %></td>
       <td><%= date_time_helper(income.updated_at) %></td>
       <td><%= number_to_currency totals(income)[:total_final] %></td>
       <td><%= income.service.number_folio %></td>
       <td><%= income.user.formal_name %></td>
     </tr>
+    <% @index += 1 %>
   <% end %>
 </tbody>

@@ -2,7 +2,16 @@ class ClientsController < ApplicationController
   before_action :set_client, only: [:show, :edit, :update, :destroy]
 
   def index
-    @clients = Client.order(updated_at: :desc)
+    @clients = Client
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :search }
+    end
   end
 
   def show
@@ -55,6 +64,15 @@ class ClientsController < ApplicationController
 
   def autocomplete
     @clients = Client.search(params[:term]).order(created_at: :desc)
+  end
+
+  def search
+    @clients = Client
+      .search(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   private

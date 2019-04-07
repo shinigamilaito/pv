@@ -8,34 +8,16 @@
       </div>
 
       <div class="box-body table-responsive no-padding">
-        <table class="table table-responsive table-hover table-condensed table-striped">
-          <tbody>
-            <tr>
-              <th>No.</th>
-              <th>Nombre</th>
-              <th>Télefono Fijo</th>
-              <th>Télefono Movil</th>
-              <th>Email</th>
-              <th>Dirección</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <% @clients.each_with_index do |client, index| %>
-              <tr>
-                <td><%= index + 1 %></td>
-                <td><%= client.formal_name %></td>
-                <td><%= client.home_phone %></td>
-                <td><%= client.mobile_phone %></td>
-                <td><%= client.email %></td>
-                <td><%= client.address %></td>
-                <td style="width: 1px;"><%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-edit" %></td>
-                <td style="width: 1px;"><%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %></td>
-              </tr>
-            <% end %>
-          </tbody>
+        <%= render 'shared/search', id: 'search-clients',
+          placeholder: 'Buscar por nombre',
+          remote_url: '/clients/search' %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="clients_table">
+          <%= render 'body_clients' %>
         </table>
       </div>
 
     </div>
   </div>
 </div>
+
+<%= render 'shared/paginate', elements_paginate: @clients %>

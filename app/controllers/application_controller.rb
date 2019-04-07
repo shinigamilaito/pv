@@ -5,12 +5,30 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  protected  
+  protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_in, keys: [:username])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :first_name, :last_name, :username, :email, :password, :password_confirmation, :rol_id])
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :first_name, :last_name, :username, :email, :password, :password_confirmation, :rol_id])
+  end
+
+  def route_wicked
+    'C:/wkhtmltopdf/bin/wkhtmltopdf.exe'
+  end
+
+  def elements_per_page
+    return 20
+  end
+
+  def obtain_index(page)
+    total_rows = (page || 0) * self.elements_per_page
+
+    if total_rows > 0
+      return total_rows - self.elements_per_page + 1
+    else
+      return 1
+    end
   end
 
   private

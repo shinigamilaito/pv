@@ -1,0 +1,9 @@
+<div id="links_pagination" class="flickr_pagination">
+  <%= will_paginate elements_paginate %>
+</div>
+
+<script>
+   $(function(){
+     $('.pagination a').attr('data-remote', 'true')
+   });
+</script>

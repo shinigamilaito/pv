@@ -10,6 +10,10 @@ class EquipmentCustomersController < ApplicationController
     message_history = MessageHistory.new(message_history_params)
     message_history.user = current_user
     equipment_customer = EquipmentCustomer.new(equipment_customer_params)
+    equipment_model_name = params[:equipment_customer][:equipment_model_id]
+    brand_name = params[:equipment_customer][:brand_id]
+    equipment_customer = associate_equipment_model(equipment_customer, equipment_model_name)
+    equipment_customer = associate_brand(equipment_customer, brand_name)
     equipment_customer_service = EquipmentCustomerService.new(message_history, equipment_customer)
 
     if equipment_customer_service.create
@@ -26,6 +30,7 @@ class EquipmentCustomersController < ApplicationController
 
   def add_history_message
     @equipment_customer = EquipmentCustomer.find(params[:equipment_customer_id])
+    @equipment_customer.updated_at = Time.now
     @equipment_customer.message_histories << MessageHistory.new({
       message: params[:message],
       user: current_user
@@ -54,5 +59,27 @@ class EquipmentCustomersController < ApplicationController
 
   def message_history_params
     params.require(:message_history).permit(:message)
+  end
+
+  def associate_equipment_model(equipment_customer, equipment_model_name)
+    if equipment_model_name.to_i == 0 #Crear el equipment_model
+      equipment_customer.equipment_model = EquipmentModel.new(
+        name: equipment_model_name,
+        description: equipment_model_name
+      )
+    end
+
+    return equipment_customer
+  end
+
+  def associate_brand(equipment_customer, brand_name)
+    if brand_name.to_i == 0 #Crear el equipment_model
+      equipment_customer.brand = Brand.new(
+        name: brand_name,
+        specifications: brand_name
+      )
+    end
+
+    return equipment_customer
   end
 end

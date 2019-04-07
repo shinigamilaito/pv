@@ -1,0 +1,17 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Cliente</th>
+    <th>Actualizado el</th>
+    <th>Folio</th>
+  </tr>
+  <% @pending_services.each_with_index do |pending_service, index| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= link_to pending_service.client.formal_name, new_service_path(service_id: pending_service), target: "_blank" %></td>
+      <td><%= date_time_helper(pending_service.updated_at) %></td>
+      <td><%= pending_service.number_folio %></td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+</tbody>

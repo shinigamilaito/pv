@@ -18,7 +18,7 @@ class NoteService
   end
 
   def email
-    'richard_1806@hotmail.com'
+    'richar_1806@hotmail.com'
   end
 
   def telephones

@@ -6,26 +6,15 @@
       </div>
 
       <div class="box-body table-responsive no-padding">
-        <table class="table table-responsive table-hover table-condensed table-striped">
-          <tbody>
-            <tr>
-              <th>No.</th>
-              <th>Cliente</th>
-              <th>Actualizado el</th>
-              <th>Folio</th>
-            </tr>
-            <% @pending_services.each_with_index do |pending_service, index| %>
-              <tr>
-                <td><%= index + 1 %></td>
-                <td><%= link_to pending_service.client.formal_name, new_service_path(service_id: pending_service), target: "_blank" %></td>
-                <td><%= date_time_helper(pending_service.updated_at) %></td>
-                <td><%= pending_service.number_folio %></td>
-              </tr>
-            <% end %>
-          </tbody>
+        <%= render 'shared/search', id: 'search-pending-services',
+          placeholder: 'Buscar por nombre',
+          remote_url: '/incomes/pending_service_by_client' %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="pending_services_table">
+          <%= render 'body_pending_services' %>
         </table>
       </div>
-
     </div>
   </div>
 </div>
+
+<%= render 'shared/paginate', elements_paginate: @pending_services %>

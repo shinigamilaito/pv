@@ -1,0 +1,25 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Nombre</th>
+    <th>Télefono Fijo</th>
+    <th>Télefono Movil</th>
+    <th>Email</th>
+    <th>Dirección</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @clients.each_with_index do |client, index| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= client.formal_name %></td>
+      <td><%= client.home_phone %></td>
+      <td><%= client.mobile_phone %></td>
+      <td><%= client.email %></td>
+      <td><%= client.address %></td>
+      <td style="width: 1px;"><%= link_to 'Actualizar', edit_client_path(client), class: "btn btn-edit" %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', client, method: :delete, class: "btn btn-danger", data: { confirm: '¿Está usted seguro?' } %></td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+</tbody>

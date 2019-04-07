@@ -8,11 +8,12 @@
   </tr>
   <% @brands.each_with_index do |brand, index| %>
     <tr>
-      <td><%= index + 1 %></td>
+      <td><%= @index %></td>
       <td><%= brand.name %></td>
       <td><%= sanitize brand.specifications %></td>
       <td style="width: 1px;"><%= link_to 'Actualizar', edit_brand_path(brand), class: 'btn btn-edit' %></td>
       <td style="width: 1px;"><%= link_to 'Eliminar', brand, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
     </tr>
+    <% @index += 1 %>
   <% end %>
 </tbody>

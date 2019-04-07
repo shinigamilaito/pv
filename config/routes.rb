@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   resources :incomes, only: [:index] do
     get :pending_services, on: :collection
     get :search, on: :collection
+    get :pending_service_by_client, on: :collection
   end
 
   resources :generic_prices do
@@ -70,6 +71,7 @@ Rails.application.routes.draw do
 
   resources :clients do
     get 'autocomplete', on: :collection
+    get :search, on: :collection
   end
 
   devise_for :users

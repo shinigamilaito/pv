@@ -3,7 +3,16 @@ class SparePartsController < ApplicationController
   before_action :fixed_format_price, only: [:create, :update]
 
   def index
-    @spare_parts = SparePart.order(updated_at: :desc)
+    @spare_parts = SparePart
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :search }
+    end
   end
 
   def show
@@ -61,7 +70,12 @@ class SparePartsController < ApplicationController
   end
 
   def search
-    @spare_parts = SparePart.search(params[:search]).order(created_at: :desc)
+    @spare_parts = SparePart
+      .search(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   def translate
