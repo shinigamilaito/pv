@@ -37,3 +37,12 @@ ClientType.create(name: "Frecuente")
 ClientType.create(name: "Ocasional")
 
 p "Created client types"
+
+puts "Started..."
+componentes = ["Cargador", "Maletin", "Teclado", "Bateria", "Funda", "Ratón"]
+
+componentes.each do |name_component|
+  Component.create(name: name_component)
+end
+p "Components created"
+puts "End..."
