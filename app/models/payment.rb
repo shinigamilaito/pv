@@ -30,4 +30,8 @@ class Payment < ApplicationRecord
     end
  	end
 
+  def cost
+    paid_with - change
+  end
+
 end

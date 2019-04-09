@@ -56,6 +56,10 @@ class EmployesController < ApplicationController
     @index = obtain_index(params[:page].to_i)
   end
 
+  def autocomplete
+    @users = User.search_autocomplete(params[:term]).order(created_at: :desc)
+  end
+
   private
 
   def user_params

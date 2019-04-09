@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'filters/range_date_incomes'
+  get 'filters/employee_incomes'
+  get 'filters/client_incomes'
+  get 'filters/range_quantity_incomes'
+
   resources :spare_parts do
     get :autocomplete, on: :collection
     get :search, on: :collection
@@ -62,6 +67,7 @@ Rails.application.routes.draw do
 
   resources :employes do
     get 'search', on: :collection
+    get 'autocomplete', on: :collection
   end
 
   resources :brands do
