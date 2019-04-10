@@ -2,8 +2,11 @@ class IncomesController < ApplicationController
   before_action :check_is_admin, only: [:index]
 
   def index
-    @incomes = Payment
+    incomes = Payment
       .where(paid: true)
+
+    @total = Payment.total(incomes)    
+    @incomes = incomes
       .paginate(page: params[:page], per_page: self.elements_per_page)
       .order(updated_at: :desc)
 

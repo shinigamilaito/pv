@@ -34,4 +34,11 @@ class Payment < ApplicationRecord
     paid_with - change
   end
 
+  def self.total(payments)
+    return nil if payments.blank?
+    
+    payments
+      .map {|payment| payment.cost }
+      .sum
+  end
 end

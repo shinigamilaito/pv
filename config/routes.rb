@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'filters/employee_incomes'
   get 'filters/client_incomes'
   get 'filters/range_quantity_incomes'
+  get 'filters/folio_incomes'
 
   resources :spare_parts do
     get :autocomplete, on: :collection

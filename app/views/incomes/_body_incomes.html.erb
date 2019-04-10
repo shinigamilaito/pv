@@ -1,21 +1,27 @@
 <tbody>
   <tr>
     <th>No.</th>
-    <th>Cliente</th>
     <th>Cobrado el</th>
-    <th>Cantidad</th>
     <th>Folio</th>
     <th>Cobrado por</th>
+    <th>Cliente</th>
+    <th>Cantidad</th>
   </tr>
   <% @incomes.each_with_index do |income, index| %>
     <tr>
       <td><%= @index %></td>
-      <td><%= link_to income.service.client.formal_name, new_service_path(service_id: income.service), target: '_blank' %></td>
       <td><%= date_time_helper(income.updated_at) %></td>
-      <td><%= number_to_currency totals(income)[:total_final] %></td>
       <td><%= income.service.number_folio %></td>
       <td><%= income.user.formal_name %></td>
+      <td><%= link_to income.service.client.formal_name, new_service_path(service_id: income.service), target: '_blank' %></td>
+      <td><%= number_to_currency totals(income)[:total_final] %></td>
     </tr>
     <% @index += 1 %>
+  <% end %>
+  <% if @total.present? %>
+  <tr>
+    <td colspan="5" class="text-right" style="color: #3c8dbc;"><strong>Total Ingresos</strong></td>
+    <td><%= number_to_currency @total %></td>
+  </tr>
   <% end %>
 </tbody>

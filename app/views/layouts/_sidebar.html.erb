@@ -19,12 +19,6 @@
             <span class="roboto-font" style="padding-left: 10px;">Servicios</span>
           <% end %>
         </li>
-        <!--<li class="<%#= active_item('equipment_customers')%>">
-          <%#= link_to search_equipment_customers_path, style: "font-size: 1.8rem;" do %>
-            <i class="fa fa-fw fa-support"></i>
-            <span style="padding-left: 10px;">Soportes</span>
-          <%# end %>
-        </li>-->
         <li class="<%= active_item('clients')%>">
           <%= link_to clients_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
             <i class="fa fa-fw fa-user-md"></i>
@@ -33,12 +27,22 @@
         </li>
 
         <% if current_user.admin? %>
-        <li class="<%= active_item('incomes')%>">
-          <%= link_to incomes_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
-            <i class="fa fa-fw fa-money"></i>
-            <span class="roboto-font" style="padding-left: 10px;">Ingresos</span>
-          <% end %>
-        </li>
+          <li class="treeview">
+            <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
+              <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Ingresos</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-down pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu background-gray" style="display: block;">
+              <li class="<%= active_item('incomes')%> subitem-menu-navegation">
+                <%= link_to incomes_path, class: "subitem-menu-navegation" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Ingresos</span>
+                <% end %>
+              </li>
+            </ul>
+          </li>        
         <% end %>
 
         <li class="treeview">
