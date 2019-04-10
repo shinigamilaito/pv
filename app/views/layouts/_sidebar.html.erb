@@ -36,13 +36,13 @@
             </a>
             <ul class="treeview-menu background-gray" style="display: block;">
               <li class="<%= active_item('incomes')%> subitem-menu-navegation">
-                <%= link_to incomes_path, class: "subitem-menu-navegation" do %>
+                <%= link_to incomes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Ingresos</span>
+                  <span class="roboto-font" style="padding-left: 5px;">Ingresos por Servicios</span>
                 <% end %>
               </li>
             </ul>
-          </li>        
+          </li>
         <% end %>
 
         <li class="treeview">
@@ -109,7 +109,7 @@
           </a>
           <ul class="treeview-menu background-gray" style="display: block;">
             <li class="<%= active_item_action('pending_services')%> subitem-menu-navegation">
-              <%= link_to pending_services_incomes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
+              <%= link_to pending_services_incomes_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                 <i class="fa fa-fw fa-gears"></i>
                 <span class="roboto-font">Servicios en Proceso</span>
               <% end %>
