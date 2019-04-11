@@ -11,7 +11,6 @@ class SalesController < ApplicationController
       .order(updated_at: :desc)
 
     @index = obtain_index(params[:page].to_i)
-
     respond_to do |format|
       format.html { render :index }
       format.js { render :search }
@@ -24,6 +23,7 @@ class SalesController < ApplicationController
     @sales_policy.remove_products_in_sale
     @products_in_sale = @sales_policy.products_for_sale
     @total_sales = @sales_policy.totals(discount)
+    @module = "Ventas"
   end
 
   def create

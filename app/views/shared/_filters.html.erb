@@ -1,6 +1,6 @@
 <%= form_for :search, html: { method: :get, remote: true, id: 'filter_form'} do |f| %>
   <div class="container-fluid">
-    <div class="row" style="margin: 3px 0px;">
+    <div class="row" style="margin: 6px 0px;">
       <div class="col-sm-3">
         <div class="row">
           <label class="control-label col-sm-4" for="search_start_date">Desde</label>
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="row" style="margin: 3px 0px;">
+    <div class="row" style="margin: 6px 0px;">
       <div class="col-sm-3">
         <div class="row">
           <label class="control-label col-sm-4" for="search_end_date">Hasta</label>
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div class="row" style="margin: 3px 0px;">
+    <div class="row" style="margin: 6px 0px;">
       <div class="col-sm-3">
         <div class="row">
           <label class="control-label col-sm-4" for="search_end_date">Por folio</label>
@@ -72,6 +72,13 @@
             <%= f.text_field :folio, class: 'form-control form-control-sm', autocomplete: 'off' %>
           </div>
         </div>
+      </div>
+
+      <div class="col-sm-3">
+        <%= link_to incomes_path, class: "btn btn-default" do %>
+          <i class="fa fa-fw fa-undo"></i>
+          Eliminar Filtros
+        <% end %>
       </div>
     </div>
   </div>
