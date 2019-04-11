@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     delete :delete_spare_part, on: :collection
   end
 
-  resources :sales do
+  resources :sales, only: [:index, :new, :create] do
     delete :delete_product, on: :collection
     put :update_discount, on: :collection
     get :preview, on: :collection
@@ -83,7 +83,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  root "sales#index"
+  root "sales#new"
 
   resources :payment_types
 end

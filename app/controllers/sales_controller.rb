@@ -1,23 +1,29 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: [:show, :edit, :update, :destroy]
-  before_action :set_sale_policy, except: [:show, :new, :edit, :update, :destroy]
+  before_action :set_sale_policy, except: [:index]
 
   def index
+    sales = Sale
+      .all
+
+    @total = Sale.total(sales)
+    @sales = sales
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.js { render :search }
+    end
+  end
+
+  def new
     clear_variables
     discount = session[:discount_sale] || '0'
     @sales_policy.remove_products_in_sale
     @products_in_sale = @sales_policy.products_for_sale
     @total_sales = @sales_policy.totals(discount)
-  end
-
-  def show
-  end
-
-  def new
-    @sale = Sale.new
-  end
-
-  def edit
   end
 
   def create
@@ -31,24 +37,6 @@ class SalesController < ApplicationController
       @total_sales = @sales_policy.totals
     else
       render js: "toastr['error']('Intente nuevamente.');", status: :bad_request
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @sale.update(sale_params)
-        format.html { redirect_to @sale, notice: 'Sale was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
-    end
-  end
-
-  def destroy
-    @sale.destroy
-    respond_to do |format|
-      format.html { redirect_to sales_url, notice: 'Sale was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -107,10 +95,6 @@ class SalesController < ApplicationController
   end
 
   private
-
-    def set_sale
-      @sale = Sale.find(params[:id])
-    end
 
     def sale_params
       params.require(:sale).permit(

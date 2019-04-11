@@ -7,7 +7,7 @@
         <li class="header background-gray" style="height: 30px; display: inline-block; width: 100%; text-align: center; padding-top: 20px;"></li>
 
         <li class="<%= active_item('sales')%> <%= root_controller()%>">
-          <%= link_to sales_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
+          <%= link_to root_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
             <i class="fa fa-fw fa-support"></i>
             <span class="roboto-font" style="padding-left: 10px;">Ventas</span>
           <% end %>
@@ -35,6 +35,12 @@
               </span>
             </a>
             <ul class="treeview-menu background-gray" style="display: block;">
+              <li class="<%= active_item('sales')%> subitem-menu-navegation">
+                <%= link_to sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Ingresos por Ventas</span>
+                <% end %>
+              </li>
               <li class="<%= active_item('incomes')%> subitem-menu-navegation">
                 <%= link_to incomes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>

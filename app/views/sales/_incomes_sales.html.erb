@@ -1,0 +1,25 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Cobrado el</th>
+    <th>Ticket</th>
+    <th>Cobrado por</th>
+    <th>Cantidad</th>
+  </tr>
+  <% @sales.each_with_index do |sale, index| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= date_time_helper(sale.updated_at) %></td>
+      <td><%= sale.ticket %></td>
+      <td><%= sale.user.formal_name %></td>
+      <td><%= number_to_currency sale.total %></td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+  <% if @total.present? %>
+  <tr>
+    <td colspan="4" class="text-right" style="color: #3c8dbc;"><strong>Total Ingresos</strong></td>
+    <td><%= number_to_currency @total %></td>
+  </tr>
+  <% end %>
+</tbody>
