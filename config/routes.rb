@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'filters_sales/range_date_incomes'
+  get 'filters_sales/employee_incomes'
+  get 'filters_sales/range_quantity_incomes'
+  get 'filters_sales/ticket_incomes'
+
   get 'filters/range_date_incomes'
   get 'filters/employee_incomes'
   get 'filters/client_incomes'

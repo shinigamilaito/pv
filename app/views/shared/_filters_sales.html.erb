@@ -1,0 +1,159 @@
+<%= form_for :search, html: { method: :get, remote: true, id: 'filter_form'} do |f| %>
+  <div class="container-fluid">
+    <div class="row" style="margin: 3px 0px;">
+      <div class="col-sm-3">
+        <div class="row">
+          <label class="control-label col-sm-4" for="search_start_date">Desde</label>
+          <div class="col-sm-8">
+            <%= f.text_field :start_date, class: 'form-control form-control-sm datepicker', autocomplete: 'off' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="row">
+          <label class="control-label col-sm-3" for="search_employee_id">Por empleado</label>
+          <div class="col-sm-9">
+            <%= f.collection_select :employee_id, [], :id, :name, { prompt: 'Seleccionar empleado' }, class: 'form-control autocomplete_employes' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="row">
+          <label class="control-label col-sm-3" for="search_lower_limit">De</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <div class="col-sm-9" style="padding-left: 0;">
+              <%= f.text_field :lower_limit, class: 'form-control form-control-sm', autocomplete: 'off' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin: 3px 0px;">
+      <div class="col-sm-3">
+        <div class="row">
+          <label class="control-label col-sm-4" for="search_end_date">Hasta</label>
+          <div class="col-sm-8">
+            <%= f.text_field :end_date, class: 'form-control form-control-sm datepicker', autocomplete: 'off' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="row">
+          <label class="control-label col-sm-3" for="search_end_date">No. Ticket</label>
+          <div class="col-sm-9">
+            <%= f.text_field :ticket, class: 'form-control form-control-sm', autocomplete: 'off' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="row">
+          <label class="control-label col-sm-3" for="search_upper_limit">Hasta</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <div class="col-sm-9" style="padding-left: 0;">
+              <%= f.text_field :upper_limit, class: 'form-control form-control-sm', autocomplete: 'off' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" id="submit_button" style="display:none">Submit</button>
+<% end %>
+
+<!-- Search by range dates -->
+<script>
+  $(document).ready(function() {
+    setDatePicker($(".datepicker"));
+
+    $('.datepicker')
+      .datepicker()
+      .on('changeDate', sendForm);
+  });
+
+  function sendForm() {
+    var startDate = $("#search_start_date").val();
+    var endDate = $("#search_end_date").val();
+    var $filterForm = $("#filter_form");
+    var $submitButton = $("#submit_button");
+
+    if(startDate != undefined && endDate != undefined) {
+      $filterForm.attr("action", "/filters_sales/range_date_incomes");
+      $submitButton.click();
+      console.log("Submit form....")
+    }
+  }
+</script>
+
+<!-- Search by employee -->
+<script>
+  $(document).ready(function() {
+    $('.autocomplete_employes').select2({
+  		minimumInputLength: 1,
+  		ajax: {
+  			delay: 250,
+  			url: "/employes/autocomplete",
+  			dataType: 'json',
+  			cache: true
+  		}
+  	});
+
+    $('.autocomplete_employes').on('select2:select', function (e) {
+      var $filterForm = $("#filter_form");
+      var $submitButton = $("#submit_button");
+
+      $filterForm.attr("action", "/filters_sales/employee_incomes");
+      $submitButton.click();
+    });
+  });
+</script>
+
+<!-- Search by range quantity -->
+<script>
+  $(document).ready(function() {
+    $("#search_lower_limit").on("keydown", _.debounce(rangeQuantity, 300));
+    $("#search_upper_limit").on("keydown", _.debounce(rangeQuantity, 300));
+
+    setInteger($("#search_lower_limit"));
+    setInteger($("#search_upper_limit"))
+  });
+
+  function rangeQuantity() {
+    var lowerLimit = $("#search_lower_limit").val();
+    var upperLimit = $("#search_upper_limit").val();
+    var $filterForm = $("#filter_form");
+    var $submitButton = $("#submit_button");
+
+    if(lowerLimit != undefined && upperLimit != undefined) {
+      $filterForm.attr("action", "/filters_sales/range_quantity_incomes");
+      $submitButton.click();
+    }
+  }
+</script>
+
+<!-- Search by ticket -->
+<script>
+  $(document).ready(function() {
+    $("#search_ticket").on("keydown", _.debounce(byTicket, 300));
+
+    setInteger($("#search_ticket"));
+  });
+
+  function byTicket() {
+    var ticket = $("#search_ticket").val();
+    var $filterForm = $("#filter_form");
+    var $submitButton = $("#submit_button");
+
+    if(ticket != undefined) {
+      $filterForm.attr("action", "/filters_sales/ticket_incomes");
+      $submitButton.click();
+    }
+  }
+</script>
