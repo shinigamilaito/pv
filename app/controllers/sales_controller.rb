@@ -16,6 +16,7 @@ class SalesController < ApplicationController
       format.js { render :search }
       format.xlsx {
         @title = 'Ingresos por Ventas'
+        @sales_xlsx = sales
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
       }
     end

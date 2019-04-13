@@ -16,7 +16,7 @@ wb.styles do |style|
     sheet.add_row [@title], style: title
     sheet.add_row
     sheet.add_row ["No.", "Cobrado el", "Folio", "Cobrado por", "Cliente", "Cantidad"], style: header
-    @incomes.each do |income|
+    @incomes_xlsx.each do |income|
       sheet.add_row [@index, date_time_helper(income.updated_at), income.service.number_folio, income.user.formal_name, income.service.client.formal_name, number_to_currency(totals(income)[:total_final])], style: default
       @index += 1
     end

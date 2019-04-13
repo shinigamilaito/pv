@@ -72,17 +72,16 @@
             <%= f.text_field :folio, class: 'form-control form-control-sm', autocomplete: 'off' %>
           </div>
         </div>
-      </div>
+      </div>    
+    </div>
 
-      <div class="col-sm-3">
-        <%= link_to incomes_path, class: "btn btn-default" do %>
+    <div class="row" style="margin: 6px 0px;">
+      <div class="col-sm-12">
+        <%= link_to incomes_path, class: "btn btn-default pull-left" do %>
           <i class="fa fa-fw fa-undo"></i>
           Eliminar Filtros
         <% end %>
-      </div>
-
-      <div class="col-sm-3">
-        <%= link_to incomes_path(format: :xlsx), id: 'link_export_xls',  class: "btn btn-default" do %>
+        <%= link_to incomes_path(format: :xlsx), id: 'link_export_xls',  class: "btn btn-default pull-right", style: "margin-right: 45px;" do %>
           <i class="fa fa-fw fa-file-excel-o"></i>
           Exportar a Excel
         <% end %>

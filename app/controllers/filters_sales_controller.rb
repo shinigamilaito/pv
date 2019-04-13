@@ -39,7 +39,8 @@ class FiltersSalesController < ApplicationController
             render "sales/search"
           }
           format.xlsx {
-            @title = "Ingresos #{start_date} - #{end_date}"
+            @sales_xlsx = sales
+            @title = "Ingresos por Ventas: #{start_date} - #{end_date}"
             response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
             render xlsx: @title, template: 'sales/index'
           }
@@ -75,7 +76,8 @@ class FiltersSalesController < ApplicationController
       }
       format.xlsx {
         name_employee = User.find(employee_id).formal_name
-        @title = "Ingresos Empleado: #{name_employee}"
+        @title = "Ingresos por Ventas - Empleado: #{name_employee}"
+        @sales_xlsx = sales
         response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
         render xlsx: @title, template: 'sales/index'
       }
@@ -118,7 +120,8 @@ class FiltersSalesController < ApplicationController
             format.xlsx {
               lower_quantity = ActionController::Base.helpers.number_to_currency lower_limit_string
               upper_quantity = ActionController::Base.helpers.number_to_currency upper_limit_string
-              @title = "Ingresos: #{lower_quantity} - #{upper_quantity}"
+              @title = "Ingresos por Ventas: #{lower_quantity} - #{upper_quantity}"
+              @sales_xlsx = sales
               response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
               render xlsx: @title, template: 'sales/index'
             }
@@ -157,7 +160,8 @@ class FiltersSalesController < ApplicationController
           render "sales/search"
         }
         format.xlsx {
-          @title = "Ingresos Ticket: #{ticket}"
+          @title = "Ingresos por Ventas - Ticket: #{ticket}"
+          @sales_xlsx = sales
           response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
           render xlsx: @title, template: 'sales/index'
         }

@@ -17,6 +17,7 @@ class IncomesController < ApplicationController
       format.js { render :search }
       format.xlsx {
         @title = 'Ingresos por Servicios'
+        @incomes_xlsx = incomes
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
       }
     end

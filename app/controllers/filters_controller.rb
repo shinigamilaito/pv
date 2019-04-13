@@ -39,7 +39,8 @@ class FiltersController < ApplicationController
             render "incomes/search"
           }
           format.xlsx {
-            @title = "Ingresos #{start_date} - #{end_date}"
+            @title = "Ingresos por Servicios: #{start_date} - #{end_date}"
+            @incomes_xlsx = incomes
             response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
             render xlsx: @title, template: 'incomes/index'
           }
@@ -75,7 +76,8 @@ class FiltersController < ApplicationController
       }
       format.xlsx {
         name_employee = User.find(employee_id).formal_name
-        @title = "Ingresos Empleado: #{name_employee}"
+        @title = "Ingresos por Servicio - Empleado: #{name_employee}"
+        @incomes_xlsx = incomes
         response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
         render xlsx: @title, template: 'incomes/index'
       }
@@ -108,7 +110,8 @@ class FiltersController < ApplicationController
       }
       format.xlsx {
         name_client = Client.find(client_id).formal_name
-        @title = "Ingresos Cliente: #{name_client}"
+        @title = "Ingresos por Servicios - Cliente: #{name_client}"
+        @incomes_xlsx = incomes
         response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
         render xlsx: @title, template: 'incomes/index'
       }
@@ -158,7 +161,8 @@ class FiltersController < ApplicationController
             format.xlsx {
               lower_quantity = ActionController::Base.helpers.number_to_currency lower_limit_string
               upper_quantity = ActionController::Base.helpers.number_to_currency upper_limit_string
-              @title = "Ingresos: #{lower_quantity} - #{upper_quantity}"
+              @title = "Ingresos por Servicios: #{lower_quantity} - #{upper_quantity}"
+              @incomes_xlsx = incomes
               response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
               render xlsx: @title, template: 'incomes/index'
             }
@@ -199,7 +203,8 @@ class FiltersController < ApplicationController
           render "incomes/search"
         }
         format.xlsx {
-          @title = "Ingresos Folio: #{folio}"
+          @title = "Ingresos por Servicios - Folio: #{folio}"
+          @incomes_xlsx = incomes
           response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
           render xlsx: @title, template: 'incomes/index'
         }
