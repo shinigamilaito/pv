@@ -14,6 +14,10 @@ class SalesController < ApplicationController
     respond_to do |format|
       format.html { render :index }
       format.js { render :search }
+      format.xlsx {
+        @title = 'Ingresos por Ventas'
+        response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
+      }
     end
   end
 

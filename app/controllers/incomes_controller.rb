@@ -5,7 +5,7 @@ class IncomesController < ApplicationController
     incomes = Payment
       .where(paid: true)
 
-    @total = Payment.total(incomes)    
+    @total = Payment.total(incomes)
     @incomes = incomes
       .paginate(page: params[:page], per_page: self.elements_per_page)
       .order(updated_at: :desc)
@@ -15,6 +15,10 @@ class IncomesController < ApplicationController
     respond_to do |format|
       format.html { render :index }
       format.js { render :search }
+      format.xlsx {
+        @title = 'Ingresos por Servicios'
+        response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
+      }
     end
   end
 

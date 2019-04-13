@@ -65,10 +65,16 @@
     </div>
 
     <div class="row" style="margin: 6px 0px;">
-      <div class="col-sm-12">
+      <div class="col-sm-3">
         <%= link_to sales_path, class: "btn btn-default" do %>
           <i class="fa fa-fw fa-undo"></i>
           Eliminar Filtros
+        <% end %>
+      </div>
+      <div class="col-sm-3">
+        <%= link_to sales_path(format: :xlsx), id: 'link_export_xls',  class: "btn btn-default" do %>
+          <i class="fa fa-fw fa-file-excel-o"></i>
+          Exportar a Excel
         <% end %>
       </div>
     </div>
@@ -92,9 +98,11 @@
     var endDate = $("#search_end_date").val();
     var $filterForm = $("#filter_form");
     var $submitButton = $("#submit_button");
+    var $xlsLink = $("#link_export_xls");
 
     if(startDate != undefined && endDate != undefined) {
       $filterForm.attr("action", "/filters_sales/range_date_incomes");
+      $xlsLink.attr("href", "/filters_sales/range_date_incomes.xlsx")
       $submitButton.click();
       console.log("Submit form....")
     }
@@ -117,8 +125,10 @@
     $('.autocomplete_employes').on('select2:select', function (e) {
       var $filterForm = $("#filter_form");
       var $submitButton = $("#submit_button");
+      var $xlsLink = $("#link_export_xls");
 
       $filterForm.attr("action", "/filters_sales/employee_incomes");
+      $xlsLink.attr("href", "/filters_sales/employee_incomes.xlsx")
       $submitButton.click();
     });
   });
@@ -139,9 +149,11 @@
     var upperLimit = $("#search_upper_limit").val();
     var $filterForm = $("#filter_form");
     var $submitButton = $("#submit_button");
+    var $xlsLink = $("#link_export_xls");
 
     if(lowerLimit != undefined && upperLimit != undefined) {
       $filterForm.attr("action", "/filters_sales/range_quantity_incomes");
+      $xlsLink.attr("href", "/filters_sales/range_quantity_incomes.xlsx")
       $submitButton.click();
     }
   }
@@ -159,9 +171,11 @@
     var ticket = $("#search_ticket").val();
     var $filterForm = $("#filter_form");
     var $submitButton = $("#submit_button");
+    var $xlsLink = $("#link_export_xls");
 
     if(ticket != undefined) {
       $filterForm.attr("action", "/filters_sales/ticket_incomes");
+      $xlsLink.attr("href", "/filters_sales/ticket_incomes.xlsx")
       $submitButton.click();
     }
   }

@@ -63,3 +63,6 @@ gem "render_anywhere", require: false
 gem 'wicked_pdf', '1.1.0'
 gem 'pg_lock'
 gem 'will_paginate', '~> 3.1.1'
+
+# xlsx
+gem 'axlsx_rails'

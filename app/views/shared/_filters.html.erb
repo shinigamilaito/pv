@@ -80,6 +80,13 @@
           Eliminar Filtros
         <% end %>
       </div>
+
+      <div class="col-sm-3">
+        <%= link_to incomes_path(format: :xlsx), id: 'link_export_xls',  class: "btn btn-default" do %>
+          <i class="fa fa-fw fa-file-excel-o"></i>
+          Exportar a Excel
+        <% end %>
+      </div>
     </div>
   </div>
 
@@ -101,9 +108,11 @@
     var endDate = $("#search_end_date").val();
     var $filterForm = $("#filter_form");
     var $submitButton = $("#submit_button");
+    var $xlsLink = $("#link_export_xls");
 
     if(startDate != undefined && endDate != undefined) {
       $filterForm.attr("action", "/filters/range_date_incomes");
+      $xlsLink.attr("href", "/filters/range_date_incomes.xlsx")
       $submitButton.click();
       console.log("Submit form....")
     }
@@ -127,8 +136,10 @@
   $('.autocomplete_clients').on('select2:select', function (e) {
     var $filterForm = $("#filter_form");
     var $submitButton = $("#submit_button");
+    var $xlsLink = $("#link_export_xls");
 
     $filterForm.attr("action", "/filters/client_incomes");
+    $xlsLink.attr("href", "/filters/client_incomes.xlsx")
     $submitButton.click();
   });
 </script>
@@ -149,8 +160,10 @@
     $('.autocomplete_employes').on('select2:select', function (e) {
       var $filterForm = $("#filter_form");
       var $submitButton = $("#submit_button");
+      var $xlsLink = $("#link_export_xls");
 
       $filterForm.attr("action", "/filters/employee_incomes");
+      $xlsLink.attr("href", "/filters/employee_incomes.xlsx");
       $submitButton.click();
     });
   });
@@ -171,15 +184,17 @@
     var upperLimit = $("#search_upper_limit").val();
     var $filterForm = $("#filter_form");
     var $submitButton = $("#submit_button");
+    var $xlsLink = $("#link_export_xls");
 
     if(lowerLimit != undefined && upperLimit != undefined) {
       $filterForm.attr("action", "/filters/range_quantity_incomes");
+      $xlsLink.attr("href", "/filters/range_quantity_incomes.xlsx")
       $submitButton.click();
     }
   }
 </script>
 
-<!-- Search by range quantity -->
+<!-- Search by folio -->
 <script>
   $(document).ready(function() {
     $("#search_folio").on("keydown", _.debounce(byFolio, 300));
@@ -191,9 +206,11 @@
     var folio = $("#search_folio").val();
     var $filterForm = $("#filter_form");
     var $submitButton = $("#submit_button");
+    var $xlsLink = $("#link_export_xls");
 
     if(folio != undefined) {
       $filterForm.attr("action", "/filters/folio_incomes");
+      $xlsLink.attr("href", "/filters/folio_incomes.xlsx")
       $submitButton.click();
     }
   }
