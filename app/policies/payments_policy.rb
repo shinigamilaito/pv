@@ -22,6 +22,7 @@ class PaymentsPolicy
       .collect {|e_c| [ e_c.equipment.name, e_c.id ] }
   end
 
+  # Create the payment for the service
   def save(params, user)
     price = params[:price]
     payment = current_payment
@@ -46,6 +47,7 @@ class PaymentsPolicy
     end
 
     payment.ticket = set_payment_number
+    payment.cash_opening_service = CashPolicy.new.cash_services
 
     return payment
   end

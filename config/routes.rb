@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'cashes/new_open_cash'
+  post 'cashes/open_cash'
+  get 'cashes/new_close_cash'
+  post 'cashes/close_cash'
+
   get 'filters_sales/range_date_incomes'
   get 'filters_sales/employee_incomes'
   get 'filters_sales/range_quantity_incomes'

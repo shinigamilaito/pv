@@ -122,6 +122,30 @@
             </li>
           </ul>
         </li>
+
+        <!-- APERTURA DE CAJA Y CIERRE DE CAJA -->
+        <li class="treeview">
+          <a href="#" style="font-size: 1.3rem;" class="item-menu-navegation">
+            <i class="fa fa-fw fa-gears"></i> <span class="roboto-font" style="padding-left: 5px;">Configuración</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-down pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu background-gray" style="display: block;">
+            <li class="<%= active_item_action('new_open_cash')%> subitem-menu-navegation">
+              <%= link_to cashes_new_open_cash_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                <i class="fa fa-fw fa-plus"></i>
+                <span class="roboto-font">Abrir Caja</span>
+              <% end %>
+            </li>
+            <li class="<%= active_item_action('new_close_cash')%> subitem-menu-navegation">
+              <%= link_to cashes_new_close_cash_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                <i class="fa fa-fw fa-expeditedssl"></i>
+                <span class="roboto-font">Cerrar Caja</span>
+              <% end %>
+            </li>
+          </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

@@ -31,7 +31,13 @@ class SalesController < ApplicationController
     @module = "Ventas"
   end
 
+  # Create record of the sale
   def create
+    if CashPolicy.new.cash_sales.blank?
+      flash[:warning] = "La caja no ha sido abierta."
+      redirect_to root_path and return
+    end
+
     @sale = Sale.new(sale_params)
     @sale.user = current_user
     @sales_service = SalesService.new(@sales_policy, @sale)

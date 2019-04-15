@@ -1,0 +1,83 @@
+<%= form_for(:cash, url: cashes_close_cash_path, html: { class: "form-horizontal" }) do |f| %>
+  <div class="box-body">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Caja</label>
+      <div class="col-sm-10">
+        <%= f.select :type_cash, options_for_select(@cash_close_service.types_cashes_opened, @cash_close_service.type_cash), class: "form-control", required: true, autofocus: true %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Fecha</label>
+      <div class="col-sm-10">
+        <%= text_field_tag "close_date", date_time_helper(@cash_close_service.close_date), class: "form-control", required: true, readonly: true %>
+        <%= f.hidden_field :close_date, value: @cash_close_service.close_date.to_s %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Empleado</label>
+      <div class="col-sm-10">
+        <%= f.text_field :employee, value: @cash_close_service.employee.formal_name, class: "form-control", readonly: true %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Cobros Efectivo</label>
+      <div class="col-sm-10">
+        <%= f.text_field :total_effective, value: (number_to_currency(@cash_close_service.total_effective)), class: "form-control", readonly: true %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Cobros Tarjeta Debito</label>
+      <div class="col-sm-10">
+        <%= f.text_field :total_debit_card, value: (number_to_currency(@cash_close_service.total_debit_card)), class: "form-control", readonly: true %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Cobros Tarjeta Crédito</label>
+      <div class="col-sm-10">
+        <%= f.text_field :total_credit_card, value: (number_to_currency(@cash_close_service.total_credit_card)), class: "form-control", readonly: true %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Total Ventas</label>
+      <div class="col-sm-10">
+        <%= f.text_field :total_sales, value: (number_to_currency(@cash_close_service.total_sales)), class: "form-control", readonly: true %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Importe de Apertura</label>
+      <div class="col-sm-10">
+        <%= f.text_field :open_amount, value: (number_to_currency(@cash_close_service.open_amount)), class: "form-control", readonly: true %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Importe en Caja</label>
+      <div class="col-sm-10">
+        <%= f.text_field :total, value: (number_to_currency(@cash_close_service.total)), class: "form-control", readonly: true %>
+      </div>
+    </div>
+
+    <div class="box-footer">
+      <%= f.submit "Cerrar Caja", class: "btn btn-info pull-right btn-block" %>
+    </div>
+
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $typeCashSelect = $("#cash_type_cash");
+    $typeCashSelect.attr('class', 'form-control');
+    $typeCashSelect.change(function() {
+      var typeCloseCash = $(this).val();
+      var remoteUrl = '/cashes/new_close_cash?' + 'type_cash=' + typeCloseCash;
+      window.location = remoteUrl;
+    });
+  });
+</script>

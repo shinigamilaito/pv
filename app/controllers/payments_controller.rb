@@ -16,7 +16,13 @@ class PaymentsController < ApplicationController
   def edit
   end
 
+  # Create the payment for the service
   def create
+    if CashPolicy.new.cash_services.blank?
+      flash[:warning] = "La caja no ha sido abierta."
+      redirect_to root_path and return
+    end
+
     begin
       ActiveRecord::Base.transaction do
         PgLock.new(name: "payments_controller_create").lock do
@@ -38,7 +44,13 @@ class PaymentsController < ApplicationController
     end
   end
 
+  # Update the record of the payment, in services
   def update
+    if CashPolicy.new.cash_services.blank?
+      flash[:warning] = "La caja no ha sido abierta."
+      redirect_to root_path and return
+    end
+
     begin
       ActiveRecord::Base.transaction do
         PgLock.new(name: "payments_controller_update").lock do

@@ -4,6 +4,7 @@ class Payment < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :generic_price, optional: true
   belongs_to :service
+  belongs_to :cash_opening_service
 
   has_many :service_spare_parts
   has_many :equipment_customers
@@ -36,7 +37,7 @@ class Payment < ApplicationRecord
 
   def self.total(payments)
     return nil if payments.blank?
-    
+
     payments
       .map {|payment| payment.cost }
       .sum
