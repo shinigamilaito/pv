@@ -30,9 +30,9 @@ class CashesController < ApplicationController
   end
 
   def new_close_cash
-    open_date = DateTime.now
+    close_date = DateTime.now
     employee = current_user
-    @cash_close_service = CashCloseService.new(open_date, employee)
+    @cash_close_service = CashCloseService.new(close_date, employee)
 
     if params[:type_cash].present?
       @cash_close_service.type_cash = params[:type_cash]
@@ -49,21 +49,37 @@ class CashesController < ApplicationController
   def close_cash
     begin
       PgLock.new(name: "cashes_close_cash").lock do
-        p params
-
-        return
-        open_date = params[:cash][:close_date].to_datetime
+        close_date = params[:cash][:close_date].to_datetime
         employee = current_user
         type_cash = params[:cash][:type_cash]
-        @cash = CashCloseService.new(open_date, employee)
+        @cash = CashCloseService.new(close_date, employee)
         @cash.type_cash = type_cash
+        cash_open = @cash.cash
         @cash.close_cash
         flash[:success] = "La caja fue correctamente cerrada."
-        redirect_to root_path
+        redirect_to root_url(cash: cash_open, type: cash_open.type_cash)
       end
     rescue StandardError => e
       flash[:error] = "#{e.message}"
-      redirect_to new_cash_url
+      redirect_to cashes_new_close_cash_url
+    end
+  end
+
+  def generate_xlsx
+    if params[:type] == "servicios"
+      cash = CashOpeningService.find(params[:cash])
+      @incomes_xlsx = cash.payments
+      @total = Payment.total(@incomes_xlsx)
+      @title = "Ingresos por Servicios"
+      response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
+      render xlsx: @title, template: 'incomes/index'
+    else
+      cash = CashOpeningSale.find(params[:cash])
+      @sales_xlsx = cash.sales
+      @total = Sale.total(@sales_xlsx)
+      @title = "Ingresos por Ventas"
+      response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
+      render xlsx: @title, template: 'sales/index'
     end
   end
 

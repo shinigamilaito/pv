@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post 'cashes/open_cash'
   get 'cashes/new_close_cash'
   post 'cashes/close_cash'
+  get 'cashes/generate_xlsx'
 
   get 'filters_sales/range_date_incomes'
   get 'filters_sales/employee_incomes'

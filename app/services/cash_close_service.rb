@@ -91,19 +91,26 @@ class CashCloseService
     if is_closed?
       raise "Proceda a realizar la apertura de la caja."
     else
-      cash_closing_service = CashClosingService.new
-      cash_closing_service.close_date = close_date
-      cash_closing_service.user = employee
-      cash_closing_service.total_effective = total_effective
-      cash_closing_service.total_debit_card = total_debit_card
-      cash_closing_service.total_credit_card = total_credit_card
-      cash_closing_service.total_sales = total_sales
-      cash_closing_service.open_amount = open_amount
-      cash_closing_service.total = total
-      cash_closing_service.cash_opening_service = cash
-      raise "Error al realizar el cierre" unless cash_closing_service.save
+      ActiveRecord::Base.transaction do
+        current_cash = cash
+        cash_closing_service = CashClosingService.new
+        cash_closing_service.close_date = close_date
+        cash_closing_service.user = employee
+        cash_closing_service.total_effective = total_effective
+        cash_closing_service.total_debit_card = total_debit_card
+        cash_closing_service.total_credit_card = total_credit_card
+        cash_closing_service.total_sales = total_sales
+        cash_closing_service.open_amount = open_amount
+        cash_closing_service.total = total
+        cash_closing_service.cash_opening_service = current_cash
+        raise "Error al realizar el cierre" unless cash_closing_service.save
 
-      return cash_opening_service
+        current_cash.active = false
+        raise "Error al realizar el cierre" unless current_cash.save
+
+        return cash_closing_service
+      end
+
     end
   end
 
@@ -113,19 +120,25 @@ class CashCloseService
     if is_closed?
       raise "Proceda a realizar la apertura de la caja."
     else
-      cash_closing_sale = CashClosingSale.new
-      cash_closing_sale.close_date = close_date
-      cash_closing_sale.user = employee
-      cash_closing_sale.total_effective = total_effective
-      cash_closing_sale.total_debit_card = total_debit_card
-      cash_closing_sale.total_credit_card = total_credit_card
-      cash_closing_sale.total_sales = total_sales
-      cash_closing_sale.open_amount = open_amount
-      cash_closing_sale.total = total
-      cash_closing_sale.cash_opening_service = cash
-      raise "Error al realizar el cierre" unless cash_closing_sale.save
+      ActiveRecord::Base.transaction do
+        current_cash = cash
+        cash_closing_sale = CashClosingSale.new
+        cash_closing_sale.close_date = close_date
+        cash_closing_sale.user = employee
+        cash_closing_sale.total_effective = total_effective
+        cash_closing_sale.total_debit_card = total_debit_card
+        cash_closing_sale.total_credit_card = total_credit_card
+        cash_closing_sale.total_sales = total_sales
+        cash_closing_sale.open_amount = open_amount
+        cash_closing_sale.total = total
+        cash_closing_sale.cash_opening_sale = current_cash
+        raise "Error al realizar el cierre" unless cash_closing_sale.save
 
-      return cash_closing_sale
+        current_cash.active = false
+        raise "Error al realizar el cierre" unless current_cash.save
+
+        return cash_closing_sale
+      end
     end
   end
 

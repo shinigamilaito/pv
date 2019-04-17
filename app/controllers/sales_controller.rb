@@ -23,6 +23,11 @@ class SalesController < ApplicationController
   end
 
   def new
+    if params[:type].present?
+      @cash = CashOpeningService.find(params[:cash])
+      @type = params[:type]
+    end
+
     clear_variables
     discount = session[:discount_sale] || '0'
     @sales_policy.remove_products_in_sale

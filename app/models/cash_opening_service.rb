@@ -3,7 +3,7 @@ class CashOpeningService < ApplicationRecord
 	has_many :payments
 
 	validates :type_cash, :open_date, :user_id, presence: true
-	validates :amount, :active, presence: true
+	validates :amount, presence: true
 
   def total_effective
     Payment
