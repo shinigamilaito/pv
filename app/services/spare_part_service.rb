@@ -73,11 +73,11 @@ class SparePartService
     service_spare_part.spare_part = spare_part
     payments_policy = PaymentsPolicy.new(service)
     payment = payments_policy.current_payment
-    payment.save
+    saved_payment = payment.save
     service_spare_part.payment = payment
     service_spare_part.service = service
-    service_spare_part.save
-    service_spare_part
+    saved_service_spare_part = service_spare_part.save
+    return saved_payment && saved_service_spare_part
   end
 
   def adjust_quantity_service_spare_part(new_quantity, service_spare_part)

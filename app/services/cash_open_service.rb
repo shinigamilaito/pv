@@ -44,6 +44,7 @@ class CashOpenService
       cash_opening_service = CashOpeningService.new
       cash_opening_service.open_date = open_date
       cash_opening_service.user = employee
+      cash_opening_service.amount = amount
       raise "Error al realizar la apertura" unless cash_opening_service.save
 
       return cash_opening_service
@@ -59,6 +60,7 @@ class CashOpenService
       cash_opening_sale = CashOpeningSale.new
       cash_opening_sale.open_date = open_date
       cash_opening_sale.user = employee
+      cash_opening_sale.amount = amount
       raise "Error al realizar la apertura" unless cash_opening_sale.save
 
       return cash_opening_sale
@@ -79,5 +81,5 @@ class CashOpenService
       return CashPolicy.new.cash_sales
     end
   end
-  
+
 end
