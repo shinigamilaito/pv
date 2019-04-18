@@ -1,0 +1,19 @@
+<tbody>
+  <tr id="header-table-concentrated_report_services">
+    <th>Cobrado el</th>
+    <th>Cantidad</th>
+    <th></th>
+  </tr>
+  <% @concentrated.each do |resume| %>
+    <tr>
+      <td><%= resume[:month] %></td>
+      <td><%= number_to_currency resume[:amount] %></td>
+    </tr>
+  <% end %>
+  <% if @total.present? %>
+  <tr>
+    <td class="text-right" style="color: #3c8dbc;"><strong>Total Ingresos</strong></td>
+    <td><%= number_to_currency @total %></td>
+  </tr>
+  <% end %>
+</tbody>

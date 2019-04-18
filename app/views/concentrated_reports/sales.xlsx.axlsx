@@ -1,0 +1,27 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  title = style.add_style(size: 15,
+                          b: true,
+                          u: true,
+                          alignment: { horizontal: :center })
+  default = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                            alignment: { horizontal: :left })
+  header = style.add_style(bg_color: '00', fg_color: 'FF', b: true)
+  profitable = style.add_style(fg_color: 'FF428751',
+                               sz: 12,
+                               b: true,
+                               border: Axlsx::STYLE_THIN_BORDER)
+
+  wb.add_worksheet(name: "Ingresos Ventas") do |sheet|
+    sheet.add_row [@title], style: title
+    sheet.add_row
+    sheet.add_row ["Cobrado el", "Cantidad"], style: header
+    @concentrated.each do |resume|
+      sheet.add_row [resume[:month], number_to_currency(resume[:amount])], style: default
+    end
+    sheet.add_row
+    sheet.add_row ["Total Ingresos:", number_to_currency(@total)], style: [profitable, default]
+    sheet.column_widths nil, nil, nil, nil, nil
+    sheet.merge_cells 'A1:B1'
+  end
+end

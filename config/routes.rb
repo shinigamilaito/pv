@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'concentrated_reports/sales'
+  get 'concentrated_reports/sales_by_month_year'
+  get 'concentrated_reports/sales_by_year'
+
+  get 'concentrated_reports/services'
+  get 'concentrated_reports/services_by_month_year'
+  get 'concentrated_reports/services_by_year'
+
   get 'cashes/new_open_cash'
   post 'cashes/open_cash'
   get 'cashes/new_close_cash'

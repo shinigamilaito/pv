@@ -1,0 +1,80 @@
+<%= form_for :search, html: { method: :get, remote: true, id: 'filter_form'} do |f| %>
+  <div class="container-fluid">
+    <div class="row" style="margin: 6px 0px;">
+      <div class="col-sm-3">
+        <div class="row">
+          <label class="control-label col-sm-4" for="search_start_date">Mes</label>
+          <div class="col-sm-8">
+            <%= f.select :month, @months, {}, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="row">
+          <label class="control-label col-sm-2 col-sm-offset-1" for="search_employee_id">Año</label>
+          <div class="col-sm-7">
+            <%= f.select :year, @years, {}, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="row">
+          <div class="form-group">
+            <div class="checkbox">
+              <label style="font-weight: 700;">
+                <%= f.check_box :checked, {}, true, false %>
+                ¿Incluir Mes y Año?
+              </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin: 6px 0px;">
+      <div class="col-sm-12">
+        <%= link_to concentrated_reports_services_path, class: "btn btn-default pull-left" do %>
+          <i class="fa fa-fw fa-undo"></i>
+          Eliminar Filtros
+        <% end %>
+        <%= link_to concentrated_reports_services_path(format: :xlsx), id: 'link_concentrated_services_xlsx',  class: "btn btn-default pull-right", style: "margin-right: 45px;" do %>
+          <i class="fa fa-fw fa-file-excel-o"></i>
+          Exportar a Excel
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" id="submit_button" style="display:none">Submit</button>
+<% end %>
+
+<!-- Change en month and year -->
+<script>
+  $(document).ready(function() {
+    $('#search_month').on('change', searchByMonthAndYear);
+    $('#search_year').on('change', searchByMonthAndYear);
+
+    function searchByMonthAndYear() {
+      var checked = $("#search_checked").prop('checked');
+      var $filterForm = $("#filter_form");
+      var $submitButton = $("#submit_button");
+      var $xlsLink = $("#link_concentrated_services_xlsx");
+      var month =  $('#search_month').val()
+      var year =  $('#search_year').val()
+
+      if(checked) {
+        $filterForm.attr("action", "/concentrated_reports/services_by_month_year");
+        $xlsLink.attr("href", "/concentrated_reports/services_by_month_year.xlsx");
+        $submitButton.click();
+
+      } else {
+        if($(this).attr('id') == 'search_year') {
+          $filterForm.attr("action", "/concentrated_reports/services_by_year");
+          $xlsLink.attr("href", "/concentrated_reports/services_by_year.xlsx")
+          $submitButton.click();
+        }
+      }
+    }
+  });
+</script>
