@@ -85,9 +85,9 @@
 
     function update_price_product() {
       var $that = $(this);
-      var newValue = parseFloat($that.val());
+      var newValue = Number($that.val().replace(/,/g, ""));
       var $elementPreviewPrice = $("#sale_preview_price_<%= product.id %>");
-      var beforePrice = parseFloat($elementPreviewPrice.val());
+      var beforePrice = Number($elementPreviewPrice.val().replace(/,/g, ""));
 
       if(newValue >= 0) {
         $elementPreviewPrice.val(newValue);
