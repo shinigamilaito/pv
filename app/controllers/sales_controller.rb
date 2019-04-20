@@ -112,6 +112,15 @@ class SalesController < ApplicationController
     end
   end
 
+  # Actualizar el precio del producto
+  def update_price_product
+    sale_product_id = params[:sale_product_id]
+    new_price = BigDecimal.new(params[:price].gsub(',', ''))
+    discount_sale_percentage = session[:discount_sale] || BigDecimal.new('0')
+    @product = @sales_policy.change_price_product(sale_product_id, new_price)
+    @total_sales = @sales_policy.totals(discount_sale_percentage)
+  end
+
   private
 
     def sale_params

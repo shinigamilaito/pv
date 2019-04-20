@@ -82,6 +82,20 @@ class SalesPolicy
     return @sale_product
   end
 
+  # Actualiza el precio del producto
+  # ajusta el nuevo porcentaje aplicado
+  def change_price_product(sale_product_id, new_price)
+    @sale_product = SaleProduct.find(sale_product_id)
+    current_price = @sale_product.quantity * @sale_product.price
+
+    new_discount = (new_price / current_price) * BigDecimal.new("100")
+    @sale_product.discount = BigDecimal.new("100.0") - new_discount
+    @sale_product.real_price = new_price / @sale_product.quantity
+    @sale_product.save
+
+    return @sale_product
+  end
+
   private
 
   def adjust_product_in_sale(quantity, is_increment)
@@ -131,7 +145,8 @@ class SalesPolicy
     sale_product.code = product.code
     sale_product.name = product.name
     sale_product.quantity = 1
-    sale_product.price = product.price
+    sale_product.price = product.price # Sin descuento
+    sale_product.real_price = product.price # Podria aplicarsele descuento
     sale_product.product = product
 
     sale_product

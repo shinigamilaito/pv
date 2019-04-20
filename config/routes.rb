@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     get :preview, on: :collection
     post :update_discount_product, on: :collection
     post :update_quantity_product, on: :collection
+    post :update_price_product, on: :collection
   end
 
   resources :products do

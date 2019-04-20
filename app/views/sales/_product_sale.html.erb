@@ -7,68 +7,22 @@
       <%= text_field_tag 'sale[quantity]', product.quantity, id: "sale_quantity_#{product.id}", class: 'form form-control', style: 'width: 70%', data: {id: product.id}, autocomplete: "off" %>
     </div>
   </td>
+  <td style="width: 18%;" id="sale_discount_<%= product.id %>">
+    <%= number_to_percentage product.discount, precision: 2 %>
+  </td>
   <td style="width: 18%;">
     <div class="input-group">
-      <%= hidden_field_tag :preview_discount, product.discount, id: "sale_preview_discount_#{product.id}" %>
-      <%= text_field_tag 'sale[discount]', product.discount, id: "sale_discount_#{product.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: product.id}, autocomplete: "off" %>
-      <span class="input-group-addon">%</span>
+      <span class="input-group-addon">$</span>
+      <%= hidden_field_tag :preview_price, product.real_price, id: "sale_preview_price_#{product.id}" %>
+      <%= text_field_tag 'sale[price]', product.real_price, id: "sale_price_#{product.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: product.id}, autocomplete: "off" %>
     </div>
   </td>
-  <td><%= number_to_currency product.total %></td>
   <td style="width: 1px;">
     <%= link_to delete_product_sales_path(sale_product_id: product.id), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?', remote: true }, style: 'padding: 3px 5px;' do %>
       <i class="fa fa-fw fa-close"></i>
     <% end %>
   </td>
 </tr>
-
-<!-- Update discount -->
-<script>
-  $(document).ready(function() {
-    var $elementDiscount = $("#sale_discount_<%= product.id %>");
-    var originalDiscount = $elementDiscount.val();
-    console.log("originalDiscount Before", originalDiscount);
-    $elementDiscount.on("keydown", _.debounce(update_discount_product, 1000));
-    $elementDiscount.inputmask("percentage", {
-      rightAlign: false,
-      "suffix": ""
-    });
-
-    function update_discount_product() {
-      var $that = $(this);
-      var newValue = $that.val();
-      var $elementPreviewDiscount = $("#sale_preview_discount_<%= product.id %>");
-
-      if(newValue >= 0 && newValue < 100) {
-        $elementPreviewDiscount.val(newValue);
-
-        $.ajax({
-          url: "/sales/update_discount_product",
-          method: "post",
-          dataType: "script",
-          data: {
-            discount: newValue,
-            sale_product_id: $that.data('id')
-          },
-          beforeSend: function(xhr) {
-            $that.LoadingOverlay("show");
-          },
-          complete: function(xhr, status) {
-            if(xhr.status == 400) {
-              $that.val(originalDiscount);
-            }
-            $that.LoadingOverlay("hide", true);
-          }
-        });
-
-      } else {
-        console.log("Put originalDiscount", originalDiscount);
-        $that.val($elementPreviewDiscount.val());
-        return;
-      }
-    }
-  });
-</script>
 
 <!-- Update quantity -->
 <script>
@@ -111,6 +65,55 @@
       } else {
         console.log("Put originalQuantity", originalQuantity);
         $that.val($elementPreviewQuantity.val());
+        return;
+      }
+    }
+  });
+</script>
+
+<!-- Update price -->
+<script>
+  $(document).ready(function() {
+    var $elementPrice = $("#sale_price_<%= product.id %>");
+    var originalPrice = $elementPrice.val();
+    console.log("originalPrice Before", originalPrice);
+    $elementPrice.on("keydown", _.debounce(update_price_product, 1000));
+    $elementPrice.inputmask("currency", {
+      rightAlign: false,
+      "prefix": ""
+    });
+
+    function update_price_product() {
+      var $that = $(this);
+      var newValue = parseFloat($that.val());
+      var $elementPreviewPrice = $("#sale_preview_price_<%= product.id %>");
+      var beforePrice = parseFloat($elementPreviewPrice.val());
+
+      if(newValue >= 0) {
+        $elementPreviewPrice.val(newValue);
+
+        $.ajax({
+          url: "/sales/update_price_product",
+          method: "post",
+          dataType: "script",
+          data: {
+            price: newValue,
+            sale_product_id: $that.data('id')
+          },
+          beforeSend: function(xhr) {
+            $that.LoadingOverlay("show");
+          },
+          complete: function(xhr, status) {
+            if(xhr.status == 400) {
+              $that.val(originalPrice);
+            }
+            $that.LoadingOverlay("hide", true);
+          }
+        });
+
+      } else {
+        console.log("Put originalPrice", originalPrice);
+        $that.val($elementPreviewPrice.val());
         return;
       }
     }
