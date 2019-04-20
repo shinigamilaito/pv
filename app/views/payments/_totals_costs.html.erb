@@ -48,6 +48,8 @@
   </tbody>
 </table>
 
+<%= hidden_field_tag 'cash_service_open', cash_service_open? %>
+
 <script>
   $(document).ready(function() {
     var $paidWithService = $('#paid_with_service');
@@ -74,6 +76,7 @@
     var $totalPaid = $('#total_to_paid');
     var $change = $("#change-service");
     var $btnPaid = $("#btn_paid");
+    var cashServiceOpen = $("#cash_service_open").val();
 
     var paidWith = Number($paidWithService.val().replace(/,/g, ""));
     var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
@@ -86,7 +89,9 @@
     if(change < 0 || totalPaid <= 0) {
       $btnPaid.attr("disabled", true);
     } else {
-      $btnPaid.removeAttr("disabled");
+      if(cashServiceOpen == "true") {
+        $btnPaid.removeAttr("disabled");
+      }
     }
   }
 

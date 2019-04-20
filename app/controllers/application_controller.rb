@@ -4,8 +4,18 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  helper_method :cash_sale_open?
+  helper_method :cash_service_open?
 
   protected
+
+  def cash_service_open?
+    CashPolicy.new.cash_services.present?
+  end
+
+  def cash_sale_open?
+    CashPolicy.new.cash_sales.present?
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_in, keys: [:username])

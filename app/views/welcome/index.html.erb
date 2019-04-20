@@ -1,0 +1,13 @@
+<h1 style="height: 500px; padding: 200px 0px; text-align: center;">Bienvenido</h1>
+
+<script>
+  $(document).ready(function() {
+    <% if @get_xlsx_close_cash.present? %>
+      location.replace("<%= cashes_generate_xlsx_url(cash: @cash, type: @type, format: :xlsx) %>");
+    <% end %>
+
+    <% if @print_ticket_open_cash.present? %>
+      printPage(null, "<%= cashes_ticket_open_cash_path(cash: @cash, type: @type, format: :pdf) %>");
+    <% end %>
+  })
+</script>

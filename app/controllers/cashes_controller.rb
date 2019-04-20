@@ -7,7 +7,7 @@ class CashesController < ApplicationController
 
     if @cash.types_cashes.blank?
       flash[:notice] = "Todas las cajas han sido abiertas."
-      redirect_to root_path and return
+      redirect_to root_url and return
     end
   end
 
@@ -19,9 +19,9 @@ class CashesController < ApplicationController
         amount = format_amount(params[:cash][:amount])
         type_cash = params[:cash][:type_cash]
         @cash = CashOpenService.new(open_date, employee, amount, type_cash)
-        @cash.open_cash
+        cash_open = @cash.open_cash
         flash[:success] = "La caja fue correctamente abierta."
-        redirect_to root_path
+        redirect_to root_url(cash: cash_open, type: cash_open.type_cash, method_name: 'open_cash')
       end
     rescue StandardError => e
       flash[:error] = "#{e.message}"
@@ -42,7 +42,7 @@ class CashesController < ApplicationController
 
     if @cash_close_service.types_cashes_opened.blank?
       flash[:notice] = "Todas las cajas han sido cerradas."
-      redirect_to root_path and return
+      redirect_to root_url and return
     end
   end
 
@@ -57,7 +57,7 @@ class CashesController < ApplicationController
         cash_open = @cash.cash
         @cash.close_cash
         flash[:success] = "La caja fue correctamente cerrada."
-        redirect_to root_url(cash: cash_open, type: cash_open.type_cash)
+        redirect_to root_url(cash: cash_open, type: cash_open.type_cash, method_name: 'close_cash')
       end
     rescue StandardError => e
       flash[:error] = "#{e.message}"
@@ -80,6 +80,34 @@ class CashesController < ApplicationController
       @title = "Ingresos por Ventas"
       response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
       render xlsx: @title, template: 'sales/index'
+    end
+  end
+
+  def ticket_open_cash
+    if params[:type] == "servicios"
+      cash = CashOpeningService.find(params[:cash])
+      @title = "Ingresos por Servicios"
+    else
+      cash = CashOpeningSale.find(params[:cash])
+      @title = "Ingresos por Ventas"
+    end
+    respond_to do |format|
+      format.pdf do
+
+        render pdf: 'report',
+               wkhtmltopdf: route_wicked,
+               template: 'cashes/ticket_open_cash.pdf.html.erb',
+               background: true,
+               layout: 'pdf.html.erb',
+               show_as_html: true,
+               page_size: 'A8',
+               margin: {
+                 left: 0,
+                 right: 0,
+                 top: 5,
+                 bottom: 4
+               }
+      end
     end
   end
 

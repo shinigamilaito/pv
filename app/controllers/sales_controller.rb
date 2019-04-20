@@ -11,6 +11,8 @@ class SalesController < ApplicationController
       .order(updated_at: :desc)
 
     @index = obtain_index(params[:page].to_i)
+    @module = "incomes_sales"
+    
     respond_to do |format|
       format.html { render :index }
       format.js { render :search }
@@ -23,9 +25,9 @@ class SalesController < ApplicationController
   end
 
   def new
-    if params[:type].present?
-      @cash = CashOpeningService.find(params[:cash])
-      @type = params[:type]
+    unless cash_sale_open?
+      flash[:warning] = 'La caja de ventas no ha sido abierta.'
+      redirect_to root_url and return
     end
 
     clear_variables

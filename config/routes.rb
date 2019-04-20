@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'cashes/new_close_cash'
   post 'cashes/close_cash'
   get 'cashes/generate_xlsx'
+  get 'cashes/ticket_open_cash'
 
   get 'filters_sales/range_date_incomes'
   get 'filters_sales/employee_incomes'
@@ -102,7 +103,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  root "sales#new"
+  root "welcome#index"
 
   resources :payment_types
 end
