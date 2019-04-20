@@ -85,11 +85,13 @@ class CashesController < ApplicationController
 
   def ticket_open_cash
     if params[:type] == "servicios"
-      cash = CashOpeningService.find(params[:cash])
+      @cash = CashOpeningService.find(params[:cash])
       @title = "Ingresos por Servicios"
+      @sucursal = "Servicio"
     else
-      cash = CashOpeningSale.find(params[:cash])
+      @cash = CashOpeningSale.find(params[:cash])
       @title = "Ingresos por Ventas"
+      @sucursal = "Accesorios"
     end
     respond_to do |format|
       format.pdf do
