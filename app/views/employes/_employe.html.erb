@@ -1,8 +1,10 @@
 <tr>
   <td><%= index %></td>
   <td><%= employe.formal_name %></td>
+  <td><%= employe.contact %></td>
   <td><%= employe.username %></td>
   <td><%= employe.email %></td>
   <td><%= employe.rol.name %></td>
+  <td><%= employe.address %></td>
   <td style="width: 1px;"><%= link_to 'Actualizar', edit_employe_path(employe), class: 'btn btn-edit' if current_user.admin? %></td>
 </tr>

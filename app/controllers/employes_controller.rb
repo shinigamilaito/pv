@@ -63,7 +63,10 @@ class EmployesController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :first_name, :last_name, :username, :email, :password, :password_confirmation, :rol_id)
+    params
+      .require(:user)
+      .permit(:name, :first_name, :last_name, :username, :email, :address, :contact, 
+        :password, :password_confirmation, :rol_id)
   end
 
   def set_minimum_password
