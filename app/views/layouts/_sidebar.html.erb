@@ -6,6 +6,13 @@
       <ul class="sidebar-menu background-gray" data-widget="tree"C">
         <li class="header background-gray" style="height: 30px; display: inline-block; width: 100%; text-align: center; padding-top: 20px;"></li>
 
+        <li class="<%= @module == "Home" ? 'active-sidebar' : '' %>">
+          <%= link_to root_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
+            <span class="glyphicon glyphicon-home"></span>
+            <span class="roboto-font" style="padding-left: 10px;">Home</span>
+          <% end %>
+        </li>
+
         <li class="<%= @module == "Ventas" ? 'active-sidebar' : '' %>">
           <%= link_to new_sale_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
             <i class="fa fa-fw fa-support"></i>
@@ -13,59 +20,32 @@
           <% end %>
         </li>
 
-        <li class="<%= active_item('services')%>">
-          <%= link_to new_service_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
-            <i class="fa fa-fw fa-support"></i>
-            <span class="roboto-font" style="padding-left: 10px;">Servicios</span>
-          <% end %>
+        <!-- Servicios -->
+        <li class="treeview">
+          <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
+            <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Servicios</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-down pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu background-gray" style="display: block;">
+            <li class="<%= active_item('services')%> subitem-menu-navegation">
+              <%= link_to new_service_path, style: "font-size: 15px !important;", class: "subitem-menu-navegation" do %>
+                <span class="glyphicon glyphicon-inbox"></span>
+                <span class="roboto-font" style="padding-left: 10px;">Nuevo Servicio</span>
+              <% end %>
+            </li>
+
+            <li class="<%= active_item_action('pending_services')%> subitem-menu-navegation">
+              <%= link_to pending_services_incomes_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                <i class="fa fa-fw fa-gears"></i>
+                <span class="roboto-font">Servicios en Proceso</span>
+              <% end %>
+            </li>
+          </ul>
         </li>
-        <li class="<%= active_item('clients')%>">
-          <%= link_to clients_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
-            <i class="fa fa-fw fa-user-md"></i>
-            <span class="roboto-font" style="padding-left: 10px;">Clientes</span>
-          <% end %>
-        </li>
 
-        <!-- Ingresos -->
-        <% if current_user.admin? %>
-          <li class="treeview">
-            <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
-              <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Ingresos</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-down pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu background-gray" style="display: block;">
-              <li class="<%= @module == "incomes_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-                <%= link_to sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
-                  <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Ingresos por Ventas</span>
-                <% end %>
-              </li>
-              <li class="<%= active_item('incomes')%> subitem-menu-navegation">
-                <%= link_to incomes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
-                  <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Ingresos por Servicios</span>
-                <% end %>
-              </li>
-
-              <!-- Reportes simplificados -->
-              <li class="<%= active_item_action('sales')%> subitem-menu-navegation">
-                <%= link_to concentrated_reports_sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
-                  <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Ventas</span>
-                <% end %>
-              </li>
-              <li class="<%= active_item_action('services')%> subitem-menu-navegation">
-                <%= link_to concentrated_reports_services_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
-                  <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Servicios</span>
-                <% end %>
-              </li>
-            </ul>
-          </li>
-        <% end %>
-
+        <!-- Catalogos -->
         <li class="treeview">
           <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="fa fa-fw fa-sticky-note"></i> <span class="roboto-font" style="padding-left: 10px;">Catálogos</span>
@@ -118,25 +98,55 @@
                 <span class="roboto-font" style="padding-left: 5px;">Productos</span>
               <% end %>
             </li>
-          </ul>
-        </li>
 
-        <li class="treeview">
-          <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
-            <i class="fa fa-fw fa-sticky-note"></i> <span class="roboto-font" style="padding-left: 10px;">Reportes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-down pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu background-gray" style="display: block;">
-            <li class="<%= active_item_action('pending_services')%> subitem-menu-navegation">
-              <%= link_to pending_services_incomes_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
-                <i class="fa fa-fw fa-gears"></i>
-                <span class="roboto-font">Servicios en Proceso</span>
+            <li class="<%= active_item('clients')%> subitem-menu-navigation">
+              <%= link_to clients_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-user-md"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Clientes</span>
               <% end %>
             </li>
           </ul>
         </li>
+
+        <!-- Ingresos -->
+        <% if current_user.admin? %>
+          <li class="treeview">
+            <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
+              <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Ingresos</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-down pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu background-gray" style="display: block;">
+              <li class="<%= @module == "incomes_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+                <%= link_to sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Ingresos por Ventas</span>
+                <% end %>
+              </li>
+              <li class="<%= active_item('incomes')%> subitem-menu-navegation">
+                <%= link_to incomes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Ingresos por Servicios</span>
+                <% end %>
+              </li>
+
+              <!-- Reportes simplificados -->
+              <li class="<%= active_item_action('sales')%> subitem-menu-navegation">
+                <%= link_to concentrated_reports_sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Ventas</span>
+                <% end %>
+              </li>
+              <li class="<%= active_item_action('services')%> subitem-menu-navegation">
+                <%= link_to concentrated_reports_services_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Servicios</span>
+                <% end %>
+              </li>
+            </ul>
+          </li>
+        <% end %>
 
         <!-- APERTURA DE CAJA Y CIERRE DE CAJA -->
         <li class="treeview">

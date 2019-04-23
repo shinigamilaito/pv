@@ -1,5 +1,6 @@
 class WelcomeController < ApplicationController
   def index
+    @module = "Home"
     if params[:method_name].present? && params[:method_name] == 'close_cash'
       @cash = params[:cash]
       @type = params[:type]
