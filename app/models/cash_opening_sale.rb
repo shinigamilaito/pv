@@ -9,7 +9,7 @@ class CashOpeningSale < ApplicationRecord
   def total_effective
     CashOpeningSale
       .joins(sales: :payment_type)
-      .where("payment_types.name = ?", 'Efectivo')
+      .where("cash_opening_sales.id = ? AND payment_types.name = ?", self.id, 'Efectivo')
       .select("sales.total as total")
       .map(&:total)
       .sum
@@ -18,7 +18,7 @@ class CashOpeningSale < ApplicationRecord
   def total_debit
     CashOpeningSale
       .joins(sales: :payment_type)
-      .where("payment_types.name = ?", 'Tarjeta de Debito')
+      .where("cash_opening_sales.id = ? AND payment_types.name = ?", self.id, 'Tarjeta de Debito')
       .select("sales.total as total")
       .map(&:total)
       .sum
@@ -27,7 +27,7 @@ class CashOpeningSale < ApplicationRecord
 	def total_credit
     CashOpeningSale
       .joins(sales: :payment_type)
-      .where("payment_types.name = ?", 'Tarjeta de Crédito')
+      .where("cash_opening_sales.id = ? AND payment_types.name = ?", self.id, 'Tarjeta de Crédito')
       .select("sales.total as total")
       .map(&:total)
       .sum
