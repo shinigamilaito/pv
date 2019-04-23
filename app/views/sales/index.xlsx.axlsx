@@ -16,9 +16,8 @@ wb.styles do |style|
     sheet.add_row [@title], style: title
     sheet.add_row
     sheet.add_row ["No.", "Cobrado el", "Ticket", "Cobrado por", "Cantidad"], style: header
-    @sales_xlsx.each do |sale|
+    @sales_xlsx.each_with_index do |sale, index|
       sheet.add_row [@index, date_time_helper(sale.updated_at), sale.ticket, sale.user.formal_name, number_to_currency(sale.total)], style: default
-      @index += 1
     end
     sheet.add_row
     sheet.add_row [nil, nil, nil, "Total Ingresos:", number_to_currency(@total)], style: [nil, nil, nil, profitable, default]
