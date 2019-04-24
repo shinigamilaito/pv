@@ -38,7 +38,8 @@ class ItemsByFinish
         description: spare_part.name,
         area: 'Refacciones',
         stock: spare_part.total,
-        status: spare_part.total == 0 ? 'Agotado' : 'Por agotarse'
+        status: spare_part.total == 0 ? 'Agotado' : 'Por agotarse',
+        name_class: spare_part.total == 0 ? 'items_terminated' : 'items_by_terminated'
       }
     end
 
