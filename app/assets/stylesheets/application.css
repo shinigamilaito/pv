@@ -36,6 +36,7 @@
  *= require catalogs
  *= require accordion
  *= require pagination
+ *= require welcome
  *= require_self
  */
 

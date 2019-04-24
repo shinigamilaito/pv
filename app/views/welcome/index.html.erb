@@ -1,4 +1,48 @@
-<h1 style="height: 500px; padding: 200px 0px; text-align: center;">Bienvenido</h1>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Alertas de Productos</h3>
+      </div>
+
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-responsive table-hover table-condensed table-striped" id="products_table">
+          <tbody>
+            <tr>
+              <th>IdProducto</th>
+              <th>Descripción</th>
+              <th>Área</th>
+              <th>Stock Mínimo</th>
+              <th>Status</th>
+            </tr>
+            <% @items.each do |item| %>
+            <tr>
+              <% if current_user.admin? %>
+                <% if item[:area] == 'Productos' %>
+                  <td><%= link_to item[:code], edit_product_path(item[:id]) %></td>
+                <% else %>
+                  <td><%= link_to item[:code], edit_spare_part_path(item[:id]) %></td>
+                <% end %>
+              <% else %>
+                <td><%= item[:code] %></td>
+              <% end %>
+
+              <td><%= item[:description] %></td>
+              <td><%= item[:area] %></td>
+              <td><%= item[:stock] %></td>
+              <td class="<%= item[:name_class] %>"><%= item[:status] %></td>
+            </tr>
+            <%# @index += 1 %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%#= render 'shared/paginate', elements_paginate: @items %>
 
 <script>
   $(document).ready(function() {

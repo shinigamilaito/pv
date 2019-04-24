@@ -1,6 +1,12 @@
 class WelcomeController < ApplicationController
   def index
     @module = "Home"
+    @items = ItemsByFinish.new
+      .elements
+      #.paginate(page: params[:page], per_page: self.elements_per_page)
+
+    #@index = obtain_index(params[:page].to_i)
+
     if params[:method_name].present? && params[:method_name] == 'close_cash'
       @cash = params[:cash]
       @type = params[:type]
