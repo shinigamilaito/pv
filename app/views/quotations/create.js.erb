@@ -1,5 +1,5 @@
 $("#quotations_table").html("<%= j render('quotations/body_quotations') %>");
-$('#total_cost_quotations').html("<%= j render('quotation/totals_costs', totals: @totals) %>");
+$('#total_cost_quotations').html("<%= j render('quotations/totals_costs', totals: @totals) %>");
 toastr['success']('Cotización registrada correctamente.');
 
 $(document).ready(function() {

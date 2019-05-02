@@ -1,4 +1,4 @@
-class NoteService
+class NoteQuotation
   attr_accessor :quotation
 
   def initialize(quotation)
@@ -52,7 +52,12 @@ class NoteService
      total
    end
 
-   total   
+   total
+ end
+
+ def valid_until
+   next_month = quotation.created_at + 1.month
+   next_month
  end
 
  private

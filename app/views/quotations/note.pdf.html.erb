@@ -4,24 +4,24 @@
     <%= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
   </div>
   <div class="col-xs-5">
-    <h3 class="text-center"><%= "FECHA: " + @note_service.date %></h3>
+    <h3 class="text-center"><%= "FECHA: " + @note_quotation.date %></h3>
     <div class="m-b-10 text-right">
       <h3 style="display: inline-block;" class="not-margin text-right">
-        <strong>Cotización Número:</strong>
+        <strong>Número:</strong>
       </h3>
-      <h1 class="number-folio red not-margin"><%= @note_service.folio %></h1>
+      <h1 class="number-folio red not-margin"><%= @note_quotation.folio %></h1>
     </div>
-    <h3 class="not-margin-top text-right"><%= @note_service.street %></h3>
-    <h3 class="f-s-a-f not-margin-top text-right"><%= @note_service.city %></h3>
+    <h3 class="not-margin-top text-right"><%= @note_quotation.street %></h3>
+    <h3 class="f-s-a-f not-margin-top text-right"><%= @note_quotation.city %></h3>
     <div class="m-b-10 row">
       <div class="col-xs-6">
-        <h3 class="not-margin"><%= @note_service.telephones[:one] %></h3>
+        <h3 class="not-margin"><%= @note_quotation.telephones[:one] %></h3>
       </div>
       <div class="col-xs-6 text-right">
-        <h3 class="not-margin"><%= @note_service.telephones[:two] %></h3>
+        <h3 class="not-margin"><%= @note_quotation.telephones[:two] %></h3>
       </div>
     </div>
-    <h3 class="not-margin-top text-right"><%= @note_service.email %></h3>
+    <h3 class="not-margin-top text-right"><%= @note_quotation.email %></h3>
     <h3 class="not-margin-top red">HORARIO: 9:00 am 8:30 pm</h3>
   </div>
   </div>
@@ -30,57 +30,61 @@
 
   <div class="row">
     <div class="col-xs-12  b-c-g">
-      <h4 class="text-center not-margin-top"><strong>DATOS DEL CLIENTE</strong></h4>
+      <h3 class="text-center not-margin-top"><strong>DATOS DEL CLIENTE</strong></h3>
     </div>
   </div>
 
   <div class="row border">
     <div class="col-xs-12">
-      <p><%= "Cliente: " + @note_quotation.client[:name] %></p>
-      <p><%= "Teléfono: " + @note_quotation.client[:home_phone] %></p>
-      <p><%= "Correo: " + @note_quotation.client[:email] %></p>
+      <h5><%= "Cliente: " + @note_quotation.client[:name] %></h5>
+      <h5><%= "Direccion: " + @note_quotation.client[:address] %></h5>
+      <h5><%= "Teléfono: " + @note_quotation.client[:home_phone] %></h5>
+      <h5><%= "Correo: " + @note_quotation.client[:email] %></h5>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-xs-3 text-center">
-      <h3>Código</h3>
+    <div class="col-xs-3 text-left">
+      <h3><strong>Código</strong></h3>
     </div>
-    <div class="col-xs-3 text-center">
-      <h3>Descripción</h3>
+    <div class="col-xs-3 text-left">
+      <h3><strong>Descripción</strong></h3>
     </div>
-    <div class="col-xs-3 text-center">
-      <h3>Cantidad</h3>
+    <div class="col-xs-3 text-left">
+      <h3><strong>Cantidad</strong></h3>
     </div>
-    <div class="col-xs-3 text-center">
-      <h3>Precio</h3>
+    <div class="col-xs-3 text-left">
+      <h3><strong>Precio</strong></h3>
     </div>
   </div>
   <% @note_quotation.equipment_customers.each do |quotation_product| %>
     <div class="row">
-      <div class="col-xs-3 text-center">
-        <%= quotation_product.code %>
+      <div class="col-xs-3 text-left">
+        <h4><%= quotation_product.code %></h4>
+      </div>
+      <div class="col-xs-3 text-left">
+        <h4><%= quotation_product.name %></h4>
       </div>
       <div class="col-xs-3 text-center">
-        <%= quotation_product.name %>
+        <h4><%= quotation_product.quantity %></h4>
       </div>
-      <div class="col-xs-3 text-center">
-        <%= quotation_product.quantity %>
-      </div>
-      <div class="col-xs-3 text-center">
-        <%= number_to_currency quotation.real_price %>
+      <div class="col-xs-3 text-left">
+        <h4><%= number_to_currency quotation_product.real_price %></h4>
       </div>
     </div>
   <% end %>
   <div class="row">
-    <div class="col-xs-3 col-xs-offset-9">
-      <%= "Total #{number_to_currency @note_quotation.totals}" %>
+    <div class="col-xs-3 col-xs-offset-6 text-right">
+      <h4><strong>Total:</strong></h4>
+    </div>
+    <div class="col-xs-3 text-left">
+      <h4><%= number_to_currency @note_quotation.totals %></h4>
     </div>
   </div>
 
-  <div class="row">
-    <ul class="term-cond">
-      <li class="m-l-15">Para retirar el equipo es indispensable presentar esta orden de servicio. !Conservala!</li>
-    </ul>
+  <div class="row" style="margin-top: 20px !important;">
+    <h4 class="term-cond text-center">
+      <%= "Cotizacion valida hasta el #{l @note_quotation.valid_until, format: '%A, %d %b %Y'}" %>
+    </h4>
   </div>
 </div>
