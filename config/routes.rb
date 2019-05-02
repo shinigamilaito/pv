@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :quotations, only: [:index, :new, :create] do
+    delete :delete_product, on: :collection
+    get :search_products, on: :collection
+    post :update_quantity_product, on: :collection
+    post :update_price_product, on: :collection
+    get :get_pdf, on: :member
+  end
+
   get 'concentrated_reports/sales'
   get 'concentrated_reports/sales_by_month_year'
   get 'concentrated_reports/sales_by_year'

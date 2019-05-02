@@ -1,0 +1,7 @@
+$("#quotations_table").html("<%= j render('quotations/body_quotations') %>");
+$('#total_cost_quotations').html("<%= j render('quotation/totals_costs', totals: @totals) %>");
+toastr['success']('Cotización registrada correctamente.');
+
+$(document).ready(function() {
+    printPage(null, "<%= get_pdf_quotation_path(@new_quotation.id, format: 'pdf') %>");
+});

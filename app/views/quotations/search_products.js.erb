@@ -1,0 +1,12 @@
+<% new_product = @add_product[:new] %>
+<% product = @add_product[:product] %>
+
+<% if new_product %>
+  $("#header-table-quotations").after("<%= j render('quotations/product', product: product) %>");
+<% else %>
+  $("#quotation_quantity_<%= product.id %>").val("<%= product.quantity %>");
+  $("#quotation_price_<%= product.id %>").val("<%= product.total %>");
+  $("#quotation_preview_price_<%= product.id %>").val("<%= product.total %>");
+<% end %>
+
+$('#total_cost_quotations').html("<%= j render('quotations/totals_costs', totals: @totals) %>");

@@ -1,0 +1,3 @@
+$("#quotation_discount_<%= @product.id %>").html("<%= number_to_percentage @product.discount, precision: 2 %>");
+$("#quotation_price_<%= @product.id %>").val("<%= number_to_currency @product.total %>");
+$('#total_cost_quotations').html("<%= j render('quotations/totals_costs', totals: @totals) %>");

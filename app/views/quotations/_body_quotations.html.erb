@@ -1,0 +1,13 @@
+<tbody>
+  <tr id="header-table-quotations">
+    <th>Código</th>
+    <th>Nombre</th>
+    <th>Cantidad</th>
+    <th>Descuento</th>
+    <th>Precio</th>
+    <th></th>
+  </tr>
+  <% @products.each do |product| %>
+    <%= render 'quotations/product', product: product %>
+  <% end %>
+</tbody>

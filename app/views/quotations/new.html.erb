@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Cotizar</h3>
+      </div>
+
+      <div class="box-body table-responsive no-padding">
+        <%= render 'shared/search', id: 'search-quotations',
+          placeholder: 'Introduzca código',
+          remote_url: '/quotations/search_products' %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="quotations_table">
+          <%= render 'body_quotations' %>
+        </table>
+        <div id="total_cost_quotations">
+          <%= render "quotations/totals_costs", totals: @totals %>
+        </div>
+      </div>
+      <div class="box-footer row">
+        <div class="col-sm-4 col-sm-offset-8">
+          <%= button_tag 'Guardar Cotización', type: 'submit', form: "save-quotation-form", class: "btn btn-info btn-block pull-right", id: "make_quotation_link" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

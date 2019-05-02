@@ -1,0 +1,121 @@
+<tr id="quotation_product_<%= product.id %>">
+  <td><%= product.code %></td>
+  <td><%= product.name %></td>
+  <td style="width: 18%;">
+    <div class="input-group">
+      <%= hidden_field_tag :preview_quantity, product.quantity, id: "quotation_preview_quantity_#{product.id}" %>
+      <%= text_field_tag 'quotation[quantity]', product.quantity, id: "quotation_quantity_#{product.id}", class: 'form form-control', style: 'width: 70%', data: {id: product.id}, autocomplete: "off" %>
+    </div>
+  </td>
+  <td style="width: 18%;" id="quotation_discount_<%= product.id %>">
+    <%= number_to_percentage product.discount, precision: 2 %>
+  </td>
+  <td style="width: 18%;">
+    <div class="input-group">
+      <span class="input-group-addon">$</span>
+      <%= hidden_field_tag :preview_price, product.real_price, id: "quotation_preview_price_#{product.id}" %>
+      <%= text_field_tag 'quotation[price]', product.real_price, id: "quotation_price_#{product.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: product.id}, autocomplete: "off" %>
+    </div>
+  </td>
+  <td style="width: 1px;">
+    <%= link_to delete_product_quotations_path(quotation_product_id: product.id), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?', remote: true }, style: 'padding: 3px 5px;' do %>
+      <i class="fa fa-fw fa-close"></i>
+    <% end %>
+  </td>
+</tr>
+
+<!-- Update quantity -->
+<script>
+  $(document).ready(function() {
+    var $elementQuantity = $("#quotation_quantity_<%= product.id %>");
+    var originalQuantity = $elementQuantity.val();
+    console.log("originalQuantity Before", originalQuantity);
+    $elementQuantity.on("keydown", _.debounce(update_quantity_product, 1000));
+    setInteger($elementQuantity);
+
+    function update_quantity_product() {
+      var $that = $(this);
+      var newValue = $that.val();
+      var $elementPreviewQuantity = $("#quotation_preview_quantity_<%= product.id %>");
+
+      if(newValue > 0) {
+        //$elementPreviewQuantity.val(newValue);
+
+        $.ajax({
+          url: "/quotations/update_quantity_product",
+          method: "post",
+          dataType: "script",
+          data: {
+            quantity: newValue,
+            quotation_product_id: $that.data('id')
+          },
+          beforeSend: function(xhr) {
+            $that.LoadingOverlay("show");
+          },
+          complete: function(xhr, status) {
+            if(xhr.status == 400) {
+              $that.val($elementPreviewQuantity.val());
+            } else {
+              $elementPreviewQuantity.val(newValue);
+            }
+            $that.LoadingOverlay("hide", true);
+          }
+        });
+
+      } else {
+        console.log("Put originalQuantity", originalQuantity);
+        $that.val($elementPreviewQuantity.val());
+        return;
+      }
+    }
+  });
+</script>
+
+<!-- Update price -->
+<script>
+  $(document).ready(function() {
+    var $elementPrice = $("#quotation_price_<%= product.id %>");
+    var originalPrice = $elementPrice.val();
+    console.log("originalPrice Before", originalPrice);
+    $elementPrice.on("keydown", _.debounce(update_price_product, 1000));
+    $elementPrice.inputmask("currency", {
+      rightAlign: false,
+      "prefix": ""
+    });
+
+    function update_price_product() {
+      var $that = $(this);
+      var newValue = Number($that.val().replace(/,/g, ""));
+      var $elementPreviewPrice = $("#quotation_preview_price_<%= product.id %>");
+      var beforePrice = Number($elementPreviewPrice.val().replace(/,/g, ""));
+
+      if(newValue >= 0) {
+        $elementPreviewPrice.val(newValue);
+
+        $.ajax({
+          url: "/quotations/update_price_product",
+          method: "post",
+          dataType: "script",
+          data: {
+            price: newValue,
+            quotation_product_id: $that.data('id')
+          },
+          beforeSend: function(xhr) {
+            $that.LoadingOverlay("show");
+          },
+          complete: function(xhr, status) {
+            if(xhr.status == 400) {
+              $that.val(originalPrice);
+            }
+            $that.LoadingOverlay("hide", true);
+          }
+        });
+
+      } else {
+        console.log("Put originalPrice", originalPrice);
+        $that.val($elementPreviewPrice.val());
+        return;
+      }
+    }
+  });
+</script>

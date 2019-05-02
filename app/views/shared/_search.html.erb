@@ -14,7 +14,7 @@
     var $element = $("#<%= id %>");
     var remoteUrl = '<%= remote_url %>';
 
-    <% if controller_name.eql?('sales') %>
+    <% if controller_name.eql?('sales') || controller_name.eql?('quotations') %>
       bindSearchSales($element, remoteUrl);
     <% else %>
       bindSearch($element, remoteUrl);

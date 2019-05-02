@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190421142050) do
+ActiveRecord::Schema.define(version: 20190501155813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -229,6 +229,35 @@ ActiveRecord::Schema.define(version: 20190421142050) do
     t.integer "stock_minimum", default: 0
   end
 
+  create_table "quotation_products", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.integer "quantity"
+    t.decimal "price", precision: 10, scale: 2, default: "0.0"
+    t.bigint "product_id"
+    t.bigint "user_id"
+    t.bigint "quotation_id"
+    t.decimal "discount", precision: 10, scale: 2, default: "0.0"
+    t.decimal "real_price", precision: 20, scale: 14, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_quotation_products_on_product_id"
+    t.index ["quotation_id"], name: "index_quotation_products_on_quotation_id"
+    t.index ["user_id"], name: "index_quotation_products_on_user_id"
+  end
+
+  create_table "quotations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.decimal "total", precision: 20, scale: 14, default: "0.0"
+    t.integer "folio", default: 0
+    t.bigint "client_id"
+    t.string "status", default: "Vigente"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_quotations_on_client_id"
+    t.index ["user_id"], name: "index_quotations_on_user_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
   end
@@ -349,6 +378,11 @@ ActiveRecord::Schema.define(version: 20190421142050) do
   add_foreign_key "payments", "payment_types"
   add_foreign_key "payments", "services"
   add_foreign_key "payments", "users"
+  add_foreign_key "quotation_products", "products"
+  add_foreign_key "quotation_products", "quotations"
+  add_foreign_key "quotation_products", "users"
+  add_foreign_key "quotations", "clients"
+  add_foreign_key "quotations", "users"
   add_foreign_key "sale_products", "products"
   add_foreign_key "sale_products", "sales"
   add_foreign_key "sale_products", "users"

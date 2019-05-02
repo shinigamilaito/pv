@@ -1,0 +1,37 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <th style="width:70%" class="text-right">Total productos:</th>
+      <td><%= number_to_currency totals[:total_final] %></td>
+    </tr>
+    <tr>
+      <th style="width:70%" class="text-right">Cliente:</th>
+      <td><%= select_tag "clients[]", options_for_select([]), { class: 'form-control autocomplete_clients', required: true, prompt: "Buscar cliente" } %></td>
+    </tr>
+  </tbody>
+</table>
+<%= form_for(@quotation, html: { class: "form-horizontal", id: 'save-quotation-form', remote: true }) do |f| %>
+  <%= hidden_field_tag 'quotation[total]', totals[:total_final] %>
+  <%= hidden_field_tag 'quotation[client_id]', 'nil' %>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $('.autocomplete_clients').select2({
+  		minimumInputLength: 1,
+  		ajax: {
+  			delay: 250,
+  			url: "/clients/autocomplete",
+  			dataType: 'json',
+  			cache: true
+  		},
+  		escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      templateResult: formatRepoClient,
+      templateSelection: formatRepoSelectionClient
+  	});
+    $('.autocomplete_clients').on('select2:select', function (e) {
+        var data = e.params.data;
+        $("#quotation_client_id").val(data.id);
+    });
+  });
+</script>

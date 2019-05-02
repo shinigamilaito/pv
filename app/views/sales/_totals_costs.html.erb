@@ -4,11 +4,12 @@
       <th style="width:80%" class="text-right">Total productos:</th>
       <td><%= number_to_currency total_sales[:total_products] %></td>
     </tr>
+    <!-- Se ocultan estos campos, no usados. 01/05/19
     <tr>
       <th class="text-right">Descuento:</th>
       <td>
         <div class="input-group">
-          <%= text_field_tag "sale[discount]", total_sales[:discount_percentage], class: "form-control form-control-sm", id: 'discount-sale', required: true %>
+          <%#= text_field_tag "sale[discount]", total_sales[:discount_percentage], class: "form-control form-control-sm", id: 'discount-sale', required: true %>
           <span class="input-group-addon">%</span>
         </div>
       </td>
@@ -16,9 +17,9 @@
     <tr>
       <th class="text-right">Total Final:</th>
       <td>
-        <span id="total_to_paid" class="label label-info" style="font-size: 15px;"><%= number_to_currency total_sales[:total_final] %></span>
+        <span id="total_to_paid" class="label label-info" style="font-size: 15px;"><%#= number_to_currency total_sales[:total_final] %></span>
       </td>
-    </tr>
+    </tr> -->
     <tr>
       <th class="text-right">Tipo de Pago:</th>
       <td>

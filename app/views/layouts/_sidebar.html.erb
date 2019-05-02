@@ -13,11 +13,36 @@
           <% end %>
         </li>
 
-        <li class="<%= @module == "Ventas" ? 'active-sidebar' : '' %>">
-          <%= link_to new_sale_path, style: "font-size: 1.8rem;", class: "item-menu-navegation" do %>
-            <i class="fa fa-fw fa-support"></i>
-            <span class="roboto-font" style="padding-left: 10px;">Ventas</span>
-          <% end %>
+        <!-- Menu desplegable tienda -->
+        <li class="treeview">
+          <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
+            <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Tienda</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-down pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu background-gray" style="display: block;">
+            <li class="<%= @module == "Ventas" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to new_sale_path, style: "font-size: 15px !important;", class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-support"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Vender</span>
+              <% end %>
+            </li>
+
+            <li class="<%= @module == "Cotizar" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to new_quotation_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                <i class="fa fa-fw fa-gears"></i>
+                <span class="roboto-font">Cotizar</span>
+              <% end %>
+            </li>
+
+            <li class="<%= @module == "Cotizaciones" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to quotations_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                <i class="fa fa-fw fa-gears"></i>
+                <span class="roboto-font">Cotizaciones</span>
+              <% end %>
+            </li>
+          </ul>
         </li>
 
         <!-- Servicios -->
