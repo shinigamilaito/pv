@@ -85,7 +85,7 @@ class QuotationsController < ApplicationController
         @note_quotation = NoteQuotation.new(@quotation)
 
         render pdf: 'report',
-               wkhtmltopdf: route_wicked,
+               #wkhtmltopdf: route_wicked,
                template: 'quotations/note.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
