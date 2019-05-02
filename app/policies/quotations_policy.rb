@@ -56,7 +56,7 @@ class QuotationsPolicy
     total_final = cost_products
 
     return {
-      total_final: total_final    
+      total_final: total_final
     }
   end
 
@@ -76,6 +76,13 @@ class QuotationsPolicy
 
   def delete(quotation_product)
     raise 'Error al eliminar el producto' unless quotation_product.destroy
+  end
+
+  # Retorna las cotizaciones que pertenecen  a un cliente
+  def self.quotations_by(client)
+    Quotation
+      .joins(:client)
+      .where('LOWER(name) LIKE :term or LOWER(first_name) LIKE :term or LOWER(last_name) LIKE :term', term: "%#{client.downcase}%")
   end
 
   private

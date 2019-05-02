@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Cotizaciones</h3>
+      </div>
+
+      <div class="box-body table-responsive no-padding">
+        <%= render 'shared/search', id: 'search-quotations',
+          placeholder: 'Buscar por nombre',
+          remote_url: '/quotations/quotations_by_client' %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="quotations_table">
+          <%= render 'quotations_index' %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/paginate', elements_paginate: @quotations %>

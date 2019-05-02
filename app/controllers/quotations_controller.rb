@@ -1,6 +1,18 @@
 class QuotationsController < ApplicationController
   before_action :set_quotation_policy, except: [:index, :search_products]
 
+  def index
+    @quotations = Quotation
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+
+    respond_to do |format|
+      format.html { render :index }
+    end
+  end
+
   # Interfaz realizar el registro
   # de cotizaciones
   def new
@@ -95,6 +107,16 @@ class QuotationsController < ApplicationController
     @product = quotation_product
     @totals = @quotations_policy.totals
     @quotation = Quotation.new
+  end
+
+  # Realizar la busaueda de cotizaciones por cliente
+  def quotations_by_client
+    @quotations = QuotationsPolicy
+      .quotations_by(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   private

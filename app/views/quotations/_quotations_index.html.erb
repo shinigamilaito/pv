@@ -1,0 +1,19 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Folio</th>
+    <th>Cliente</th>
+    <th>Fecha</th>
+    <th>Estado</th>
+  </tr>
+  <% @quotations.each do |quotation| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= link_to "%06d" % quotation.folio, get_pdf_quotation_path(quotation, format: :pdf), target: '_blank'  %></td>
+      <td><%= quotation.client.formal_name %></td>
+      <td><%= date_time_helper(quotation.created_at) %></td>
+      <td><%= quotation.status %></td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+</tbody>

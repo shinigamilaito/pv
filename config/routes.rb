@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     post :update_quantity_product, on: :collection
     post :update_price_product, on: :collection
     get :get_pdf, on: :member
+    get :quotations_by_client, on: :collection
   end
 
   get 'concentrated_reports/sales'
