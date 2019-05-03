@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190501155813) do
+ActiveRecord::Schema.define(version: 20190503120257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,23 @@ ActiveRecord::Schema.define(version: 20190501155813) do
     t.index ["user_id"], name: "index_cash_closing_services_on_user_id"
   end
 
+  create_table "cash_closing_services_sales", force: :cascade do |t|
+    t.string "type_cash", default: "services_sales"
+    t.datetime "close_date"
+    t.bigint "user_id"
+    t.decimal "total_effective", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total_debit_card", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total_credit_card", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total_sales", precision: 10, scale: 2, default: "0.0"
+    t.decimal "open_amount", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total", precision: 10, scale: 2, default: "0.0"
+    t.bigint "cash_opening_services_sale_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cash_opening_services_sale_id"], name: "cash_opening_services_sale"
+    t.index ["user_id"], name: "index_cash_closing_services_sales_on_user_id"
+  end
+
   create_table "cash_opening_sales", force: :cascade do |t|
     t.string "type_cash", default: "sales"
     t.datetime "open_date", default: "2019-04-14 22:07:34"
@@ -86,6 +103,17 @@ ActiveRecord::Schema.define(version: 20190501155813) do
     t.decimal "amount", precision: 10, scale: 2, default: "0.0"
     t.boolean "active", default: true
     t.index ["user_id"], name: "index_cash_opening_services_on_user_id"
+  end
+
+  create_table "cash_opening_services_sales", force: :cascade do |t|
+    t.string "type_cash", default: "services_sales"
+    t.datetime "open_date"
+    t.bigint "user_id"
+    t.decimal "amount", precision: 10, scale: 2, default: "0.0"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cash_opening_services_sales_on_user_id"
   end
 
   create_table "client_types", force: :cascade do |t|
@@ -210,8 +238,8 @@ ActiveRecord::Schema.define(version: 20190501155813) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "paid", default: false
-    t.bigint "cash_opening_service_id"
-    t.index ["cash_opening_service_id"], name: "index_payments_on_cash_opening_service_id"
+    t.bigint "cash_opening_services_sale_id"
+    t.index ["cash_opening_services_sale_id"], name: "index_payments_on_cash_opening_services_sale_id"
     t.index ["generic_price_id"], name: "index_payments_on_generic_price_id"
     t.index ["payment_type_id"], name: "index_payments_on_payment_type_id"
     t.index ["service_id"], name: "index_payments_on_service_id"
@@ -290,8 +318,8 @@ ActiveRecord::Schema.define(version: 20190501155813) do
     t.decimal "change", precision: 10, scale: 2, default: "0.0"
     t.integer "ticket", default: 0
     t.bigint "payment_type_id"
-    t.bigint "cash_opening_sale_id"
-    t.index ["cash_opening_sale_id"], name: "index_sales_on_cash_opening_sale_id"
+    t.bigint "cash_opening_services_sale_id"
+    t.index ["cash_opening_services_sale_id"], name: "index_sales_on_cash_opening_services_sale_id"
     t.index ["payment_type_id"], name: "index_sales_on_payment_type_id"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
@@ -359,7 +387,10 @@ ActiveRecord::Schema.define(version: 20190501155813) do
   add_foreign_key "cash_closing_sales", "users"
   add_foreign_key "cash_closing_services", "cash_opening_services"
   add_foreign_key "cash_closing_services", "users"
+  add_foreign_key "cash_closing_services_sales", "cash_opening_services_sales"
+  add_foreign_key "cash_closing_services_sales", "users"
   add_foreign_key "cash_opening_sales", "users"
+  add_foreign_key "cash_opening_services_sales", "users"
   add_foreign_key "component_equipment_customers", "components"
   add_foreign_key "component_equipment_customers", "equipment_customers"
   add_foreign_key "equipment_customers", "brands"
@@ -373,7 +404,7 @@ ActiveRecord::Schema.define(version: 20190501155813) do
   add_foreign_key "incomes", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "message_histories", "users"
-  add_foreign_key "payments", "cash_opening_services"
+  add_foreign_key "payments", "cash_opening_services_sales"
   add_foreign_key "payments", "generic_prices"
   add_foreign_key "payments", "payment_types"
   add_foreign_key "payments", "services"
@@ -386,7 +417,7 @@ ActiveRecord::Schema.define(version: 20190501155813) do
   add_foreign_key "sale_products", "products"
   add_foreign_key "sale_products", "sales"
   add_foreign_key "sale_products", "users"
-  add_foreign_key "sales", "cash_opening_sales"
+  add_foreign_key "sales", "cash_opening_services_sales"
   add_foreign_key "sales", "payment_types"
   add_foreign_key "sales", "users"
   add_foreign_key "service_spare_parts", "payments"

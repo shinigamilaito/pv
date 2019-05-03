@@ -25,7 +25,7 @@ class SalesController < ApplicationController
   end
 
   def new
-    unless cash_sale_open?
+    unless cash_services_sale_open?
       flash[:warning] = 'La caja de ventas no ha sido abierta.'
       redirect_to root_url and return
     end
@@ -40,7 +40,7 @@ class SalesController < ApplicationController
 
   # Create record of the sale
   def create
-    if CashPolicy.new.cash_sales.blank?
+    if CashPolicy.new.cash_services_sales.blank?
       flash[:warning] = "La caja no ha sido abierta."
       redirect_to root_path and return
     end
@@ -81,7 +81,7 @@ class SalesController < ApplicationController
   def preview
     paid_with = params[:paid_with].gsub(',','')
     change = params[:change].gsub(',','')
-    discount = params[:discount]
+    discount = params[:discount] || '0'
     payment_type = PaymentType.find(params[:payment_type_id])
     @ticket_sale = TicketSale.new(current_user, paid_with, change, discount, payment_type)
     @sale = Sale.new

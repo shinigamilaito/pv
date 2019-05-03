@@ -18,7 +18,7 @@ class PaymentsController < ApplicationController
 
   # Create the payment for the service
   def create
-    unless cash_service_open?
+    unless cash_services_sale_open?
       flash[:warning] = "La caja no ha sido abierta."
       redirect_to root_path and return
     end
@@ -46,7 +46,7 @@ class PaymentsController < ApplicationController
 
   # Update the record of the payment, in services
   def update
-    unless cash_service_open?
+    unless cash_services_sale_open?
       flash[:warning] = "La caja no ha sido abierta."
       redirect_to root_path and return
     end

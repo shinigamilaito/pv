@@ -1,4 +1,7 @@
 class CashesController < ApplicationController
+
+  # Vista para mostrar formulario
+  # de aperturas de cajas
   def new_open_cash
     open_date = DateTime.now
     employee = current_user
@@ -11,6 +14,7 @@ class CashesController < ApplicationController
     end
   end
 
+  # Realizar apertura de caja
   def open_cash
     begin
       PgLock.new(name: "cashes_open_cash").lock do
@@ -66,7 +70,7 @@ class CashesController < ApplicationController
   end
 
   def generate_xlsx
-    if params[:type] == "servicios"
+    if params[:type] == "services_sales"
       cash = CashOpeningService.find(params[:cash])
       @incomes_xlsx = cash.payments
       @total = Payment.total(@incomes_xlsx)
@@ -84,12 +88,13 @@ class CashesController < ApplicationController
   end
 
   def ticket_open_cash
-    if params[:type] == "servicios"
-      @cash = CashOpeningService.find(params[:cash])
-      @title = "Ingresos por Servicios"
-      @sucursal = "Servicio"
+    if params[:type] == "services_sales"
+      @cash = CashOpeningServicesSale.find(params[:cash])
+      @title = "Ingresos por Servicios y Ventas"
+      @sucursal = "Accesorios y Servicios"
     else
-      @cash = CashOpeningSale.find(params[:cash])
+      # Cambiar por caja de impresiones
+      @cash = CashOpeningImpression.find(params[:cash])
       @title = "Ingresos por Ventas"
       @sucursal = "Accesorios"
     end

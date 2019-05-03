@@ -12,7 +12,7 @@ class SalesService
       end
 
       @sale.ticket = Sale.count + 1
-      @sale.cash_opening_sale = CashPolicy.new.cash_sales
+      @sale.cash_opening_services_sale = CashPolicy.new.cash_services_sales
       @sale.save
     end
   end

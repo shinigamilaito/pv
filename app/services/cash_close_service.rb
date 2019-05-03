@@ -13,8 +13,8 @@ class CashCloseService
     types_cashes = []
     cash_policy = CashPolicy.new
 
-    types_cashes << ["Servicios", "services"] if cash_policy.cash_services.present?
-    types_cashes << ["Ventas", "sales"] if cash_policy.cash_sales.present?
+    types_cashes << ["Servicios y Ventas", "services_sales"] if cash_policy.cash_services_sales.present?
+    types_cashes << ["Impresiones", "impressions"] if cash_policy.cash_impressions.present?
 
     return types_cashes
   end
@@ -23,21 +23,21 @@ class CashCloseService
     cash_policy = CashPolicy.new
 
     if type_cash.present?
-      if type_cash == "services"
-        return cash_policy.cash_services
+      if type_cash == "services_sales"
+        return cash_policy.cash_services_sales
       else
-        return cash_policy.cash_sales
+        return cash_policy.cash_impressions
       end
     end
 
-    if cash_policy.cash_services.present?
-      @type_cash = "services"
-      return cash_policy.cash_services
+    if cash_policy.cash_services_sales.present?
+      @type_cash = "services_sales"
+      return cash_policy.cash_services_sales
     end
 
-    if cash_policy.cash_sales.present?
-      @type_cash = "sales"
-      return cash_policy.cash_sales
+    if cash_policy.cash_impressions.present?
+      @type_cash = "impressions"
+      return cash_policy.cash_impressions
     end
   end
 
@@ -76,39 +76,39 @@ class CashCloseService
   # if type_cash == "sales", close sales_cash
   def close_cash
     case type_cash
-    when "services"
-      close_cash_services
-    when "sales"
-      close_cash_sales
+    when "services_sales"
+      close_cash_services_sales
+    when "impressions"
+      close_cash_impressions
     end
   end
 
   private
 
-  # create cash_closing_service record
+  # create cash_closing_services_sale record
   # only there is a opening_cash active
-  def close_cash_services
+  def close_cash_services_sales
     if is_closed?
       raise "Proceda a realizar la apertura de la caja."
     else
       ActiveRecord::Base.transaction do
         current_cash = cash
-        cash_closing_service = CashClosingService.new
-        cash_closing_service.close_date = close_date
-        cash_closing_service.user = employee
-        cash_closing_service.total_effective = total_effective
-        cash_closing_service.total_debit_card = total_debit_card
-        cash_closing_service.total_credit_card = total_credit_card
-        cash_closing_service.total_sales = total_sales
-        cash_closing_service.open_amount = open_amount
-        cash_closing_service.total = total
-        cash_closing_service.cash_opening_service = current_cash
-        raise "Error al realizar el cierre" unless cash_closing_service.save
+        cash_closing_services_sale = CashClosingServicesSale.new
+        cash_closing_services_sale.close_date = close_date
+        cash_closing_services_sale.user = employee
+        cash_closing_services_sale.total_effective = total_effective
+        cash_closing_services_sale.total_debit_card = total_debit_card
+        cash_closing_services_sale.total_credit_card = total_credit_card
+        cash_closing_services_sale.total_sales = total_sales
+        cash_closing_services_sale.open_amount = open_amount
+        cash_closing_services_sale.total = total
+        cash_closing_services_sale.cash_opening_services_sale = current_cash
+        raise "Error al realizar el cierre" unless cash_closing_services_sale.save
 
         current_cash.active = false
         raise "Error al realizar el cierre" unless current_cash.save
 
-        return cash_closing_service
+        return cash_closing_services_sale
       end
 
     end
@@ -116,7 +116,7 @@ class CashCloseService
 
   # create cash_closing_sale record
   # only there is a opening_cash active
-  def close_cash_sales
+  def close_cash_impressions
     if is_closed?
       raise "Proceda a realizar la apertura de la caja."
     else
@@ -150,10 +150,10 @@ class CashCloseService
   # Obtain the current cash closed
   def cash_closed
     case type_cash
-    when "services"
-      return CashPolicy.new.cash_services
+    when "services_sales"
+      return CashPolicy.new.cash_services_sales
     when "sales"
-      return CashPolicy.new.cash_sales
+      return CashPolicy.new.cash_impressions
     end
   end
 

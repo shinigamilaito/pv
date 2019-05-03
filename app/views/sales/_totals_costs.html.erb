@@ -2,7 +2,9 @@
   <tbody>
     <tr>
       <th style="width:80%" class="text-right">Total productos:</th>
-      <td><%= number_to_currency total_sales[:total_products] %></td>
+      <td>
+        <span id="total_to_paid"><%= number_to_currency total_sales[:total_products] %></span>
+      </td>
     </tr>
     <!-- Se ocultan estos campos, no usados. 01/05/19
     <tr>

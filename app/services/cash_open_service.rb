@@ -14,57 +14,47 @@ class CashOpenService
   def types_cashes
     types_cashes = []
     cash_policy = CashPolicy.new
+    cash_services_sales = cash_policy.cash_services_sales
+    cash_impressions = cash_policy.cash_impressions
 
-    types_cashes << ["Servicios", "services"] if cash_policy.cash_services.blank?
-    types_cashes << ["Ventas", "sales"] if cash_policy.cash_sales.blank?
+    types_cashes << ["Servicios y Ventas", "services_sales"] if cash_services_sales.blank?
+    types_cashes << ["Impresiones", "impressions"] if cash_impressions.blank?
 
     return types_cashes
   end
 
   # Create the record for open cash
-  # if type_cash == "servicios", open services_cash
-  # if type_cash == "sales", open sales_cash
+  # if type_cash == "servicios_sales", open services_cash and sales_cash
+  # if type_cash == "impressions", open impressions_cash
   def open_cash
     case type_cash
-    when "services"
-      open_cash_services
-    when "sales"
-      open_cash_sales
+    when "services_sales"
+      open_cash_services_sales
+    when "impressions"
+      open_cash_impressions
     end
   end
 
   private
 
-  # create cash_opening_service record
-  # only there is not a opening_cash active
-  def open_cash_services
+  # Open cashes services_sales
+  def open_cash_services_sales
     if is_open?
       raise "Proceda a realizar el cierre de la caja."
     else
-      cash_opening_service = CashOpeningService.new
-      cash_opening_service.open_date = open_date
-      cash_opening_service.user = employee
-      cash_opening_service.amount = amount
-      raise "Error al realizar la apertura" unless cash_opening_service.save
+      cash_opening_service_sale = CashOpeningServicesSale.new
+      cash_opening_service_sale.open_date = open_date
+      cash_opening_service_sale.user = employee
+      cash_opening_service_sale.amount = amount
+      raise "Error al realizar la apertura" unless cash_opening_service_sale.save
 
-      return cash_opening_service
+      return cash_opening_service_sale
     end
   end
 
-  # create cash_opening_sale record
-  # only there is not a opening_cash active
-  def open_cash_sales
-    if is_open?
-      raise "Proceda a realizar el cierre de la caja."
-    else
-      cash_opening_sale = CashOpeningSale.new
-      cash_opening_sale.open_date = open_date
-      cash_opening_sale.user = employee
-      cash_opening_sale.amount = amount
-      raise "Error al realizar la apertura" unless cash_opening_sale.save
-
-      return cash_opening_sale
-    end
+  # open_cash_impressions
+  def open_cash_impressions
+    raise 'Caja no disponible'
   end
 
   # Check if there is a open cash
@@ -75,10 +65,10 @@ class CashOpenService
   # Obtain the current cash open
   def cash_open
     case type_cash
-    when "services"
-      return CashPolicy.new.cash_services
-    when "sales"
-      return CashPolicy.new.cash_sales
+    when "services_sales"
+      return CashPolicy.new.cash_services_sales
+    when "impressions"
+      return CashPolicy.new.cash_impressions
     end
   end
 

@@ -4,7 +4,7 @@ class Payment < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :generic_price, optional: true
   belongs_to :service
-  belongs_to :cash_opening_service, optional: true
+  belongs_to :cash_opening_services_sale, optional: true
 
   has_many :service_spare_parts
   has_many :equipment_customers

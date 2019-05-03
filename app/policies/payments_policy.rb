@@ -47,7 +47,7 @@ class PaymentsPolicy
     end
 
     payment.ticket = set_payment_number
-    payment.cash_opening_service = CashPolicy.new.cash_services
+    payment.cash_opening_services_sale = CashPolicy.new.cash_services_sales
 
     return payment
   end
