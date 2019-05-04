@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190503120257) do
+ActiveRecord::Schema.define(version: 20190504142007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,40 +34,6 @@ ActiveRecord::Schema.define(version: 20190503120257) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cash_closing_sales", force: :cascade do |t|
-    t.string "type_cash", default: "sales"
-    t.datetime "close_date"
-    t.bigint "user_id"
-    t.decimal "total_effective", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total_debit_card", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total_credit_card", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total_sales", precision: 10, scale: 2, default: "0.0"
-    t.decimal "open_amount", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total", precision: 10, scale: 2, default: "0.0"
-    t.bigint "cash_opening_sale_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cash_opening_sale_id"], name: "index_cash_closing_sales_on_cash_opening_sale_id"
-    t.index ["user_id"], name: "index_cash_closing_sales_on_user_id"
-  end
-
-  create_table "cash_closing_services", force: :cascade do |t|
-    t.string "type_cash", default: "services"
-    t.datetime "close_date"
-    t.bigint "user_id"
-    t.decimal "total_effective", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total_debit_card", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total_credit_card", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total_sales", precision: 10, scale: 2, default: "0.0"
-    t.decimal "open_amount", precision: 10, scale: 2, default: "0.0"
-    t.decimal "total", precision: 10, scale: 2, default: "0.0"
-    t.bigint "cash_opening_service_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cash_opening_service_id"], name: "index_cash_closing_services_on_cash_opening_service_id"
-    t.index ["user_id"], name: "index_cash_closing_services_on_user_id"
-  end
-
   create_table "cash_closing_services_sales", force: :cascade do |t|
     t.string "type_cash", default: "services_sales"
     t.datetime "close_date"
@@ -83,26 +49,6 @@ ActiveRecord::Schema.define(version: 20190503120257) do
     t.datetime "updated_at", null: false
     t.index ["cash_opening_services_sale_id"], name: "cash_opening_services_sale"
     t.index ["user_id"], name: "index_cash_closing_services_sales_on_user_id"
-  end
-
-  create_table "cash_opening_sales", force: :cascade do |t|
-    t.string "type_cash", default: "sales"
-    t.datetime "open_date", default: "2019-04-14 22:07:34"
-    t.bigint "user_id"
-    t.decimal "amount", precision: 10, scale: 2, default: "0.0"
-    t.boolean "active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_cash_opening_sales_on_user_id"
-  end
-
-  create_table "cash_opening_services", force: :cascade do |t|
-    t.string "type_cash", default: "servicios"
-    t.datetime "open_date", default: "2019-04-14 21:34:17"
-    t.bigint "user_id"
-    t.decimal "amount", precision: 10, scale: 2, default: "0.0"
-    t.boolean "active", default: true
-    t.index ["user_id"], name: "index_cash_opening_services_on_user_id"
   end
 
   create_table "cash_opening_services_sales", force: :cascade do |t|
@@ -383,13 +329,8 @@ ActiveRecord::Schema.define(version: 20190503120257) do
     t.index ["rol_id"], name: "index_users_on_rol_id"
   end
 
-  add_foreign_key "cash_closing_sales", "cash_opening_sales"
-  add_foreign_key "cash_closing_sales", "users"
-  add_foreign_key "cash_closing_services", "cash_opening_services"
-  add_foreign_key "cash_closing_services", "users"
   add_foreign_key "cash_closing_services_sales", "cash_opening_services_sales"
   add_foreign_key "cash_closing_services_sales", "users"
-  add_foreign_key "cash_opening_sales", "users"
   add_foreign_key "cash_opening_services_sales", "users"
   add_foreign_key "component_equipment_customers", "components"
   add_foreign_key "component_equipment_customers", "equipment_customers"

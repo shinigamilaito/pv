@@ -114,7 +114,7 @@ class CashCloseService
     end
   end
 
-  # create cash_closing_sale record
+  # create cash_closing_impression record
   # only there is a opening_cash active
   def close_cash_impressions
     if is_closed?
