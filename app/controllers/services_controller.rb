@@ -14,6 +14,7 @@ class ServicesController < ApplicationController
       @folios = []
     end
 
+    @module = "Servicios"
     clear_variables
   end
 

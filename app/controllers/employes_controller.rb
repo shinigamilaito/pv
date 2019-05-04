@@ -1,5 +1,6 @@
 class EmployesController < ApplicationController
   before_action :check_is_admin, except: [:search]
+  before_action :set_module
 
   def index
     @users = User
@@ -77,5 +78,9 @@ class EmployesController < ApplicationController
     unless current_user.admin?
       redirect_to root_path
     end
+  end
+
+  def set_module
+    @module = "Empleados"
   end
 end

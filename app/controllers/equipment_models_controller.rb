@@ -1,5 +1,6 @@
 class EquipmentModelsController < ApplicationController
   before_action :set_equipment_model, only: [:show, :edit, :update, :destroy]
+  before_action :set_module
 
   def index
     @equipment_models = EquipmentModel
@@ -84,5 +85,9 @@ class EquipmentModelsController < ApplicationController
 
     def equipment_model_params
       params.require(:equipment_model).permit(:name, :description)
-    end  
+    end
+
+    def set_module
+      @module = "Modelos"
+    end
 end

@@ -3,6 +3,7 @@ class ConcentratedReportsController < ApplicationController
     initialize_variables("sales")
     @concentrated = @concentrated_report.one_month(Date.current)
     @total = set_total
+    @module = "concentrated_reports_sales"
     respond_to do |format|
       format.html {}
       format.js { render :search }
@@ -69,6 +70,7 @@ class ConcentratedReportsController < ApplicationController
     initialize_variables("services")
     @concentrated = @concentrated_report.one_month(Date.current)
     @total = set_total
+    @module = "concentrated_reports_services"
     respond_to do |format|
       format.html {}
       format.js { render :search }

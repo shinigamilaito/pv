@@ -7,6 +7,7 @@ class CashesController < ApplicationController
     employee = current_user
     amount = "0.00"
     @cash = CashOpenService.new(open_date, employee, amount)
+    @module = "open_cashes"
 
     if @cash.types_cashes.blank?
       flash[:notice] = "Todas las cajas han sido abiertas."
@@ -37,6 +38,7 @@ class CashesController < ApplicationController
     close_date = DateTime.now
     employee = current_user
     @cash_close_service = CashCloseService.new(close_date, employee)
+    @module = "close_cashes"
 
     if params[:type_cash].present?
       @cash_close_service.type_cash = params[:type_cash]

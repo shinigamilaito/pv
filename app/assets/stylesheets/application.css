@@ -246,3 +246,7 @@ padding-left: 3px;
   position: absolute !important;
   /*bottom: 5px !important;*/
 }
+
+.login-box {
+  margin: 2% auto !important;
+}

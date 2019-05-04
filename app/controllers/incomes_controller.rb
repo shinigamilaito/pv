@@ -11,6 +11,7 @@ class IncomesController < ApplicationController
       .order(updated_at: :desc)
 
     @index = obtain_index(params[:page].to_i)
+    @module = "incomes"
 
     respond_to do |format|
       format.html { render :index }
@@ -30,6 +31,7 @@ class IncomesController < ApplicationController
       .order(updated_at: :desc)
 
     @index = obtain_index(params[:page].to_i)
+    @module = "Servicios Proceso"
 
     respond_to do |format|
       format.html { render :pending_services }

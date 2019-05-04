@@ -27,13 +27,15 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <span><b>My PV</b></span>
+      <span>
+        <%= image_tag 'logo_nota_servicios.jpg', class: "logo-lg font-logo", style: "margin: 0 auto; height: 150px; width: 350px; display: block !important;" %>
+      </span>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
       <p class="login-box-msg text-aqua">Ingresa tus credenciales para poder acceder.</p>
       <%= yield %>
-    
+
     </div>
     <!-- /.login-box-body -->
   </div>

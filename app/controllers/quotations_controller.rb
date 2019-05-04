@@ -7,6 +7,7 @@ class QuotationsController < ApplicationController
       .order(created_at: :desc)
 
     @index = obtain_index(params[:page].to_i)
+    @module = "Cotizaciones"
 
     respond_to do |format|
       format.html { render :index }
@@ -117,6 +118,20 @@ class QuotationsController < ApplicationController
       .order(updated_at: :desc)
 
     @index = obtain_index(params[:page].to_i)
+  end
+
+  def destroy
+    begin
+      @quotation = Quotation.find(params[:id])
+      @quotation.destroy
+      respond_to do |format|
+        flash[:success] = 'Cotización eliminada correctamente.'
+        format.html { redirect_to quotations_url }
+      end
+    rescue ActiveRecord::InvalidForeignKey => exception
+      flash[:error] = 'La cotización ya esta en uso.'
+      redirect_to quotations_url
+    end
   end
 
   private

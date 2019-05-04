@@ -1,5 +1,6 @@
 class BrandsController < ApplicationController
   before_action :set_brand, only: [:show, :edit, :update, :destroy]
+  before_action :set_module
 
   def index
     @brands = Brand
@@ -85,5 +86,9 @@ class BrandsController < ApplicationController
 
     def brand_params
       params.require(:brand).permit(:name, :specifications)
+    end
+
+    def set_module
+      @module = "Marcas"
     end
 end

@@ -5,6 +5,7 @@
     <th>Cliente</th>
     <th>Fecha</th>
     <th>Estado</th>
+    <th></th>
   </tr>
   <% @quotations.each do |quotation| %>
     <tr>
@@ -13,6 +14,7 @@
       <td><%= quotation.client.formal_name %></td>
       <td><%= date_time_helper(quotation.created_at) %></td>
       <td><%= quotation.status %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', quotation, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
     </tr>
     <% @index += 1 %>
   <% end %>

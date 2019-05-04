@@ -2,6 +2,7 @@ class GenericPricesController < ApplicationController
   before_action :check_is_admin, except: [:autocomplete, :search]
   before_action :set_generic_price, only: [:show, :edit, :update, :destroy]
   before_action :fixed_format_price, only: [:create, :update]
+  before_action :set_module
 
   def index
     @generic_prices = GenericPrice
@@ -96,5 +97,9 @@ class GenericPricesController < ApplicationController
       unless current_user.admin?
         redirect_to root_path
       end
+    end
+
+    def set_module
+      @module = "Precios Genéricos"
     end
 end

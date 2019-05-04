@@ -1,6 +1,7 @@
 class SparePartsController < ApplicationController
   before_action :set_spare_part, only: [:show, :edit, :update, :destroy, :translate]
   before_action :fixed_format_price, only: [:create, :update]
+  before_action :set_module
 
   def index
     @spare_parts = SparePart
@@ -102,6 +103,10 @@ class SparePartsController < ApplicationController
 
     def fixed_format_price
       params[:spare_part][:price] = params[:spare_part][:price].gsub('$ ', '').gsub(',','')
+    end
+
+    def set_module
+      @module = "Refacciones"
     end
 
 end

@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   before_action :set_client, only: [:show, :edit, :update, :destroy]
+  before_action :set_module
 
   def index
     @clients = Client
@@ -7,7 +8,7 @@ class ClientsController < ApplicationController
       .order(updated_at: :desc)
 
     @index = obtain_index(params[:page].to_i)
-
+    
     respond_to do |format|
       format.html { render :index }
       format.js { render :search }
@@ -83,5 +84,9 @@ class ClientsController < ApplicationController
 
     def client_params
       params.require(:client).permit(:name, :first_name, :last_name, :address, :email, :mobile_phone, :home_phone)
+    end
+
+    def set_module
+      @module = "Clientes"
     end
 end

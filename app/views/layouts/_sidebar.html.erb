@@ -3,7 +3,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu background-gray" data-widget="tree"C">
+      <ul class="sidebar-menu background-gray" data-widget="tree" data-animation-speed="300" data-accordion=false>
         <li class="header background-gray" style="height: 30px; display: inline-block; width: 100%; text-align: center; padding-top: 20px;"></li>
 
         <li class="<%= @module == "Home" ? 'active-sidebar' : '' %>">
@@ -21,7 +21,7 @@
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu background-gray" style="display: block;">
+          <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_store?(@module) %>">
             <li class="<%= @module == "Ventas" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to new_sale_path, style: "font-size: 15px !important;", class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-support"></i>
@@ -53,15 +53,15 @@
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu background-gray" style="display: block;">
-            <li class="<%= active_item('services')%> subitem-menu-navegation">
+          <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_services?(@module) %>">
+            <li class="<%= @module == "Servicios" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to new_service_path, style: "font-size: 15px !important;", class: "subitem-menu-navegation" do %>
                 <span class="glyphicon glyphicon-inbox"></span>
                 <span class="roboto-font" style="padding-left: 10px;">Nuevo Servicio</span>
               <% end %>
             </li>
 
-            <li class="<%= active_item_action('pending_services')%> subitem-menu-navegation">
+            <li class="<%= @module == "Servicios Proceso" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to pending_services_incomes_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                 <i class="fa fa-fw fa-gears"></i>
                 <span class="roboto-font">Servicios en Proceso</span>
@@ -78,53 +78,53 @@
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu background-gray" style="display: block;">
-            <li class="<%= active_item('equipments')%> subitem-menu-navegation">
+          <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_catalogs?(@module) %>">
+            <li class="<%= @module == "Equipos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to equipments_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-television"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Equipos</span>
               <% end %>
             </li>
-            <li class="<%= active_item('brands')%> subitem-menu-navegation">
+            <li class="<%= @module == "Marcas" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to brands_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-trademark"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Marcas</span>
               <% end %>
             </li>
-            <li class="<%= active_item('equipment_models')%> subitem-menu-navegation">
+            <li class="<%= @module == "Modelos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to equipment_models_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-opencart"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Modelos</span>
               <% end %>
             </li>
-            <li class="<%= active_item('spare_parts')%> subitem-menu-navegation">
+            <li class="<%= @module == "Refacciones" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to spare_parts_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-battery-empty"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Refacciones</span>
               <% end %>
             </li>
             <% if current_user.admin? %>
-            <li class="<%= active_item('generic_prices')%> subitem-menu-navegation">
+            <li class="<%= @module == "Precios Genéricos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to generic_prices_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                 <i class="fa fa-fw fa-money"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Precios Genéricos</span>
               <% end %>
             </li>
-            <li class="<%= active_item('employes')%> subitem-menu-navegation">
+            <li class="<%= @module == "Empleados" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to employes_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-user"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Empleados</span>
               <% end %>
             </li>
             <% end %>
-            <li class="<%= active_item('products')%> subitem-menu-navegation">
+            <li class="<%= @module == "Productos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to products_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-hdd-o"></i>
                 <span class="roboto-font" style="padding-left: 5px;">Productos</span>
               <% end %>
             </li>
 
-            <li class="<%= active_item('clients')%> subitem-menu-navigation">
+            <li class="<%= @module == "Clientes" ? 'active-sidebar' : '' %> subitem-menu-navigation">
               <%= link_to clients_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-user-md"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Clientes</span>
@@ -142,14 +142,14 @@
                 <i class="fa fa-angle-down pull-right"></i>
               </span>
             </a>
-            <ul class="treeview-menu background-gray" style="display: block;">
+            <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_incomes?(@module) %>">
               <li class="<%= @module == "incomes_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
                 <%= link_to sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
                   <span class="roboto-font" style="padding-left: 5px;">Ingresos por Ventas</span>
                 <% end %>
               </li>
-              <li class="<%= active_item('incomes')%> subitem-menu-navegation">
+              <li class="<%= @module == "incomes" ? 'active-sidebar' : '' %> subitem-menu-navegation">
                 <%= link_to incomes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
                   <span class="roboto-font" style="padding-left: 5px;">Ingresos por Servicios</span>
@@ -157,13 +157,13 @@
               </li>
 
               <!-- Reportes simplificados -->
-              <li class="<%= active_item_action('sales')%> subitem-menu-navegation">
+              <li class="<%= @module == "concentrated_reports_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
                 <%= link_to concentrated_reports_sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
                   <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Ventas</span>
                 <% end %>
               </li>
-              <li class="<%= active_item_action('services')%> subitem-menu-navegation">
+              <li class="<%= @module == "concentrated_reports_services" ? 'active-sidebar' : '' %> subitem-menu-navegation">
                 <%= link_to concentrated_reports_services_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
                   <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Servicios</span>
@@ -181,16 +181,16 @@
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu background-gray" style="display: block;">
+          <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_cashes?(@module) %>">
             <% if current_user.admin? %>
-            <li class="<%= active_item_action('new_open_cash')%> subitem-menu-navegation">
+            <li class="<%= @module == "open_cashes" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to cashes_new_open_cash_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                 <i class="fa fa-fw fa-plus"></i>
                 <span class="roboto-font">Abrir Caja</span>
               <% end %>
             </li>
             <% end %>
-            <li class="<%= active_item_action('new_close_cash')%> subitem-menu-navegation">
+            <li class="<%= @module == "close_cashes" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to cashes_new_close_cash_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                 <i class="fa fa-fw fa-expeditedssl"></i>
                 <span class="roboto-font">Cerrar Caja</span>

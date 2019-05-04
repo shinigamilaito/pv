@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :quotations, only: [:index, :new, :create] do
+  resources :quotations, only: [:index, :new, :create, :destroy] do
     delete :delete_product, on: :collection
     get :search_products, on: :collection
     post :update_quantity_product, on: :collection

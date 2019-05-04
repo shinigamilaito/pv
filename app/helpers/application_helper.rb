@@ -2,20 +2,57 @@ module ApplicationHelper
   def root_controller()
     current_page?(root_url) ? 'active-sidebar' : ''
   end
-
-  def active_item(uri)
-    uri_segments = request.fullpath.split(/\/|\?/)
-    uri_segments[1] == uri && uri_segments[2] != 'pending_services' ? 'active-sidebar' : ''
-  end
-
-  def active_item_action(action)
-    uri_segments = request.fullpath.split(/\/|\?/)
-    uri_segments[2] == action ? 'active-sidebar' : ''
-  end
-
+  
   def date_time_helper(datetime)
     l datetime, format: '%A, %d %b %Y %I:%M:%S'
     #datetime.strftime('%A, %d %b %Y %I:%M:%S')
+  end
+
+  def collapse_menu_store?(section)
+    if section.eql?("Ventas") || section.eql?("Cotizar") || section.eql?("Cotizaciones")
+      return "display: block;"
+    else
+      return "display: none;"
+    end
+  end
+
+  def collapse_menu_services?(section)
+    if section.eql?("Servicios") || section.eql?("Servicios Proceso")
+      return "display: block;"
+    else
+      return "display: none;"
+    end
+  end
+
+  def collapse_menu_catalogs?(section)
+    sections = %w(Equipos Marcas Modelos Refacciones Empleados Productos Clientes)
+    sections << 'Precios Genéricos'
+
+    if sections.include?(section)
+      return "display: block;"
+    else
+      return "display: none;"
+    end
+  end
+
+  def collapse_menu_incomes?(section)
+    sections = %w(incomes incomes_sales concentrated_reports_sales concentrated_reports_services)
+
+    if sections.include?(section)
+      return "display: block;"
+    else
+      return "display: none;"
+    end
+  end
+
+  def collapse_menu_cashes?(section)
+    sections = %w(open_cashes close_cashes)
+
+    if sections.include?(section)
+      return "display: block;"
+    else
+      return "display: none;"
+    end
   end
 
 end

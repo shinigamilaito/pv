@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy, :translate]
   before_action :fixed_format_price, only: [:create, :update]
+  before_action :set_module
 
   def index
     @products = Product
@@ -108,6 +109,10 @@ class ProductsController < ApplicationController
 
     def fixed_format_price
         params[:product][:price] = params[:product][:price].gsub('$ ', '').gsub(',','')
+    end
+
+    def set_module
+      @module = "Productos"
     end
 
 end
