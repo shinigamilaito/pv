@@ -1,0 +1,27 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  title = style.add_style(size: 15,
+                          b: true,
+                          u: true,
+                          alignment: { horizontal: :center })
+  default = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                            alignment: { horizontal: :left })
+  header = style.add_style(bg_color: '00', fg_color: 'FF', b: true)
+  profitable = style.add_style(fg_color: 'FF428751',
+                               sz: 12,
+                               b: true,
+                               border: Axlsx::STYLE_THIN_BORDER)
+
+  wb.add_worksheet(name: "Ingresos Servicios y Ventas") do |sheet|
+    sheet.add_row [@title], style: title
+    sheet.add_row
+    sheet.add_row ["No.", "Cobrado el", "Folio/Ticket", "Cobrado por", "Cliente", "Cantidad", "Concepto"], style: header
+    @incomes_xlsx.each_with_index do |income, index|
+      sheet.add_row [index + 1, date_time_helper(income[:charged_date]), income[:folio_ticket], income[:charged_by], income[:client], number_to_currency(income[:amount]), income[:concept]], style: default
+    end
+    sheet.add_row
+    sheet.add_row [nil, nil, nil, nil, nil, "Total Ingresos:", number_to_currency(@total)], style: [nil, nil, nil, nil, nil, profitable, default]
+    sheet.column_widths 6, nil, nil, nil, nil, nil, nil
+    sheet.merge_cells 'A1:F1'
+  end
+end

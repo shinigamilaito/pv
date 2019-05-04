@@ -71,12 +71,13 @@ class CashesController < ApplicationController
 
   def generate_xlsx
     if params[:type] == "services_sales"
-      cash = CashOpeningService.find(params[:cash])
-      @incomes_xlsx = cash.payments
-      @total = Payment.total(@incomes_xlsx)
-      @title = "Ingresos por Servicios"
+      cash = CashOpeningServicesSale.find(params[:cash])
+      cash_policy = CashPolicy.new
+      @incomes_xlsx = cash_policy.incomes(cash)
+      @total = cash_policy.totals(cash)
+      @title = "Ingresos por Servicios y Ventas"
       response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
-      render xlsx: @title, template: 'incomes/index'
+      render xlsx: @title, template: 'cashes/services_sales'
     else
       cash = CashOpeningSale.find(params[:cash])
       @sales_xlsx = cash.sales
