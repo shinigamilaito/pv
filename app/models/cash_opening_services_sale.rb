@@ -2,6 +2,7 @@ class CashOpeningServicesSale < ApplicationRecord
   belongs_to :user
   has_many :payments
   has_many :sales
+  has_many :cash_movements, as: :cash
 
   validates :type_cash, :open_date, :user_id, presence: true
 	validates :amount, presence: true

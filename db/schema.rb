@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190504142007) do
+ActiveRecord::Schema.define(version: 20190505191317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,22 @@ ActiveRecord::Schema.define(version: 20190504142007) do
     t.datetime "updated_at", null: false
     t.index ["cash_opening_services_sale_id"], name: "cash_opening_services_sale"
     t.index ["user_id"], name: "index_cash_closing_services_sales_on_user_id"
+  end
+
+  create_table "cash_movements", force: :cascade do |t|
+    t.string "cash_type"
+    t.bigint "cash_id"
+    t.bigint "user_id"
+    t.decimal "amount", precision: 10, scale: 2, default: "0.0"
+    t.string "type_movement"
+    t.string "reason"
+    t.bigint "payment_type_id"
+    t.string "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cash_type", "cash_id"], name: "index_cash_movements_on_cash_type_and_cash_id"
+    t.index ["payment_type_id"], name: "index_cash_movements_on_payment_type_id"
+    t.index ["user_id"], name: "index_cash_movements_on_user_id"
   end
 
   create_table "cash_opening_services_sales", force: :cascade do |t|
@@ -331,6 +347,8 @@ ActiveRecord::Schema.define(version: 20190504142007) do
 
   add_foreign_key "cash_closing_services_sales", "cash_opening_services_sales"
   add_foreign_key "cash_closing_services_sales", "users"
+  add_foreign_key "cash_movements", "payment_types"
+  add_foreign_key "cash_movements", "users"
   add_foreign_key "cash_opening_services_sales", "users"
   add_foreign_key "component_equipment_customers", "components"
   add_foreign_key "component_equipment_customers", "equipment_customers"

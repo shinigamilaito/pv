@@ -182,18 +182,22 @@
             </span>
           </a>
           <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_cashes?(@module) %>">
-            <% if current_user.admin? %>
             <li class="<%= @module == "open_cashes" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to cashes_new_open_cash_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                 <i class="fa fa-fw fa-plus"></i>
                 <span class="roboto-font">Abrir Caja</span>
               <% end %>
             </li>
-            <% end %>
             <li class="<%= @module == "close_cashes" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to cashes_new_close_cash_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                 <i class="fa fa-fw fa-expeditedssl"></i>
                 <span class="roboto-font">Cerrar Caja</span>
+              <% end %>
+            </li>
+            <li class="<%= @module == "movements_cash" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to cashes_new_movement_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                <i class="fa fa-fw fa-expeditedssl"></i>
+                <span class="roboto-font">Movimientos de Caja</span>
               <% end %>
             </li>
           </ul>

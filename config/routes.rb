@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   post 'cashes/close_cash'
   get 'cashes/generate_xlsx'
   get 'cashes/ticket_open_cash'
+  get 'cashes/new_movement'
+  post 'cashes/create_movement'
 
   get 'filters_sales/range_date_incomes'
   get 'filters_sales/employee_incomes'

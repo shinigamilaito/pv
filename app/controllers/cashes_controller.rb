@@ -1,4 +1,5 @@
 class CashesController < ApplicationController
+    before_action :fixed_format_amount, only: [:create_movement]
 
   # Vista para mostrar formulario
   # de aperturas de cajas
@@ -121,9 +122,58 @@ class CashesController < ApplicationController
     end
   end
 
+  # Form to register movement in cash
+  def new_movement
+    @cash_movement = CashMovement.new
+    close_date = DateTime.now
+    employee = current_user
+    @cash = CashCloseService.new(close_date, employee)
+    @type_movements = ["Entrada", "Salida"]
+    @reasons = ["Abono a cuenta", "Otro"]
+    @module = "movements_cash"
+
+    if @cash.types_cashes_opened.blank?
+      flash[:warning] = "Todas las cajas estan cerradas"
+      redirect_to root_url and return
+    end
+  end
+
+  # Save record movement in cash
+  def create_movement
+    @cash_movement = CashMovement.new(cash_movement_params)
+    @cash_movement.user = current_user
+    type_cash = params[:type_cash]
+
+    if type_cash == "services_sales"
+      cash_services_sales = CashPolicy.new.cash_services_sales
+      @cash_movement.cash = cash_services_sales
+    end
+
+    if @cash_movement.type_movement == 'Salida'
+      @cash_movement.payment_type_id = 1 #Efectivo
+    end
+
+    respond_to do |format|
+      if @cash_movement.save
+        flash[:success] = 'Movimiento registrado correctamente.'
+        format.html { redirect_to root_url }
+      else
+        flash[:error] = 'Proporcione los datos correctos.'
+        format.html { redirect_to cashes_new_movement_url }
+      end
+    end
+  end
+
   private
+  def fixed_format_amount
+      params[:cash_movement][:amount] = params[:cash_movement][:amount].gsub('$', '').gsub(',','')
+  end
 
   def format_amount(amount)
     return amount.gsub("$", "").gsub(",", "")
+  end
+
+  def cash_movement_params
+    params.require(:cash_movement).permit(:cash, :amount, :type_movement, :reason, :payment_type_id, :comments)
   end
 end

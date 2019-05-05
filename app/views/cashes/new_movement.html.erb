@@ -1,0 +1,104 @@
+<div class="box">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Movimientos de caja</h3>
+  </div>
+
+  <%= form_for(@cash_movement, url: cashes_create_movement_path, html: { class: "form-horizontal" }) do |f| %>
+    <div class="box-body">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Caja</label>
+        <div class="col-sm-10">
+          <%= select_tag "type_cash", options_for_select(@cash.types_cashes_opened), include_blank: "Seleccione una caja", class: "form-control", required: true, autofocus: true %>
+        </div>
+      </div>
+
+      <!-- Only show date to the user, the real date is when the record is saved -->
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Fecha</label>
+        <div class="col-sm-10">
+          <%= text_field_tag "movement_date", date_time_helper(@cash.close_date), class: "form-control", required: true, readonly: true %>
+        </div>
+      </div>
+
+      <!-- Only show name, current user is asigned when the record is saved -->
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Empleado</label>
+        <div class="col-sm-10">
+          <%= text_field_tag "employee", @cash.employee.formal_name, class: "form-control", readonly: true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Importe</label>
+        <div class="col-sm-10">
+          <%= f.text_field :amount, class: "form-control", required: true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Tipo de Movimiento</label>
+        <div class="col-sm-5">
+          <%= f.select :type_movement, @type_movements, {prompt: 'Seleccione un Tipo de Movimiento'}, class: "form-control", required: true %>
+        </div>
+        <div class="col-sm-5">
+          <%= f.collection_select :payment_type_id, PaymentType.all, :id, :name, {prompt: 'Seleccione un Tipo de Ingreso'}, class: "form-control", required: true %>
+        </div>
+      </div>
+
+      <div class="form-group" id="form-group-reason" style="display: none;">
+        <label class="col-sm-2 control-label">Razón</label>
+        <div class="col-sm-10">
+          <%= f.select :reason, @reasons, {prompt: 'Seleccione un concepto'}, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Comentarios</label>
+        <div class="col-sm-10">
+          <%= f.text_area :comments, class: "form-control textarea" %>
+          <div class="invalid-feedback"><%= @cash_movement.errors[:comments].first %></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-footer">
+      <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block" %>
+    </div>
+
+  <% end %>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $("#cash_movement_amount").inputmask("currency", {
+      "prefix": "$",
+      "rightAlign": false
+    });
+
+
+    $typeMovement = $("#cash_movement_type_movement");
+    $typeIncome = $("#cash_movement_payment_type_id");
+    $comment = $("#cash_movement_comments");
+    $formGroupReason = $("#form-group-reason");
+    $reason = $("#cash_movement_reason");
+
+    $typeMovement.change(function() {
+      var movement = $(this).val();
+
+      if(movement == 'Salida') {
+        //alert("Movel el pago a Efectivo, Desabilitar el select, obligar al comentartio")
+        $typeIncome.val(1);
+        $typeIncome.attr('disabled', true);
+        $comment.attr('required', true);
+        $formGroupReason.css('display', 'none');
+        $reason.removeAttr('required');
+
+      } else {
+        $typeIncome.removeAttr('disabled');
+        $comment.removeAttr('required');
+        $formGroupReason.css('display', 'block');
+        $reason.attr('required', true)
+      }
+    });
+  });
+</script>

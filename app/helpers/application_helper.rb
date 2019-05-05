@@ -46,7 +46,7 @@ module ApplicationHelper
   end
 
   def collapse_menu_cashes?(section)
-    sections = %w(open_cashes close_cashes)
+    sections = %w(open_cashes close_cashes movements_cash)
 
     if sections.include?(section)
       return "display: block;"
