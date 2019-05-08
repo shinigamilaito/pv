@@ -47,8 +47,8 @@ class CashPolicy
     payments = cash.payments
     sales = cash.sales
 
-    total_payments = Payment.total(payments)
-    total_sales = Sale.total(sales)
+    total_payments = Payment.total(payments) || BigDecimal.new("0")
+    total_sales = Sale.total(sales) || BigDecimal.new("0")
 
     return total_payments + total_sales
   end
