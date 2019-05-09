@@ -107,7 +107,7 @@
         <p><%= "Correo: " + @note_service.client[:email] %></p>
       </div>
       <div class="col-xs-6 border-left">
-        <p>Orden: <span class="red">000001</span></p>
+        <h1 class="number_folio">Orden: <span class="red"><%= @note_service.folio %></span></h1>
         <p><%= "Marca: " + equipment_customer.brand.name %></p>
         <p><%= "Modelo: " + equipment_customer.equipment_model.name %></p>
         <p><%= "No. Serie: " + equipment_customer.serie_number %></p>

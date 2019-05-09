@@ -124,6 +124,8 @@ class CashesController < ApplicationController
 
   # Form to register movement in cash
   def new_movement
+    redirect_to root_url and return
+    
     @cash_movement = CashMovement.new
     close_date = DateTime.now
     employee = current_user
