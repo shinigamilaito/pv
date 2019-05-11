@@ -15,4 +15,22 @@ class QuotationsService
       @quotation.save
     end
   end
+
+  def self.change_status
+    PgLock.new(name: "quotations_service_change_status").lock do
+      quotations = Quotation.where("status = ? AND created_at <= ?", "Vigente", Time.now.to_date - 1.month)
+
+      quotations.each do |quotation|
+        quotation.status = "No vigente"
+        quotation.save
+      end
+    end
+  end
+
+  def self.delete_quotations
+    PgLock.new(name: "quotations_service_delete_quotations").lock do
+      quotations = Quotation.where("status = ? AND created_at <= ?", "No vigente", Time.now.to_date - 6.month)
+      quotations.each { |quotation| quotation.destroy }
+    end
+  end
 end

@@ -2,6 +2,9 @@ class QuotationsController < ApplicationController
   before_action :set_quotation_policy, except: [:index, :search_products]
 
   def index
+    QuotationsService.change_status
+    QuotationsService.delete_quotations
+
     @quotations = Quotation
       .paginate(page: params[:page], per_page: self.elements_per_page)
       .order(created_at: :desc)
