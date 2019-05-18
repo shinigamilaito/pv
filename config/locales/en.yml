@@ -117,3 +117,10 @@ en:
               taken: "Ya existe un producto con este folio."
             name:
               taken: 'Ya existe un producto con este nombre.'
+
+       printing_product:
+         attributes:
+            code:
+              taken: "Ya existe un producto con este folio."
+            name:
+              taken: 'Ya existe un producto con este nombre.'

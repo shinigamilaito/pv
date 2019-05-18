@@ -1,0 +1,10 @@
+<div class="box">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Registrar</h3>
+    <%= link_to printing_products_path, class: "btn btn-info pull-right" do %>
+      <i class="fa fa-fw fa-reply"></i>
+    <% end %>
+  </div>
+
+  <%= render 'form', printing_product: @printing_product %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190505191317) do
+ActiveRecord::Schema.define(version: 20190518114401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,19 @@ ActiveRecord::Schema.define(version: 20190505191317) do
     t.index ["payment_type_id"], name: "index_payments_on_payment_type_id"
     t.index ["service_id"], name: "index_payments_on_service_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
+  create_table "printing_products", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.decimal "purchase_price", precision: 10, scale: 2, default: "0.0"
+    t.decimal "sale_price", precision: 10, scale: 2, default: "0.0"
+    t.string "sale_unit"
+    t.integer "stock"
+    t.integer "contains"
+    t.string "contain_unit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|

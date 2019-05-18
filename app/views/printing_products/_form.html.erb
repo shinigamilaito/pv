@@ -1,0 +1,61 @@
+<%= form_for(@printing_product, html: { class: "form-horizontal" }) do |f| %>
+  <div class="box-body">
+    <div class="form-group <%= 'has-error' unless @printing_product.errors[:code].blank? %>">
+      <label class="col-sm-2 control-label">Código</label>
+      <div class="col-sm-10">
+        <%= f.text_field :code, class: "form-control", required: true, autofocus: true, readonly: !@printing_product.new_record? %>
+        <span><%= @printing_product.errors[:code].first %></span>
+      </div>
+    </div>
+
+    <div class="form-group <%= 'has-error' unless @printing_product.errors[:name].blank? %>">
+      <label class="col-sm-2 control-label">Nombre</label>
+      <div class="col-sm-10">
+        <%= f.text_field :name, class: "form-control", required: true, readonly: !@printing_product.new_record? %>
+        <span><%= @printing_product.errors[:name].first %></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Precio Compra</label>
+      <div class="col-sm-10">
+        <%= f.text_field :purchase_price, class: "form-control", required: true, style: "text-align: left !important;" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Precio Venta</label>
+      <div class="col-sm-10">
+        <%= f.text_field :sale_price, class: "form-control", required: true, style: "text-align: left !important;" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Unidad Venta</label>
+      <div class="col-sm-10">
+        <%= f.select :sale_unit, PrintingProductsPolicy.sale_units, {prompt: 'Seleccione una unidad'}, { class: "form-control", required: true, style: "text-align: left !important;", readonly: !@printing_product.new_record? } %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Stock</label>
+      <div class="col-sm-10">
+        <%= f.text_field :stock, class: "form-control", required: true,  style: "text-align: left !important;" %>
+      </div>
+    </div>
+
+    <div class="form-group" id="form-group-contains" style="display: none;">
+      <label class="col-sm-2 control-label">Contiene</label>
+      <div class="col-sm-5">
+        <%= f.text_field :contains, class: "form-control", required: true %>
+      </div>
+      <div class="col-sm-5">
+        <%= f.select :contain_unit, PrintingProductsPolicy.contains_unit, { prompt: 'Seleccione una unidad' }, class: "form-control", required: true %>
+      </div>
+    </div>
+
+  <div class="box-footer">
+    <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block" %>
+  </div>
+
+<% end %>
