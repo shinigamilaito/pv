@@ -35,4 +35,28 @@ $(document).ready(function() {
       $containsUnit.attr('required', true);
     }
   }
+
+  readURL($("#printing_product_imagen_cache"));
+
+  $("#printing_product_imagen").change(function(){
+    $('#img_prev').removeClass('hidden');
+    readURL(this);
+  });
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#img_prev').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    } else {
+      console.log("URL: " + input.val());
+      if(input.val() != "") {
+          $('#img_prev').removeClass('hidden');
+          $('#img_prev').attr('src', "uploads/tmp/" + input.val());
+      }
+    }
+  }
 });

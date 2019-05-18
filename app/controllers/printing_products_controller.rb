@@ -43,6 +43,7 @@ class PrintingProductsController < ApplicationController
   def update
     respond_to do |format|
       if @printing_product.update(printing_product_params)
+        @printing_product.imagen = printing_product_params[:imagen]
         flash[:success] = 'Producto Imprenta actualizado correctamente.'
         format.html { redirect_to printing_products_url }
       else
@@ -106,7 +107,7 @@ class PrintingProductsController < ApplicationController
     def printing_product_params
       params.require(:printing_product).permit(
         :code, :name, :purchase_price, :sale_price, :sale_unit, :stock, :contains,
-        :contain_unit)
+        :contain_unit, :imagen, :imagen_cache)
     end
 
     def fixed_format_price

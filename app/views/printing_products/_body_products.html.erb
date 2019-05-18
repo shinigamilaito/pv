@@ -23,7 +23,7 @@
     <td><%= printing_product.sale_unit %></td>
     <td><%= printing_product.stock %></td>
     <td><%= "#{printing_product.contains} #{printing_product.contain_unit}" %></td>
-    <td><%=  %></td>
+    <td><%= image_tag(printing_product.imagen_url, size:"50x50") if printing_product.imagen? %></td>
     <td style="width: 1px;"><%#= link_to 'Traspasar', translate_product_path(product), method: :post, class: 'btn',  data: { confirm: "Se traspasará una unidad al cátalogo de refacciones. \n ¿Está usted seguro?" } if current_user.admin? %></td>
     <td style="width: 1px;"><%= link_to 'Actualizar', edit_printing_product_path(printing_product), class: 'btn btn-edit' %></td>
     <td style="width: 1px;"><%= link_to 'Eliminar', printing_product, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
