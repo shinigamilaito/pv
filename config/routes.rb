@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   resources :printing_products do
     get :search, on: :collection
     get :search_sales, on: :collection
-    post :translate, on: :member
+    get :translate_form, on: :member
+    get 'autocomplete', on: :collection
   end
 
   resources :quotations, only: [:index, :new, :create, :destroy] do

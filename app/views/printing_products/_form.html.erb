@@ -11,7 +11,7 @@
     <div class="form-group <%= 'has-error' unless @printing_product.errors[:name].blank? %>">
       <label class="col-sm-2 control-label">Nombre</label>
       <div class="col-sm-10">
-        <%= f.text_field :name, class: "form-control", required: true, readonly: !@printing_product.new_record? %>
+        <%= f.text_field :name, class: "form-control autocomplete_clients", required: true, readonly: !@printing_product.new_record? %>
         <span><%= @printing_product.errors[:name].first %></span>
       </div>
     </div>
@@ -46,12 +46,17 @@
 
     <div class="form-group" id="form-group-contains" style="display: none;">
       <label class="col-sm-2 control-label">Contiene</label>
-      <div class="col-sm-5">
+      <div class="col-sm-3">
         <%= f.text_field :contains, class: "form-control", required: true %>
       </div>
-      <div class="col-sm-5">
+      <div class="col-sm-3">
         <%= f.select :contain_unit, PrintingProductsPolicy.contains_unit, { prompt: 'Seleccione una unidad' }, class: "form-control", required: true %>
       </div>
+      <% unless @printing_product.new_record? %>
+        <div class="col-sm-4">
+          <%= link_to 'Traspaso a Piezas', translate_form_printing_product_path(@printing_product), class: 'btn btn-primary', data: { remote: true } %>
+        </div>
+      <% end %>
     </div>
 
     <div class="form-group">
@@ -70,3 +75,5 @@
   </div>
 
 <% end %>
+
+<%= render "printing_products/modal_translate" %>

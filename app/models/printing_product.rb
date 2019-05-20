@@ -9,4 +9,8 @@ class PrintingProduct < ApplicationRecord
   def unit_big
     !(%w(Pieza Metro Juego).include?(self.sale_unit))
   end
+
+  def self.search(term)
+    where('LOWER(name) LIKE :term', term: "%#{term.downcase}%") if term.present?
+  end
 end
