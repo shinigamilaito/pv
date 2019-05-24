@@ -85,20 +85,41 @@ class PrintingProductsController < ApplicationController
 
   def translate_form
     @printing_product = PrintingProduct.find(params[:id])
-
-    #begin
-    #  translate_items = TranslateItems.new
-    #  translate_items.translate_products_to_spare_parts(@product)
-    #  flash[:notice] = 'Traspaso exitoso.'
-    #  redirect_to products_url and return
-    #rescue StandardError => e
-    #  flash[:error] = "#{e.message}"
-    #  redirect_to products_url and return
-    #end
   end
 
   def autocomplete
-    @printing_products = PrintingProduct.search(params[:term]).order(created_at: :desc)
+    @printing_products = PrintingProduct
+      .search(params[:term], params[:product_id])
+      .order(created_at: :desc)
+  end
+
+  def transfer
+    source_product = PrintingProduct.find(params[:translate][:source_product_id])
+    destination_product = PrintingProduct.find(params[:translate][:destination_product_id])
+    stock = (params[:translate][:stock]).to_i
+
+    if stock > source_product.contains
+      flash[:error] = 'Stock Insuficiente.'
+      redirect_to printing_products_url and return
+    end
+
+    begin
+      PgLock.new(name: "printing_product_transfer").lock do
+        ActiveRecord::Base.transaction do
+          source_product.contains -= stock
+          destination_product.stock += stock
+
+          raise 'Error al actalizar el stock' unless source_product.save
+          raise 'Error al actualizar el stock' unless destination_product.save
+
+          flash[:notice] = 'Traspaso realizao correctamente.'
+          redirect_to printing_products_url
+        end
+      end
+    rescue StandarError => e
+      flash[:error] = e.message
+      redirect_to printing_products_url
+    end
   end
 
   private

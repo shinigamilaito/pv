@@ -10,7 +10,10 @@ class PrintingProduct < ApplicationRecord
     !(%w(Pieza Metro Juego).include?(self.sale_unit))
   end
 
-  def self.search(term)
-    where('LOWER(name) LIKE :term', term: "%#{term.downcase}%") if term.present?
+  def self.search(term, product_id)
+    product = PrintingProduct.find(product_id)
+    contains_unit = product.contain_unit[0...-1]
+
+    where('LOWER(name) LIKE ? AND id != ? AND sale_unit = ?', "%#{term.downcase}%", product_id, contains_unit) if term.present?
   end
 end

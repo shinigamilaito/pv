@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     get :search_sales, on: :collection
     get :translate_form, on: :member
     get 'autocomplete', on: :collection
+    post 'transfer', on: :collection
   end
 
   resources :quotations, only: [:index, :new, :create, :destroy] do
