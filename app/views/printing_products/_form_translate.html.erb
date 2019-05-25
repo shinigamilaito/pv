@@ -19,7 +19,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Stock</label>
       <div class="col-sm-5">
-        <%= text_field_tag "translate[stock]", @printing_product.contains, class: "form-control", required: true %>
+        <%= text_field_tag "translate[unit_to_discount]", @total_units, class: "form-control", required: true %>
       </div>
       <div class="col-sm-5">
         <%= text_field_tag "translate[stock_unit]", @printing_product.contain_unit, class: "form-control", required: true, autofocus: true, readonly: true %>

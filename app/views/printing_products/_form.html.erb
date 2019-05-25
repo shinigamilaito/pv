@@ -47,10 +47,10 @@
     <div class="form-group" id="form-group-contains" style="display: none;">
       <label class="col-sm-2 control-label">Contiene</label>
       <div class="col-sm-3">
-        <%= f.text_field :contains, class: "form-control", required: true %>
+        <%= f.text_field :contains, class: "form-control", required: true, readonly: !@printing_product.new_record? %>
       </div>
       <div class="col-sm-3">
-        <%= f.select :contain_unit, PrintingProductsPolicy.contains_unit, { prompt: 'Seleccione una unidad' }, class: "form-control", required: true %>
+        <%= f.select :contain_unit, PrintingProductsPolicy.contains_unit, { prompt: 'Seleccione una unidad' }, class: "form-control", required: true, disabled: !@printing_product.new_record? %>
       </div>
       <% unless @printing_product.new_record? %>
         <div class="col-sm-4">

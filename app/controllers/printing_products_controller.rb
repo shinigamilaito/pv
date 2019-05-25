@@ -85,6 +85,7 @@ class PrintingProductsController < ApplicationController
 
   def translate_form
     @printing_product = PrintingProduct.find(params[:id])
+    @total_units = (@printing_product.stock * @printing_product.contains) - @printing_product.discount_stock
   end
 
   def autocomplete
@@ -96,26 +97,19 @@ class PrintingProductsController < ApplicationController
   def transfer
     source_product = PrintingProduct.find(params[:translate][:source_product_id])
     destination_product = PrintingProduct.find(params[:translate][:destination_product_id])
-    stock = (params[:translate][:stock]).to_i
+    unit_to_discount = (params[:translate][:unit_to_discount]).to_i
+    printing_products_policy = PrintingProductsPolicy.new(source_product, destination_product, unit_to_discount)
 
-    if stock > source_product.contains
+    unless printing_products_policy.stock_enough?
       flash[:error] = 'Stock Insuficiente.'
       redirect_to printing_products_url and return
     end
 
     begin
-      PgLock.new(name: "printing_product_transfer").lock do
-        ActiveRecord::Base.transaction do
-          source_product.contains -= stock
-          destination_product.stock += stock
+      printing_products_policy.transfer
+      flash[:notice] = 'Traspaso realizado correctamente.'
+      redirect_to printing_products_url
 
-          raise 'Error al actalizar el stock' unless source_product.save
-          raise 'Error al actualizar el stock' unless destination_product.save
-
-          flash[:notice] = 'Traspaso realizao correctamente.'
-          redirect_to printing_products_url
-        end
-      end
     rescue StandarError => e
       flash[:error] = e.message
       redirect_to printing_products_url
