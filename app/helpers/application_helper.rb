@@ -2,7 +2,7 @@ module ApplicationHelper
   def root_controller()
     current_page?(root_url) ? 'active-sidebar' : ''
   end
-  
+
   def date_time_helper(datetime)
     l datetime, format: '%A, %d %b %Y %I:%M:%S'
     #datetime.strftime('%A, %d %b %Y %I:%M:%S')
@@ -47,6 +47,16 @@ module ApplicationHelper
 
   def collapse_menu_cashes?(section)
     sections = %w(open_cashes close_cashes movements_cash)
+
+    if sections.include?(section)
+      return "display: block;"
+    else
+      return "display: none;"
+    end
+  end
+
+  def collapse_menu_printing_sales?(section)
+    sections = %w(printing_sales)
 
     if sections.include?(section)
       return "display: block;"

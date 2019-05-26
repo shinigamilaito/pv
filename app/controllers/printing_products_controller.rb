@@ -63,14 +63,14 @@ class PrintingProductsController < ApplicationController
   #  end
   #end
 
-  #def search
-  #  @products = Product
-  #    .search(params[:search])
-  #    .paginate(page: params[:page], per_page: self.elements_per_page)
-  #    .order(created_at: :desc)
+  def search
+    @printing_products = PrintingProduct
+      .search_index(params[:search])
+      .paginate(page: params[:page], per_page: self.elements_per_page)
+      .order(created_at: :desc)
 
-  #  @index = obtain_index(params[:page].to_i)
-  #end
+    @index = obtain_index(params[:page].to_i)
+  end
 
   #def search_sales
   #  begin

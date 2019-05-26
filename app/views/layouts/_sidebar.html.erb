@@ -70,6 +70,24 @@
           </ul>
         </li>
 
+        <!-- Impresiones -->
+        <li class="treeview">
+          <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
+            <i class="glyphicon glyphicon-print"></i><span class="roboto-font" style="padding-left: 10px;">Impresiones</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-down pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_printing_sales?(@module) %>">
+            <li class="<%= @module == "printing_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to printing_sales_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+                <span class="glyphicon glyphicon-print"></span>
+                <span class="roboto-font" style="padding-left: 10px;">Ventas de Impresiones</span>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
         <!-- Catalogos -->
         <li class="treeview">
           <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">

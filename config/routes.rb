@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :printing_sales, only: [:index, :new, :create] do
+    delete :delete_product, on: :collection
+    put :update_discount, on: :collection
+    get :preview, on: :collection
+    post :update_discount_product, on: :collection
+    post :update_quantity_product, on: :collection
+    post :update_price_product, on: :collection
+  end
+
   resources :printing_products do
     get :search, on: :collection
     get :search_sales, on: :collection
