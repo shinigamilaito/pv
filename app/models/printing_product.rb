@@ -12,8 +12,9 @@ class PrintingProduct < ApplicationRecord
 
   def self.search(term, product_id)
     product = PrintingProduct.find(product_id)
-    contains_unit = product.contain_unit[0...-1]
+    stock_unit = product.contain_unit[0...-1]
+    contains_unit = product.contain_unit
 
-    where('LOWER(name) LIKE ? AND id != ? AND sale_unit = ?', "%#{term.downcase}%", product_id, contains_unit) if term.present?
+    where('LOWER(name) LIKE ? AND id != ? AND (sale_unit = ? OR contain_unit = ?)', "%#{term.downcase}%", product_id, stock_unit, contains_unit) if term.present?
   end
 end

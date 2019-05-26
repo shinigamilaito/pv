@@ -36,7 +36,12 @@ class PrintingProductsPolicy
         self.source_product.stock -= discount_in_stock
         self.source_product.discount_stock = new_discount_in_process
 
-        self.destination_product.stock += self.unit_to_discount
+        if %w(Pieza Metro).include?(destination_product.sale_unit)
+          self.destination_product.stock += self.unit_to_discount
+        else
+          stock_to_add = self.unit_to_discount / destination_product.contains
+          self.destination_product.stock += stock_to_add
+        end
 
         raise 'Error al actalizar el stock' unless self.source_product.save
         raise 'Error al actualizar el stock' unless self.destination_product.save

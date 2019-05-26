@@ -34,13 +34,19 @@
     </div>
 
   <div class="box-footer">
-    <%= submit_tag "Guardar", class: "btn btn-info pull-right btn-block" %>
+    <%= submit_tag "Guardar", id:"btn_save_form_translate_printing_product", class: "btn btn-info pull-right btn-block" %>
   </div>
 
 <% end %>
 
 <script>
   $(document).ready(function() {
+    var unitContains = $("#translate_stock_unit").val(); // Piezas, Metros del producto del que se realizará el descuento
+    var unitProductToAdd = ""; // Es la unidad del producto al que se le agregara las unidades
+    var minimumProductContain = 0; // Minima cantidad de piezas o metros que componen su unidad
+    var $unitToDiscount = $("#translate_unit_to_discount");
+    var $btnSaveFormTranslate = $("#btn_save_form_translate_printing_product");
+
     $('.translate-name').select2({
       dropdownParent: $('#form-modal'),
   		minimumInputLength: 1,
@@ -57,6 +63,36 @@
         //$("#tra").val(data.name);
         $("#translate_code").val(data.code);
         $("#img_product").attr("src", data.url_img);
+        unitProductToAdd = data.contain_unit;
+        minimumProductContain = parseInt(data.contains);
+        checkStockIsMinimum($unitToDiscount.val());
     });
+
+    // Verificar stock a agregar cumple con la cantidad
+    // minima de piezas, metros en producto destino
+    $unitToDiscount.keyup(function() {
+      var stockToAdd = $(this).val();
+      checkStockIsMinimum(stockToAdd);
+    });
+
+    function checkStockIsMinimum(stockToAdd) {
+      console.log("unitProductToAdd: " + unitProductToAdd);
+      console.log("unitContains: " + unitContains);
+      if(unitProductToAdd != "" && unitProductToAdd == unitContains ) {
+        console.log("Hay que validar que el stock agregado sea multiplo del minimo");
+        if((parseInt($unitToDiscount.val()) % minimumProductContain) == 0) {
+          console.log("El stock a agregar es un multiplo del minimo del producto destino");
+          toastr["info"]("Stock correcto.");
+          $btnSaveFormTranslate.removeAttr('disabled');
+        } else {
+            toastr["error"]("Stock no cumple con la unidad destino.");
+            $btnSaveFormTranslate.attr('disabled', true);
+        }
+      } else {
+        console.log("El stock se agrega de manera directa.");
+        //toastr["info"]("El stock se agrega de manera directa.");
+        $btnSaveFormTranslate.removeAttr('disabled');
+      }
+    }
   });
 </script>
