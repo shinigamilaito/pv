@@ -1,0 +1,13 @@
+<tbody>
+  <tr id="header-table-printing-sales">
+    <th>Código</th>
+    <th>Nombre</th>
+    <th>Cantidad</th>
+    <th>Descuento</th>
+    <th>Precio</th>
+    <th></th>
+  </tr>
+  <% @printing_products_in_sale.each do |printing_product| %>
+    <%= render 'printing_sales/printing_product_sale', printing_product: printing_product %>
+  <% end %>
+</tbody>

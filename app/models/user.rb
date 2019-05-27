@@ -2,6 +2,7 @@ class User < ApplicationRecord
   belongs_to :rol
   has_many :sale_products
   has_many :quotation_products
+  has_many :printing_sale_products
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

@@ -72,16 +72,16 @@ class PrintingProductsController < ApplicationController
     @index = obtain_index(params[:page].to_i)
   end
 
-  #def search_sales
-  #  begin
-  #    discount = session[:discount_sale] || '0'
-  #    sales_policy = SalesPolicy.new(params[:search], current_user)
-  #    @add_product = sales_policy.add_product(1, true)
-  #    @total_sales = sales_policy.totals(discount)
-  #  rescue StandardError => e
-  #    render js: "toastr['error']('#{e.message}');", status: :bad_request
-  #  end
-  #end
+  def search_sales
+    begin
+      discount = session[:discount_printing_sale] || '0'
+      printing_sales_policy = PrintingSalesPolicy.new(params[:printing_product][:id], current_user)
+      @add_printing_product = printing_sales_policy.add_product(1, true)
+      @total_printing_sales = printing_sales_policy.totals(discount)
+    rescue StandardError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
+    end
+  end
 
   def translate_form
     @printing_product = PrintingProduct.find(params[:id])

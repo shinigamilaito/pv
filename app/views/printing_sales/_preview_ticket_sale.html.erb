@@ -1,0 +1,120 @@
+<!-- header -->
+<div class="text-center">
+  <p><strong><%= @ticket_sale.header[:title] %></strong></p>
+  <p style='margin-bottom: 0px;'>Domicilio</p>
+  <p style='margin-bottom: 0px;'><%= @ticket_sale.header[:street] %></p>
+  <p style='margin-bottom: 0px;'><%= @ticket_sale.header[:address] %></p>
+  <p style='margin-bottom: 0px;'><%= @ticket_sale.header[:city] %></p>
+  <p style='margin-bottom: 0px;'>RFC. <%= @ticket_sale.header[:rfc] %></p>
+  <p>Sucursal: <%= @ticket_sale.header[:sucursal] %></p>
+</div>
+<!-- end_header -->
+
+<p><%= @ticket_sale.date %></p>
+<div class="row">
+  <p>
+    <span class='pull-left'>Ticket: <%= @ticket_sale.ticket %></span>
+  </p>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>CODIGO</th>
+      <th>CANT</th>
+      <th>DESCRIPCIÓN</th>
+      <th>PU</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ticket_sale.products.each do |product| %>
+      <tr>
+        <td><%= product[:code] %></td>
+        <td><%= product[:quantity] %></td>
+        <td><%= product[:description] %></td>
+        <td><%= number_to_currency product[:price] %></td>
+        <td><%= number_to_currency product[:total] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Subtotal:</p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @ticket_sale.totals[:subtotal] %></p>
+  </div>
+
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Descuentos:</p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @ticket_sale.totals[:discount] %></p>
+  </div>
+
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>IVA al 16%:</p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @ticket_sale.totals[:iva] %></p>
+  </div>
+
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'><strong>Total M.N.:</strong></p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @ticket_sale.totals[:total] %></p>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Pago >> <%= @ticket_sale.type_paid %></p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @ticket_sale.totals[:paid] %></p>
+  </div>
+
+  <div class="col-xs-8 text-right">
+    <p style='margin-bottom: 0px;'>Cambio:</p>
+  </div>
+  <div class="col-xs-4 text-right">
+    <p style='margin-bottom: 0px;'><%= number_to_currency @ticket_sale.totals[:change] %></p>
+  </div>
+</div>
+
+<p class="text-center" style="margin-bottom: 0px; font-size:12px">Documento sin efectos fiscales</p>
+<p class="text-center" style="font-size:12px; padding-bottom: 5px; border-bottom-style: dashed;">[ Políticas de Garantía ]</p>
+
+<p id="footer_ticket_sale">Si requiere factura, favor de solicitarla al momento de efectuar su compra.</p>
+
+<%= form_for(@sale, html: { class: "form-horizontal", remote: true }) do |f| %>
+  <%= hidden_field_tag 'sale[subtotal]', @ticket_sale.totals[:subtotal] %>
+  <%= hidden_field_tag 'sale[discount]', @ticket_sale.totals[:discount] %>
+  <%= hidden_field_tag 'sale[total]', @ticket_sale.totals[:total] %>
+  <%= hidden_field_tag 'sale[paid_with]', @ticket_sale.totals[:paid] %>
+  <%= hidden_field_tag 'sale[change]', @ticket_sale.totals[:change] %>
+  <%= hidden_field_tag 'sale[payment_type_id]', @sale.payment_type_id %>
+  <div class="box-footer">
+    <div class="row">
+      <div class="col-sm-6">
+        <%= link_to "Cancelar", "#", class: "btn btn-danger pull-left btn-block", id: "cancel_sale" %>
+      </div>
+      <div class="col-sm-6">
+        <%= f.submit "Aceptar", class: "btn btn-info pull-right btn-block", id: "make_sale_button_form" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $("#make_sale_button_form").focus();
+    $("#cancel_sale").click(function() {
+      $('#form-modal').modal('hide');
+    });
+  });
+</script>

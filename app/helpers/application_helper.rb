@@ -56,7 +56,7 @@ module ApplicationHelper
   end
 
   def collapse_menu_printing_sales?(section)
-    sections = %w(printing_sales)
+    sections = %w(VentasImpresiones)
 
     if sections.include?(section)
       return "display: block;"

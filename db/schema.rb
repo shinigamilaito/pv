@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190525004342) do
+ActiveRecord::Schema.define(version: 20190526200956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,39 @@ ActiveRecord::Schema.define(version: 20190525004342) do
     t.integer "discount_stock", default: 0
   end
 
+  create_table "printing_sale_products", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.integer "quantity"
+    t.decimal "price", precision: 10, scale: 2, default: "0.0"
+    t.bigint "printing_product_id"
+    t.bigint "user_id"
+    t.bigint "printing_sale_id"
+    t.decimal "real_price", precision: 20, scale: 10, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["printing_product_id"], name: "index_printing_sale_products_on_printing_product_id"
+    t.index ["printing_sale_id"], name: "index_printing_sale_products_on_printing_sale_id"
+    t.index ["user_id"], name: "index_printing_sale_products_on_user_id"
+  end
+
+  create_table "printing_sales", force: :cascade do |t|
+    t.bigint "user_id"
+    t.decimal "subtotal", precision: 10, scale: 2, default: "0.0"
+    t.decimal "discount", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total", precision: 10, scale: 2, default: "0.0"
+    t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
+    t.decimal "change", precision: 10, scale: 2, default: "0.0"
+    t.integer "ticket", default: 0
+    t.bigint "payment_type_id"
+    t.bigint "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_printing_sales_on_client_id"
+    t.index ["payment_type_id"], name: "index_printing_sales_on_payment_type_id"
+    t.index ["user_id"], name: "index_printing_sales_on_user_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "code"
     t.string "name"
@@ -383,6 +416,12 @@ ActiveRecord::Schema.define(version: 20190525004342) do
   add_foreign_key "payments", "payment_types"
   add_foreign_key "payments", "services"
   add_foreign_key "payments", "users"
+  add_foreign_key "printing_sale_products", "printing_products"
+  add_foreign_key "printing_sale_products", "printing_sales"
+  add_foreign_key "printing_sale_products", "users"
+  add_foreign_key "printing_sales", "clients"
+  add_foreign_key "printing_sales", "payment_types"
+  add_foreign_key "printing_sales", "users"
   add_foreign_key "quotation_products", "products"
   add_foreign_key "quotation_products", "quotations"
   add_foreign_key "quotation_products", "users"

@@ -23,4 +23,8 @@ class PrintingProduct < ApplicationRecord
   def self.search_index(term)
     where('LOWER(code) LIKE :term or LOWER(name) LIKE :term', term: "%#{term.downcase}%") if term.present?
   end
+
+  #def self.search_for_sales(term)
+  #  where('LOWER(code) = ?', "#{term.downcase}") if term.present?
+  #end
 end

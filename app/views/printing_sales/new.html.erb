@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Ventas Impresiones</h3>
+      </div>
+
+      <div class="box-body table-responsive no-padding">
+        <%= select_tag "clients[]", options_for_select([]), { class: 'form-control', id: 'search_printing_products', prompt: "Buscar por código o nombre" } %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="printing_sales_table">
+          <%= render 'body_printing_sales' %>
+        </table>
+        <div id="total_cost_printing_sales">
+          <%= render "printing_sales/totals_costs", total_printing_sales: @total_printing_sales %>
+        </div>
+      </div>
+      <div class="box-footer row">
+        <div class="col-sm-4 col-sm-offset-8">
+          <%= button_tag 'Realizar Venta', type: 'button', class: "btn btn-info btn-block pull-right", id: "make_printing_sale_link" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'sales/form_modal' %>
+
+<script>
+  $(document).ready(function() {
+    /*$('#make_sale_link').click(function() {
+      $.ajax({
+        url: "/sales/preview",
+        method: "get",
+        dataType: "script",
+        data: {
+          discount: $('#discount-sale').val(),
+          paid_with: $('#paid_with_sale').val(),
+          change: $('#change-sale').val(),
+          payment_type_id: $("#sale_payment_type_id").find("option:selected").attr('value')
+        },
+        beforeSend: function(xhr) {
+          setSpinner($('body'));
+        },
+        complete: function(xhr, status) {
+          deleteSpinner($('body'));
+        }
+      });
+    });*/
+
+    $('#search_printing_products').select2({
+  		minimumInputLength: 1,
+  		ajax: {
+  			delay: 250,
+  			url: "/printing_sales/search_sales",
+  			dataType: 'json',
+  			cache: true
+  		}//,
+  		//escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      //templateResult: formatRepoClient,
+      //templateSelection: formatRepoSelectionClient
+  	});
+    $('#search_printing_products').on('select2:select', function (e) {
+        var data = e.params.data;
+        console.log(data);
+        $.ajax({
+          url: "/printing_products/search_sales",
+          method: "get",
+          dataType: "script",
+          data: {
+            printing_product: data
+          },
+          beforeSend: function(xhr) {
+            $("#search_printing_products").LoadingOverlay("show");
+          },
+          complete: function(xhr) {
+            $("#search_printing_products").LoadingOverlay("hide", true);
+          }
+        })
+    });
+
+
+
+  });
+</script>

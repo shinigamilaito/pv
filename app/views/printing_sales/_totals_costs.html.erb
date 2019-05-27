@@ -1,0 +1,139 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <th style="width:80%" class="text-right">Total productos:</th>
+      <td>
+        <span id="total_to_paid"><%= number_to_currency total_printing_sales[:total_products] %></span>
+      </td>
+    </tr>
+    <!-- Se ocultan estos campos, no usados. 01/05/19
+    <tr>
+      <th class="text-right">Descuento:</th>
+      <td>
+        <div class="input-group">
+          <%#= text_field_tag "sale[discount]", total_sales[:discount_percentage], class: "form-control form-control-sm", id: 'discount-sale', required: true %>
+          <span class="input-group-addon">%</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th class="text-right">Total Final:</th>
+      <td>
+        <span id="total_to_paid" class="label label-info" style="font-size: 15px;"><%#= number_to_currency total_sales[:total_final] %></span>
+      </td>
+    </tr> -->
+    <tr>
+      <th class="text-right">Tipo de Pago:</th>
+      <td>
+        <div class="input-group">
+          <%= collection_select(:printing_sale, :payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true)  %>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th class="text-right">Pago con:</th>
+      <td>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <%= text_field_tag "printing_sale[paid_with]", '', class: "form-control form-control-sm", id: 'paid_with_printing_sale', required: true %>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th class="text-right">Cambio:</th>
+        <td>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= text_field_tag "printing_sale[change]", '', class: "form-control form-control-sm", id: 'change-printing-sale', required: true, readonly: true %>
+          </div>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function() {
+    var $paidWithSale = $('#paid_with_printing_sale');
+    var $change = $("#change-printing-sale");
+    var $paymentTypeSale = $("#printing_sale_payment_type_id");
+
+    setCurrency($paidWithSale);
+    setCurrency($change)
+    obtainChangeSale();
+
+    $paidWithSale.keyup(function() {
+      obtainChangeSale();
+    });
+
+    updatePaymentSale($paymentTypeSale.find("option:selected").attr('value'));
+
+    $paymentTypeSale.change(function() {
+      updatePaymentSale($(this).find("option:selected").attr('value'));
+    });
+  });
+
+  function obtainChangeSale() {
+    var $paidWithSale = $('#paid_with_printing_sale');
+    var $totalPaid = $('#total_to_paid');
+    var $change = $("#change-printing-sale");
+    var $btnPaid = $("#make_printing_sale_link");
+
+    var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
+    var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
+    var change = (paidWith - totalPaid).toFixed(2);
+    $change.val(change);
+    console.log(paidWith);
+    console.log(totalPaid);
+    console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+
+    if(change < 0 || totalPaid <= 0) {
+      $btnPaid.attr("disabled", true);
+    } else {
+      $btnPaid.removeAttr("disabled");
+    }
+  }
+
+  var $discountSale = $("#discount-printing-sale");
+  $discountSale.on("keydown", _.debounce(updateDiscountSale, 300));
+  setPercentage($discountSale);
+
+  function updateDiscountSale() {
+      $.ajax({
+        url: "/printing_sales/update_discount",
+        method: "put",
+        dataType: "script",
+        data: {
+          discount: $(this).val()
+        },
+        beforeSend: function(xhr) {
+          $("#total_to_paid").LoadingOverlay("show");
+        },
+        complete: function(xhr, status) {
+          $("#total_to_paid").LoadingOverlay("hide", true);
+        }
+      });
+    }
+
+  function updatePaymentSale(paymentMethod) {
+      var $totalPaid = $('#total_to_paid');
+      var $paidWithSale = $('#paid_with_printing_sale');
+      // Check payment method
+      if(paymentMethod == "") { // No selecciono metodo de pago
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",true);
+        obtainChangeSale();
+        return;
+      }
+
+      if(paymentMethod != "1") {
+        var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
+        $paidWithSale.val(totalToPaid);
+        $paidWithSale.prop("readonly",true);
+        obtainChangeSale();
+      } else {
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",false);
+        obtainChangeSale();
+      }
+  }
+</script>

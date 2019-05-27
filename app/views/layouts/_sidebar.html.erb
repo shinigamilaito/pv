@@ -79,9 +79,9 @@
             </span>
           </a>
           <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_printing_sales?(@module) %>">
-            <li class="<%= @module == "printing_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%= link_to printing_sales_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
-                <span class="glyphicon glyphicon-print"></span>
+            <li class="<%= @module == "VentasImpresiones" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to new_printing_sale_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+                <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ventas de Impresiones</span>
               <% end %>
             </li>

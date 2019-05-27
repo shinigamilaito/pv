@@ -1,0 +1,4 @@
+$('#form-modal-title').html("Datos de la Venta");
+$('#form-modal-body').html('<%= j render("sales/preview_ticket_sale") %>');
+$('#form-modal').modal('show');
+$("#footer_ticket_sale").get(0).scrollIntoView();

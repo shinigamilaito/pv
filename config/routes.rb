@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     post :update_discount_product, on: :collection
     post :update_quantity_product, on: :collection
     post :update_price_product, on: :collection
+    get :search_sales, on: :collection
   end
 
   resources :printing_products do
