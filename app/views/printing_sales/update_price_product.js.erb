@@ -1,3 +1,3 @@
-$("#sale_discount_<%= @product.id %>").html("<%= number_to_percentage @product.discount, precision: 2 %>");
-$("#sale_price_<%= @product.id %>").val("<%= number_to_currency @product.total %>");
-$('#total_cost_sales').html("<%= j render('sales/totals_costs', total_sales: @total_sales) %>");
+$("#printing_sale_real_price_<%= @printing_sale_product.id %>").val("<%= number_to_currency @printing_sale_product.real_price %>");
+$("#printing_sale_price_<%= @printing_sale_product.id %>").val("<%= number_to_currency @printing_sale_product.total %>");
+$('#total_cost_printing_sales').html("<%= j render('printing_sales/totals_costs', total_printing_sales: @total_printing_sales) %>");

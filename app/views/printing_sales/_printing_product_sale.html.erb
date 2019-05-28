@@ -8,7 +8,11 @@
     </div>
   </td>
   <td style="width: 18%;" id="printing_sale_discount_<%= printing_product.id %>">
-    <%#= number_to_percentage printing_product.discount, precision: 2 %>
+    <div class="input-group">
+      <span class="input-group-addon">$</span>
+      <%= hidden_field_tag :preview_real_price, printing_product.real_price, id: "printing_sale_preview_real_price_#{printing_product.id}" %>
+      <%= text_field_tag 'printing_sale[real_price]', printing_product.real_price, id: "printing_sale_real_price_#{printing_product.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product.id}, autocomplete: "off" %>
+    </div>
   </td>
   <td style="width: 18%;">
     <div class="input-group">
@@ -71,7 +75,7 @@
   });
 </script>
 
-<!-- Update price -->
+<!-- Update price por total -->
 <script>
   $(document).ready(function() {
     var $elementPrice = $("#printing_sale_price_<%= printing_product.id %>");
@@ -114,6 +118,55 @@
       } else {
         console.log("Put originalPrice", originalPrice);
         $that.val($elementPreviewPrice.val());
+        return;
+      }
+    }
+  });
+</script>
+
+<!-- Update price por unit -->
+<script>
+  $(document).ready(function() {
+    var $elementRealPrice = $("#printing_sale_real_price_<%= printing_product.id %>");
+    var originalRealPrice = $elementRealPrice.val();
+    console.log("originalRealPrice Before", originalRealPrice);
+    $elementRealPrice.on("keydown", _.debounce(update_real_price_product, 1000));
+    $elementRealPrice.inputmask("currency", {
+      rightAlign: false,
+      "prefix": ""
+    });
+
+    function update_real_price_product() {
+      var $that = $(this);
+      var newValue = Number($that.val().replace(/,/g, ""));
+      var $elementPreviewRealPrice = $("#printing_sale_preview_real_price_<%= printing_product.id %>");
+      var beforeRealPrice = Number($elementPreviewRealPrice.val().replace(/,/g, ""));
+
+      if(newValue >= 0) {
+        $elementPreviewRealPrice.val(newValue);
+
+        $.ajax({
+          url: "/printing_sales/update_real_price_product",
+          method: "post",
+          dataType: "script",
+          data: {
+            real_price: newValue,
+            printing_sale_product_id: $that.data('id')
+          },
+          beforeSend: function(xhr) {
+            $that.LoadingOverlay("show");
+          },
+          complete: function(xhr, status) {
+            if(xhr.status == 400) {
+              $that.val(originalRealPrice);
+            }
+            $that.LoadingOverlay("hide", true);
+          }
+        });
+
+      } else {
+        console.log("Put originalRealPrice", originalRealPrice);
+        $that.val($elementPreviewRealPrice.val());
         return;
       }
     }

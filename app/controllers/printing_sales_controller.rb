@@ -60,12 +60,12 @@ class PrintingSalesController < ApplicationController
   end
 
   def delete_product
-    discount = session[:discount_sale] || '0'
-    sale_product = SaleProduct.includes(:product).find(params[:sale_product_id])
-    product = sale_product.product
-    @sales_policy.delete(sale_product, product)
-    @product = sale_product
-    @total_sales = @sales_policy.totals(discount)
+    discount = session[:discount_printing_sale] || '0'
+    printing_sale_product = PrintingSaleProduct.includes(:printing_product).find(params[:printing_sale_product_id])
+    printing_product = printing_sale_product.printing_product
+    @printing_sales_policy.delete(printing_sale_product, printing_product)
+    @printing_sale_product = printing_sale_product
+    @total_printing_sales = @printing_sales_policy.totals(discount)
   end
 
   # Actualizar el descuento de la venta
@@ -89,18 +89,9 @@ class PrintingSalesController < ApplicationController
     @sale.payment_type = payment_type
   end
 
-  # Actualizar el descuento del producto
-  def update_discount_product
-    sale_product_id = params[:sale_product_id]
-    discount_percentage = BigDecimal.new(params[:discount].gsub(',', ''))
-    discount_sale_percentage = session[:discount_sale] || BigDecimal.new('0')
-    @product = @sales_policy.obtain_discount_by_product(sale_product_id, discount_percentage)
-    @total_sales = @sales_policy.totals(discount_sale_percentage)
-  end
-
   # Actualizar las cantidades del producto
   def update_quantity_product
-    #begin
+    begin
       discount = session[:discount_printing_sale] || '0'
       quantity = params[:quantity].to_i
       printing_sale_product = PrintingSaleProduct.find(params[:printing_sale_printing_product_id])
@@ -108,18 +99,29 @@ class PrintingSalesController < ApplicationController
       @add_printing_product = printing_sales_policy.add_product(quantity, false)
       @total_printing_sales = printing_sales_policy.totals(discount)
       render 'printing_products/search_sales'
-    #rescue StandardError => e
-    #  render js: "toastr['error']('#{e.message}');", status: :bad_request
-    #end
+    rescue StandardError => e
+      render js: "toastr['error']('#{e.message}');", status: :bad_request
+    end
   end
 
-  # Actualizar el precio del producto
+  # Actualizar el precio en total del producto
   def update_price_product
-    sale_product_id = params[:sale_product_id]
+    printing_sale_product_id = params[:printing_sale_printing_product_id]
     new_price = BigDecimal.new(params[:price].gsub(',', ''))
-    discount_sale_percentage = session[:discount_sale] || BigDecimal.new('0')
-    @product = @sales_policy.change_price_product(sale_product_id, new_price)
-    @total_sales = @sales_policy.totals(discount_sale_percentage)
+    discount_sale_percentage = session[:discount_printing_sale] || BigDecimal.new('0')
+    @printing_sale_product = @printing_sales_policy.change_price_product(printing_sale_product_id, new_price)
+    @total_printing_sales = @printing_sales_policy.totals(discount_sale_percentage)
+  end
+
+  # Actualizar el precio en unidad del producto
+  def update_real_price_product
+    printing_sale_product_id = params[:printing_sale_product_id]
+    new_price = BigDecimal.new(params[:real_price].gsub(',', ''))
+    discount_sale_percentage = session[:discount_printing_sale] || BigDecimal.new('0')
+    @printing_sale_product = @printing_sales_policy.change_real_price_product(printing_sale_product_id, new_price)
+    @total_printing_sales = @printing_sales_policy.totals(discount_sale_percentage)
+
+    render 'printing_sales/update_price_product'
   end
 
   # Buscar productos para ventas de impresiones

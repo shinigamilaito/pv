@@ -82,18 +82,22 @@ class PrintingSalesPolicy
     return @sale_product
   end
 
-  # Actualiza el precio del producto
-  # ajusta el nuevo porcentaje aplicado
-  def change_price_product(sale_product_id, new_price)
-    @sale_product = SaleProduct.find(sale_product_id)
-    current_price = @sale_product.quantity * @sale_product.price
+  # Actualiza el precio en total del producto
+  def change_price_product(printing_sale_product_id, new_price)
+    @printing_sale_product = PrintingSaleProduct.find(printing_sale_product_id)
+    @printing_sale_product.real_price = new_price / @printing_sale_product.quantity
+    @printing_sale_product.save
 
-    new_discount = (new_price / current_price) * BigDecimal.new("100")
-    @sale_product.discount = BigDecimal.new("100.0") - new_discount
-    @sale_product.real_price = new_price / @sale_product.quantity
-    @sale_product.save
+    return @printing_sale_product
+  end
 
-    return @sale_product
+  # Actualiza el precio del producto por unidad
+  def change_real_price_product(printing_sale_product_id, new_price)
+    @printing_sale_product = PrintingSaleProduct.find(printing_sale_product_id)
+    @printing_sale_product.real_price = new_price
+    @printing_sale_product.save
+
+    return @printing_sale_product
   end
 
   private

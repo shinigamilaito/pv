@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     delete :delete_product, on: :collection
     put :update_discount, on: :collection
     get :preview, on: :collection
-    post :update_discount_product, on: :collection
+    post :update_real_price_product, on: :collection
     post :update_quantity_product, on: :collection
     post :update_price_product, on: :collection
     get :search_sales, on: :collection

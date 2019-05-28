@@ -1,2 +1,2 @@
-$("#sale_product_<%= @product.id %>").remove();
-$('#total_cost_sales').html("<%= j render('sales/totals_costs', total_sales: @total_sales) %>");
+$("#printing_sale_product_<%= @printing_sale_product.id %>").remove();
+$('#total_cost_printing_sales').html("<%= j render('printing_sales/totals_costs', total_printing_sales: @total_printing_sales) %>");
