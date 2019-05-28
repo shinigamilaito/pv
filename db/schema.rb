@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190526200956) do
+ActiveRecord::Schema.define(version: 20190528114633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -251,6 +251,8 @@ ActiveRecord::Schema.define(version: 20190526200956) do
     t.bigint "client_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "total_paid", default: true
+    t.decimal "difference", precision: 10, scale: 2, default: "0.0"
     t.index ["client_id"], name: "index_printing_sales_on_client_id"
     t.index ["payment_type_id"], name: "index_printing_sales_on_payment_type_id"
     t.index ["user_id"], name: "index_printing_sales_on_user_id"

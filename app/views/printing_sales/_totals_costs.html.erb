@@ -1,34 +1,34 @@
 <table class="table">
   <tbody>
     <tr>
-      <th style="width:80%" class="text-right">Total productos:</th>
+      <th style="width:75%" class="text-right">Total productos:</th>
       <td>
         <span id="total_to_paid"><%= number_to_currency total_printing_sales[:total_products] %></span>
       </td>
     </tr>
-    <!-- Se ocultan estos campos, no usados. 01/05/19
     <tr>
-      <th class="text-right">Descuento:</th>
+      <th class="text-right">Tipo de Pago:</th>
       <td>
-        <div class="input-group">
-          <%#= text_field_tag "sale[discount]", total_sales[:discount_percentage], class: "form-control form-control-sm", id: 'discount-sale', required: true %>
-          <span class="input-group-addon">%</span>
+        <div class="input-group" style="width: 100%;">
+          <%= collection_select(:printing_sale, :payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true, style: "width: 100%;")  %>
         </div>
       </td>
     </tr>
     <tr>
-      <th class="text-right">Total Final:</th>
-      <td>
-        <span id="total_to_paid" class="label label-info" style="font-size: 15px;"><%#= number_to_currency total_sales[:total_final] %></span>
-      </td>
-    </tr> -->
-    <tr>
-      <th class="text-right">Tipo de Pago:</th>
-      <td>
-        <div class="input-group">
-          <%= collection_select(:printing_sale, :payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true)  %>
+      <td class="text-right">
+        <div class="radio">
+          <label><strong>Pago Parcial</strong><%= radio_button("printing_sale", "total_paid", false, style: "margin-left: 10px;") %></label>
         </div>
       </td>
+      <td class="text-center">
+        <div class="radio">
+          <label><strong>Pago Total</strong><%= radio_button("printing_sale", "total_paid", true, checked: true, style: "margin-left: 10px;") %></label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th style="width:70%" class="text-right">Cliente:</th>
+      <td><%= select_tag "clients[]", options_for_select([]), { class: 'form-control autocomplete_clients', required: true, prompt: "Buscar cliente" } %></td>
     </tr>
     <tr>
       <th class="text-right">Pago con:</th>
@@ -45,6 +45,15 @@
           <div class="input-group">
             <span class="input-group-addon">$</span>
             <%= text_field_tag "printing_sale[change]", '', class: "form-control form-control-sm", id: 'change-printing-sale', required: true, readonly: true %>
+          </div>
+        </td>
+    </tr>
+    <tr>
+      <th class="text-right">Resta:</th>
+        <td>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= text_field_tag "printing_sale[difference]", '', class: "form-control form-control-sm", id: 'difference-printing-sale', required: true, readonly: true %>
           </div>
         </td>
     </tr>
@@ -136,4 +145,25 @@
         obtainChangeSale();
       }
   }
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.autocomplete_clients').select2({
+  		minimumInputLength: 1,
+  		ajax: {
+  			delay: 250,
+  			url: "/clients/autocomplete",
+  			dataType: 'json',
+  			cache: true
+  		},
+  		escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      templateResult: formatRepoClient,
+      templateSelection: formatRepoSelectionClient
+  	});
+    $('.autocomplete_clients').on('select2:select', function (e) {
+        var data = e.params.data;
+        $("#quotation_client_id").val(data.id);
+    });
+  });
 </script>
