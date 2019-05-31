@@ -26,7 +26,7 @@
         </div>
       </td>
     </tr>
-    <tr>
+    <tr style="display: none;" id="id_client">
       <th style="width:70%" class="text-right">Cliente:</th>
       <td><%= select_tag "clients[]", options_for_select([]), { class: 'form-control autocomplete_clients', required: true, prompt: "Buscar cliente" } %></td>
     </tr>
@@ -39,6 +39,15 @@
         </div>
       </td>
     </tr>
+    <tr style="display: none;" id="id_payment">
+      <th class="text-right">Abona:</th>
+      <td>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <%= text_field_tag "printing_sale[payment]", '', class: "form-control form-control-sm", id: 'payment_printing_sale', required: true %>
+        </div>
+      </td>
+    </tr>
     <tr>
       <th class="text-right">Cambio:</th>
         <td>
@@ -48,7 +57,7 @@
           </div>
         </td>
     </tr>
-    <tr>
+    <tr style="display: none;" id="id_difference">
       <th class="text-right">Resta:</th>
         <td>
           <div class="input-group">
@@ -63,14 +72,23 @@
 <script>
   $(document).ready(function() {
     var $paidWithSale = $('#paid_with_printing_sale');
+    var $payment = $('#payment_printing_sale');
     var $change = $("#change-printing-sale");
     var $paymentTypeSale = $("#printing_sale_payment_type_id");
+    var $difference = $("#difference-printing-sale");
+    var $clients = $("#clients_");
 
     setCurrency($paidWithSale);
-    setCurrency($change)
+    setCurrency($payment);
+    setCurrency($change);
+    setCurrency($difference);
     obtainChangeSale();
 
     $paidWithSale.keyup(function() {
+      obtainChangeSale();
+    });
+
+    $payment.keyup(function() {
       obtainChangeSale();
     });
 
@@ -86,63 +104,124 @@
     var $totalPaid = $('#total_to_paid');
     var $change = $("#change-printing-sale");
     var $btnPaid = $("#make_printing_sale_link");
+    var $totalOrParcialPaid = $('input[type=radio][name="printing_sale[total_paid]"]:checked');
 
-    var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
-    var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
-    var change = (paidWith - totalPaid).toFixed(2);
-    $change.val(change);
-    console.log(paidWith);
-    console.log(totalPaid);
-    console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+    console.log("$totalOrParcialPaid: " + $totalOrParcialPaid.val());
 
-    if(change < 0 || totalPaid <= 0) {
-      $btnPaid.attr("disabled", true);
-    } else {
-      $btnPaid.removeAttr("disabled");
+    if($totalOrParcialPaid.val() == 'true') { // Total payment
+      console.log("Total Payment");
+
+      var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
+      var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
+      var change = (paidWith - totalPaid).toFixed(2);
+
+      console.log(paidWith);
+      console.log(totalPaid);
+      console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+
+      $change.val(change);
+
+      if(change < 0 || totalPaid <= 0) {
+        $btnPaid.attr("disabled", true);
+      } else {
+        $btnPaid.removeAttr("disabled");
+      }
+    } else { // Parcial payment
+      console.log("Parcial Payment");
+
+      var $payment = $('#payment_printing_sale');
+      var $difference = $('#difference-printing-sale');
+      var $paymentTypeSale = $("#printing_sale_payment_type_id");
+      var $clients = $("#clients_");
+
+      if($paymentTypeSale.val() == "1") { // Efectivo
+        console.log("Efectivo Parcial Payment");
+
+        var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
+        var payment = Number($payment.val().replace(/,/g, ""));
+        var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
+        var change = (paidWith - payment).toFixed(2);
+        var difference = (totalPaid - payment).toFixed(2);
+
+        console.log(paidWith);
+        console.log(totalPaid);
+        console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+
+        $change.val(change);
+        $difference.val(difference);
+
+        if(change < 0 || totalPaid <= 0 || (payment >= totalPaid) || ($clients.val() == "") || payment <= 0) {
+          $btnPaid.attr("disabled", true);
+        } else {
+          $btnPaid.removeAttr("disabled");
+        }
+      } else { // Tarjeta Payment
+        console.log("Tarjeta Parcial Payment");
+
+        var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
+        var payment = paidWith;
+        var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
+        var change = (paidWith - payment).toFixed(2);
+        var difference = (totalPaid - payment).toFixed(2);
+
+        console.log(paidWith);
+        console.log(totalPaid);
+        console.log(change.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+
+        $change.val(change);
+        $payment.val(payment);
+        $difference.val(difference);
+
+        if(change < 0 || totalPaid <= 0 || (payment >= totalPaid) || ($clients.val() == "") || payment <= 0) {
+          $btnPaid.attr("disabled", true);
+        } else {
+          $btnPaid.removeAttr("disabled");
+        }
+      }
     }
   }
-
-  var $discountSale = $("#discount-printing-sale");
-  $discountSale.on("keydown", _.debounce(updateDiscountSale, 300));
-  setPercentage($discountSale);
-
-  function updateDiscountSale() {
-      $.ajax({
-        url: "/printing_sales/update_discount",
-        method: "put",
-        dataType: "script",
-        data: {
-          discount: $(this).val()
-        },
-        beforeSend: function(xhr) {
-          $("#total_to_paid").LoadingOverlay("show");
-        },
-        complete: function(xhr, status) {
-          $("#total_to_paid").LoadingOverlay("hide", true);
-        }
-      });
-    }
 
   function updatePaymentSale(paymentMethod) {
       var $totalPaid = $('#total_to_paid');
       var $paidWithSale = $('#paid_with_printing_sale');
+      var $payment = $('#payment_printing_sale');
+      var $totalOrParcialPaid = $('input[type=radio][name="printing_sale[total_paid]"]:checked');
+
       // Check payment method
       if(paymentMethod == "") { // No selecciono metodo de pago
         $paidWithSale.val(0);
         $paidWithSale.prop("readonly",true);
+        $payment.val(0);
+        $payment.prop("readonly",true);
         obtainChangeSale();
         return;
       }
 
-      if(paymentMethod != "1") {
-        var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
-        $paidWithSale.val(totalToPaid);
-        $paidWithSale.prop("readonly",true);
-        obtainChangeSale();
-      } else {
-        $paidWithSale.val(0);
-        $paidWithSale.prop("readonly",false);
-        obtainChangeSale();
+      if(paymentMethod != "1") { // Debito, Credito
+        if($totalOrParcialPaid.val() == 'true') { // Pago total
+          var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
+          $paidWithSale.val(totalToPaid);
+          $paidWithSale.prop("readonly",true);
+          obtainChangeSale();
+        } else {
+          $paidWithSale.val(0);
+          $paidWithSale.prop("readonly",false);
+          $payment.val(0);
+          $payment.prop("readonly",true);
+          obtainChangeSale();
+        }
+      } else { // Efectivo
+        if($totalOrParcialPaid.val() == 'true') { // Pago total
+          $paidWithSale.val(0);
+          $paidWithSale.prop("readonly",false);
+          obtainChangeSale();
+        } else {
+          $paidWithSale.val(0);
+          $paidWithSale.prop("readonly",false);
+          $payment.val(0);
+          $payment.prop("readonly",false);
+          obtainChangeSale();
+        }
       }
   }
 </script>
@@ -164,6 +243,78 @@
     $('.autocomplete_clients').on('select2:select', function (e) {
         var data = e.params.data;
         $("#quotation_client_id").val(data.id);
+        obtainChangeSale();
     });
   });
+</script>
+
+<!-- Check total o parcial paid -->
+<script>
+  $('input[type=radio][name="printing_sale[total_paid]"]').change(function() {
+    var $paymentMethod = $("#printing_sale_payment_type_id");
+    var $client = $("#clients_");
+    var $paidWithSale = $('#paid_with_printing_sale');
+    var $payment = $("#payment_printing_sale");
+
+    if (this.value == 'true') {
+      // Total payment
+      $("#id_client").css('display', 'none');
+      $("#id_difference").css('display', 'none');
+      $("#id_payment").css('display', 'none');
+
+      if($paymentMethod.val() == "") { // No se eligio metodo de pago
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",true);
+        $payment.val(0);
+        $payment.prop("readonly",true);
+        obtainChangeSale();
+        return;
+      }
+
+      if($paymentMethod.val() != "1") { // Debito, Credito
+        var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
+        $paidWithSale.val(totalToPaid);
+        $paidWithSale.prop("readonly",true);
+        obtainChangeSale();
+        return;
+
+      } else { // Efectivo
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",false);
+        obtainChangeSale();
+        return;
+      }
+    }
+    else if (this.value == 'false') {
+      // Parcial payment
+      $("#id_client").css('display', 'table-row');
+      $("#id_difference").css('display', 'table-row');
+      $("#id_payment").css('display', 'table-row');
+
+      if($paymentMethod.val() == "") { // No se eligio metodo de pago
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",true);
+        $payment.val(0);
+        $payment.prop("readonly",true);
+        obtainChangeSale();
+        return;
+      }
+
+      if($paymentMethod.val() != "1") { // Debito, Credito
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",false);
+        $payment.val(0);
+        $payment.prop("readonly",true);
+        obtainChangeSale();
+      } else { // Efectivo
+        $paidWithSale.val(0);
+        $paidWithSale.prop("readonly",false);
+        $payment.val(0);
+        $payment.prop("readonly",false);
+        obtainChangeSale();
+        return;
+      }
+    }
+});
+
 </script>
