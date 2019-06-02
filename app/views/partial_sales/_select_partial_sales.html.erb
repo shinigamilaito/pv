@@ -1,0 +1,32 @@
+<div class="form-group", id="partial_sale">
+  <label>Venta Parcial</label>
+  <%= select_tag 'partial_sale[id]', options_for_select(@partial_sales), class: 'form-control autocomplete_partial_sales', required: true %>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $searchPartialSaleButton = $('#search_partial_sale_button');
+    $('.autocomplete_partial_sales').select2();
+
+    $('.autocomplete_partial_sales').on('select2:select', function (e) {
+      $searchPartialSaleButton.removeClass('disabled');
+    });
+
+    $searchPartialSaleButton.click(function() {
+      $.ajax({
+        url: "/partial_sales/new",
+        method: "get",
+        dataType: "script",
+        data: {
+          ticket_printing_sale: $("#partial_sale_id").val().split(' - ')[0]
+        },
+        beforeSend: function(xhr) {
+          $("body").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("body").LoadingOverlay("hide", true);
+        }
+      });
+    });
+  });
+</script>

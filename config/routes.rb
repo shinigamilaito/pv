@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :partial_sales, only: [:index, :new, :create] do
+    get :find_partial_sales_by_client, on: :collection
+    get 'generate_ticket', on: :member
+  end
+
   resources :printing_sales, only: [:index, :new, :create] do
     delete :delete_product, on: :collection
     post :update_real_price_product, on: :collection

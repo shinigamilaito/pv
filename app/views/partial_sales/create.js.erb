@@ -1,0 +1,6 @@
+toastr['success']('Pago realizado correctamente.');
+$("#search_partial_sale_button").click();
+
+$(document).ready(function() {
+    printPage(null, "<%= generate_ticket_partial_sale_path(@partial_sale.id, format: 'pdf') %>");
+});

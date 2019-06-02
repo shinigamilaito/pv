@@ -1,0 +1,192 @@
+<%= form_for(partial_sale, {remote: true, method: :post}) do |f| %>
+<%= f.hidden_field :printing_sale_id %>
+<div class="box-body">
+  <div class="form-group">
+    <label class="control-label col-sm-3">Total de Compra Original</label>
+    <div class="col-sm-2">
+      <%= text_field_tag "total_printing_sale", number_to_currency(@total), disabled: true, class: 'form-control' %>
+    </div>
+
+    <label class="control-label col-sm-3">Total abonado</label>
+    <div class="col-sm-2">
+      <%= text_field_tag "total_payments", number_to_currency(@total_payments), disabled: true, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <table class="table table-bordered" style="margin-top: 50px;">
+      <tbody>
+        <tr>
+          <th style="width: 45%" class="text-right">FECHA</th>
+          <th class="text-left">MONTO</th>
+        </tr>
+        <tr>
+          <th class="text-right"><%= date_time_helper(printing_sale.created_at) %></th>
+          <td>
+            <span><%= number_to_currency printing_sale.payment %></span>
+          </td>
+        </tr>
+        <% printing_sale.partial_sales.order(created_at: :desc).each do |partial_sale| %>
+          <tr>
+            <th class="text-right"><%= date_time_helper(partial_sale.created_at) %></th>
+            <td>
+              <span><%= number_to_currency partial_sale.payment %></span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <table class="table" style="margin-top: 25px;">
+      <tbody>
+        <tr>
+          <th style="width: 45%;" class="text-right">Tipo de Pago:</th>
+          <td>
+            <div class="input-group" style="width: 40%;">
+              <%= f.collection_select(:payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true, style: "width: 100%;")  %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th class="text-right">Pago con:</th>
+          <td>
+            <div class="input-group" style="width: 40%;">
+              <span class="input-group-addon">$</span>
+              <%= f.text_field :paid_with, class: "form-control form-control-sm", required: true, readonly: true %>
+            </div>
+          </td>
+        </tr>
+        <tr id="id_payment">
+          <th class="text-right">Abona:</th>
+          <td>
+            <div class="input-group" style="width: 40%;">
+              <span class="input-group-addon">$</span>
+              <%= text_field_tag 'partial_sale[payment]', "0", class: "form-control form-control-sm", required: true, readonly: true %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th class="text-right">Cambio:</th>
+            <td>
+              <div class="input-group" style="width: 40%;">
+                <span class="input-group-addon">$</span>
+                <%= f.text_field :change, class: "form-control form-control-sm", required: true, readonly: true %>
+              </div>
+            </td>
+        </tr>
+        <tr id="id_difference">
+          <th class="text-right">Resta:</th>
+            <td>
+              <div class="input-group" style="width: 40%;">
+                <span class="input-group-addon">$</span>
+                <%= f.text_field :difference, class: "form-control form-control-sm", readonly: true %>
+              </div>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'partial_sale_save_button', style: 'margin-top: 15px;', data: {disable_with: 'Registrando pago...'}, disabled: true %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<script>
+  $paymentType = $("#partial_sale_payment_type_id");
+  $paidWith = $("#partial_sale_paid_with");
+  $payment = $("#partial_sale_payment");
+  $change = $("#partial_sale_change");
+  $difference = $("#partial_sale_difference");
+  $buttonSave = $("#partial_sale_save_button");
+
+  setCurrencyElements();
+
+  $paymentType.change(function() {
+    var paymentType = $(this).val();
+
+    if(paymentType == '') {
+      console.log("disableElements");
+      disableElements(true);
+      putZeroElements();
+
+    } else {
+      console.log("enableElement");
+      disableElements(true);
+      enableElement($paidWith);
+      putZeroElements();
+    }
+  });
+
+  $paidWith.on("keyup", function() {
+    enablePaymentElement();
+    processPayment();
+  });
+
+  $payment.on("keyup", function() {
+    processPayment();
+  });
+
+  function disableElements(includePaymentwith = false) {
+    if(includePaymentwith) {
+      $paidWith.attr('readonly', true);
+    }
+    $payment.attr('readonly', true);
+    $change.attr('readonly', true);
+    $difference.attr('readonly', true);
+    $buttonSave.attr('readonly', true)
+  }
+
+  function enableElement(element) {
+    element.attr('readonly', false)
+  }
+
+  function enablePaymentElement() {
+    var paymentType = $paymentType.val();
+
+    if(paymentType == "1") {
+      enableElement($payment);
+    } else if(paymentType != "") {
+      $payment.val($paidWith.val());
+    }
+  }
+
+  function setCurrencyElements() {
+    setCurrency($paidWith);
+    setCurrency($payment);
+    setCurrency($change);
+    setCurrency($difference);
+  }
+
+  function processPayment() {
+    var totalToPaid = Number($("#total_printing_sale").val().split("$")[1].replace(/,/g, ""));
+    var paidWith = Number($paidWith.val());
+    var payment = Number($payment.val());
+    var change = paidWith - payment;
+    var totalPayments = Number($("#total_payments").val().split("$")[1].replace(/,/g, ""));
+    var totalPaymentsWithNewPayment = totalPayments + payment;
+    var difference = totalToPaid - totalPaymentsWithNewPayment;
+    $change.val(change);
+    $difference.val(difference);
+
+    if(difference < 0 || payment <= 0) {
+      $buttonSave.attr('disabled', true);
+    } else {
+      $buttonSave.attr('disabled', false);
+    }
+  }
+
+  function putZeroElements() {
+    $paidWith.val("0");
+    $payment.val("0");
+    $change.val("0");
+    $difference.val("0");
+  }
+</script>

@@ -1,0 +1,73 @@
+<div class="box" style="margin-bottom: 0px;">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Abono a ventas parciales</h3>
+  </div>
+  <div id="search_partial_sale">
+    <div class="box-body">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label>Seleccionar cliente</label>
+          <%= collection_select :client, :client_id, @clients, :id, :name, { prompt: 'Buscar cliente' }, class: 'form-control autocomplete_clients', required: true %>
+        </div>
+      </div>
+
+      <div class="col-md-5" id="select_partial_sales">
+        <div class="form-group" id="partial_sale">
+          <label>Venta Parcial</label>
+          <%= select_tag 'partial_sale[id]', options_for_select(@partial_sales, @partial_sale), class: 'form-control autocomplete_partial_sales', required: true %>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          <%= link_to 'Buscar', "#", class: 'btn btn-info btn-block disabled', id: 'search_partial_sale_button', style: 'margin-top: 25px;' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="form_partial_sale">
+</div>
+
+<script>
+  $('.autocomplete_clients').select2({
+		minimumInputLength: 1,
+		ajax: {
+			delay: 250,
+			url: "/clients/autocomplete",
+			dataType: 'json',
+			cache: true
+		},
+		escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    templateResult: formatRepoClient,
+    templateSelection: formatRepoSelectionClient
+	});
+  $('.autocomplete_clients').on('select2:select', function (e) {
+      var data = e.params.data;
+      $.ajax({
+        url: "/partial_sales/find_partial_sales_by_client",
+        method: "get",
+        dataType: "script",
+        data: {
+          client: data
+        },
+        beforeSend: function(xhr) {
+          $("#partial_sale").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("#partial_sale").LoadingOverlay("hide", true);
+        }
+      })
+  });
+
+  $(document).ready(function() {
+    $searchPartialSaleButton = $('#search_partial_sale_button');
+    $('.autocomplete_partial_sales').select2();
+
+    $('.autocomplete_clients').on('select2:select', function (e) {
+      $searchPartialSaleButton.removeClass('disabled');
+    });
+  });
+
+</script>

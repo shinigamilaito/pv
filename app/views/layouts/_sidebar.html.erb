@@ -85,6 +85,13 @@
                 <span class="roboto-font" style="padding-left: 10px;">Ventas de Impresiones</span>
               <% end %>
             </li>
+
+            <li class="<%= @module == "VentasParciales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to partial_sales_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+                <i class="glyphicon glyphicon-print"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Ventas Parciales</span>
+              <% end %>
+            </li>
           </ul>
         </li>
 

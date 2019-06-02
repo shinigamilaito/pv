@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190601161408) do
+ActiveRecord::Schema.define(version: 20190602180809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,6 +178,21 @@ ActiveRecord::Schema.define(version: 20190601161408) do
     t.bigint "user_id"
     t.index ["equipment_customer_id"], name: "index_message_histories_on_equipment_customer_id"
     t.index ["user_id"], name: "index_message_histories_on_user_id"
+  end
+
+  create_table "partial_sales", force: :cascade do |t|
+    t.bigint "printing_sale_id"
+    t.decimal "payment", precision: 10, scale: 2, default: "0.0"
+    t.decimal "difference", precision: 10, scale: 2, default: "0.0"
+    t.bigint "payment_type_id"
+    t.decimal "change", precision: 10, scale: 2, default: "0.0"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
+    t.index ["payment_type_id"], name: "index_partial_sales_on_payment_type_id"
+    t.index ["printing_sale_id"], name: "index_partial_sales_on_printing_sale_id"
+    t.index ["user_id"], name: "index_partial_sales_on_user_id"
   end
 
   create_table "payment_types", force: :cascade do |t|
@@ -415,6 +430,9 @@ ActiveRecord::Schema.define(version: 20190601161408) do
   add_foreign_key "incomes", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "message_histories", "users"
+  add_foreign_key "partial_sales", "payment_types"
+  add_foreign_key "partial_sales", "printing_sales"
+  add_foreign_key "partial_sales", "users"
   add_foreign_key "payments", "cash_opening_services_sales"
   add_foreign_key "payments", "generic_prices"
   add_foreign_key "payments", "payment_types"
