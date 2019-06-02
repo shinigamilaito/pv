@@ -23,20 +23,21 @@
   </div>
 </div>
 
-<%= render 'sales/form_modal' %>
-
 <script>
   $(document).ready(function() {
-    /*$('#make_sale_link').click(function() {
+    $('#make_printing_sale_link').click(function() {
       $.ajax({
-        url: "/sales/preview",
-        method: "get",
+        url: "/printing_sales",
+        method: "post",
         dataType: "script",
         data: {
-          discount: $('#discount-sale').val(),
-          paid_with: $('#paid_with_sale').val(),
-          change: $('#change-sale').val(),
-          payment_type_id: $("#sale_payment_type_id").find("option:selected").attr('value')
+          payment_type_id: $("#printing_sale_payment_type_id").find("option:selected").attr('value'),
+          full_payment: $('input[type=radio][name="printing_sale[total_paid]"]:checked').val(),
+          client_id: $("#clients_").val(),
+          paid_with: $('#paid_with_printing_sale').val(),
+          payment: $('#payment_printing_sale').val(),
+          change: $('#change-printing-sale').val(),
+          difference: $('#difference-printing-sale').val()
         },
         beforeSend: function(xhr) {
           setSpinner($('body'));
@@ -45,7 +46,7 @@
           deleteSpinner($('body'));
         }
       });
-    });*/
+    });
 
     $('#search_printing_products').select2({
   		minimumInputLength: 1,
@@ -54,10 +55,7 @@
   			url: "/printing_sales/search_sales",
   			dataType: 'json',
   			cache: true
-  		}//,
-  		//escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-      //templateResult: formatRepoClient,
-      //templateSelection: formatRepoSelectionClient
+  		}
   	});
     $('#search_printing_products').on('select2:select', function (e) {
         var data = e.params.data;
@@ -77,8 +75,5 @@
           }
         })
     });
-
-
-
   });
 </script>

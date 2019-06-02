@@ -1,5 +1,6 @@
 class PrintingSale < ApplicationRecord
   belongs_to :user
   belongs_to :payment_type
-  belongs_to :client
+  belongs_to :client, optional: true
+  has_many :printing_sale_products
 end

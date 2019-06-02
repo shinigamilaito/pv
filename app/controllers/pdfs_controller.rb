@@ -1,6 +1,7 @@
 class PdfsController < ApplicationController
   before_action :set_service, only: [:note_services]
   before_action :set_sale, only: [:ticket_paid_sales]
+  before_action :set_printing_sale, only: [:ticket_paid_printing_sales]
 
   def ticket_paid_sales
     respond_to do |format|
@@ -18,6 +19,27 @@ class PdfsController < ApplicationController
                #page_width: '58mm',
                #grayscale: false,
                #lowquality: false,
+               show_as_html: true,
+               page_size: 'A8',
+               margin: {
+                 left: 0,
+                 right: 0,
+                 top: 5,
+                 bottom: 4
+               }
+      end
+    end
+  end
+
+  def ticket_paid_printing_sales
+    respond_to do |format|
+      format.pdf do
+        @ticket_printing_sale = TicketPrintingSale.new(@printing_sale)
+        render pdf: 'report',
+               wkhtmltopdf: route_wicked,
+               template: 'pdfs/ticket_paid_printing_sale.pdf.html.erb',
+               background: true,
+               layout: 'pdf.html.erb',
                show_as_html: true,
                page_size: 'A8',
                margin: {
@@ -91,5 +113,9 @@ class PdfsController < ApplicationController
 
   def set_sale
     @sale = Sale.find(params[:id_sale])
+  end
+
+  def set_printing_sale
+    @printing_sale = PrintingSale.find(params[:id_printing_sale])
   end
 end

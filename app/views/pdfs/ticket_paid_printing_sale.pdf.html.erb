@@ -1,0 +1,188 @@
+<!-- header -->
+<div class="row">
+  <p style="margin: 0; text-align: center;">
+    <strong><%= @ticket_printing_sale.header[:title] %></strong>
+  </p>
+  <p style='margin: 5px 0 0 0; text-align: center;'>
+    <strong>Domicilio</strong>
+  </p>
+  <p style='margin: 0; text-align: center;'>
+    <strong><%= @ticket_printing_sale.header[:street] %></strong>
+  </p>
+  <p style='margin: 0; text-align: center;'>
+    <strong><%= @ticket_printing_sale.header[:address] %></strong>
+  </p>
+  <p style='margin: 0; text-align: center;'>
+    <strong><%= @ticket_printing_sale.header[:city] %></strong>
+  </p>
+  <p style='margin: 5px 0 0 0; text-align: center;'>
+    <strong>RFC. <%= @ticket_printing_sale.header[:rfc] %></strong>
+  </p>
+  <p style="margin: 5px 0 0 0; text-align: center;">
+    <strong>Sucursal: <%= @ticket_printing_sale.header[:sucursal] %></strong>
+  </p>
+</div>
+<!-- end_header -->
+
+<div class="row">
+  <p style="margin: 5px 0 0 0;">
+    <strong><%= @ticket_printing_sale.date %></strong>
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0;">
+      <span style='float: left; width: 50%; display: inline-block;'>
+        <strong>Ticket: <%= @ticket_printing_sale.ticket %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+
+<div style="clear: both"></div>
+
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th>CODIGO</th>
+      <th colspan="2">DESCRIPCIÓN</th>
+    </tr>
+    <tr>
+      <th>CANT</th>
+      <th>PU</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ticket_printing_sale.products.each do |product| %>
+      <tr>
+        <td><%= product[:code] %></td>
+        <td colspan="2"><%= product[:description] %></td>
+      </tr>
+      <tr>
+        <td><%= product[:quantity] %></td>
+        <td><%= number_to_currency product[:price] %></td>
+        <td><%= number_to_currency product[:total] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Subtotal:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_printing_sale.totals[:subtotal] %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Total M.N.:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_printing_sale.totals[:total] %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Pago >> <%= @ticket_printing_sale.type_paid %></strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_printing_sale.totals[:paid] %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+
+<div style="clear: both"></div>
+
+<% if @ticket_printing_sale.parcial_payment? %>
+<div class="row" style="margin: 0">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Abono:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_printing_sale.payment %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+<% end %>
+
+<div class="row" style="margin: 0">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Cambio:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_printing_sale.totals[:change] %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+
+<% if @ticket_printing_sale.parcial_payment? %>
+<div class="row" style="margin: 0">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Resta:</strong>
+      </span>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= number_to_currency @ticket_printing_sale.difference %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+<% end %>
+
+<% if @ticket_printing_sale.parcial_payment? %>
+<div class="row" style="margin: 0">
+  <div class="col-xs-12" style="margin: 0;">
+    <p style="margin: 5px 0 0 0;">
+      <span style='float: left; width: 50%; display: inline-block; text-align: right;'>
+        <strong>Cliente:</strong>
+      </span>
+    </p>
+    <p>
+      <span style='float: right; width: 50%; display: inline-block; text-align: right;'>
+        <strong><%= @ticket_printing_sale.client %></strong>
+      </span>
+    </p>
+  </div>
+</div>
+<% end %>
+
+<div style="clear: both"></div>
+
+<div class="row">
+  <p style='margin: 10px 0 0 0; text-align: center;'>
+    <strong>Documento sin efectos fiscales</strong>
+  </p>
+  <p style="margin: 5px 0 0 0; text-align: center;">
+    <strong>[ Políticas de Garantía ]</strong>
+  </p>
+  <p style="margin: 5px 0 0 0; text-align: center;">
+    <strong>Si requiere factura, favor de solicitarla al momento de efectuar su compra.</strong>
+  </p>
+  <p style="margin: 5px 0 0 0; text-align: center;">
+    <strong>Tel: 53 2 55 21</strong>
+  </p>
+</div>

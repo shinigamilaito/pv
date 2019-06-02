@@ -41,19 +41,19 @@ class PrintingSalesController < ApplicationController
 
   # Create record of the sale
   def create
-    if CashPolicy.new.cash_services_sales.blank?
-      flash[:warning] = "La caja no ha sido abierta."
-      redirect_to root_path and return
-    end
+    #if CashPolicy.new.cash_services_sales.blank?
+    #  flash[:warning] = "La caja no ha sido abierta."
+    #  redirect_to root_path and return
+    #end
+    
+    @printing_sale = PrintingSale.new(printing_sale_params)
+    @printing_sale.user = current_user
+    @printing_sales_service = PrintingSalesService.new(@printing_sales_policy, @printing_sale)
 
-    @sale = Sale.new(sale_params)
-    @sale.user = current_user
-    @sales_service = SalesService.new(@sales_policy, @sale)
-
-    if @sales_service.save
+    if @printing_sales_service.save
       clear_variables
-      @products_in_sale = @sales_policy.products_for_sale
-      @total_sales = @sales_policy.totals
+      @printing_products_in_sale = @printing_sales_policy.products_for_sale
+      @total_printing_sales = @printing_sales_policy.totals
     else
       render js: "toastr['error']('Intente nuevamente.');", status: :bad_request
     end
@@ -77,16 +77,6 @@ class PrintingSalesController < ApplicationController
     else
       head :ok
     end
-  end
-
-  def preview
-    paid_with = params[:paid_with].gsub(',','')
-    change = params[:change].gsub(',','')
-    discount = params[:discount] || '0'
-    payment_type = PaymentType.find(params[:payment_type_id])
-    @ticket_sale = TicketSale.new(current_user, paid_with, change, discount, payment_type)
-    @sale = Sale.new
-    @sale.payment_type = payment_type
   end
 
   # Actualizar las cantidades del producto
@@ -131,10 +121,9 @@ class PrintingSalesController < ApplicationController
 
   private
 
-    def sale_params
-      params.require(:sale).permit(
-        :subtotal, :discount, :total, :paid_with, :change, :payment_type_id
-      )
+    def printing_sale_params
+      params.permit(:paid_with, :change, :payment_type_id, :client_id, :total_paid,
+        :difference, :full_payment, :payment)
     end
 
     def set_printing_sale_policy

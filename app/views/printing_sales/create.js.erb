@@ -1,8 +1,7 @@
-$("#sales_table").html("<%= j render('sales/body_sales') %>");
-$('#total_cost_sales').html("<%= j render('sales/totals_costs', total_sales: @total_sales) %>");
-$('#form-modal').modal('hide');
+$("#printing_sales_table").html("<%= j render('printing_sales/body_printing_sales') %>");
+$('#total_cost_printing_sales').html("<%= j render('printing_sales/totals_costs', total_printing_sales: @total_printing_sales) %>");
 toastr['success']('Venta registrada correctamente.');
 
 $(document).ready(function() {
-    printPage(null, "<%= generate_ticket_sale_path(@sale.id, format: 'pdf') %>");
+    printPage(null, "<%= generate_ticket_printing_sale_path(@printing_sale.id, format: 'pdf') %>");
 });

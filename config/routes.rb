@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   resources :printing_sales, only: [:index, :new, :create] do
     delete :delete_product, on: :collection
-    put :update_discount, on: :collection
-    get :preview, on: :collection
     post :update_real_price_product, on: :collection
     post :update_quantity_product, on: :collection
     post :update_price_product, on: :collection
@@ -87,6 +85,7 @@ Rails.application.routes.draw do
   get 'ticket_service/:id_payment', to: 'pdfs#ticket_paid_services', as: :generate_ticket_service
   get 'note_service/:id_service', to: 'pdfs#note_services', as: :generate_note_service
   get 'ticket_sale/:id_sale', to: 'pdfs#ticket_paid_sales', as: :generate_ticket_sale
+  get 'ticket_printing_sale/:id_printing_sale', to: 'pdfs#ticket_paid_printing_sales', as: :generate_ticket_printing_sale
 
   resources :payments
 
