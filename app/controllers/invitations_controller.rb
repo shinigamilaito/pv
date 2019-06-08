@@ -46,9 +46,12 @@ class InvitationsController < ApplicationController
   end
 
   def update
+    @invitation.name = invitation_params[:name]
+    @invitation.imagen = invitation_params[:imagen]
+    @invitation.imagen_cache = invitation_params[:imagen_cache]
     respond_to do |format|
       @invitation.invitation_printing_products << invitation_printing_products_for_save
-      if @invitation.save(invitation_params)
+      if @invitation.save
         flash[:success] = 'Invitación actualizada correctamente.'
         format.html { redirect_to invitations_url }
       else
@@ -125,7 +128,7 @@ class InvitationsController < ApplicationController
     end
 
     def invitation_params
-      params.require(:invitation).permit(:name)
+      params.require(:invitation).permit(:name, :imagen, :imagen_cache)
     end
 
     def set_module

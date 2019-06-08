@@ -1,4 +1,6 @@
 class Invitation < ApplicationRecord
+  mount_uploader :imagen, InvitationUploader
+
   belongs_to :user
   has_many :invitation_printing_products, dependent: :destroy
 

@@ -52,8 +52,8 @@ $(document).ready(function() {
       }
       reader.readAsDataURL(input.files[0]);
     } else {
-      console.log("URL: " + input.val());
-      if(input.val() != "") {
+      console.log("URL PRINTING_PRODUCTS: " + input.val());
+      if(input.val() != "" && input.val() != undefined) {
           $('#img_prev').removeClass('hidden');
           $('#img_prev').attr('src', "uploads/tmp/" + input.val());
       }
