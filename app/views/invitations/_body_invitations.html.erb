@@ -2,6 +2,7 @@
   <tr>
     <th>No.</th>
     <th>Nombre</th>
+    <th>Imagen</th>
     <th></th>
     <th></th>
   </tr>
@@ -9,6 +10,7 @@
     <tr>
       <td><%= @index %></td>
       <td><%= invitation.name %></td>
+        <td><%= image_tag(invitation.imagen_url, size:"50x50") if invitation.imagen? %></td>
       <td style="width: 1px;"><%= link_to 'Actualizar', edit_invitation_path(invitation), class: 'btn btn-edit' %></td>
       <td style="width: 1px;"><%= link_to 'Eliminar', invitation, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
     </tr>
