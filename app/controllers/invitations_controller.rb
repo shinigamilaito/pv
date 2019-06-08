@@ -38,6 +38,7 @@ class InvitationsController < ApplicationController
         flash[:success] = 'Invitación creada exitosamente.'
         format.html { redirect_to invitations_url }
       else
+        @invitation_printing_products = invitation_printing_products(nil)
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :new }
       end
@@ -51,6 +52,7 @@ class InvitationsController < ApplicationController
         flash[:success] = 'Invitación actualizada correctamente.'
         format.html { redirect_to invitations_url }
       else
+        @invitation_printing_products = invitation_printing_products(@invitation)
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :edit }
       end

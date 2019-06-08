@@ -50,18 +50,18 @@ class PrintingProductsController < ApplicationController
     end
   end
 
-  #def destroy
-  #  begin
-  #    @product.destroy
-  #    respond_to do |format|
-  #      flash[:success] = 'Producto eliminado correctamente.'
-  #      format.html { redirect_to products_url }
-  #    end
-  #  rescue ActiveRecord::InvalidForeignKey => exception
-  #    flash[:error] = "El producto ya esta en uso."
-  #    redirect_to products_url
-  #  end
-  #end
+  def destroy
+    begin
+      @printing_product.destroy
+      respond_to do |format|
+        flash[:success] = 'Producto Imprenta eliminado correctamente.'
+        format.html { redirect_to printing_products_url }
+      end
+    rescue ActiveRecord::InvalidForeignKey => exception
+      flash[:error] = "El producto ya esta en uso."
+      redirect_to printing_products_url
+    end
+  end
 
   def search
     @printing_products = PrintingProduct
