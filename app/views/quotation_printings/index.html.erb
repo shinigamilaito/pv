@@ -1,0 +1,82 @@
+<div class="box" style="margin-bottom: 0px;">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Cotización</h3>
+  </div>
+  <div id="search_quotation_printing">
+    <div class="box-body">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label>Seleccionar cliente</label>
+          <%= collection_select :client, :client_id, @clients, :id, :name, { prompt: 'Buscar cliente' }, class: 'form-control autocomplete_clients', required: true %>
+        </div>
+      </div>
+
+      <div class="col-md-5" id="select_quotation_printings">
+        <div class="form-group" id="quotation_printing">
+          <label>Buscar/Agregar Cotización</label>
+          <%= select_tag 'quotation_printing[number_folio]', options_for_select(@quotation_printings, @quotation_printing), class: 'form-control autocomplete_quotation_printings', required: true %>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          <%= link_to 'Registrar', "#", class: 'btn btn-info btn-block disabled', id: 'search_quotation_printing_button', style: 'margin-top: 25px;' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="form_quotation_printing">
+</div>
+
+<script>
+  $('.autocomplete_clients').select2({
+		minimumInputLength: 1,
+		ajax: {
+			delay: 250,
+			url: "/clients/autocomplete",
+			dataType: 'json',
+			cache: true
+		},
+		escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    templateResult: formatRepoClient,
+    templateSelection: formatRepoSelectionClient
+	});
+  $('.autocomplete_clients').on('select2:select', function (e) {
+      var data = e.params.data;
+      $.ajax({
+        url: "/quotation_printings/find_quotation_printings_by_client",
+        method: "get",
+        dataType: "script",
+        data: {
+          client: data
+        },
+        beforeSend: function(xhr) {
+          $("#quotation_printing").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("#quotation_printing").LoadingOverlay("hide", true);
+        }
+      })
+  });
+
+  $(document).ready(function() {
+    $searchQuotationPrintingButton = $('#search_quotation_printing_button');
+    $('.autocomplete_quotation_printings').select2();
+
+    $('.autocomplete_quotation_printings').on('select2:select', function (e) {
+      var textQuotation = e.params.data.text;
+      if (textQuotation != 'Nueva Cotización') {
+        $searchQuotationPrintingButton.val("Buscar");
+      } else {
+        $searchQuotationPrintingButton.val("Registrar");
+      }
+    });
+
+    $('.autocomplete_clients').on('select2:select', function (e) {
+      $searchQuotationPrintingButton.removeClass('disabled');
+    });
+  });
+
+</script>

@@ -1,0 +1,122 @@
+<%= form_for(quotation_printing, {remote: true, method: :post}) do |f| %>
+<%= f.hidden_field :client_id %>
+<div class="box-body">
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:invitation_id].blank? %>">
+        <label class="col-sm-5 control-label">Modelo a Cotizar</label>
+        <div class="col-sm-7" style="margin-bottom: 10px;">
+          <%= collection_select :quotation_printing, :invitation_id, [], :id, :name, { prompt: 'Buscar invitación' }, class: 'form-control', required: true %>
+          <span><%= quotation_printing.errors[:invitation].first %></span>
+        </div>
+      </div>
+
+      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_piece].blank? %>">
+        <label class="col-sm-5 control-label">Costo por Invitación</label>
+        <div class="col-sm-7" style="margin-bottom: 10px;">
+          <%= f.text_field :cost_piece, class: "form-control", required: true %>
+          <span><%= quotation_printing.errors[:cost_piece].first %></span>
+        </div>
+      </div>
+
+      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:total_pieces].blank? %>">
+        <label class="col-sm-5 control-label">No. de Piezas</label>
+        <div class="col-sm-7" style="margin-bottom: 10px;">
+          <%= f.text_field :total_pieces, class: "form-control", required: true %>
+          <span><%= quotation_printing.errors[:total_pieces].first %></span>
+        </div>
+      </div>
+
+      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_elaboration].blank? %>">
+        <label class="col-sm-5 control-label">Costo por Elaboración</label>
+        <div class="col-sm-7" style="margin-bottom: 10px;">
+          <%= f.text_field :cost_elaboration, class: "form-control", required: true %>
+          <span><%= quotation_printing.errors[:cost_elaboration].first %></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-12 text-center">
+          <%#= f.file_field :imagen, class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg' %>
+          <%# src = @invitation.new_record? ? "#" : @invitation.imagen_url %>
+          <%# hidden = @invitation.new_record? ? "hidden" : "" %>
+          <img id="img_prev_invitation" width=200 height=200 src="" alt="Fotografia" class="img-thumbnail hidden"/> <br/>
+        </div>
+        <%#= f.hidden_field :imagen_cache %>
+      </div>
+    </div>
+
+    <!-- Lista de productos imprenta -->
+    <div class="col-sm-7">
+      <div id="list_invitation_printing_products">
+        <div class="form-group text-center">
+          <label>Material a Utilizar</label>
+          <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get">
+            <option value="">Seleccione Material</option>
+          </select>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Precio Unidad</th>
+              <th>Precio</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="invitation_printing_products_used_by_quotation">
+          </tbody>
+        </table>
+
+        <div class="table-responsive" id="total_to_paid_by_quotation_printings">
+        </div>
+      </div>
+
+      <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'quotation_printing_save_button', style: 'margin-top: 15px;', data: {disable_with: 'Registrando...'}, disabled: true %>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<script>
+  $invitation = $("#quotation_printing_invitation_id");
+  $invitation.select2({
+		minimumInputLength: 1,
+		ajax: {
+			delay: 250,
+			url: "/invitations/autocomplete",
+			dataType: 'json',
+			cache: true
+		}
+	});
+
+  $invitation.on('select2:select', function (e) {
+      var data = e.params.data;
+
+      if(data.imagen_url != "" && data.imagen_url != undefined) {
+        $('#img_prev_invitation').removeClass('hidden');
+        $('#img_prev_invitation').attr('src', data.imagen_url);
+      }
+  });
+
+  $invitation.change(function() {
+    var invitationId = $(this).val();
+    $.ajax({
+      url: "/invitations/obtain_printing_products",
+      method: "get",
+      dataType: "script",
+      data: {
+        invitation_id: invitationId
+      },
+      beforeSend: function(xhr) {
+        $("body").LoadingOverlay("show");
+      },
+      complete: function(xhr) {
+        $("body").LoadingOverlay("hide", true);
+      }
+    });
+  });
+</script>

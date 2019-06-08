@@ -121,6 +121,11 @@ class InvitationsController < ApplicationController
     end
   end
 
+  def obtain_printing_products
+    invitation = Invitation.find(params[:invitation_id])
+    @printing_products = invitation.invitation_printing_products
+  end
+
   private
 
     def set_invitation

@@ -92,6 +92,14 @@
                 <span class="roboto-font" style="padding-left: 10px;">Ventas Parciales</span>
               <% end %>
             </li>
+
+            <!-- Orden de Trabajo -->
+            <li class="<%= @module == "OrdenTrabajo" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to quotation_printings_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+                <i class="glyphicon glyphicon-print"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Ordenes de Trabajo</span>
+              <% end %>
+            </li>
           </ul>
         </li>
 

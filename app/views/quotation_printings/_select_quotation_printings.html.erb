@@ -1,0 +1,33 @@
+<div class="form-group", id="quotation_printing">
+  <label>Buscar/Agregar Cotización</label>
+  <%= select_tag 'quotation_printing[number_folio]', options_for_select(@quotation_printings), class: 'form-control autocomplete_quotation_printings', required: true %>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $searchQuotationPrintingButton = $('#search_quotation_printing_button');
+    $('.autocomplete_quotation_printings').select2();
+
+    $('.autocomplete_quotation_printings').on('select2:select', function (e) {
+      $searchQuotationPrintingButton.removeClass('disabled');
+    });
+
+    $searchQuotationPrintingButton.click(function() {
+      $.ajax({
+        url: "/quotation_printings/new",
+        method: "get",
+        dataType: "script",
+        data: {
+          number_folio: $("#quotation_printing_number_folio").val().split(' - ')[0],
+          client_id: $('.autocomplete_clients').val()
+        },
+        beforeSend: function(xhr) {
+          $("body").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("body").LoadingOverlay("hide", true);
+        }
+      });
+    });
+  });
+</script>
