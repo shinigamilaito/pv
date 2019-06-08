@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :invitations do
+    delete :delete_invitation_printing_product, on: :member
+    get 'autocomplete', on: :collection
+    get 'search', on: :collection
+    get :add_printing_product, on: :collection
+  end
+
   resources :partial_sales, only: [:index, :new, :create] do
     get :find_partial_sales_by_client, on: :collection
     get 'generate_ticket', on: :member
@@ -17,6 +24,7 @@ Rails.application.routes.draw do
     get :search_sales, on: :collection
     get :translate_form, on: :member
     get 'autocomplete', on: :collection
+    get 'autocomplete_invitations', on: :collection
     post 'transfer', on: :collection
   end
 

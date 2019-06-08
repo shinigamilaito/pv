@@ -94,6 +94,12 @@ class PrintingProductsController < ApplicationController
       .order(created_at: :desc)
   end
 
+  def autocomplete_invitations
+    @printing_products = PrintingProduct
+      .search_index(params[:term])
+      .order(created_at: :desc)
+  end
+
   def transfer
     source_product = PrintingProduct.find(params[:translate][:source_product_id])
     destination_product = PrintingProduct.find(params[:translate][:destination_product_id])

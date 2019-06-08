@@ -124,3 +124,8 @@ en:
               taken: "Ya existe un producto con este folio."
             name:
               taken: 'Ya existe un producto con este nombre.'
+
+       invitation:
+         attributes:
+            name:
+              taken: 'Ya existe una invitación con este nombre.'

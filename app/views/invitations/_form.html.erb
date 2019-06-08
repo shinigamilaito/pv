@@ -1,0 +1,102 @@
+<%= form_for(@invitation, html: { class: 'form-horizontal' }) do |f| %>
+  <div class="box-body">
+    <div class="form-group <%= 'has-error' unless @invitation.errors[:name].blank? %>">
+      <label class="col-sm-2 control-label">Nombre</label>
+      <div class="col-sm-10">
+        <%= f.text_field :name, class: 'form-control', required: true, autofocus: true %>
+        <span><%= @invitation.errors[:name].first %></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Productos Imprenta</label>
+      <div class="col-sm-10">
+        <select name="[printing_product_id]" class="form-control autocomplete_printing_products" data-remote="true" data-url="/spare_parts/new" data-method="get">
+          <option value="">Seleccione el producto</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label"></label>
+      <div class="col-sm-10">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Codigo</th>
+              <th>Nombre</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="invitation_printing_products">
+            <%= render "invitations/printing_products", invitation_printing_products: @invitation_printing_products %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer">
+    <%= f.submit 'Guardar', class: 'btn btn-info pull-right btn-block' %>
+  </div>
+  <!-- /.box-footer -->
+<% end %>
+
+
+<script>
+  $(document).ready(function() {
+    $('.autocomplete_printing_products').select2({
+      minimumInputLength: 3,
+      ajax: {
+        delay: 250,
+        url: "/printing_products/autocomplete_invitations",
+        dataType: 'json',
+        cache: true
+      },
+      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      templateResult: formatRepo,
+      templateSelection: formatRepoSelection
+    });
+
+    function formatRepo (printing_product) {
+      if (printing_product.loading) {
+        return printing_product.text;
+      }
+
+      var markup = "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'>" + printing_product.code + "</div>";
+
+        if (printing_product.text) {
+          markup += "<div class='select2-result-repository__description'>" + printing_product.text + "</div>";
+        }
+
+        markup += "</div>";
+
+        return markup;
+    }
+
+    function formatRepoSelection (printing_product) {
+        return printing_product.text || printing_product.code;
+    }
+
+    $('.autocomplete_printing_products').on('select2:select', function (e) {
+        var data = e.params.data;
+        $.ajax({
+          url: "/invitations/add_printing_product",
+          method: "get",
+          dataType: "script",
+          data: {
+            printing_product: data,
+            invitation_id: <%= @invitation.new_record? ? -1 : @invitation.id %>
+          },
+          beforeSend: function(xhr) {
+            $("#invitation_printing_products").LoadingOverlay("show");
+          },
+          complete: function(xhr) {
+            $("#invitation_printing_products").LoadingOverlay("hide", true);
+          }
+        })
+    });
+  });
+</script>
