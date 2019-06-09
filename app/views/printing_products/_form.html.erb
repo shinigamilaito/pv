@@ -33,7 +33,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Unidad Venta</label>
       <div class="col-sm-10">
-        <%= f.select :sale_unit, PrintingProductsPolicy.sale_units, {prompt: 'Seleccione una unidad'}, { class: "form-control", required: true, style: "text-align: left !important;", readonly: !@printing_product.new_record? } %>
+        <%= f.select :sale_unit, PrintingProductsPolicy.sale_units, {prompt: 'Seleccione una unidad'}, { class: "form-control", required: true, style: "text-align: left !important;", disabled: !@printing_product.new_record? } %>
       </div>
     </div>
 

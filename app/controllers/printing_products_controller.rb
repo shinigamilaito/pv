@@ -129,9 +129,15 @@ class PrintingProductsController < ApplicationController
     end
 
     def printing_product_params
-      params.require(:printing_product).permit(
-        :code, :name, :purchase_price, :sale_price, :sale_unit, :stock, :contains,
-        :contain_unit, :imagen, :imagen_cache)
+      if @printing_product.new_record?
+        params.require(:printing_product).permit(
+          :code, :name, :purchase_price, :sale_price, :sale_unit, :stock, :contains,
+          :contain_unit, :imagen, :imagen_cache)
+      else
+        params.require(:printing_product).permit(
+          :purchase_price, :sale_price, :stock, :imagen, :imagen_cache)
+      end
+
     end
 
     def fixed_format_price

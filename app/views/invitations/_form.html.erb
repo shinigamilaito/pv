@@ -37,6 +37,7 @@
               <th>#</th>
               <th>Codigo</th>
               <th>Nombre</th>
+              <th>Unidad</th>
               <th></th>
             </tr>
           </thead>
@@ -104,7 +105,7 @@
         "<div class='select2-result-repository__title'>" + printing_product.code + "</div>";
 
         if (printing_product.text) {
-          markup += "<div class='select2-result-repository__description'>" + printing_product.text + "</div>";
+          markup += "<div class='select2-result-repository__description'>" + printing_product.text + " (" + printing_product.sale_unit + ")"  +"</div>";
         }
 
         markup += "</div>";

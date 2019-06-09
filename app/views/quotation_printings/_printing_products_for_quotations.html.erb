@@ -1,0 +1,56 @@
+<div class="form-group text-center">
+  <label>Material a Utilizar</label>
+  <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get" disabled="disabled">
+    <option value="">Seleccione Material</option>
+  </select>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Código</th>
+      <th>Nombre</th>
+      <th>Cantidad</th>
+      <th>Precio Unidad</th>
+      <th>Precio</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="invitation_printing_products_used_by_quotation">
+    <% printing_product_quotations.each_with_index do |printing_product_quotation, index| %>
+    <tr id="printing_product_quotation_product_<%= printing_product_quotation.id %>">
+      <td><%= index + 1 %></td>
+      <td><%= printing_product_quotation.code %></td>
+      <td><%= "#{printing_product_quotation.name} (#{printing_product_quotation.sale_unit})" %></td>
+      <td style="width: 18%;">
+        <div class="input-group">
+          <%= hidden_field_tag :preview_quantity, printing_product_quotation.quantity, id: "printing_product_quotation_preview_quantity_#{printing_product_quotation.id}" %>
+          <%= text_field_tag 'printing_product_quotation[quantity]', printing_product_quotation.quantity, id: "printing_product_quotation_quantity_#{printing_product_quotation.id}", class: 'form form-control', style: 'width: 70%', data: {id: printing_product_quotation.id}, autocomplete: "off" %>
+        </div>
+      </td>
+      <td style="width: 18%;" id="printing_product_quotation_real_price_<%= printing_product_quotation.id %>">
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <%= hidden_field_tag :preview_real_price, printing_product_quotation.real_price, id: "printing_product_quotation_preview_real_price_#{printing_product_quotation.id}" %>
+          <%= text_field_tag 'printing_product_quotation[real_price]', printing_product_quotation.real_price, id: "printing_product_quotation_real_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
+        </div>
+      </td>
+      <td style="width: 18%;">
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <%= hidden_field_tag :preview_price, printing_product_quotation.real_price, id: "printing_product_quotation_preview_price_#{printing_product_quotation.id}" %>
+          <%= text_field_tag 'printing_product_quotation[price]', printing_product_quotation.real_price, id: "printing_product_quotation_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
+        </div>
+      </td>
+      <td style="width: 1px;">
+        <%#= link_to delete_product_printing_sales_path(printing_product_quotation: printing_product_quotation.id), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?', remote: true }, style: 'padding: 3px 5px;' do %>
+          <i class="fa fa-fw fa-close"></i>
+        <%# end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="table-responsive" id="total_to_paid_by_quotation_printings">
+</div>

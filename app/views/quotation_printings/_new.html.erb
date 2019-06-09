@@ -105,7 +105,7 @@
   $invitation.change(function() {
     var invitationId = $(this).val();
     $.ajax({
-      url: "/invitations/obtain_printing_products",
+      url: "/quotation_printings/obtain_printing_products",
       method: "get",
       dataType: "script",
       data: {

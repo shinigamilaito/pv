@@ -25,7 +25,7 @@ module ApplicationHelper
   end
 
   def collapse_menu_catalogs?(section)
-    sections = %w(Equipos Marcas Modelos Refacciones Empleados Productos Clientes)
+    sections = %w(Equipos Marcas Modelos Refacciones Empleados Productos Clientes printing_products Invitaciones)
     sections << 'Precios Genéricos'
 
     if sections.include?(section)
@@ -56,7 +56,7 @@ module ApplicationHelper
   end
 
   def collapse_menu_printing_sales?(section)
-    sections = %w(VentasImpresiones VentasParciales)
+    sections = %w(VentasImpresiones VentasParciales OrdenTrabajo)
 
     if sections.include?(section)
       return "display: block;"

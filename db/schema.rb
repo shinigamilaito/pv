@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190608202733) do
+ActiveRecord::Schema.define(version: 20190609050015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -243,6 +243,24 @@ ActiveRecord::Schema.define(version: 20190608202733) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "printing_product_quotations", force: :cascade do |t|
+    t.bigint "invitation_printing_product_id"
+    t.bigint "quotation_printing_id"
+    t.bigint "user_id"
+    t.string "code"
+    t.string "name"
+    t.decimal "quantity", precision: 10, scale: 2, default: "0.0"
+    t.decimal "purchase_price", precision: 10, scale: 2, default: "0.0"
+    t.decimal "real_price", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total", precision: 10, scale: 2, default: "0.0"
+    t.string "sale_unit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invitation_printing_product_id"], name: "invitation_printing_product"
+    t.index ["quotation_printing_id"], name: "index_printing_product_quotations_on_quotation_printing_id"
+    t.index ["user_id"], name: "index_printing_product_quotations_on_user_id"
+  end
+
   create_table "printing_products", force: :cascade do |t|
     t.string "code"
     t.string "name"
@@ -269,6 +287,7 @@ ActiveRecord::Schema.define(version: 20190608202733) do
     t.decimal "real_price", precision: 20, scale: 10, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "sale_unit"
     t.index ["printing_product_id"], name: "index_printing_sale_products_on_printing_product_id"
     t.index ["printing_sale_id"], name: "index_printing_sale_products_on_printing_sale_id"
     t.index ["user_id"], name: "index_printing_sale_products_on_user_id"
@@ -477,6 +496,9 @@ ActiveRecord::Schema.define(version: 20190608202733) do
   add_foreign_key "payments", "payment_types"
   add_foreign_key "payments", "services"
   add_foreign_key "payments", "users"
+  add_foreign_key "printing_product_quotations", "invitation_printing_products"
+  add_foreign_key "printing_product_quotations", "quotation_printings"
+  add_foreign_key "printing_product_quotations", "users"
   add_foreign_key "printing_sale_products", "printing_products"
   add_foreign_key "printing_sale_products", "printing_sales"
   add_foreign_key "printing_sale_products", "users"

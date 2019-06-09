@@ -1,6 +1,6 @@
 <tr id="printing_sale_product_<%= printing_product.id %>">
   <td><%= printing_product.code %></td>
-  <td><%= printing_product.name %></td>
+  <td><%= "#{printing_product.name} (#{printing_product.sale_unit})" %></td>
   <td style="width: 18%;">
     <div class="input-group">
       <%= hidden_field_tag :preview_quantity, printing_product.quantity, id: "printing_sale_preview_quantity_#{printing_product.id}" %>

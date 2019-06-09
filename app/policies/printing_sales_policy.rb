@@ -148,6 +148,7 @@ class PrintingSalesPolicy
     printing_sale_product = PrintingSaleProduct.new
     printing_sale_product.code = printing_product.code
     printing_sale_product.name = printing_product.name
+    printing_sale_product.sale_unit = printing_product.sale_unit
     printing_sale_product.quantity = 1
     printing_sale_product.price = printing_product.sale_price # Sin descuento
     printing_sale_product.real_price = printing_product.sale_price # Podria aplicarsele descuento

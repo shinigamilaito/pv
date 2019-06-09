@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :quotation_printings, only: [:index, :new] do
-      get :find_quotation_printings_by_client, on: :collection
+    get :find_quotation_printings_by_client, on: :collection
+    get :obtain_printing_products, on: :collection
   end
 
   resources :invitations do
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
     get 'autocomplete', on: :collection
     get 'search', on: :collection
     get :add_printing_product, on: :collection
-    get :obtain_printing_products, on: :collection
   end
 
   resources :partial_sales, only: [:index, :new, :create] do
