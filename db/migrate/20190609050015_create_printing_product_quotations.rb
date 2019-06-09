@@ -8,7 +8,7 @@ class CreatePrintingProductQuotations < ActiveRecord::Migration[5.1]
       t.string :name
       t.decimal :quantity, precision: 10, scale: 2, default: "0.0"
       t.decimal :purchase_price, precision: 10, scale: 2, default: "0.0"
-      t.decimal :real_price, precision: 10, scale: 2, default: "0.0"
+      t.decimal :real_price, precision: 20, scale: 10, default: "0.0"
       t.decimal :total, precision: 10, scale: 2, default: "0.0"
       t.string :sale_unit
 

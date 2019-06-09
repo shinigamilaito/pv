@@ -1,0 +1,20 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <th style="width:75%" class="text-right">Cantidad a Elaborar: </th>
+      <td><span id="amount_to_elaborate"><%= total_quotation_printings[:amount_to_elaborate] %></span></td>
+    </tr>
+    <tr>
+      <th class="text-right">Total cotizado:</th>
+      <td><span id="cost_materials_public"><%= number_to_currency total_quotation_printings[:cost_materials_public] %></span></td>
+    </tr>
+    <tr>
+      <th style="width:70%" class="text-right">Costo:</th>
+      <td><span id="cost_materials_purchase"><%= number_to_currency total_quotation_printings[:cost_materials_purchase] %></span></td>
+    </tr>
+    <tr>
+      <th class="text-right">Utilidad:</th>
+      <td><span id="utility"><%= number_to_currency total_quotation_printings[:utility] %></span></td>
+    </tr>
+  </tbody>
+</table>

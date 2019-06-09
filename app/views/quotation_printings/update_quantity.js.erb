@@ -1,0 +1,10 @@
+$("#printing_product_quotation_preview_quantity_<%= @printing_product_quotation.id %>").val("<%= number_to_currency @printing_product_quotation.quantity %>");
+$("#printing_product_quotation_quantity_<%= @printing_product_quotation.id %>").val("<%= number_to_currency @printing_product_quotation.quantity %>");
+
+$("#printing_product_quotation_preview_real_price_<%= @printing_product_quotation.id %>").val("<%= number_to_currency @printing_product_quotation.real_price %>");
+$("#printing_product_quotation_real_price_<%= @printing_product_quotation.id %>").val("<%= number_to_currency @printing_product_quotation.real_price %>");
+
+$("#printing_product_quotation_preview_price_<%= @printing_product_quotation.id %>").val("<%= number_to_currency @printing_product_quotation.total %>");
+$("#printing_product_quotation_price_<%= @printing_product_quotation.id %>").val("<%= number_to_currency @printing_product_quotation.total %>");
+
+$('#total_to_paid_by_quotation_printings').html("<%= j render('quotation_printings/totals_costs', total_quotation_printings: @total_quotation_printings) %>");

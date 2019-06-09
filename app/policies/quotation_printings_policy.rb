@@ -56,12 +56,73 @@ class QuotationPrintingsPolicy
       .where("printing_product_quotations.quotation_printing_id IS NULL AND invitation_printing_products.invitation_id = ?", invitation.id)
   end
 
+  def update_quantity(printing_product_quotation, quantity)
+    printing_product_quotation.quantity = quantity
+    printing_product_quotation.total = obtain_total(printing_product_quotation)
+    raise "Imposible actualizar la cantidad" unless printing_product_quotation.save
+
+    return printing_product_quotation
+  end
+
+  def totals(invitation, user, manufacturing_cost, amount_to_elaborate)
+    cost_materials_public = cost_materials_public_sale(invitation, user) + manufacturing_cost
+    cost_materials_purchase = cost_materials_purchase(invitation, user) + manufacturing_cost
+    utility = cost_materials_public - cost_materials_purchase
+
+    return {
+      amount_to_elaborate: amount_to_elaborate,
+      cost_materials_public: cost_materials_public,
+      cost_materials_purchase: cost_materials_purchase,
+      utility: utility
+    }
+  end
+
+  # Actualiza el precio en total del producto
+  def change_price_product(printing_product_quotation, new_price)
+    printing_product_quotation.real_price = new_price / printing_product_quotation.quantity
+    printing_product_quotation.total = new_price
+    raise "Imposible actualizar el precio final" unless printing_product_quotation.save
+
+    return printing_product_quotation
+  end
+
+  # Actualiza el precio del producto por unidad
+  def change_real_price_product(printing_product_quotation, real_price)
+    printing_product_quotation.real_price = real_price
+    printing_product_quotation.total = obtain_total(printing_product_quotation)
+    raise "Imposible actualizar el precio unitario" unless printing_product_quotation.save
+
+    return printing_product_quotation
+  end
+
   private
 
   def destroy_printing_product_quotations(user)
     user.printing_product_quotations.where(quotation_printing_id: nil).each do |printing_product_quotation|
       raise 'Error al generar los productos imprenta' unless printing_product_quotation.destroy
     end
+  end
+
+  def cost_materials_public_sale(invitation, user)
+    total = obtain_printing_product_quotations_in_use(invitation, user).inject(BigDecimal("0.00")) do |total, printing_product_quotation|
+      total += printing_product_quotation.total
+      total
+    end
+
+    total
+  end
+
+  def cost_materials_purchase(invitation, user)
+    total = obtain_printing_product_quotations_in_use(invitation, user).inject(BigDecimal("0.00")) do |total, printing_product_quotation|
+      total += printing_product_quotation.purchase_price * printing_product_quotation.quantity
+      total
+    end
+
+    total
+  end
+
+  def obtain_total(printing_product_quotation)
+    BigDecimal(printing_product_quotation.real_price * printing_product_quotation.quantity)
   end
 
 end
