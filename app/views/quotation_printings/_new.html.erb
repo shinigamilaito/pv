@@ -14,8 +14,11 @@
       <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_piece].blank? %>">
         <label class="col-sm-5 control-label">Costo por Invitación</label>
         <div class="col-sm-7" style="margin-bottom: 10px;">
-          <%= f.text_field :cost_piece, class: "form-control", required: true %>
-          <span><%= quotation_printing.errors[:cost_piece].first %></span>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= f.text_field :cost_piece, class: "form-control", required: true %>
+            <span><%= quotation_printing.errors[:cost_piece].first %></span>
+          </div>
         </div>
       </div>
 
@@ -30,8 +33,11 @@
       <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_elaboration].blank? %>">
         <label class="col-sm-5 control-label">Costo por Elaboración</label>
         <div class="col-sm-7" style="margin-bottom: 10px;">
-          <%= f.text_field :cost_elaboration, class: "form-control", required: true %>
-          <span><%= quotation_printing.errors[:cost_elaboration].first %></span>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= f.text_field :cost_elaboration, class: "form-control", required: true, disabled: true %>
+            <span><%= quotation_printing.errors[:cost_elaboration].first %></span>
+          </div>
         </div>
       </div>
 
@@ -75,14 +81,69 @@
         </div>
       </div>
 
-      <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'quotation_printing_save_button', style: 'margin-top: 15px;', data: {disable_with: 'Registrando...'}, disabled: true %>
+      <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'quotation_printing_save_button', style: 'margin-top: 15px;', data: {disable_with: 'Registrando...'} %>
     </div>
   </div>
 </div>
 <% end %>
 
 <script>
+  $(document).ready(function() {
+    var $costPiece = $("#quotation_printing_cost_piece");
+    var $totalPieces = $("#quotation_printing_total_pieces");
+    var $costElaboration = $("#quotation_printing_cost_elaboration");
+
+    setCurrency($costPiece);
+    $totalPieces.inputmask("integer", {
+      rightAlign: true
+    });
+    setCurrency($costElaboration);
+
+    $costPiece.on("keyup", function() { obtainCostElaboration(); });
+    $totalPieces.on("keyup", function() { obtainCostElaboration(); });
+
+    function obtainCostElaboration() {
+      var costPiece = Number($costPiece.val().replace(/,/g, ""));
+      var totalPieces = Number($totalPieces.val());
+
+      if(totalPieces == undefined) {
+        totalPieces = 0;
+      }
+
+      var costElaboration = costPiece * totalPieces;
+      $costElaboration.val(costElaboration);
+
+      obtainTotalCosts();
+    }
+
+    function obtainTotalCosts() {
+      $invitation = $("#quotation_printing_invitation_id");
+
+      if($invitation.val() == undefined || $invitation.val() == "") {
+        return
+      }
+
+      $.ajax({
+        url: "/quotation_printings/obtain_total_costs",
+        method: "get",
+        dataType: "script",
+        data: {
+          manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+          amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+          invitation_id: $invitation.val()
+        },
+        beforeSend: function(xhr) {
+          $("body").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("body").LoadingOverlay("hide", true);
+        }
+      });
+    }
+  });
+
   $invitation = $("#quotation_printing_invitation_id");
+
   $invitation.select2({
 		minimumInputLength: 1,
 		ajax: {
@@ -109,6 +170,8 @@
       method: "get",
       dataType: "script",
       data: {
+        manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+        amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
         invitation_id: invitationId
       },
       beforeSend: function(xhr) {

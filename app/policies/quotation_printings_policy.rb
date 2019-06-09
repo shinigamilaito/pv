@@ -65,9 +65,11 @@ class QuotationPrintingsPolicy
   end
 
   def totals(invitation, user, manufacturing_cost, amount_to_elaborate)
-    cost_materials_public = cost_materials_public_sale(invitation, user) + manufacturing_cost
-    cost_materials_purchase = cost_materials_purchase(invitation, user) + manufacturing_cost
-    utility = cost_materials_public - cost_materials_purchase
+    cost_public_sale = cost_materials_public_sale(invitation, user)
+    cost_purchase = cost_materials_purchase(invitation, user)
+    cost_materials_public = cost_public_sale + manufacturing_cost
+    cost_materials_purchase = cost_purchase + manufacturing_cost
+    utility = (cost_public_sale - cost_purchase) + manufacturing_cost
 
     return {
       amount_to_elaborate: amount_to_elaborate,

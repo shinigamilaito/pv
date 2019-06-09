@@ -18,13 +18,19 @@ class QuotationPrintingsController < ApplicationController
   end
 
   def obtain_printing_products
+    manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
+    if params[:amount_to_elaborate] == ""
+      amount_to_elaborate = 0
+    else
+      amount_to_elaborate = params[:amount_to_elaborate].to_i
+    end
     invitation = Invitation.find(params[:invitation_id])
     @printing_products = invitation.invitation_printing_products
     quotation_printings_policy = QuotationPrintingsPolicy.new
     begin
       quotation_printings_policy.generate_printing_product(invitation, current_user)
       @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(invitation, current_user)
-      @total_quotation_printings = {}
+      @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate)
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
@@ -33,8 +39,8 @@ class QuotationPrintingsController < ApplicationController
   # Actualizar las cantidades del producto
   def update_quantity_product
     begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost])
-      if params[:amount_to_elaborate] = ""
+      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
+      if params[:amount_to_elaborate] == ""
         amount_to_elaborate = 0
       else
         amount_to_elaborate = params[:amount_to_elaborate].to_i
@@ -55,8 +61,8 @@ class QuotationPrintingsController < ApplicationController
   # Actualizar el precio en total del producto
   def update_price_product
     begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost])
-      if params[:amount_to_elaborate] = ""
+      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
+      if params[:amount_to_elaborate] == ""
         amount_to_elaborate = 0
       else
         amount_to_elaborate = params[:amount_to_elaborate].to_i
@@ -77,8 +83,8 @@ class QuotationPrintingsController < ApplicationController
   # Actualizar el precio en unidad del producto
   def update_real_price_product
     begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost])
-      if params[:amount_to_elaborate] = ""
+      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
+      if params[:amount_to_elaborate] == ""
         amount_to_elaborate = 0
       else
         amount_to_elaborate = params[:amount_to_elaborate].to_i
@@ -94,6 +100,19 @@ class QuotationPrintingsController < ApplicationController
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
+  end
+
+  # Obtiene el costo total después de un cambio en el costo de Elaboración
+  def obtain_total_costs
+    manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
+    if params[:amount_to_elaborate] == ""
+      amount_to_elaborate = 0
+    else
+      amount_to_elaborate = params[:amount_to_elaborate].to_i
+    end
+    invitation = Invitation.find(params[:invitation_id])
+    quotation_printings_policy = QuotationPrintingsPolicy.new
+    @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate)
   end
 
   private

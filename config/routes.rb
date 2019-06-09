@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :quotation_printings, only: [:index, :new] do
+    get :obtain_total_costs, on: :collection
     post :update_real_price_product, on: :collection
     post :update_price_product, on: :collection
     post :update_quantity_product, on: :collection
