@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190609050015) do
+ActiveRecord::Schema.define(version: 20190611030613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -336,8 +336,17 @@ ActiveRecord::Schema.define(version: 20190609050015) do
     t.decimal "utility", precision: 10, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "number_folio"
+    t.string "status"
+    t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
+    t.decimal "payment", precision: 10, scale: 2, default: "0.0"
+    t.decimal "change", precision: 10, scale: 2, default: "0.0"
+    t.decimal "difference", precision: 10, scale: 2, default: "0.0"
+    t.bigint "payment_type_id"
+    t.boolean "full_payment"
     t.index ["client_id"], name: "index_quotation_printings_on_client_id"
     t.index ["invitation_id"], name: "index_quotation_printings_on_invitation_id"
+    t.index ["payment_type_id"], name: "index_quotation_printings_on_payment_type_id"
   end
 
   create_table "quotation_products", force: :cascade do |t|
@@ -507,6 +516,7 @@ ActiveRecord::Schema.define(version: 20190609050015) do
   add_foreign_key "printing_sales", "users"
   add_foreign_key "quotation_printings", "clients"
   add_foreign_key "quotation_printings", "invitations"
+  add_foreign_key "quotation_printings", "payment_types"
   add_foreign_key "quotation_products", "products"
   add_foreign_key "quotation_products", "quotations"
   add_foreign_key "quotation_products", "users"
