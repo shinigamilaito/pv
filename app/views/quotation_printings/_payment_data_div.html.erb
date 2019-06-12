@@ -10,7 +10,7 @@
       <th class="text-right">Tipo de Pago:</th>
       <td>
         <div class="input-group" style="width: 100%;">
-          <%= collection_select :quotation_printings, :payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true, style: "width: 100%;"  %>
+          <%= collection_select :quotation_printing, :payment_type_id, PaymentType.all.order(:id), :id, :name, { prompt: 'Seleccione un tipo de pago' }, class: 'form-control', required: true, style: "width: 100%;"  %>
         </div>
       </td>
     </tr>
@@ -193,7 +193,9 @@
         $paidWithSale.prop("disabled",true);
         $payment.val(0);
         $payment.prop("disabled",true);
-        $paymentTypeSale.prop("disabled",true);
+        if($totalOrParcialPaid.val() != 'Orden de Trabajo') {
+          $paymentTypeSale.prop("disabled",true);
+        }
         obtainChangeSale();
         return;
       }
@@ -215,12 +217,14 @@
         if($totalOrParcialPaid.val() == 'Orden de Trabajo') { // Pago total
           $paidWithSale.val(0);
           $paidWithSale.prop("disabled",false);
+          $payment.val(0);
+          $payment.prop("disabled",false);
           obtainChangeSale();
         } else {
           $paidWithSale.val(0);
-          $paidWithSale.prop("disabled",false);
+          $paidWithSale.prop("disabled", true);
           $payment.val(0);
-          $payment.prop("disabled",false);
+          $payment.prop("disabled", true);
           obtainChangeSale();
         }
       }
@@ -234,7 +238,7 @@
     var $paidWithSale = $('#quotation_printing_paid_with');
     var $payment = $("#quotation_printing_payment");
 
-    if (this.value == 'Cotización') {
+    if (this.value == 'Cotización' || this.value == '') {
       // Status is cotizacion
       $("#quotation_printing_payment_type_id").attr("disabled", true);
       $("#quotation_printing_paid_with").attr("disabled", true);
