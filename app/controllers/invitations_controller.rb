@@ -141,7 +141,7 @@ class InvitationsController < ApplicationController
 
     def invitation_printing_products(invitation)
       if invitation.present?
-        current_user.invitation_printing_products.where(invitation_id: nil) + current_user.invitation_printing_products.where(invitation_id: invitation.id)
+        current_user.invitation_printing_products.where(invitation_id: nil) + current_user.invitation_printing_products.where(invitation_id: invitation.id, from_printing_products: true)
       else
         current_user.invitation_printing_products.where(invitation_id: nil)
       end

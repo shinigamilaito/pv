@@ -29,29 +29,31 @@ class QuotationPrintingsPolicy
 
   def generate_printing_product(invitation, user)
     PgLock.new(name: "quotation_printings_policy_generate_printing_product").lock do
-      ActiveRecord::Base.transaction do
-        destroy_printing_product_quotations(user)
+      printing_product_quotations = obtain_printing_product_quotations_in_use(invitation, user)
 
-        invitation.invitation_printing_products.each do |invitation_printing_product|
-          printing_product_quotation = PrintingProductQuotation.new
-          printing_product_quotation.invitation_printing_product = invitation_printing_product
-          printing_product_quotation.user = user
-          printing_product_quotation.code = invitation_printing_product.printing_product.code
-          printing_product_quotation.name = invitation_printing_product.printing_product.name
-          printing_product_quotation.quantity = 1
-          printing_product_quotation.purchase_price = invitation_printing_product.printing_product.purchase_price
-          printing_product_quotation.real_price = invitation_printing_product.printing_product.sale_price
-          printing_product_quotation.total = invitation_printing_product.printing_product.sale_price
-          printing_product_quotation.sale_unit = invitation_printing_product.printing_product.sale_unit
+      if printing_product_quotations.blank?
+        ActiveRecord::Base.transaction do
+          invitation.invitation_printing_products.where(from_printing_products: true).each do |invitation_printing_product|
+            printing_product_quotation = PrintingProductQuotation.new
+            printing_product_quotation.invitation_printing_product = invitation_printing_product
+            printing_product_quotation.user = user
+            printing_product_quotation.code = invitation_printing_product.printing_product.code
+            printing_product_quotation.name = invitation_printing_product.printing_product.name
+            printing_product_quotation.quantity = 1
+            printing_product_quotation.purchase_price = invitation_printing_product.printing_product.purchase_price
+            printing_product_quotation.real_price = invitation_printing_product.printing_product.sale_price
+            printing_product_quotation.total = invitation_printing_product.printing_product.sale_price
+            printing_product_quotation.sale_unit = invitation_printing_product.printing_product.sale_unit
 
-          raise 'Error al obtener los productos imprenta' unless printing_product_quotation.save
+            raise 'Error al obtener los productos imprenta' unless printing_product_quotation.save
+          end
         end
       end
     end
   end
 
   def obtain_printing_product_quotations_in_use(invitation, user)
-    user.printing_product_quotations
+    printing_product_quotations = user.printing_product_quotations
       .joins(:invitation_printing_product)
       .where("printing_product_quotations.quotation_printing_id IS NULL AND invitation_printing_products.invitation_id = ?", invitation.id)
   end
@@ -97,13 +99,24 @@ class QuotationPrintingsPolicy
     return printing_product_quotation
   end
 
-  private
-
   def destroy_printing_product_quotations(user)
     user.printing_product_quotations.where(quotation_printing_id: nil).each do |printing_product_quotation|
       raise 'Error al generar los productos imprenta' unless printing_product_quotation.destroy
     end
   end
+
+  # Add printing_product to quotation
+  def add(user, invitation, printing_product)
+    unless exist_in_the_list?(user, invitation, printing_product)
+      ActiveRecord::Base.transaction do
+        raise 'Imposible agregar el producto imprenta' unless create_printing_product_quotation(user, invitation, printing_product)
+      end
+    else
+      raise 'Producto imprenta ya ha sido agregado.'
+    end
+  end
+
+  private
 
   def cost_materials_public_sale(invitation, user)
     total = obtain_printing_product_quotations_in_use(invitation, user).inject(BigDecimal("0.00")) do |total, printing_product_quotation|
@@ -125,6 +138,35 @@ class QuotationPrintingsPolicy
 
   def obtain_total(printing_product_quotation)
     BigDecimal(printing_product_quotation.real_price * printing_product_quotation.quantity)
+  end
+
+  def exist_in_the_list?(user, invitation, printing_product)
+    printing_product_quotations = user.printing_product_quotations
+      .joins(:invitation_printing_product)
+      .where("printing_product_quotations.quotation_printing_id IS NULL AND invitation_printing_products.invitation_id = ? AND invitation_printing_products.printing_product_id = ?", invitation.id, printing_product.id)
+
+    return printing_product_quotations.present?
+  end
+
+  def create_printing_product_quotation(user, invitation, printing_product)
+    invitation_printing_product = InvitationPrintingProduct.new
+    invitation_printing_product.user = user
+    invitation_printing_product.invitation = invitation
+    invitation_printing_product.printing_product = printing_product
+    invitation_printing_product.from_printing_products = false
+
+    printing_product_quotation = PrintingProductQuotation.new
+    printing_product_quotation.invitation_printing_product = invitation_printing_product
+    printing_product_quotation.user = user
+    printing_product_quotation.code = printing_product.code
+    printing_product_quotation.name = printing_product.name
+    printing_product_quotation.quantity = 1
+    printing_product_quotation.purchase_price = printing_product.purchase_price
+    printing_product_quotation.real_price = printing_product.sale_price
+    printing_product_quotation.total = printing_product.sale_price
+    printing_product_quotation.sale_unit = printing_product.sale_unit
+
+    printing_product_quotation.save
   end
 
 end

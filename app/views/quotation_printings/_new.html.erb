@@ -187,3 +187,47 @@
     });
   });
 </script>
+
+<!-- Search product_printing to add cotización -->
+<script>
+  $printintProductSelect = $(".autocomplete_invitation_printing_products");
+
+  $printintProductSelect.select2({
+		minimumInputLength: 1,
+		ajax: {
+			delay: 250,
+			url: "/printing_products/autocomplete_invitations",
+			dataType: 'json',
+			cache: true
+		}
+	});
+
+  $printintProductSelect.on('select2:select', function (e) {
+      var data = e.params.data;
+      var $invitation = $("#quotation_printing_invitation_id");
+      var invitationId = $invitation.val();
+
+      if(invitationId == "" || invitationId == undefined) {
+        toastr['error']("Agregue la invitación.");
+        return;
+      }
+
+      $.ajax({
+        url: "/quotation_printings/add_printing_product",
+        method: "post",
+        dataType: "script",
+        data: {
+          printing_product: data,
+          manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+          amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+          invitation_id: invitationId
+        },
+        beforeSend: function(xhr) {
+          $("body").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("body").LoadingOverlay("hide", true);
+        }
+      });
+  });
+</script>

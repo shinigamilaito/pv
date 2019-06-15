@@ -1,6 +1,6 @@
 <div class="form-group text-center">
   <label>Material a Utilizar</label>
-  <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get" disabled="disabled">
+  <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get">
     <option value="">Seleccione Material</option>
   </select>
 </div>
@@ -43,9 +43,11 @@
         </div>
       </td>
       <td style="width: 1px;">
-        <%#= link_to delete_product_printing_sales_path(printing_product_quotation: printing_product_quotation.id), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?', remote: true }, style: 'padding: 3px 5px;' do %>
-          <i class="fa fa-fw fa-close"></i>
-        <%# end %>
+        <% unless printing_product_quotation.invitation_printing_product.from_printing_products %>
+          <%= link_to "#", method: :delete, class: 'btn btn-danger delete_printing_product_quotation', data: {url: delete_printing_product_quotation_quotation_printings_path, printing_product_quotation_id: printing_product_quotation.id}, style: 'padding: 3px 5px;' do %>
+            <i class="fa fa-fw fa-close"></i>
+          <% end %>
+        <% end %>
       </td>
     </tr>
     <% end %>
@@ -213,5 +215,80 @@
       }
     }
     <% end %>
+  });
+</script>
+
+<!-- Search product_printing to add cotización -->
+<script>
+  $printintProductSelect = $(".autocomplete_invitation_printing_products");
+
+  $printintProductSelect.select2({
+		minimumInputLength: 1,
+		ajax: {
+			delay: 250,
+			url: "/printing_products/autocomplete_invitations",
+			dataType: 'json',
+			cache: true
+		}
+	});
+
+  $printintProductSelect.on('select2:select', function (e) {
+      var data = e.params.data;
+      var $invitation = $("#quotation_printing_invitation_id");
+      var invitationId = $invitation.val();
+
+      if(invitationId == "" || invitationId == undefined) {
+        toastr['error']("Agregue la invitación.");
+        return;
+      }
+
+      $.ajax({
+        url: "/quotation_printings/add_printing_product",
+        method: "post",
+        dataType: "script",
+        data: {
+          printing_product: data,
+          manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+          amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+          invitation_id: invitationId
+        },
+        beforeSend: function(xhr) {
+          $("body").LoadingOverlay("show");
+        },
+        complete: function(xhr) {
+          $("body").LoadingOverlay("hide", true);
+        }
+      });
+  });
+</script>
+
+<!-- Delete printing_product_quotation -->
+<script>
+  $deletePrintingProductQuotationLinks = $(".delete_printing_product_quotation");
+
+  $deletePrintingProductQuotationLinks.click(function(event) {
+    event.preventDefault()
+    var $invitation = $("#quotation_printing_invitation_id");
+    var invitationId = $invitation.val();
+
+    $.ajax({
+      url: $(this).data('url'),
+      method: "delete",
+      dataType: "script",
+      data: {
+        printing_product_quotation_id: $(this).data("printing-product-quotation-id"),
+        manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+        amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+        invitation_id: invitationId
+      },
+      beforeSend: function(xhr) {
+        $("body").LoadingOverlay("show");
+      },
+      complete: function(xhr) {
+        $("body").LoadingOverlay("hide", true);
+      }
+    });
+
+    return false
   });
 </script>
