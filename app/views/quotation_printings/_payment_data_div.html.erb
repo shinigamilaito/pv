@@ -92,7 +92,7 @@
 
     console.log("$totalOrParcialPaid: " + $totalOrParcialPaid.val());
 
-    if($totalPaid.val() == '' || $totalPaid.val() == undefined) {
+    if($totalPaid.html() == '' || $totalPaid.html() == undefined) {
       return;
     }
 
@@ -134,7 +134,7 @@
 
         var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
         var payment = Number($payment.val().replace(/,/g, ""));
-        var totalPaid = Number($totalPaid.html().replace(/,/g, ""))
+        var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
         var change = (paidWith - payment).toFixed(2);
         var difference = (totalPaid - payment).toFixed(2);
 
