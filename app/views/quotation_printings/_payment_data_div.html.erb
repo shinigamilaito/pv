@@ -37,7 +37,7 @@
         <td>
           <div class="input-group">
             <span class="input-group-addon">$</span>
-            <%= text_field_tag "quotation_printing[change]", "", class: "form-control form-control-sm", disabled: true %>
+            <%= text_field_tag "quotation_printing[change]", "", class: "form-control form-control-sm", readonly: true %>
           </div>
         </td>
     </tr>
@@ -46,7 +46,7 @@
         <td>
           <div class="input-group">
             <span class="input-group-addon">$</span>
-            <%= text_field_tag "quotation_printing[difference]", "", class: "form-control form-control-sm", disabled: true %>
+            <%= text_field_tag "quotation_printing[difference]", "", class: "form-control form-control-sm", readonly: true %>
           </div>
         </td>
     </tr>
@@ -114,9 +114,9 @@
       $change.val(change);
 
       if(change < 0 || totalPaid <= 0) {
-        $btnPaid.attr("disabled", true);
+        $btnPaid.attr("readonly", true);
       } else {
-        $btnPaid.removeAttr("disabled");
+        $btnPaid.removeAttr("readonly");
       }
     } else { // Parcial payment estatus 'Orden de Trabajo'
       console.log("Parcial Payment");
@@ -190,9 +190,9 @@
       // Check payment method
       if(paymentMethod == "") { // No selecciono metodo de pago
         $paidWithSale.val(0);
-        $paidWithSale.prop("disabled",true);
+        $paidWithSale.prop("readonly",true);
         $payment.val(0);
-        $payment.prop("disabled",true);
+        $payment.prop("readonly",true);
         if($totalOrParcialPaid.val() != 'Orden de Trabajo') {
           $paymentTypeSale.prop("disabled",true);
         }
@@ -204,27 +204,27 @@
         if($totalOrParcialPaid.val() == 'Cotización') { // Status de la orden cotización
           var totalToPaid = Number($totalPaid.html().replace(/,/g, ""));
           $paidWithSale.val(totalToPaid);
-          $paidWithSale.prop("disabled",true);
+          $paidWithSale.prop("readonly",true);
           obtainChangeSale();
         } else {
           $paidWithSale.val(0);
-          $paidWithSale.prop("disabled",false);
+          $paidWithSale.prop("readonly",false);
           $payment.val(0);
-          $payment.prop("disabled",true);
+          $payment.prop("readonly",true);
           obtainChangeSale();
         }
       } else { // Efectivo
         if($totalOrParcialPaid.val() == 'Orden de Trabajo') { // Pago total
           $paidWithSale.val(0);
-          $paidWithSale.prop("disabled",false);
+          $paidWithSale.prop("readonly",false);
           $payment.val(0);
-          $payment.prop("disabled",false);
+          $payment.prop("readonly",false);
           obtainChangeSale();
         } else {
           $paidWithSale.val(0);
-          $paidWithSale.prop("disabled", true);
+          $paidWithSale.prop("readonly", true);
           $payment.val(0);
-          $payment.prop("disabled", true);
+          $payment.prop("readonly", true);
           obtainChangeSale();
         }
       }
@@ -241,10 +241,10 @@
     if (this.value == 'Cotización' || this.value == '') {
       // Status is cotizacion
       $("#quotation_printing_payment_type_id").attr("disabled", true);
-      $("#quotation_printing_paid_with").attr("disabled", true);
-      $("#quotation_printing_payment").attr("disabled", true);
-      $("#quotation_printing_change").attr("disabled", true);
-      $("#quotation_printing_difference").attr("disabled", true);
+      $("#quotation_printing_paid_with").attr("readonly", true);
+      $("#quotation_printing_payment").attr("readonly", true);
+      $("#quotation_printing_change").attr("readonly", true);
+      $("#quotation_printing_difference").attr("readonly", true);
 
       $("#quotation_printing_paid_with").val(0);
       $("#quotation_printing_payment").val(0);
@@ -261,10 +261,10 @@
         $paidWithSale.val(0);
         $payment.val(0);
 
-        $("#quotation_printing_paid_with").attr("disabled", true);
-        $("#quotation_printing_payment").attr("disabled", true);
-        $("#quotation_printing_change").attr("disabled", true);
-        $("#quotation_printing_difference").attr("disabled", true);
+        $("#quotation_printing_paid_with").attr("readonly", true);
+        $("#quotation_printing_payment").attr("readonly", true);
+        $("#quotation_printing_change").attr("readonly", true);
+        $("#quotation_printing_difference").attr("readonly", true);
 
         obtainChangeSale();
         return;
@@ -272,15 +272,15 @@
 
       if($paymentMethod.val() != "1") { // Debito, Credito
         $paidWithSale.val(0);
-        $paidWithSale.prop("disabled",false);
+        $paidWithSale.prop("readonly",false);
         $payment.val(0);
-        $payment.prop("disabled",true);
+        $payment.prop("readonly",true);
         obtainChangeSale();
       } else { // Efectivo
         $paidWithSale.val(0);
-        $paidWithSale.prop("disabled",false);
+        $paidWithSale.prop("readonly",false);
         $payment.val(0);
-        $payment.prop("disabled",false);
+        $payment.prop("readonly",false);
         obtainChangeSale();
         return;
       }

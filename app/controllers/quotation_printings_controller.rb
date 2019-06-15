@@ -115,6 +115,9 @@ class QuotationPrintingsController < ApplicationController
     @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate)
   end
 
+  def create
+  end
+
   private
 
   def set_module
