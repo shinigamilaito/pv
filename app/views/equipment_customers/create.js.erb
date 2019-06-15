@@ -1,35 +1,39 @@
-$("#new-equipment-body").html('<%= j render(@service.equipment_customers.order(created_at: :desc)) %>');
-$("#header-services").html('<%= j render('services/header') %>');
+<% if @failed.present? %>
+    window.location = "/services/new";
+<% else %>
+  $("#new-equipment-body").html('<%= j render(@service.equipment_customers.order(created_at: :desc)) %>');
+  $("#header-services").html('<%= j render('services/header') %>');
 
-<% if @equipments_not_paid.blank? && @service.equipment_customers.present? %>
-  //$(".link-hover").remove(); No anadir mas equipos al servicio
-  $('#paid').html('<p class="text-center">Todos los pagos han sido realizados.</p>');
+  <% if @equipments_not_paid.blank? && @service.equipment_customers.present? %>
+    //$(".link-hover").remove(); No anadir mas equipos al servicio
+    $('#paid').html('<p class="text-center">Todos los pagos han sido realizados.</p>');
+  <% end %>
+
+  <% unless @equipments_not_paid.blank? %>
+    $("#paid").html('<%= j render('payments/form', payment: @payment, service: @service, equipments_not_paid: @equipments_not_paid) %>');
+    $("#equipments_customers_for_paid").html('<%= j render('payments/equipments_customers_for_paid', equipments_not_paid: @equipments_not_paid) %>');
+  <% end %>
+
+  <% unless @service.equipment_customers.blank? %>
+    $("#btn_paid").removeAttr("disabled");
+  <% end %>
+  toastr['success']('Equipo agregado exitosamente.');
+
+  $(document).ready(function() {
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.height){
+          panel.style.height = null;
+        } else {
+          panel.style.height = panel.scrollHeight + 200 + "px";
+        }
+      });
+    }
+
+  });
 <% end %>
-
-<% unless @equipments_not_paid.blank? %>
-  $("#paid").html('<%= j render('payments/form', payment: @payment, service: @service, equipments_not_paid: @equipments_not_paid) %>');
-  $("#equipments_customers_for_paid").html('<%= j render('payments/equipments_customers_for_paid', equipments_not_paid: @equipments_not_paid) %>');
-<% end %>
-
-<% unless @service.equipment_customers.blank? %>
-  $("#btn_paid").removeAttr("disabled");
-<% end %>
-toastr['success']('Equipo agregado exitosamente.');
-
-$(document).ready(function() {
-  var acc = document.getElementsByClassName("accordion");
-  var i;
-
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var panel = this.nextElementSibling;
-      if (panel.style.height){
-        panel.style.height = null;
-      } else {
-        panel.style.height = panel.scrollHeight + 200 + "px";
-      }
-    });
-  }
-
-});

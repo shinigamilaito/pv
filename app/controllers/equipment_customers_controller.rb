@@ -21,10 +21,11 @@ class EquipmentCustomersController < ApplicationController
       @components = Component.all.order(created_at: :asc)
       @payments_policy = PaymentsPolicy.new(@service)
       @equipments_not_paid = @payments_policy.equipments_not_paid
-      @payment = @payments_policy.current_payment
-      render 'create'
+      @payment = @payments_policy.current_payment      
     else
-      render 'new'
+      @failed = true
+      logger.debug equipment_customer.errors.full_messages
+      flash[:error] = "Se presento un problema al registrar la orden, intente nuevamente."
     end
   end
 
@@ -62,22 +63,42 @@ class EquipmentCustomersController < ApplicationController
   end
 
   def associate_equipment_model(equipment_customer, equipment_model_name)
-    if equipment_model_name.to_i == 0 #Crear el equipment_model
+    text_result = equipment_model_name.scan(/\D+/)
+
+    if text_result.present? #Crear el equipment_model, contiene letras
       equipment_customer.equipment_model = EquipmentModel.new(
         name: equipment_model_name,
         description: equipment_model_name
       )
+    else
+      equipment_model_exist = EquipmentModel.find_by_id(equipment_model_name)
+      if equipment_model_exist.nil?
+        equipment_customer.equipment_model = EquipmentModel.new(
+          name: equipment_model_name,
+          description: equipment_model_name
+        )
+      end
     end
 
     return equipment_customer
   end
 
   def associate_brand(equipment_customer, brand_name)
-    if brand_name.to_i == 0 #Crear el equipment_model
+    text_result = brand_name.scan(/\D+/)
+
+    if text_result.present? #Crear el brand, contiene letras
       equipment_customer.brand = Brand.new(
         name: brand_name,
         specifications: brand_name
       )
+    else
+      brand_exist = Brand.find_by_id(brand_name)
+      if brand_exist.nil?
+        equipment_customer.brand = Brand.new(
+          name: brand_name,
+          specifications: brand_name
+        )
+      end
     end
 
     return equipment_customer
