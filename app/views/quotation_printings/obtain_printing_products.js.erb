@@ -1,2 +1,5 @@
 $("#list_invitation_printing_products").html('<%= j render("quotation_printings/printing_products_for_quotations", printing_product_quotations: @printing_product_quotations, total_quotation_printings: @total_quotation_printings) %>');
 $('#payment_data_div').html("<%= j render('quotation_printings/payment_data_div') %>");
+
+// Refresh form to change image
+$('#image_invitation').html("<%= j render('quotation_printings/image_invitation', invitation: @invitation) %>");

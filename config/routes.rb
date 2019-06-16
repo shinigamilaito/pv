@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :quotation_printings, only: [:index, :new, :create] do
+    patch :update_image_invitation, on: :member
     get :get_pdf, on: :member
     delete :delete_printing_product_quotation, on: :collection
     post :add_printing_product, on: :collection

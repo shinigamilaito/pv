@@ -34,13 +34,13 @@ class QuotationPrintingsController < ApplicationController
     else
       amount_to_elaborate = params[:amount_to_elaborate].to_i
     end
-    invitation = Invitation.find(params[:invitation_id])
-    @printing_products = invitation.invitation_printing_products
+    @invitation = Invitation.find(params[:invitation_id])
+    @printing_products = @invitation.invitation_printing_products
     quotation_printings_policy = QuotationPrintingsPolicy.new
     begin
-      quotation_printings_policy.generate_printing_product(invitation, current_user)
-      @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(invitation, current_user)
-      @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate)
+      quotation_printings_policy.generate_printing_product(@invitation, current_user)
+      @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@invitation, current_user)
+      @total_quotation_printings = quotation_printings_policy.totals(@invitation, current_user, manufacturing_cost, amount_to_elaborate)
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
@@ -203,6 +203,18 @@ class QuotationPrintingsController < ApplicationController
                  bottom: 4
                }
       end
+    end
+  end
+  
+  def update_image_invitation
+    @invitation = Invitation.find(params[:id])
+    @invitation.imagen = params[:invitation][:imagen]
+    @invitation.imagen_cache = params[:invitation][:imagen_cache]
+
+    if @invitation.save
+      render js: "toastr['success']('Imagen asignada correctamente.');", status: :created
+    else
+      render js: "toastr['error']('Error al asignar la imagen.');", status: :bad_request
     end
   end
 
