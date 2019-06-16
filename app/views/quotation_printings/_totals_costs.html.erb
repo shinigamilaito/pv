@@ -7,14 +7,17 @@
     <tr>
       <th class="text-right">Total cotizado:</th>
       <td><span id="cost_materials_public"><%= number_to_currency total_quotation_printings[:cost_materials_public] %></span></td>
+      <%= hidden_field_tag "quotation_printing[total_quotations]", total_quotation_printings[:cost_materials_public] %>
     </tr>
     <tr>
       <th style="width:70%" class="text-right">Costo:</th>
       <td><span id="cost_materials_purchase"><%= number_to_currency total_quotation_printings[:cost_materials_purchase] %></span></td>
+      <%= hidden_field_tag "quotation_printing[total_cost]", total_quotation_printings[:cost_materials_purchase] %>
     </tr>
     <tr>
       <th class="text-right">Utilidad:</th>
       <td><span id="utility"><%= number_to_currency total_quotation_printings[:utility] %></span></td>
+      <%= hidden_field_tag "quotation_printing[utility]", total_quotation_printings[:utility] %>
     </tr>
   </tbody>
 </table>

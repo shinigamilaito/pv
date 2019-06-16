@@ -1,0 +1,111 @@
+<div class="container-fluid">
+  <div class="row alwaysbreak">
+  <div class="col-xs-7">
+    <%#= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
+  </div>
+  <div class="col-xs-5">
+    <h3 class="text-center"><%= "FECHA: " + @note_quotation_printing.date %></h3>
+    <div class="m-b-10 text-right">
+      <h3 style="display: inline-block;" class="not-margin text-right">
+        <strong>Número:</strong>
+      </h3>
+      <h1 class="number-folio red not-margin"><%= @note_quotation_printing.folio %></h1>
+    </div>
+    <h3 class="not-margin-top text-right"><%= @note_quotation_printing.street %></h3>
+    <h3 class="f-s-a-f not-margin-top text-right"><%= @note_quotation_printing.city %></h3>
+    <div class="m-b-10 row">
+      <div class="col-xs-6">
+        <h3 class="not-margin"><%= @note_quotation_printing.telephones[:one] %></h3>
+      </div>
+      <div class="col-xs-6 text-right">
+        <h3 class="not-margin"><%= @note_quotation_printing.telephones[:two] %></h3>
+      </div>
+    </div>
+    <h3 class="not-margin-top text-right"><%= @note_quotation_printing.email %></h3>
+    <h3 class="not-margin-top red">HORARIO: 9:00 am 8:30 pm</h3>
+  </div>
+  </div>
+
+  <section class="section-blue m-b-20"></section>
+
+  <div class="row">
+    <div class="col-xs-12  b-c-g">
+      <h3 class="text-center not-margin-top"><strong>DATOS DEL CLIENTE</strong></h3>
+    </div>
+  </div>
+
+  <div class="row border">
+    <div class="col-xs-12">
+      <h5><%= "Cliente: " + @note_quotation_printing.client[:name] %></h5>
+      <h5><%= "Direccion: " + @note_quotation_printing.client[:address] %></h5>
+      <h5><%= "Teléfono: " + @note_quotation_printing.client[:home_phone] %></h5>
+      <h5><%= "Correo: " + @note_quotation_printing.client[:email] %></h5>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-4 text-center">
+      <h3><strong>CONCEPTO</strong></h3>
+    </div>
+    <div class="col-xs-4 text-center">
+      <h3><strong>CANTIDAD</strong></h3>
+    </div>
+    <div class="col-xs-4 text-center">
+      <h3><strong>PRECIO</strong></h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-4 text-center">
+      <h2>ELABORACIÓN DE INVITACIONES</h2>
+      <h4><%= @note_quotation_printing.invitation_name %></h4>
+    </div>
+    <div class="col-xs-4 text-center">
+      <h2><%= @note_quotation_printing.total_pieces %></h2>
+    </div>
+    <div class="col-xs-4 text-center">
+      <h2><%= number_to_currency @note_quotation_printing.cost_total_quotation %></h2>
+    </div>
+  </div>
+
+  <% if @note_quotation_printing.is_orden? %>
+    <div class="row">
+      <div class="col-xs-3 col-xs-offset-6 text-right">
+        <h4><strong>Tipo de Pago:</strong></h4>
+      </div>
+      <div class="col-xs-3 text-left">
+        <h4><%= @note_quotation_printing.payment_type %></h4>
+      </div>
+      <div class="col-xs-3 col-xs-offset-6 text-right">
+        <h4><strong>Pago con:</strong></h4>
+      </div>
+      <div class="col-xs-3 text-left">
+        <h4><%= number_to_currency @note_quotation_printing.paid_with %></h4>
+      </div>
+      <div class="col-xs-3 col-xs-offset-6 text-right">
+        <h4><strong>Abona:</strong></h4>
+      </div>
+      <div class="col-xs-3 text-left">
+        <h4><%= number_to_currency @note_quotation_printing.payment %></h4>
+      </div>
+      <div class="col-xs-3 col-xs-offset-6 text-right">
+        <h4><strong>Cambio:</strong></h4>
+      </div>
+      <div class="col-xs-3 text-left">
+        <h4><%= number_to_currency @note_quotation_printing.change %></h4>
+      </div>
+      <div class="col-xs-3 col-xs-offset-6 text-right">
+        <h4><strong>Resta:</strong></h4>
+      </div>
+      <div class="col-xs-3 text-left">
+        <h4><%= number_to_currency @note_quotation_printing.difference %></h4>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row" style="margin-top: 20px !important;">
+    <h4 class="term-cond text-center">
+      <%= "Cotizacion valida hasta el #{l @note_quotation_printing.valid_until, format: '%A, %d %b %Y'}" %>
+    </h4>
+  </div>
+</div>
