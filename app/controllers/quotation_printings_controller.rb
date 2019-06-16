@@ -202,7 +202,7 @@ class QuotationPrintingsController < ApplicationController
         @note_quotation_printing = NoteQuotationPrinting.new(@quotation_printing)
 
         render pdf: 'report',
-               wkhtmltopdf: route_wicked,
+               #wkhtmltopdf: route_wicked,
                template: 'quotation_printings/note.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
