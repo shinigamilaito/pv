@@ -153,7 +153,7 @@ class QuotationPrintingsPolicy
     invitation_printing_product.user = user
     invitation_printing_product.invitation = invitation
     invitation_printing_product.printing_product = printing_product
-    invitation_printing_product.from_printing_products = false
+    invitation_printing_product.from_printing_products = invitation.created_in_quotation
 
     printing_product_quotation = PrintingProductQuotation.new
     printing_product_quotation.invitation_printing_product = invitation_printing_product

@@ -3,3 +3,6 @@ $('#payment_data_div').html("<%= j render('quotation_printings/payment_data_div'
 
 // Refresh form to change image
 $('#image_invitation').html("<%= j render('quotation_printings/image_invitation', invitation: @invitation) %>");
+
+// Refresh the select invitations to show id
+$('#select_invitations').html("<%= j render('quotation_printings/select_invitations', invitation: @invitation) %>");

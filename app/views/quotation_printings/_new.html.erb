@@ -5,9 +5,8 @@
     <div class="col-sm-5">
       <div class="form-group <%= 'has-error' unless quotation_printing.errors[:invitation_id].blank? %>">
         <label class="col-sm-5 control-label">Modelo a Cotizar</label>
-        <div class="col-sm-7" style="margin-bottom: 10px;">
-          <%= collection_select :quotation_printing, :invitation_id, [], :id, :name, { prompt: 'Buscar invitación' }, class: 'form-control', required: true %>
-          <span><%= quotation_printing.errors[:invitation].first %></span>
+        <div class="col-sm-7" style="margin-bottom: 10px;" id="select_invitations">
+          <%= select_tag "quotation_printing[invitation_id]", options_for_select([]), prompt: 'Buscar invitación', class: 'form-control', required: true %>
         </div>
       </div>
 
@@ -142,13 +141,30 @@
   $invitation = $("#quotation_printing_invitation_id");
 
   $invitation.select2({
+    tags: true,
 		minimumInputLength: 1,
 		ajax: {
 			delay: 250,
 			url: "/invitations/autocomplete",
 			dataType: 'json',
 			cache: true
-		}
+		},
+    createTag: function (params) {
+      console.log("Tag Invitation created...");
+      var term = $.trim(params.term);
+
+      if (isNaN(term)) {
+        return {
+          id: term,
+          text: term,
+          newTag: true // add additional parameters
+        }
+
+      } else {
+        console.log("Tag Invitation no valid");
+        return null;
+      }
+    }
 	});
 
   $invitation.change(function() {
@@ -160,7 +176,8 @@
       data: {
         manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
         amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-        invitation_id: invitationId
+        invitation_id: invitationId,
+        new_invitation: $(this).children("option:selected").data("select2-tag")
       },
       beforeSend: function(xhr) {
         $("body").LoadingOverlay("show");

@@ -1,0 +1,53 @@
+<%= select_tag "quotation_printing[invitation_id]", options_for_select([[invitation.name, invitation.id]], invitation.id), prompt: 'Buscar invitación', class: 'form-control', required: true %>
+
+<script>
+  $invitation = $("#quotation_printing_invitation_id");
+
+  $invitation.select2({
+    tags: true,
+		minimumInputLength: 1,
+		ajax: {
+			delay: 250,
+			url: "/invitations/autocomplete",
+			dataType: 'json',
+			cache: true
+		},
+    createTag: function (params) {
+      console.log("Tag Invitation created...");
+      var term = $.trim(params.term);
+
+      if (isNaN(term)) {
+        return {
+          id: term,
+          text: term,
+          newTag: true // add additional parameters
+        }
+
+      } else {
+        console.log("Tag Invitation no valid");
+        return null;
+      }
+    }
+	});
+
+  $invitation.change(function() {
+    var invitationId = $(this).val();
+    $.ajax({
+      url: "/quotation_printings/obtain_printing_products",
+      method: "get",
+      dataType: "script",
+      data: {
+        manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+        amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+        invitation_id: invitationId,
+        new_invitation: $(this).children("option:selected").data("select2-tag")
+      },
+      beforeSend: function(xhr) {
+        $("body").LoadingOverlay("show");
+      },
+      complete: function(xhr) {
+        $("body").LoadingOverlay("hide", true);
+      }
+    });
+  });
+</script>
