@@ -1,7 +1,9 @@
 <div class="container-fluid">
   <div class="row alwaysbreak">
   <div class="col-xs-7">
-    <%= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
+    <% logo_path = image_url("logo_nota_servicios.jpg") %>
+    <%= wicked_pdf_image_tag(logo_path, {size: "560x350"}) %>
+    <%#= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
   </div>
   <div class="col-xs-5">
     <h3 class="text-center"><%= "FECHA: " + @note_quotation.date %></h3>
