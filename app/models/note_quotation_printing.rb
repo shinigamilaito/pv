@@ -92,6 +92,14 @@ class NoteQuotationPrinting
    quotation_printing.status.eql?("Orden de Trabajo")
  end
 
+ def has_image?
+   quotation_printing.invitation.imagen_url != nil
+ end
+
+ def url_imagen
+   quotation_printing.invitation.imagen_url
+ end
+
  private
 
  def client_name

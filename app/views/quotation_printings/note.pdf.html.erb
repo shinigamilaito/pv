@@ -59,7 +59,18 @@
     <div class="col-xs-4 text-center">
       <h2>ELABORACIÓN DE INVITACIONES</h2>
       <h4><%= @note_quotation_printing.invitation_name %></h4>
+
+      <% if @note_quotation_printing.has_image? %>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <% src = @note_quotation_printing.url_imagen %>
+            <%= wicked_pdf_image_tag(src, {size: "250x250"}) %>
+            <br/>
+          </div>
+        </div>
+      <% end %>
     </div>
+
     <div class="col-xs-4 text-center">
       <h2><%= @note_quotation_printing.total_pieces %></h2>
     </div>
