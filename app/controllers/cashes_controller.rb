@@ -76,18 +76,19 @@ class CashesController < ApplicationController
     if params[:type] == "services_sales"
       cash = CashOpeningServicesSale.find(params[:cash])
       cash_policy = CashPolicy.new
-      @incomes_xlsx = cash_policy.incomes(cash)
-      @total = cash_policy.totals(cash)
+      @incomes_xlsx = cash_policy.incomes_services_sales(cash)
+      @total = cash_policy.totals_services_sales(cash)
       @title = "Ingresos por Servicios y Ventas"
       response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
       render xlsx: @title, template: 'cashes/services_sales'
     else
-      cash = CashOpeningSale.find(params[:cash])
-      @sales_xlsx = cash.sales
-      @total = Sale.total(@sales_xlsx)
-      @title = "Ingresos por Ventas"
+      cash = CashOpeningImpression.find(params[:cash])
+      cash_policy = CashPolicy.new
+      @incomes_xlsx = cash_policy.incomes_impressions(cash)
+      @total = cash_policy.totals_impressions(cash)
+      @title = "Ingresos por Impresiones"
       response.headers['Content-Disposition'] = 'attachment; filename="#{@title}.xlsx"'
-      render xlsx: @title, template: 'sales/index'
+      render xlsx: @title, template: 'cashes/impressions'
     end
   end
 
@@ -125,7 +126,7 @@ class CashesController < ApplicationController
   # Form to register movement in cash
   def new_movement
     redirect_to root_url and return
-    
+
     @cash_movement = CashMovement.new
     close_date = DateTime.now
     employee = current_user

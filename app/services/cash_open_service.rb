@@ -58,6 +58,7 @@ class CashOpenService
       raise "Proceda a realizar el cierre de la caja."
     else
       cash_opening_impression = CashOpeningImpression.new
+      cash_opening_impression.type_cash = "impressions"
       cash_opening_impression.open_date = open_date
       cash_opening_impression.user = employee
       cash_opening_impression.amount = amount

@@ -122,22 +122,23 @@ class CashCloseService
     else
       ActiveRecord::Base.transaction do
         current_cash = cash
-        cash_closing_sale = CashClosingSale.new
-        cash_closing_sale.close_date = close_date
-        cash_closing_sale.user = employee
-        cash_closing_sale.total_effective = total_effective
-        cash_closing_sale.total_debit_card = total_debit_card
-        cash_closing_sale.total_credit_card = total_credit_card
-        cash_closing_sale.total_sales = total_sales
-        cash_closing_sale.open_amount = open_amount
-        cash_closing_sale.total = total
-        cash_closing_sale.cash_opening_sale = current_cash
-        raise "Error al realizar el cierre" unless cash_closing_sale.save
+        cash_closing_impression = CashClosingImpression.new
+        cash_closing_impression.type_cash = 'impressions'
+        cash_closing_impression.close_date = close_date
+        cash_closing_impression.user = employee
+        cash_closing_impression.total_effective = total_effective
+        cash_closing_impression.total_debit_card = total_debit_card
+        cash_closing_impression.total_credit_card = total_credit_card
+        cash_closing_impression.total_sales = total_sales
+        cash_closing_impression.open_amount = open_amount
+        cash_closing_impression.total = total
+        cash_closing_impression.cash_opening_impression = current_cash
+        raise "Error al realizar el cierre" unless cash_closing_impression.save
 
         current_cash.active = false
         raise "Error al realizar el cierre" unless current_cash.save
 
-        return cash_closing_sale
+        return cash_closing_impression
       end
     end
   end
@@ -152,7 +153,7 @@ class CashCloseService
     case type_cash
     when "services_sales"
       return CashPolicy.new.cash_services_sales
-    when "sales"
+    when "impressions"
       return CashPolicy.new.cash_impressions
     end
   end

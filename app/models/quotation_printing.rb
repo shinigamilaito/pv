@@ -15,4 +15,12 @@ class QuotationPrinting < ApplicationRecord
   def set_number_folio
     self.number_folio = QuotationPrinting.count + 1
   end
+
+  def self.total(quotation_printings)
+    return nil if quotation_printings.blank?
+
+    quotation_printings
+      .map {|quotation_printing| quotation_printing.payment }
+      .sum
+  end
 end
