@@ -5,11 +5,16 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   helper_method :cash_services_sale_open?
+  helper_method :cash_impression_open?
 
   protected
 
   def cash_services_sale_open?
     CashPolicy.new.cash_services_sales.present?
+  end
+
+  def cash_impression_open?
+    CashPolicy.new.cash_impressions.present?
   end
 
   def configure_permitted_parameters

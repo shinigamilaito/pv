@@ -54,7 +54,17 @@ class CashOpenService
 
   # open_cash_impressions
   def open_cash_impressions
-    raise 'Caja no disponible'
+    if is_open?
+      raise "Proceda a realizar el cierre de la caja."
+    else
+      cash_opening_impression = CashOpeningImpression.new
+      cash_opening_impression.open_date = open_date
+      cash_opening_impression.user = employee
+      cash_opening_impression.amount = amount
+      raise "Error al realizar la apertura" unless cash_opening_impression.save
+
+      return cash_opening_impression
+    end
   end
 
   # Check if there is a open cash

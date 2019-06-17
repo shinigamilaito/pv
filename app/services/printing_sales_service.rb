@@ -16,6 +16,7 @@ class PrintingSalesService
       #@printing_sale.cash_opening_services_sale = CashPolicy.new.cash_services_sales
       @printing_sale.subtotal = @ticket_sale.totals[:subtotal]
       @printing_sale.total = @ticket_sale.totals[:total]
+      @printing_sale.cash_opening_impression = CashPolicy.new.cash_impressions
       @printing_sale.save
     end
   end

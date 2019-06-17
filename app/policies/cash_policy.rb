@@ -8,7 +8,7 @@ class CashPolicy
   end
 
   def cash_impressions
-    return nil
+    return CashOpeningImpression.find_by(active: true)
   end
 
   def incomes(cash)

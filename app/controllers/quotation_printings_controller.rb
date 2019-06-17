@@ -3,6 +3,11 @@ class QuotationPrintingsController < ApplicationController
   before_action :fixed_format_price, only: [:create]
 
   def index
+    unless cash_impression_open?
+      flash[:warning] = 'La caja de impresiones no ha sido abierta.'
+      redirect_to root_url and return
+    end
+
     @clients = []
     @quotation_printings = []
     @quotation_printing = nil
@@ -137,10 +142,16 @@ class QuotationPrintingsController < ApplicationController
   end
 
   def create
+    unless cash_impression_open?
+      flash[:warning] = 'La caja de impresiones no ha sido abierta.'
+      redirect_to root_url and return
+    end
+
     @quotation_printing = QuotationPrinting.new(quoation_printing_params)
     @quotation_printing.user = current_user
     @quotation_printing.full_payment = @quotation_printing.difference <= BigDecimal.new("0")
     @quotation_printing.number_folio = @quotation_printing.set_number_folio
+    @quotation_printing.cash_opening_impression = CashPolicy.new.cash_impressions
 
     PgLock.new(name: "quotation_printings_create").lock do
       if @quotation_printing.save

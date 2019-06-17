@@ -26,10 +26,10 @@ class PrintingSalesController < ApplicationController
 
   # Vista agregar productos a ventas impresiones
   def new
-    #unless cash_services_sale_open?
-    #  flash[:warning] = 'La caja de ventas no ha sido abierta.'
-    #  redirect_to root_url and return
-    #end
+    unless cash_impression_open?
+      flash[:warning] = 'La caja de impresiones no ha sido abierta.'
+      redirect_to root_url and return
+    end
 
     clear_variables
     discount = session[:discount_printing_sale] || '0'
@@ -41,11 +41,11 @@ class PrintingSalesController < ApplicationController
 
   # Create record of the sale
   def create
-    #if CashPolicy.new.cash_services_sales.blank?
-    #  flash[:warning] = "La caja no ha sido abierta."
-    #  redirect_to root_path and return
-    #end
-    
+    unless cash_impression_open?
+      flash[:warning] = 'La caja de impresiones no ha sido abierta.'
+      redirect_to root_url and return
+    end
+
     @printing_sale = PrintingSale.new(printing_sale_params)
     @printing_sale.user = current_user
     @printing_sales_service = PrintingSalesService.new(@printing_sales_policy, @printing_sale)

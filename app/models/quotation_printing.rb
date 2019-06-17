@@ -3,6 +3,7 @@ class QuotationPrinting < ApplicationRecord
   belongs_to :client
   belongs_to :user
   belongs_to :payment_type, optional: true
+  belongs_to :cash_opening_impression
 
   has_many :printing_product_quotations
 

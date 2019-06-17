@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190616163411) do
+ActiveRecord::Schema.define(version: 20190617001831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,17 @@ ActiveRecord::Schema.define(version: 20190616163411) do
     t.index ["cash_type", "cash_id"], name: "index_cash_movements_on_cash_type_and_cash_id"
     t.index ["payment_type_id"], name: "index_cash_movements_on_payment_type_id"
     t.index ["user_id"], name: "index_cash_movements_on_user_id"
+  end
+
+  create_table "cash_opening_impressions", force: :cascade do |t|
+    t.string "type_cash"
+    t.datetime "open_date"
+    t.bigint "user_id"
+    t.decimal "amount"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cash_opening_impressions_on_user_id"
   end
 
   create_table "cash_opening_services_sales", force: :cascade do |t|
@@ -212,6 +223,8 @@ ActiveRecord::Schema.define(version: 20190616163411) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "paid_with", precision: 10, scale: 2, default: "0.0"
+    t.bigint "cash_opening_impression_id"
+    t.index ["cash_opening_impression_id"], name: "index_partial_sales_on_cash_opening_impression_id"
     t.index ["payment_type_id"], name: "index_partial_sales_on_payment_type_id"
     t.index ["printing_sale_id"], name: "index_partial_sales_on_printing_sale_id"
     t.index ["user_id"], name: "index_partial_sales_on_user_id"
@@ -311,6 +324,8 @@ ActiveRecord::Schema.define(version: 20190616163411) do
     t.decimal "difference", precision: 10, scale: 2, default: "0.0"
     t.boolean "full_payment"
     t.decimal "payment", precision: 10, scale: 2, default: "0.0"
+    t.bigint "cash_opening_impression_id"
+    t.index ["cash_opening_impression_id"], name: "index_printing_sales_on_cash_opening_impression_id"
     t.index ["client_id"], name: "index_printing_sales_on_client_id"
     t.index ["payment_type_id"], name: "index_printing_sales_on_payment_type_id"
     t.index ["user_id"], name: "index_printing_sales_on_user_id"
@@ -347,6 +362,8 @@ ActiveRecord::Schema.define(version: 20190616163411) do
     t.bigint "payment_type_id"
     t.boolean "full_payment"
     t.bigint "user_id"
+    t.bigint "cash_opening_impression_id"
+    t.index ["cash_opening_impression_id"], name: "index_quotation_printings_on_cash_opening_impression_id"
     t.index ["client_id"], name: "index_quotation_printings_on_client_id"
     t.index ["invitation_id"], name: "index_quotation_printings_on_invitation_id"
     t.index ["payment_type_id"], name: "index_quotation_printings_on_payment_type_id"
@@ -483,6 +500,7 @@ ActiveRecord::Schema.define(version: 20190616163411) do
   add_foreign_key "cash_closing_services_sales", "users"
   add_foreign_key "cash_movements", "payment_types"
   add_foreign_key "cash_movements", "users"
+  add_foreign_key "cash_opening_impressions", "users"
   add_foreign_key "cash_opening_services_sales", "users"
   add_foreign_key "component_equipment_customers", "components"
   add_foreign_key "component_equipment_customers", "equipment_customers"
@@ -501,6 +519,7 @@ ActiveRecord::Schema.define(version: 20190616163411) do
   add_foreign_key "invitations", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "message_histories", "users"
+  add_foreign_key "partial_sales", "cash_opening_impressions"
   add_foreign_key "partial_sales", "payment_types"
   add_foreign_key "partial_sales", "printing_sales"
   add_foreign_key "partial_sales", "users"
@@ -515,9 +534,11 @@ ActiveRecord::Schema.define(version: 20190616163411) do
   add_foreign_key "printing_sale_products", "printing_products"
   add_foreign_key "printing_sale_products", "printing_sales"
   add_foreign_key "printing_sale_products", "users"
+  add_foreign_key "printing_sales", "cash_opening_impressions"
   add_foreign_key "printing_sales", "clients"
   add_foreign_key "printing_sales", "payment_types"
   add_foreign_key "printing_sales", "users"
+  add_foreign_key "quotation_printings", "cash_opening_impressions"
   add_foreign_key "quotation_printings", "clients"
   add_foreign_key "quotation_printings", "invitations"
   add_foreign_key "quotation_printings", "payment_types"

@@ -2,6 +2,11 @@ class PartialSalesController < ApplicationController
   before_action :set_module
 
   def index
+    unless cash_impression_open?
+      flash[:warning] = 'La caja de impresiones no ha sido abierta.'
+      redirect_to root_url and return
+    end
+
     @clients = []
     @partial_sales = []
     @partial_sale = nil
@@ -22,8 +27,14 @@ class PartialSalesController < ApplicationController
   end
 
   def create
+    unless cash_impression_open?
+      flash[:warning] = 'La caja de impresiones no ha sido abierta.'
+      redirect_to root_url and return
+    end
+
     @partial_sale = PartialSale.new(partial_sale_params)
     @partial_sale.user = current_user
+    @partial_sale.cash_opening_impression = CashPolicy.new.cash_impressions
 
     if @partial_sale.save
       @printing_sale = @partial_sale.printing_sale
