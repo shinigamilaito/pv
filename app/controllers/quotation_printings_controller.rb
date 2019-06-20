@@ -147,13 +147,14 @@ class QuotationPrintingsController < ApplicationController
       redirect_to root_url and return
     end
 
-    @quotation_printing = QuotationPrinting.new(quoation_printing_params)
-    @quotation_printing.user = current_user
-    @quotation_printing.full_payment = @quotation_printing.difference <= BigDecimal.new("0")
-    @quotation_printing.number_folio = @quotation_printing.set_number_folio
-    @quotation_printing.cash_opening_impression = CashPolicy.new.cash_impressions
-
     PgLock.new(name: "quotation_printings_create").lock do
+      @quotation_printing = QuotationPrinting.new(quoation_printing_params)
+      @quotation_printing.user = current_user
+      @quotation_printing.full_payment = @quotation_printing.difference <= BigDecimal.new("0")
+      @quotation_printing.number_folio = @quotation_printing.set_number_folio
+      @quotation_printing.ticket = @quotation_printing.set_number_ticket
+      @quotation_printing.cash_opening_impression = CashPolicy.new.cash_impressions
+
       if @quotation_printing.save
         flash[:success] = 'Cotización para productos imprenta, registrada correctamente.'
         redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
@@ -205,6 +206,7 @@ class QuotationPrintingsController < ApplicationController
     end
   end
 
+  # Nota de la cotización
   def get_pdf
     @quotation_printing = QuotationPrinting.find(params[:id])
 
@@ -223,6 +225,28 @@ class QuotationPrintingsController < ApplicationController
                  right: 0,
                  top: 5,
                  bottom: 4
+               }
+      end
+    end
+  end
+
+  def generate_ticket
+    @quotation_printing = QuotationPrinting.find(params[:id])
+    respond_to do |format|
+      format.pdf do
+        @ticket_quotation_printing = TicketQuotationPrinting.new(@quotation_printing)
+        render pdf: 'report',
+               wkhtmltopdf: route_wicked,
+               template: 'quotation_printings/ticket_paid.pdf.html.erb',
+               background: true,
+               layout: 'pdf.html.erb',
+               show_as_html: true,
+               page_size: 'A8',
+               margin: {
+                   left: 0,
+                   right: 0,
+                   top: 5,
+                   bottom: 4
                }
       end
     end
@@ -249,7 +273,7 @@ class QuotationPrintingsController < ApplicationController
   def quoation_printing_params
     params.require(:quotation_printing).permit(:invitation_id, :client_id, :cost_piece,
       :total_pieces, :cost_elaboration, :total_quotations, :total_cost, :utility,
-      :status, :paid_with, :payment, :change, :difference, :payment_type_id,
+      :status, :paid_with, :payment, :change, :difference, :payment_type_id, :full_payment
     )
   end
 

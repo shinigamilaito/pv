@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :quotation_printings, only: [:index, :new, :create] do
     patch :update_image_invitation, on: :member
     get :get_pdf, on: :member
+    get :generate_ticket, on: :member
     delete :delete_printing_product_quotation, on: :collection
     post :add_printing_product, on: :collection
     get :obtain_total_costs, on: :collection

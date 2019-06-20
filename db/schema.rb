@@ -10,16 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190617032044) do
+ActiveRecord::Schema.define(version: 20190620022748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "books", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
@@ -166,13 +160,6 @@ ActiveRecord::Schema.define(version: 20190617032044) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "equipment_modes", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "equipments", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -185,17 +172,6 @@ ActiveRecord::Schema.define(version: 20190617032044) do
     t.decimal "price", precision: 10, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "incomes", force: :cascade do |t|
-    t.bigint "client_id"
-    t.bigint "service_id"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["client_id"], name: "index_incomes_on_client_id"
-    t.index ["service_id"], name: "index_incomes_on_service_id"
-    t.index ["user_id"], name: "index_incomes_on_user_id"
   end
 
   create_table "invitation_printing_products", force: :cascade do |t|
@@ -380,6 +356,7 @@ ActiveRecord::Schema.define(version: 20190617032044) do
     t.boolean "full_payment"
     t.bigint "user_id"
     t.bigint "cash_opening_impression_id"
+    t.integer "ticket", default: 0
     t.index ["cash_opening_impression_id"], name: "index_quotation_printings_on_cash_opening_impression_id"
     t.index ["client_id"], name: "index_quotation_printings_on_client_id"
     t.index ["invitation_id"], name: "index_quotation_printings_on_invitation_id"
@@ -529,9 +506,6 @@ ActiveRecord::Schema.define(version: 20190617032044) do
   add_foreign_key "equipment_customers", "equipments"
   add_foreign_key "equipment_customers", "payments"
   add_foreign_key "equipment_customers", "services"
-  add_foreign_key "incomes", "clients"
-  add_foreign_key "incomes", "services"
-  add_foreign_key "incomes", "users"
   add_foreign_key "invitation_printing_products", "invitations"
   add_foreign_key "invitation_printing_products", "printing_products"
   add_foreign_key "invitation_printing_products", "users"

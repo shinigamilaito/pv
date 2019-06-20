@@ -1,5 +1,7 @@
 <%= form_for(quotation_printing, {method: :post}) do |f| %>
-<%= f.hidden_field :client_id %>
+  <%= f.hidden_field :client_id %>
+  <%= f.hidden_field :full_payment, value: false %>
+
 <div class="box-body">
   <div class="row">
     <div class="col-sm-5">

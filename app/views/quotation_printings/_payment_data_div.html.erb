@@ -35,7 +35,7 @@
         </div>
       </td>
     </tr>
-    <tr>
+    <tr id="id_payment" style="display: none;">
       <th class="text-right">Abona:</th>
       <td>
         <div class="input-group">
@@ -53,7 +53,7 @@
           </div>
         </td>
     </tr>
-    <tr>
+    <tr style="display: none;" id="id_difference">
       <th class="text-right">Resta:</th>
         <td>
           <div class="input-group">
@@ -96,24 +96,28 @@
   });
 
   function obtainChangeSale() {
+      console.log("Obteniendo el cambio de la venta");
     var $paidWithSale = $('#quotation_printing_paid_with');
     var $totalPaid = $('#cost_materials_public');
     var $change = $("#quotation_printing_change");
     var $btnPaid = $("#quotation_printing_save_button");
-    var $totalOrParcialPaid = $('#quotation_printing_status');
+    var $statusQuotation = $('#quotation_printing_status');
+    var $totalOrParcialPaid = $('input[type=radio][name="quotation_printing[total_paid]"]:checked');
 
     console.log("$totalOrParcialPaid: " + $totalOrParcialPaid.val());
 
     if($totalPaid.html() == '' || $totalPaid.html() == undefined) {
+        console.log("No hay pago total");
       return;
     }
 
-    if($totalOrParcialPaid.val() == '' || $totalOrParcialPaid.val() == undefined) {
+    if($statusQuotation.val() == '' || $statusQuotation.val() == undefined || $statusQuotation.val() == 'Cotización') {
+      console.log("Cotizacion o no definida el estatus");
       return;
     }
 
-    if($totalOrParcialPaid.val() == 'Cotización') { // Guardar como Cotización
-      console.log("Guardar como Cotización");
+    if($totalOrParcialPaid.val() == 'true') { // Total payment
+      console.log("Total Payment");
 
       var paidWith = Number($paidWithSale.val().replace(/,/g, ""));
       var totalPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""))
@@ -130,16 +134,12 @@
       } else {
         $btnPaid.removeAttr("readonly");
       }
-    } else { // Parcial payment estatus 'Orden de Trabajo'
+    } else { // Parcial payment
       console.log("Parcial Payment");
 
       var $payment = $('#quotation_printing_payment');
       var $difference = $('#quotation_printing_difference');
       var $paymentTypeSale = $("#quotation_printing_payment_type_id");
-
-      if($paymentTypeSale.val() == "" || $paymentTypeSale.val() == undefined) {
-        return;
-      }
 
       if($paymentTypeSale.val() == "1") { // Efectivo
         console.log("Efectivo Parcial Payment");
@@ -192,12 +192,13 @@
       var $totalPaid = $('#cost_materials_public');
       var $paidWithSale = $('#quotation_printing_paid_with');
       var $payment = $('#quotation_printing_payment');
-      var $paymentTypeSale = $("#quotation_printing_payment_type_id");
-      var $totalOrParcialPaid = $('#quotation_printing_status');
+      //var $paymentTypeSale = $("#quotation_printing_payment_type_id");
+      var $statusQuotation = $('#quotation_printing_status');
+      var $totalOrParcialPaid = $('input[type=radio][name="quotation_printing[total_paid]"]:checked');
 
-      if($totalOrParcialPaid.val() == "Cotización") {
-        return
-      }
+      /*if($statusQuotation.val() == '' || $statusQuotation.val() == undefined || $statusQuotation.val() == 'Cotización') {
+          return;
+      }*/
 
       // Check payment method
       if(paymentMethod == "") { // No selecciono metodo de pago
@@ -205,16 +206,13 @@
         $paidWithSale.prop("readonly",true);
         $payment.val(0);
         $payment.prop("readonly",true);
-        if($totalOrParcialPaid.val() != 'Orden de Trabajo') {
-          $paymentTypeSale.prop("disabled",true);
-        }
-        obtainChangeSale();
+        //obtainChangeSale();
         return;
       }
 
       if(paymentMethod != "1") { // Debito, Credito
-        if($totalOrParcialPaid.val() == 'Cotización') { // Status de la orden cotización
-          var totalToPaid = Number($totalPaid.html().replace(/,/g, ""));
+        if($totalOrParcialPaid.val() == 'true') { // Pago total
+          var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
           $paidWithSale.val(totalToPaid);
           $paidWithSale.prop("readonly",true);
           obtainChangeSale();
@@ -226,11 +224,11 @@
           obtainChangeSale();
         }
       } else { // Efectivo
-        if($totalOrParcialPaid.val() == 'Orden de Trabajo') { // Pago total
+        if($totalOrParcialPaid.val() == 'true') { // Pago total
           $paidWithSale.val(0);
           $paidWithSale.prop("readonly",false);
-          $payment.val(0);
-          $payment.prop("readonly",false);
+          //$payment.val(0);
+          //$payment.prop("readonly",false);
           obtainChangeSale();
         } else {
           $paidWithSale.val(0);
@@ -246,11 +244,14 @@
 <!-- Check change status cotizacion -->
 <script>
   $('#quotation_printing_status').change(function() {
+      console.log("Cambio en el estado de la cotización");
     var $paymentMethod = $("#quotation_printing_payment_type_id");
     var $paidWithSale = $('#quotation_printing_paid_with');
     var $payment = $("#quotation_printing_payment");
+    var $totalOrParcialPaid = $('input[type=radio][name="quotation_printing[total_paid]"]:checked');
 
     if (this.value == 'Cotización' || this.value == '') {
+        console.log("Se selecciono cotizacion o nada");
       // Status is cotizacion
       $("#quotation_printing_payment_type_id").attr("disabled", true);
       $("#quotation_printing_paid_with").attr("readonly", true);
@@ -266,10 +267,12 @@
       return;
     }
     else if (this.value == 'Orden de Trabajo') {
+        console.log("La cotizaciòn es orden de trabajo");
       // Parcial payment (Orden de trabajo)
       $("#quotation_printing_payment_type_id").removeAttr("disabled");
 
       if($paymentMethod.val() == "") { // No se eligio metodo de pago
+          console.log("No hay metodo de pago");
         $paidWithSale.val(0);
         $payment.val(0);
 
@@ -278,21 +281,57 @@
         $("#quotation_printing_change").attr("readonly", true);
         $("#quotation_printing_difference").attr("readonly", true);
 
-        obtainChangeSale();
+        //obtainChangeSale();
         return;
       }
 
       if($paymentMethod.val() != "1") { // Debito, Credito
-        $paidWithSale.val(0);
-        $paidWithSale.prop("readonly",false);
-        $payment.val(0);
-        $payment.prop("readonly",true);
+          console.log("Metodo de pago es tarjeta")
+        if($totalOrParcialPaid.val() == "true") { // Pago total
+            console.log("Es un pago total");
+            $paidWithSale.val(0);
+            $paidWithSale.prop("readonly",true);
+            $payment.val(0);
+            $payment.prop("readonly",true);
+
+            $("#id_difference").css('display', 'none');
+            $("#id_payment").css('display', 'none');
+
+        } else { // Pago parcial
+            console.log("Es un pago parcial");
+            $paidWithSale.val(0);
+            $paidWithSale.prop("readonly",false);
+
+            $("#id_difference").css('display', 'none');
+            $("#id_payment").css('display', 'none');
+        }
+
         obtainChangeSale();
+
       } else { // Efectivo
-        $paidWithSale.val(0);
-        $paidWithSale.prop("readonly",false);
-        $payment.val(0);
-        $payment.prop("readonly",false);
+          console.log("Metodo de pago es Efetivo");
+          if($totalOrParcialPaid.val() == "true") { // Pago total
+              console.log("Es un pago total")
+              $paidWithSale.val(0);
+              $paidWithSale.prop("readonly",false);
+              $payment.val(0);
+              $payment.prop("readonly",false);
+              // Campos abona y resta deben ocultarse
+              $("#id_difference").css('display', 'none');
+              $("#id_payment").css('display', 'none');
+
+          } else {
+              console.log("Es un pago parcial")
+              $paidWithSale.val(0);
+              $paidWithSale.prop("readonly",false);
+              $payment.val(0);
+              $payment.prop("readonly",false);
+
+              // Campos abona y resta deben mostrarse
+              $("#id_difference").css('display', 'table-row');
+              $("#id_payment").css('display', 'table-row');
+          }
+
         obtainChangeSale();
         return;
       }
@@ -300,3 +339,90 @@
 });
 
 </script>
+
+<!-- Check total o parcial paid -->
+<script>
+    $('input[type=radio][name="quotation_printing[total_paid]"]').change(function() {
+        console.log("Cambio en el tipo de pago parcial o total");
+        var $paymentMethod = $("#quotation_printing_payment_type_id");
+        var $paidWithSale = $('#quotation_printing_paid_with');
+        var $payment = $("#quotation_printing_payment");
+        var $statusQuotation = $('#quotation_printing_status');
+        var $fullPayment = $('#quotation_printing_full_payment');
+
+        if($statusQuotation.val() == '' || $statusQuotation.val() == undefined || $statusQuotation.val() == 'Cotización') {
+            console.log("Estatus de la cotización no es valido");
+            return;
+        }
+
+        if (this.value == 'true') {
+            console.log("Pago total");
+            $fullPayment.val(true);
+            // Total payment
+            $("#id_difference").css('display', 'none');
+            $("#id_payment").css('display', 'none');
+
+            if($paymentMethod.val() == "") { // No se eligio metodo de pago
+                console.log("No se elije metodo de pago")
+                $paidWithSale.val(0);
+                $paidWithSale.prop("readonly",true);
+                $payment.val(0);
+                $payment.prop("readonly",true);
+                //obtainChangeSale();
+                return;
+            }
+
+            if($paymentMethod.val() != "1") { // Debito, Credito
+                console.log("Metodo de pago es tarjeta");
+                var totalToPaid = Number($totalPaid.html().split("$")[1].replace(/,/g, ""));
+                $paidWithSale.val(totalToPaid);
+                $paidWithSale.prop("readonly",true);
+                obtainChangeSale();
+                return;
+
+            } else { // Efectivo
+                console.log("Metodo de pago es efectivo")
+                $paidWithSale.val(0);
+                $paidWithSale.prop("readonly",false);
+                obtainChangeSale();
+                return;
+            }
+        }
+        else if (this.value == 'false') {
+            console.log("Pago parcial");
+            $fullPayment.val("false");
+            // Parcial payment
+            $("#id_difference").css('display', 'table-row');
+            $("#id_payment").css('display', 'table-row');
+
+            if($paymentMethod.val() == "") { // No se eligio metodo de pago
+                console.log("Sin método de pago");
+                $paidWithSale.val(0);
+                $paidWithSale.prop("readonly",true);
+                $payment.val(0);
+                $payment.prop("readonly",true);
+                //obtainChangeSale();
+                return;
+            }
+
+            if($paymentMethod.val() != "1") { // Debito, Credito
+                console.log("Metodo de pago es tarjeta")
+                $paidWithSale.val(0);
+                $paidWithSale.prop("readonly",false);
+                $payment.val(0);
+                $payment.prop("readonly",true);
+                obtainChangeSale();
+            } else { // Efectivo
+                console.log("MEtodo de pago es efectivo")
+                $paidWithSale.val(0);
+                $paidWithSale.prop("readonly",false);
+                $payment.val(0);
+                $payment.prop("readonly",false);
+                obtainChangeSale();
+                return;
+            }
+        }
+    });
+
+</script>
+

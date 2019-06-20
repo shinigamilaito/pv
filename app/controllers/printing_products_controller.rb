@@ -39,8 +39,8 @@ class PrintingProductsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @printing_product.update(printing_product_params)
-        @printing_product.imagen = printing_product_params[:imagen]
+      if @printing_product.update(printing_product_params_update)
+        @printing_product.imagen = printing_product_params_update[:imagen]
         flash[:success] = 'Producto Imprenta actualizado correctamente.'
         format.html { redirect_to printing_products_url }
       else
@@ -129,15 +129,16 @@ class PrintingProductsController < ApplicationController
     end
 
     def printing_product_params
-      if @printing_product.new_record?
-        params.require(:printing_product).permit(
+      params.require(:printing_product).permit(
           :code, :name, :purchase_price, :sale_price, :sale_unit, :stock, :contains,
-          :contain_unit, :imagen, :imagen_cache)
-      else
-        params.require(:printing_product).permit(
-          :purchase_price, :sale_price, :stock, :imagen, :imagen_cache)
-      end
+          :contain_unit, :imagen, :imagen_cache
+      )
+    end
 
+    def printing_product_params_update
+      params.require(:printing_product).permit(
+          :purchase_price, :sale_price, :stock, :imagen, :imagen_cache
+      )
     end
 
     def fixed_format_price

@@ -16,6 +16,10 @@ class QuotationPrinting < ApplicationRecord
     self.number_folio = QuotationPrinting.count + 1
   end
 
+  def set_number_ticket
+    return QuotationPrinting.count + 1 # + PartialPaymentQuotationPrinting.count
+  end
+
   def self.total(quotation_printings)
     return nil if quotation_printings.blank?
 

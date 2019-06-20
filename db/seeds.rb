@@ -22,6 +22,8 @@ User.create({
     email: "admin@gmail.com",
     password: 123456,
     password_confirmation: 123456,
+    contact: "N/A",
+    address: "N/A",
     rol: admin_rol
   })
 
