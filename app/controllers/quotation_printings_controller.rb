@@ -236,7 +236,7 @@ class QuotationPrintingsController < ApplicationController
       format.pdf do
         @ticket_quotation_printing = TicketQuotationPrinting.new(@quotation_printing)
         render pdf: 'report',
-               wkhtmltopdf: route_wicked,
+               #wkhtmltopdf: route_wicked,
                template: 'quotation_printings/ticket_paid.pdf.html.erb',
                background: true,
                layout: 'pdf.html.erb',
