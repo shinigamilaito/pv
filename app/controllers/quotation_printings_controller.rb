@@ -29,8 +29,16 @@ class QuotationPrintingsController < ApplicationController
   end
 
   def new
-    @quotation_printing = QuotationPrinting.new
-    @quotation_printing.client_id = params[:client_id]
+    if params[:number_folio] == 'Nueva Cotización'
+      @quotation_printing = QuotationPrinting.new
+      @quotation_printing.client_id = params[:client_id]
+      @invitations = []
+      @invitation_id = nil
+    else
+      @quotation_printing = QuotationPrinting.find_by_number_folio(params[:number_folio])
+      @invitation_id = @quotation_printing.invitation_id
+      @invitations = [@quotation_printing.invitation.name, @invitation_id]
+    end
   end
 
   def obtain_printing_products

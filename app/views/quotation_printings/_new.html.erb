@@ -1,4 +1,4 @@
-<%= form_for(quotation_printing, {method: :post}) do |f| %>
+<%= form_for(quotation_printing) do |f| %>
   <%= f.hidden_field :client_id %>
   <%= f.hidden_field :full_payment, value: false %>
 
@@ -8,7 +8,7 @@
       <div class="form-group <%= 'has-error' unless quotation_printing.errors[:invitation_id].blank? %>">
         <label class="col-sm-5 control-label">Modelo a Cotizar</label>
         <div class="col-sm-7" style="margin-bottom: 10px;" id="select_invitations">
-          <%= select_tag "quotation_printing[invitation_id]", options_for_select([]), prompt: 'Buscar invitación', class: 'form-control', required: true %>
+          <%= select_tag "quotation_printing[invitation_id]", options_for_select([@invitations], @invitation_id), prompt: 'Buscar invitación', class: 'form-control', required: true %>
         </div>
       </div>
 
@@ -43,6 +43,9 @@
       </div>
 
       <div id="image_invitation">
+        <% unless quotation_printing.new_record? %>
+          <%= render "quotation_printings/image_invitation", invitation: quotation_printing.invitation %>
+        <% end %>
       </div>
     </div>
 
@@ -138,57 +141,64 @@
         }
       });
     }
+
+      $invitation = $("#quotation_printing_invitation_id");
+
+      $invitation.select2({
+          tags: true,
+          minimumInputLength: 1,
+          ajax: {
+              delay: 250,
+              url: "/invitations/autocomplete",
+              dataType: 'json',
+              cache: true
+          },
+          createTag: function (params) {
+              console.log("Tag Invitation created...");
+              var term = $.trim(params.term);
+
+              if (isNaN(term)) {
+                  return {
+                      id: term,
+                      text: term,
+                      newTag: true // add additional parameters
+                  }
+
+              } else {
+                  console.log("Tag Invitation no valid");
+                  return null;
+              }
+          }
+      });
+
+      $invitation.change(function() {
+          var invitationId = $(this).val();
+          $.ajax({
+              url: "/quotation_printings/obtain_printing_products",
+              method: "get",
+              dataType: "script",
+              data: {
+                  manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+                  amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+                  invitation_id: invitationId,
+                  new_invitation: $(this).children("option:selected").data("select2-tag")
+              },
+              beforeSend: function(xhr) {
+                  $("body").LoadingOverlay("show");
+              },
+              complete: function(xhr) {
+                  $("body").LoadingOverlay("hide", true);
+              }
+          });
+      });
+
+      <% unless quotation_printing.new_record? %>
+      console.log("quotation printing exist, trigger change to request products");
+      obtainCostElaboration();
+      $invitation.change();
+      <% end %>
   });
 
-  $invitation = $("#quotation_printing_invitation_id");
-
-  $invitation.select2({
-    tags: true,
-		minimumInputLength: 1,
-		ajax: {
-			delay: 250,
-			url: "/invitations/autocomplete",
-			dataType: 'json',
-			cache: true
-		},
-    createTag: function (params) {
-      console.log("Tag Invitation created...");
-      var term = $.trim(params.term);
-
-      if (isNaN(term)) {
-        return {
-          id: term,
-          text: term,
-          newTag: true // add additional parameters
-        }
-
-      } else {
-        console.log("Tag Invitation no valid");
-        return null;
-      }
-    }
-	});
-
-  $invitation.change(function() {
-    var invitationId = $(this).val();
-    $.ajax({
-      url: "/quotation_printings/obtain_printing_products",
-      method: "get",
-      dataType: "script",
-      data: {
-        manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
-        amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-        invitation_id: invitationId,
-        new_invitation: $(this).children("option:selected").data("select2-tag")
-      },
-      beforeSend: function(xhr) {
-        $("body").LoadingOverlay("show");
-      },
-      complete: function(xhr) {
-        $("body").LoadingOverlay("hide", true);
-      }
-    });
-  });
 </script>
 
 <!-- Search product_printing to add cotización -->

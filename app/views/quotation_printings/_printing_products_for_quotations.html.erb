@@ -1,253 +1,282 @@
-<div class="form-group text-center">
-  <label>Material a Utilizar</label>
-  <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get">
-    <option value="">Seleccione Material</option>
-  </select>
-</div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Código</th>
-      <th>Nombre</th>
-      <th>Cantidad</th>
-      <th>Precio Unidad</th>
-      <th>Precio</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="invitation_printing_products_used_by_quotation">
-    <% printing_product_quotations.each_with_index do |printing_product_quotation, index| %>
-    <tr id="printing_product_quotation_<%= printing_product_quotation.id %>">
-      <td><%= index + 1 %></td>
-      <td><%= printing_product_quotation.code %></td>
-      <td><%= "#{printing_product_quotation.name} (#{printing_product_quotation.sale_unit})" %></td>
-      <td style="width: 18%;">
-        <div class="input-group">
-          <%= hidden_field_tag :preview_quantity, printing_product_quotation.quantity, id: "printing_product_quotation_preview_quantity_#{printing_product_quotation.id}" %>
-          <%= text_field_tag 'printing_product_quotation[quantity]', printing_product_quotation.quantity, id: "printing_product_quotation_quantity_#{printing_product_quotation.id}", class: 'form form-control', style: 'width: 70%', data: {id: printing_product_quotation.id}, autocomplete: "off" %>
-        </div>
-      </td>
-      <td style="width: 18%;">
-        <div class="input-group">
-          <span class="input-group-addon">$</span>
-          <%= hidden_field_tag :preview_real_price, printing_product_quotation.real_price, id: "printing_product_quotation_preview_real_price_#{printing_product_quotation.id}" %>
-          <%= text_field_tag 'printing_product_quotation[real_price]', printing_product_quotation.real_price, id: "printing_product_quotation_real_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
-        </div>
-      </td>
-      <td style="width: 18%;">
-        <div class="input-group">
-          <span class="input-group-addon">$</span>
-          <%= hidden_field_tag :preview_price, printing_product_quotation.real_price, id: "printing_product_quotation_preview_price_#{printing_product_quotation.id}" %>
-          <%= text_field_tag 'printing_product_quotation[price]', printing_product_quotation.real_price, id: "printing_product_quotation_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
-        </div>
-      </td>
-      <td style="width: 1px;">
-        <% unless printing_product_quotation.invitation_printing_product.from_printing_products %>
-          <%= link_to "#", method: :delete, class: 'btn btn-danger delete_printing_product_quotation', data: {url: delete_printing_product_quotation_quotation_printings_path, printing_product_quotation_id: printing_product_quotation.id}, style: 'padding: 3px 5px;' do %>
-            <i class="fa fa-fw fa-close"></i>
+  <div class="form-group text-center">
+    <label>Material a Utilizar</label>
+    <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get">
+      <option value="">Seleccione Material</option>
+    </select>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Precio Unidad</th>
+        <th>Precio</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="invitation_printing_products_used_by_quotation">
+      <% printing_product_quotations.each_with_index do |printing_product_quotation, index| %>
+      <tr id="printing_product_quotation_<%= printing_product_quotation.id %>">
+        <td><%= index + 1 %></td>
+        <td><%= printing_product_quotation.code %></td>
+        <td><%= "#{printing_product_quotation.name} (#{printing_product_quotation.sale_unit})" %></td>
+        <td style="width: 18%;">
+          <div class="input-group">
+            <%= hidden_field_tag :preview_quantity, printing_product_quotation.quantity, id: "printing_product_quotation_preview_quantity_#{printing_product_quotation.id}" %>
+            <%= text_field_tag 'printing_product_quotation[quantity]', printing_product_quotation.quantity, id: "printing_product_quotation_quantity_#{printing_product_quotation.id}", class: 'form form-control', style: 'width: 70%', data: {id: printing_product_quotation.id}, autocomplete: "off" %>
+          </div>
+        </td>
+        <td style="width: 18%;">
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= hidden_field_tag :preview_real_price, printing_product_quotation.real_price, id: "printing_product_quotation_preview_real_price_#{printing_product_quotation.id}" %>
+            <%= text_field_tag 'printing_product_quotation[real_price]', printing_product_quotation.real_price, id: "printing_product_quotation_real_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
+          </div>
+        </td>
+        <td style="width: 18%;">
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= hidden_field_tag :preview_price, printing_product_quotation.real_price, id: "printing_product_quotation_preview_price_#{printing_product_quotation.id}" %>
+            <%= text_field_tag 'printing_product_quotation[price]', printing_product_quotation.real_price, id: "printing_product_quotation_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
+          </div>
+        </td>
+        <td style="width: 1px;">
+          <% unless printing_product_quotation.invitation_printing_product.from_printing_products %>
+            <%= link_to "#", method: :delete, class: 'btn btn-danger delete_printing_product_quotation', data: {url: delete_printing_product_quotation_quotation_printings_path, printing_product_quotation_id: printing_product_quotation.id}, style: 'padding: 3px 5px;' do %>
+              <i class="fa fa-fw fa-close"></i>
+            <% end %>
           <% end %>
-        <% end %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<div class="table-responsive" id="total_to_paid_by_quotation_printings">
-  <%= render "quotation_printings/totals_costs", total_quotation_printings: total_quotation_printings %>
-</div>
+  <div class="table-responsive" id="total_to_paid_by_quotation_printings">
+    <%= render "quotation_printings/totals_costs", total_quotation_printings: total_quotation_printings %>
+  </div>
 
-<!-- Update quantity -->
-<script>
-  $(document).ready(function() {
-    <% printing_product_quotations.each do |printing_product_quotation| %>
-    var $elementQuantity = $("#printing_product_quotation_quantity_<%= printing_product_quotation.id %>");
-    var originalQuantity = $elementQuantity.val();
-    console.log("originalQuantity Before", originalQuantity);
-    $elementQuantity.on("keydown", _.debounce(update_quantity_product, 1000));
-    setCurrency($elementQuantity);
+  <!-- Update quantity -->
+  <script>
+    $(document).ready(function() {
+      <% printing_product_quotations.each do |printing_product_quotation| %>
+      var $elementQuantity = $("#printing_product_quotation_quantity_<%= printing_product_quotation.id %>");
+      var originalQuantity = $elementQuantity.val();
+      console.log("originalQuantity Before", originalQuantity);
+      $elementQuantity.on("keydown", _.debounce(update_quantity_product, 1000));
+      setCurrency($elementQuantity);
 
-    function update_quantity_product() {
-      var $that = $(this);
-      var newValue = $that.val();
-      var $elementPreviewQuantity = $("#printing_product_quotation_preview_quantity_<%= printing_product_quotation.id %>");
+      function update_quantity_product() {
+        var $that = $(this);
+        var newValue = $that.val();
+        var $elementPreviewQuantity = $("#printing_product_quotation_preview_quantity_<%= printing_product_quotation.id %>");
 
-      if(newValue > 0) {
-        //$elementPreviewQuantity.val(newValue);
+        if(newValue > 0) {
+          //$elementPreviewQuantity.val(newValue);
 
-        $.ajax({
-          url: "/quotation_printings/update_quantity_product",
-          method: "post",
-          dataType: "script",
-          data: {
-            manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
-            amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-            quantity: newValue,
-            invitation_id: $("#quotation_printing_invitation_id").val(),
-            printing_product_quotation_id: $that.data('id')
-          },
-          beforeSend: function(xhr) {
-            $that.LoadingOverlay("show");
-          },
-          complete: function(xhr, status) {
-            if(xhr.status == 400) {
-              $that.val($elementPreviewQuantity.val());
-            } else {
-              $elementPreviewQuantity.val(newValue);
+          $.ajax({
+            url: "/quotation_printings/update_quantity_product",
+            method: "post",
+            dataType: "script",
+            data: {
+              manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+              amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+              quantity: newValue,
+              invitation_id: $("#quotation_printing_invitation_id").val(),
+              printing_product_quotation_id: $that.data('id')
+            },
+            beforeSend: function(xhr) {
+              $that.LoadingOverlay("show");
+            },
+            complete: function(xhr, status) {
+              if(xhr.status == 400) {
+                $that.val($elementPreviewQuantity.val());
+              } else {
+                $elementPreviewQuantity.val(newValue);
+              }
+              $that.LoadingOverlay("hide", true);
             }
-            $that.LoadingOverlay("hide", true);
-          }
-        });
+          });
 
-      } else {
-        console.log("Put originalQuantity", originalQuantity);
-        $that.val($elementPreviewQuantity.val());
-        return;
+        } else {
+          console.log("Put originalQuantity", originalQuantity);
+          $that.val($elementPreviewQuantity.val());
+          return;
+        }
       }
-    }
-    <% end %>
-  });
-</script>
+      <% end %>
+    });
+  </script>
 
-<!-- Update price por total -->
-<script>
-  $(document).ready(function() {
-    <% printing_product_quotations.each do |printing_product_quotation| %>
-    var $elementPrice = $("#printing_product_quotation_price_<%= printing_product_quotation.id %>");
-    var originalPrice = $elementPrice.val();
-    console.log("originalPrice Before", originalPrice);
-    $elementPrice.on("keydown", _.debounce(update_price_product, 1000));
-    $elementPrice.inputmask("currency", {
-      rightAlign: false,
-      "prefix": ""
+  <!-- Update price por total -->
+  <script>
+    $(document).ready(function() {
+      <% printing_product_quotations.each do |printing_product_quotation| %>
+      var $elementPrice = $("#printing_product_quotation_price_<%= printing_product_quotation.id %>");
+      var originalPrice = $elementPrice.val();
+      console.log("originalPrice Before", originalPrice);
+      $elementPrice.on("keydown", _.debounce(update_price_product, 1000));
+      $elementPrice.inputmask("currency", {
+        rightAlign: false,
+        "prefix": ""
+      });
+
+      function update_price_product() {
+        var $that = $(this);
+        var newValue = Number($that.val().replace(/,/g, ""));
+        var $elementPreviewPrice = $("#printing_product_quotation_preview_price_<%= printing_product_quotation.id %>");
+        var beforePrice = Number($elementPreviewPrice.val().replace(/,/g, ""));
+
+        if(newValue >= 0) {
+          $elementPreviewPrice.val(newValue);
+
+          $.ajax({
+            url: "/quotation_printings/update_price_product",
+            method: "post",
+            dataType: "script",
+            data: {
+              manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+              amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+              price: newValue,
+              invitation_id: $("#quotation_printing_invitation_id").val(),
+              printing_product_quotation_id: $that.data('id')
+            },
+            beforeSend: function(xhr) {
+              $that.LoadingOverlay("show");
+            },
+            complete: function(xhr, status) {
+              if(xhr.status == 400) {
+                $that.val(originalPrice);
+              }
+              $that.LoadingOverlay("hide", true);
+            }
+          });
+
+        } else {
+          console.log("Put originalPrice", originalPrice);
+          $that.val($elementPreviewPrice.val());
+          return;
+        }
+      }
+      <% end %>
+    });
+  </script>
+
+  <!-- Update price por unit -->
+  <script>
+    $(document).ready(function() {
+      <% printing_product_quotations.each do |printing_product_quotation| %>
+      var $elementRealPrice = $("#printing_product_quotation_real_price_<%= printing_product_quotation.id %>");
+      var originalRealPrice = $elementRealPrice.val();
+      console.log("originalRealPrice Before", originalRealPrice);
+      $elementRealPrice.on("keydown", _.debounce(update_real_price_product, 1000));
+      $elementRealPrice.inputmask("currency", {
+        rightAlign: false,
+        "prefix": ""
+      });
+
+      function update_real_price_product() {
+        var $that = $(this);
+        var newValue = Number($that.val().replace(/,/g, ""));
+        var $elementPreviewRealPrice = $("#printing_product_quotation_preview_real_price_<%= printing_product_quotation.id %>");
+        var beforeRealPrice = Number($elementPreviewRealPrice.val().replace(/,/g, ""));
+
+        if(newValue >= 0) {
+          $elementPreviewRealPrice.val(newValue);
+
+          $.ajax({
+            url: "/quotation_printings/update_real_price_product",
+            method: "post",
+            dataType: "script",
+            data: {
+              manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+              amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+              real_price: newValue,
+              invitation_id: $("#quotation_printing_invitation_id").val(),
+              printing_product_quotation_id: $that.data('id')
+            },
+            beforeSend: function(xhr) {
+              $that.LoadingOverlay("show");
+            },
+            complete: function(xhr, status) {
+              if(xhr.status == 400) {
+                $that.val(originalRealPrice);
+              }
+              $that.LoadingOverlay("hide", true);
+            }
+          });
+
+        } else {
+          console.log("Put originalRealPrice", originalRealPrice);
+          $that.val($elementPreviewRealPrice.val());
+          return;
+        }
+      }
+      <% end %>
+    });
+  </script>
+
+  <!-- Search product_printing to add cotización -->
+  <script>
+    $printintProductSelect = $(".autocomplete_invitation_printing_products");
+
+    $printintProductSelect.select2({
+      minimumInputLength: 1,
+      ajax: {
+        delay: 250,
+        url: "/printing_products/autocomplete_invitations",
+        dataType: 'json',
+        cache: true
+      }
     });
 
-    function update_price_product() {
-      var $that = $(this);
-      var newValue = Number($that.val().replace(/,/g, ""));
-      var $elementPreviewPrice = $("#printing_product_quotation_preview_price_<%= printing_product_quotation.id %>");
-      var beforePrice = Number($elementPreviewPrice.val().replace(/,/g, ""));
+    $printintProductSelect.on('select2:select', function (e) {
+        var data = e.params.data;
+        var $invitation = $("#quotation_printing_invitation_id");
+        var invitationId = $invitation.val();
 
-      if(newValue >= 0) {
-        $elementPreviewPrice.val(newValue);
+        if(invitationId == "" || invitationId == undefined) {
+          toastr['error']("Agregue la invitación.");
+          return;
+        }
 
         $.ajax({
-          url: "/quotation_printings/update_price_product",
+          url: "/quotation_printings/add_printing_product",
           method: "post",
           dataType: "script",
           data: {
+            printing_product: data,
             manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
             amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-            price: newValue,
-            invitation_id: $("#quotation_printing_invitation_id").val(),
-            printing_product_quotation_id: $that.data('id')
+            invitation_id: invitationId
           },
           beforeSend: function(xhr) {
-            $that.LoadingOverlay("show");
+            $("body").LoadingOverlay("show");
           },
-          complete: function(xhr, status) {
-            if(xhr.status == 400) {
-              $that.val(originalPrice);
-            }
-            $that.LoadingOverlay("hide", true);
+          complete: function(xhr) {
+            $("body").LoadingOverlay("hide", true);
           }
         });
-
-      } else {
-        console.log("Put originalPrice", originalPrice);
-        $that.val($elementPreviewPrice.val());
-        return;
-      }
-    }
-    <% end %>
-  });
-</script>
-
-<!-- Update price por unit -->
-<script>
-  $(document).ready(function() {
-    <% printing_product_quotations.each do |printing_product_quotation| %>
-    var $elementRealPrice = $("#printing_product_quotation_real_price_<%= printing_product_quotation.id %>");
-    var originalRealPrice = $elementRealPrice.val();
-    console.log("originalRealPrice Before", originalRealPrice);
-    $elementRealPrice.on("keydown", _.debounce(update_real_price_product, 1000));
-    $elementRealPrice.inputmask("currency", {
-      rightAlign: false,
-      "prefix": ""
     });
+  </script>
 
-    function update_real_price_product() {
-      var $that = $(this);
-      var newValue = Number($that.val().replace(/,/g, ""));
-      var $elementPreviewRealPrice = $("#printing_product_quotation_preview_real_price_<%= printing_product_quotation.id %>");
-      var beforeRealPrice = Number($elementPreviewRealPrice.val().replace(/,/g, ""));
+  <!-- Delete printing_product_quotation -->
+  <script>
+    $deletePrintingProductQuotationLinks = $(".delete_printing_product_quotation");
 
-      if(newValue >= 0) {
-        $elementPreviewRealPrice.val(newValue);
-
-        $.ajax({
-          url: "/quotation_printings/update_real_price_product",
-          method: "post",
-          dataType: "script",
-          data: {
-            manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
-            amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-            real_price: newValue,
-            invitation_id: $("#quotation_printing_invitation_id").val(),
-            printing_product_quotation_id: $that.data('id')
-          },
-          beforeSend: function(xhr) {
-            $that.LoadingOverlay("show");
-          },
-          complete: function(xhr, status) {
-            if(xhr.status == 400) {
-              $that.val(originalRealPrice);
-            }
-            $that.LoadingOverlay("hide", true);
-          }
-        });
-
-      } else {
-        console.log("Put originalRealPrice", originalRealPrice);
-        $that.val($elementPreviewRealPrice.val());
-        return;
-      }
-    }
-    <% end %>
-  });
-</script>
-
-<!-- Search product_printing to add cotización -->
-<script>
-  $printintProductSelect = $(".autocomplete_invitation_printing_products");
-
-  $printintProductSelect.select2({
-		minimumInputLength: 1,
-		ajax: {
-			delay: 250,
-			url: "/printing_products/autocomplete_invitations",
-			dataType: 'json',
-			cache: true
-		}
-	});
-
-  $printintProductSelect.on('select2:select', function (e) {
-      var data = e.params.data;
+    $deletePrintingProductQuotationLinks.click(function(event) {
+      event.preventDefault()
       var $invitation = $("#quotation_printing_invitation_id");
       var invitationId = $invitation.val();
 
-      if(invitationId == "" || invitationId == undefined) {
-        toastr['error']("Agregue la invitación.");
-        return;
-      }
-
       $.ajax({
-        url: "/quotation_printings/add_printing_product",
-        method: "post",
+        url: $(this).data('url'),
+        method: "delete",
         dataType: "script",
         data: {
-          printing_product: data,
+          printing_product_quotation_id: $(this).data("printing-product-quotation-id"),
           manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
           amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
           invitation_id: invitationId
@@ -259,36 +288,7 @@
           $("body").LoadingOverlay("hide", true);
         }
       });
-  });
-</script>
 
-<!-- Delete printing_product_quotation -->
-<script>
-  $deletePrintingProductQuotationLinks = $(".delete_printing_product_quotation");
-
-  $deletePrintingProductQuotationLinks.click(function(event) {
-    event.preventDefault()
-    var $invitation = $("#quotation_printing_invitation_id");
-    var invitationId = $invitation.val();
-
-    $.ajax({
-      url: $(this).data('url'),
-      method: "delete",
-      dataType: "script",
-      data: {
-        printing_product_quotation_id: $(this).data("printing-product-quotation-id"),
-        manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
-        amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-        invitation_id: invitationId
-      },
-      beforeSend: function(xhr) {
-        $("body").LoadingOverlay("show");
-      },
-      complete: function(xhr) {
-        $("body").LoadingOverlay("hide", true);
-      }
+      return false
     });
-
-    return false
-  });
-</script>
+  </script>
