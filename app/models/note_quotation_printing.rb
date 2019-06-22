@@ -93,11 +93,11 @@ class NoteQuotationPrinting
  end
 
  def has_image?
-   quotation_printing.invitation.imagen_url != nil
+   quotation_printing.imagen_url != nil
  end
 
  def url_imagen
-   quotation_printing.invitation.imagen_url
+   quotation_printing.imagen_url
  end
 
  private

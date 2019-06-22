@@ -9,13 +9,13 @@ class QuotationPrintingsPolicy
 
   def find_quotation_printings
     quotation_printings = QuotationPrinting
-      .where(client_id: client_id)
-      .order(created_at: :desc)
+                              .where(client_id: client_id)
+                              .order(created_at: :desc)
 
     quotation_printings_hash = {}
     quotation_printings_hash[:quotation_printings] = quotation_printings.map(&:number_folio)
     quotation_printings_hash[:quotation_printings_present] = quotation_printings.map do |quotation_printing|
-       quotation_printings_with_date_creation(quotation_printing)
+      quotation_printings_with_date_creation(quotation_printing)
     end
 
     quotation_printings_hash[:quotation_printings_present].unshift(NEW_QUOTATION)
@@ -27,7 +27,12 @@ class QuotationPrintingsPolicy
     return "#{quotation_printing.number_folio} - Creado: #{date}."
   end
 
-  def generate_printing_product(invitation, user)
+  def generate_printing_product(invitation, user, quotation_printing_id = nil)
+    if quotation_printing_id.present?
+      quotation_printing = QuotationPrinting.find(quotation_printing_id)
+      quotation_printing.printing_product_quotations.destroy_all
+    end
+
     PgLock.new(name: "quotation_printings_policy_generate_printing_product").lock do
       printing_product_quotations = obtain_printing_product_quotations_in_use(invitation, user)
 
@@ -36,6 +41,7 @@ class QuotationPrintingsPolicy
           invitation.invitation_printing_products.where(from_printing_products: true).each do |invitation_printing_product|
             printing_product_quotation = PrintingProductQuotation.new
             printing_product_quotation.invitation_printing_product = invitation_printing_product
+            printing_product_quotation.quotation_printing_id = quotation_printing_id
             printing_product_quotation.user = user
             printing_product_quotation.code = invitation_printing_product.printing_product.code
             printing_product_quotation.name = invitation_printing_product.printing_product.name
@@ -52,10 +58,15 @@ class QuotationPrintingsPolicy
     end
   end
 
-  def obtain_printing_product_quotations_in_use(invitation, user)
-    printing_product_quotations = user.printing_product_quotations
-      .joins(:invitation_printing_product)
-      .where("printing_product_quotations.quotation_printing_id IS NULL AND invitation_printing_products.invitation_id = ?", invitation.id)
+  def obtain_printing_product_quotations_in_use(invitation, user, quotation_printing_id = nil)
+    if quotation_printing_id.nil?
+      return user.printing_product_quotations
+                 .joins(:invitation_printing_product)
+                 .where("printing_product_quotations.quotation_printing_id IS NULL AND invitation_printing_products.invitation_id = ?", invitation.id)
+    else
+      quotation_printing = QuotationPrinting.find(quotation_printing_id)
+      return quotation_printing.printing_product_quotations
+    end
   end
 
   def update_quantity(printing_product_quotation, quantity)
@@ -66,18 +77,42 @@ class QuotationPrintingsPolicy
     return printing_product_quotation
   end
 
-  def totals(invitation, user, manufacturing_cost, amount_to_elaborate)
-    cost_public_sale = cost_materials_public_sale(invitation, user)
-    cost_purchase = cost_materials_purchase(invitation, user)
+  def totals(invitation, user, manufacturing_cost, amount_to_elaborate, quotation_printing_id = nil)
+    cost_public_sale = cost_materials_public_sale(invitation, user, quotation_printing_id)
+    cost_purchase = cost_materials_purchase(invitation, user, quotation_printing_id)
     cost_materials_public = cost_public_sale + manufacturing_cost
     cost_materials_purchase = cost_purchase + manufacturing_cost
     utility = (cost_public_sale - cost_purchase) + manufacturing_cost
 
+    if quotation_printing_id.present?
+      quotation_printing = QuotationPrinting.find(quotation_printing_id)
+      quotation_printing.cost_elaboration = manufacturing_cost
+      quotation_printing.total_pieces = amount_to_elaborate
+      quotation_printing.total_quotations = cost_materials_public
+      quotation_printing.total_cost = cost_materials_purchase
+      quotation_printing.utility = utility
+      quotation_printing.save
+    end
+
     return {
-      amount_to_elaborate: amount_to_elaborate,
-      cost_materials_public: cost_materials_public,
-      cost_materials_purchase: cost_materials_purchase,
-      utility: utility
+        amount_to_elaborate: amount_to_elaborate,
+        cost_materials_public: cost_materials_public,
+        cost_materials_purchase: cost_materials_purchase,
+        utility: utility
+    }
+  end
+
+  # Obtiene el costo total para una cotización ya registrada
+  def totals_by_quotation(quotation_printing)
+    cost_materials_public = quotation_printing.total_quotations
+    cost_materials_purchase = quotation_printing.total_cost
+    utility = quotation_printing.utility
+
+    return {
+        amount_to_elaborate: quotation_printing.total_pieces,
+        cost_materials_public: cost_materials_public,
+        cost_materials_purchase: cost_materials_purchase,
+        utility: utility
     }
   end
 
@@ -118,8 +153,8 @@ class QuotationPrintingsPolicy
 
   private
 
-  def cost_materials_public_sale(invitation, user)
-    total = obtain_printing_product_quotations_in_use(invitation, user).inject(BigDecimal("0.00")) do |total, printing_product_quotation|
+  def cost_materials_public_sale(invitation, user, quotation_printing_id = nil)
+    total = obtain_printing_product_quotations_in_use(invitation, user, quotation_printing_id).inject(BigDecimal("0.00")) do |total, printing_product_quotation|
       total += printing_product_quotation.total
       total
     end
@@ -127,8 +162,8 @@ class QuotationPrintingsPolicy
     total
   end
 
-  def cost_materials_purchase(invitation, user)
-    total = obtain_printing_product_quotations_in_use(invitation, user).inject(BigDecimal("0.00")) do |total, printing_product_quotation|
+  def cost_materials_purchase(invitation, user, quotation_printing_id)
+    total = obtain_printing_product_quotations_in_use(invitation, user, quotation_printing_id).inject(BigDecimal("0.00")) do |total, printing_product_quotation|
       total += printing_product_quotation.purchase_price * printing_product_quotation.quantity
       total
     end
@@ -142,8 +177,8 @@ class QuotationPrintingsPolicy
 
   def exist_in_the_list?(user, invitation, printing_product)
     printing_product_quotations = user.printing_product_quotations
-      .joins(:invitation_printing_product)
-      .where("printing_product_quotations.quotation_printing_id IS NULL AND invitation_printing_products.invitation_id = ? AND invitation_printing_products.printing_product_id = ?", invitation.id, printing_product.id)
+                                      .joins(:invitation_printing_product)
+                                      .where("printing_product_quotations.quotation_printing_id IS NULL AND invitation_printing_products.invitation_id = ? AND invitation_printing_products.printing_product_id = ?", invitation.id, printing_product.id)
 
     return printing_product_quotations.present?
   end

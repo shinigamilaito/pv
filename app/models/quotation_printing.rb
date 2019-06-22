@@ -1,4 +1,6 @@
 class QuotationPrinting < ApplicationRecord
+  mount_uploader :imagen, InvitationUploader
+
   belongs_to :invitation
   belongs_to :client
   belongs_to :user

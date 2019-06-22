@@ -38,8 +38,8 @@
         <td style="width: 18%;">
           <div class="input-group">
             <span class="input-group-addon">$</span>
-            <%= hidden_field_tag :preview_price, printing_product_quotation.real_price, id: "printing_product_quotation_preview_price_#{printing_product_quotation.id}" %>
-            <%= text_field_tag 'printing_product_quotation[price]', printing_product_quotation.real_price, id: "printing_product_quotation_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
+            <%= hidden_field_tag :preview_price, printing_product_quotation.total, id: "printing_product_quotation_preview_price_#{printing_product_quotation.id}" %>
+            <%= text_field_tag 'printing_product_quotation[total]', printing_product_quotation.total, id: "printing_product_quotation_price_#{printing_product_quotation.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product_quotation.id}, autocomplete: "off" %>
           </div>
         </td>
         <td style="width: 1px;">
@@ -69,12 +69,12 @@
       setCurrency($elementQuantity);
 
       function update_quantity_product() {
+        var $quotationPrintingId = $("#quotation_printing_id");
         var $that = $(this);
         var newValue = $that.val();
         var $elementPreviewQuantity = $("#printing_product_quotation_preview_quantity_<%= printing_product_quotation.id %>");
 
         if(newValue > 0) {
-          //$elementPreviewQuantity.val(newValue);
 
           $.ajax({
             url: "/quotation_printings/update_quantity_product",
@@ -85,7 +85,8 @@
               amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
               quantity: newValue,
               invitation_id: $("#quotation_printing_invitation_id").val(),
-              printing_product_quotation_id: $that.data('id')
+              printing_product_quotation_id: $that.data('id'),
+              quotation_printing_id: $quotationPrintingId.val()
             },
             beforeSend: function(xhr) {
               $that.LoadingOverlay("show");
@@ -125,6 +126,7 @@
 
       function update_price_product() {
         var $that = $(this);
+        var $quotationPrintingId = $("#quotation_printing_id");
         var newValue = Number($that.val().replace(/,/g, ""));
         var $elementPreviewPrice = $("#printing_product_quotation_preview_price_<%= printing_product_quotation.id %>");
         var beforePrice = Number($elementPreviewPrice.val().replace(/,/g, ""));
@@ -141,7 +143,8 @@
               amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
               price: newValue,
               invitation_id: $("#quotation_printing_invitation_id").val(),
-              printing_product_quotation_id: $that.data('id')
+              printing_product_quotation_id: $that.data('id'),
+              quotation_printing_id: $quotationPrintingId.val()
             },
             beforeSend: function(xhr) {
               $that.LoadingOverlay("show");
@@ -179,6 +182,7 @@
 
       function update_real_price_product() {
         var $that = $(this);
+        var $quotationPrintingId = $("#quotation_printing_id");
         var newValue = Number($that.val().replace(/,/g, ""));
         var $elementPreviewRealPrice = $("#printing_product_quotation_preview_real_price_<%= printing_product_quotation.id %>");
         var beforeRealPrice = Number($elementPreviewRealPrice.val().replace(/,/g, ""));
@@ -195,7 +199,8 @@
               amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
               real_price: newValue,
               invitation_id: $("#quotation_printing_invitation_id").val(),
-              printing_product_quotation_id: $that.data('id')
+              printing_product_quotation_id: $that.data('id'),
+              quotation_printing_id: $quotationPrintingId.val()
             },
             beforeSend: function(xhr) {
               $that.LoadingOverlay("show");
@@ -234,6 +239,7 @@
 
     $printintProductSelect.on('select2:select', function (e) {
         var data = e.params.data;
+        var $quotationPrintingId = $("#quotation_printing_id");
         var $invitation = $("#quotation_printing_invitation_id");
         var invitationId = $invitation.val();
 
@@ -250,7 +256,8 @@
             printing_product: data,
             manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
             amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-            invitation_id: invitationId
+            invitation_id: invitationId,
+            quotation_printing_id: $quotationPrintingId.val()
           },
           beforeSend: function(xhr) {
             $("body").LoadingOverlay("show");
@@ -267,7 +274,8 @@
     $deletePrintingProductQuotationLinks = $(".delete_printing_product_quotation");
 
     $deletePrintingProductQuotationLinks.click(function(event) {
-      event.preventDefault()
+      event.preventDefault();
+      var $quotationPrintingId = $("#quotation_printing_id");
       var $invitation = $("#quotation_printing_invitation_id");
       var invitationId = $invitation.val();
 
@@ -279,7 +287,8 @@
           printing_product_quotation_id: $(this).data("printing-product-quotation-id"),
           manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
           amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-          invitation_id: invitationId
+          invitation_id: invitationId,
+          quotation_printing_id: $quotationPrintingId.val()
         },
         beforeSend: function(xhr) {
           $("body").LoadingOverlay("show");

@@ -41,6 +41,7 @@ class QuotationPrintingsController < ApplicationController
     end
   end
 
+  # Obtiene los productos(printing_product_quotations) que han sido agregados a las cotizaciones
   def obtain_printing_products
     begin
       manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
@@ -60,14 +61,30 @@ class QuotationPrintingsController < ApplicationController
         @invitation = Invitation.find(params[:invitation_id])
       end
 
+      if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
+        @quotation_printing_id = params[:quotation_printing_id]
+      else
+        @quotation_printing_id = nil
+      end
+
       @printing_products = @invitation.invitation_printing_products
       quotation_printings_policy = QuotationPrintingsPolicy.new
-      quotation_printings_policy.generate_printing_product(@invitation, current_user)
-      @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@invitation, current_user)
-      @total_quotation_printings = quotation_printings_policy.totals(@invitation, current_user, manufacturing_cost, amount_to_elaborate)
+      quotation_printings_policy.generate_printing_product(@invitation, current_user, @quotation_printing_id)
+      @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@invitation, current_user, @quotation_printing_id)
+      @total_quotation_printings = quotation_printings_policy.totals(@invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
+  end
+
+  #Obtiene los productos(printing_product_quotation) para una cotización ya creada
+  def obtain_printing_products_for_quotation
+    @quotation_printing = QuotationPrinting.find(params[:quotation_printing_id])
+    @invitation = @quotation_printing.invitation
+    @printing_products = @invitation.invitation_printing_products
+    @printing_product_quotations = @quotation_printing.printing_product_quotations
+    quotation_printings_policy = QuotationPrintingsPolicy.new
+    @total_quotation_printings = quotation_printings_policy.totals_by_quotation(@quotation_printing)
   end
 
   # Actualizar las cantidades del producto
@@ -145,8 +162,15 @@ class QuotationPrintingsController < ApplicationController
       amount_to_elaborate = params[:amount_to_elaborate].to_i
     end
     invitation = Invitation.find(params[:invitation_id])
+
+    if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
+      @quotation_printing_id = params[:quotation_printing_id]
+    else
+      @quotation_printing_id = nil
+    end
+
     quotation_printings_policy = QuotationPrintingsPolicy.new
-    @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate)
+    @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
   end
 
   def create
@@ -162,12 +186,39 @@ class QuotationPrintingsController < ApplicationController
       @quotation_printing.number_folio = @quotation_printing.set_number_folio
       @quotation_printing.ticket = @quotation_printing.set_number_ticket
       @quotation_printing.cash_opening_impression = CashPolicy.new.cash_impressions
+      quotation_printings_policy = QuotationPrintingsPolicy.new()
+      printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@quotation_printing.invitation, current_user)
+      @quotation_printing.printing_product_quotations = printing_product_quotations
+
+      if params[:quotation_printing][:imagen] && params[:quotation_printing][:imagen].eql?("")
+        @quotation_printing.imagen = @quotation_printing.invitation.imagen
+      end
 
       if @quotation_printing.save
         flash[:success] = 'Cotización para productos imprenta, registrada correctamente.'
         redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
       else
         flash[:error] = 'Se presento un error al registrar la cotización. Intente mas tarde.'
+        redirect_to quotation_printings_path
+      end
+    end
+  end
+
+  def update
+    unless cash_impression_open?
+      flash[:warning] = 'La caja de impresiones no ha sido abierta.'
+      redirect_to root_url and return
+    end
+
+    PgLock.new(name: "quotation_printings_update").lock do
+      @quotation_printing = QuotationPrinting.find(params[:id])
+      @quotation_printing.user = current_user
+
+      if @quotation_printing.update(quoation_printing_params)
+        flash[:success] = 'Cotización para productos imprenta, actualizada correctamente.'
+        redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
+      else
+        flash[:error] = 'Se presento un error al actualizar la cotización. Intente mas tarde.'
         redirect_to quotation_printings_path
       end
     end
@@ -260,18 +311,6 @@ class QuotationPrintingsController < ApplicationController
     end
   end
 
-  def update_image_invitation
-    @invitation = Invitation.find(params[:id])
-    @invitation.imagen = params[:invitation][:imagen]
-    @invitation.imagen_cache = params[:invitation][:imagen_cache]
-
-    if @invitation.save
-      render js: "toastr['success']('Imagen asignada correctamente.');", status: :created
-    else
-      render js: "toastr['error']('Error al asignar la imagen.');", status: :bad_request
-    end
-  end
-
   private
 
   def set_module
@@ -281,7 +320,8 @@ class QuotationPrintingsController < ApplicationController
   def quoation_printing_params
     params.require(:quotation_printing).permit(:invitation_id, :client_id, :cost_piece,
       :total_pieces, :cost_elaboration, :total_quotations, :total_cost, :utility,
-      :status, :paid_with, :payment, :change, :difference, :payment_type_id, :full_payment
+      :status, :paid_with, :payment, :change, :difference, :payment_type_id, :full_payment,
+      :imagen, :imagen_cache
     )
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190620022748) do
+ActiveRecord::Schema.define(version: 20190622024110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -357,6 +357,7 @@ ActiveRecord::Schema.define(version: 20190620022748) do
     t.bigint "user_id"
     t.bigint "cash_opening_impression_id"
     t.integer "ticket", default: 0
+    t.string "imagen"
     t.index ["cash_opening_impression_id"], name: "index_quotation_printings_on_cash_opening_impression_id"
     t.index ["client_id"], name: "index_quotation_printings_on_client_id"
     t.index ["invitation_id"], name: "index_quotation_printings_on_invitation_id"

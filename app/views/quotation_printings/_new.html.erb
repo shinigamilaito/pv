@@ -1,65 +1,68 @@
-<%= form_for(quotation_printing) do |f| %>
+<%= form_for(quotation_printing, html: {multipart: true}) do |f| %>
   <%= f.hidden_field :client_id %>
   <%= f.hidden_field :full_payment, value: false %>
+  <% unless quotation_printing.new_record? %>
+    <%= hidden_field_tag "quotation_printing_id", quotation_printing.id %>
+  <% end %>
 
-<div class="box-body">
-  <div class="row">
-    <div class="col-sm-5">
-      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:invitation_id].blank? %>">
-        <label class="col-sm-5 control-label">Modelo a Cotizar</label>
-        <div class="col-sm-7" style="margin-bottom: 10px;" id="select_invitations">
-          <%= select_tag "quotation_printing[invitation_id]", options_for_select([@invitations], @invitation_id), prompt: 'Buscar invitación', class: 'form-control', required: true %>
-        </div>
-      </div>
-
-      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_piece].blank? %>">
-        <label class="col-sm-5 control-label">Costo por Invitación</label>
-        <div class="col-sm-7" style="margin-bottom: 10px;">
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <%= f.text_field :cost_piece, class: "form-control", required: true %>
-            <span><%= quotation_printing.errors[:cost_piece].first %></span>
+  <div class="box-body">
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:invitation_id].blank? %>">
+          <label class="col-sm-5 control-label">Modelo a Cotizar</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;" id="select_invitations">
+            <%= select_tag "quotation_printing[invitation_id]", options_for_select([@invitations], @invitation_id), prompt: 'Buscar invitación', class: 'form-control', required: true %>
           </div>
         </div>
-      </div>
 
-      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:total_pieces].blank? %>">
-        <label class="col-sm-5 control-label">No. de Piezas</label>
-        <div class="col-sm-7" style="margin-bottom: 10px;">
-          <%= f.text_field :total_pieces, class: "form-control", required: true %>
-          <span><%= quotation_printing.errors[:total_pieces].first %></span>
-        </div>
-      </div>
-
-      <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_elaboration].blank? %>">
-        <label class="col-sm-5 control-label">Costo por Elaboración</label>
-        <div class="col-sm-7" style="margin-bottom: 10px;">
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <%= f.text_field :cost_elaboration, class: "form-control", required: true, disabled: true %>
-            <span><%= quotation_printing.errors[:cost_elaboration].first %></span>
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_piece].blank? %>">
+          <label class="col-sm-5 control-label">Costo por Invitación</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;">
+            <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <%= f.text_field :cost_piece, class: "form-control", required: true %>
+              <span><%= quotation_printing.errors[:cost_piece].first %></span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div id="image_invitation">
-        <% unless quotation_printing.new_record? %>
-          <%= render "quotation_printings/image_invitation", invitation: quotation_printing.invitation %>
-        <% end %>
-      </div>
-    </div>
-
-    <!-- Lista de productos imprenta -->
-    <div class="col-sm-7">
-      <div id="list_invitation_printing_products">
-        <div class="form-group text-center">
-          <label>Material a Utilizar</label>
-          <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get">
-            <option value="">Seleccione Material</option>
-          </select>
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:total_pieces].blank? %>">
+          <label class="col-sm-5 control-label">No. de Piezas</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;">
+            <%= f.text_field :total_pieces, class: "form-control", required: true %>
+            <span><%= quotation_printing.errors[:total_pieces].first %></span>
+          </div>
         </div>
-        <table class="table table-striped">
-          <thead>
+
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_elaboration].blank? %>">
+          <label class="col-sm-5 control-label">Costo por Elaboración</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;">
+            <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <%= f.text_field :cost_elaboration, class: "form-control", required: true, readonly: true %>
+              <span><%= quotation_printing.errors[:cost_elaboration].first %></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="image_invitation">
+          <% unless quotation_printing.new_record? %>
+            <%= render "quotation_printings/image_invitation", quotation_printing: quotation_printing %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Lista de productos imprenta -->
+      <div class="col-sm-7">
+        <div id="list_invitation_printing_products">
+          <div class="form-group text-center">
+            <label>Material a Utilizar</label>
+            <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get">
+              <option value="">Seleccione Material</option>
+            </select>
+          </div>
+          <table class="table table-striped">
+            <thead>
             <tr>
               <th>#</th>
               <th>Código</th>
@@ -69,178 +72,208 @@
               <th>Precio</th>
               <th></th>
             </tr>
-          </thead>
-          <tbody id="invitation_printing_products_used_by_quotation">
-          </tbody>
-        </table>
+            </thead>
+            <tbody id="invitation_printing_products_used_by_quotation">
+            </tbody>
+          </table>
 
-        <div class="table-responsive" id="total_to_paid_by_quotation_printings">
+          <div class="table-responsive" id="total_to_paid_by_quotation_printings">
+          </div>
         </div>
-      </div>
 
-      <!-- Opción con los datos del status y los datos del pago -->
-      <div id="payment_data_div">
-      </div>
+        <!-- Opción con los datos del status y los datos del pago -->
+        <div id="payment_data_div">
+        </div>
 
-      <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'quotation_printing_save_button', style: 'margin-top: 15px;', data: {disable_with: 'Registrando...'} %>
+        <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'quotation_printing_save_button', style: 'margin-top: 15px;', data: {disable_with: 'Registrando...'} %>
+      </div>
     </div>
   </div>
-</div>
 <% end %>
 
 <script>
-  $(document).ready(function() {
-    var $costPiece = $("#quotation_printing_cost_piece");
-    var $totalPieces = $("#quotation_printing_total_pieces");
-    var $costElaboration = $("#quotation_printing_cost_elaboration");
+    $(document).ready(function () {
+        var $costPiece = $("#quotation_printing_cost_piece");
+        var $totalPieces = $("#quotation_printing_total_pieces");
+        var $costElaboration = $("#quotation_printing_cost_elaboration");
 
-    setCurrency($costPiece);
-    $totalPieces.inputmask("integer", {
-      rightAlign: true
-    });
-    setCurrency($costElaboration);
+        setCurrency($costPiece);
+        $totalPieces.inputmask("integer", {
+            rightAlign: true
+        });
+        setCurrency($costElaboration);
 
-    $costPiece.on("keyup", function() { obtainCostElaboration(); });
-    $totalPieces.on("keyup", function() { obtainCostElaboration(); });
+        $costPiece.on("keyup", function () {
+            obtainCostElaboration();
+        });
+        $totalPieces.on("keyup", function () {
+            obtainCostElaboration();
+        });
 
-    function obtainCostElaboration() {
-      var costPiece = Number($costPiece.val().replace(/,/g, ""));
-      var totalPieces = Number($totalPieces.val());
+        function obtainCostElaboration() {
+            var costPiece = Number($costPiece.val().replace(/,/g, ""));
+            var totalPieces = Number($totalPieces.val());
 
-      if(totalPieces == undefined) {
-        totalPieces = 0;
-      }
+            if (totalPieces == undefined) {
+                totalPieces = 0;
+            }
 
-      var costElaboration = costPiece * totalPieces;
-      $costElaboration.val(costElaboration);
+            var costElaboration = costPiece * totalPieces;
+            $costElaboration.val(costElaboration);
 
-      obtainTotalCosts();
-    }
-
-    function obtainTotalCosts() {
-      $invitation = $("#quotation_printing_invitation_id");
-
-      if($invitation.val() == undefined || $invitation.val() == "") {
-        return
-      }
-
-      $.ajax({
-        url: "/quotation_printings/obtain_total_costs",
-        method: "get",
-        dataType: "script",
-        data: {
-          manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
-          amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-          invitation_id: $invitation.val()
-        },
-        beforeSend: function(xhr) {
-          $("body").LoadingOverlay("show");
-        },
-        complete: function(xhr) {
-          $("body").LoadingOverlay("hide", true);
+            obtainTotalCosts();
         }
-      });
-    }
 
-      $invitation = $("#quotation_printing_invitation_id");
+        function obtainTotalCosts() {
+            var $quotationPrintingId = $("#quotation_printing_id");
+            $invitation = $("#quotation_printing_invitation_id");
 
-      $invitation.select2({
-          tags: true,
-          minimumInputLength: 1,
-          ajax: {
-              delay: 250,
-              url: "/invitations/autocomplete",
-              dataType: 'json',
-              cache: true
-          },
-          createTag: function (params) {
-              console.log("Tag Invitation created...");
-              var term = $.trim(params.term);
+            if ($invitation.val() == undefined || $invitation.val() == "") {
+                return
+            }
 
-              if (isNaN(term)) {
-                  return {
-                      id: term,
-                      text: term,
-                      newTag: true // add additional parameters
-                  }
+            $.ajax({
+                url: "/quotation_printings/obtain_total_costs",
+                method: "get",
+                dataType: "script",
+                data: {
+                    manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+                    amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+                    invitation_id: $invitation.val(),
+                    quotation_printing_id: $quotationPrintingId.val()
+                },
+                beforeSend: function (xhr) {
+                    $("body").LoadingOverlay("show");
+                },
+                complete: function (xhr) {
+                    $("body").LoadingOverlay("hide", true);
+                }
+            });
+        }
 
-              } else {
-                  console.log("Tag Invitation no valid");
-                  return null;
-              }
-          }
-      });
+        $invitation = $("#quotation_printing_invitation_id");
 
-      $invitation.change(function() {
-          var invitationId = $(this).val();
-          $.ajax({
-              url: "/quotation_printings/obtain_printing_products",
-              method: "get",
-              dataType: "script",
-              data: {
-                  manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
-                  amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-                  invitation_id: invitationId,
-                  new_invitation: $(this).children("option:selected").data("select2-tag")
-              },
-              beforeSend: function(xhr) {
-                  $("body").LoadingOverlay("show");
-              },
-              complete: function(xhr) {
-                  $("body").LoadingOverlay("hide", true);
-              }
-          });
-      });
+        $invitation.select2({
+            tags: true,
+            minimumInputLength: 1,
+            ajax: {
+                delay: 250,
+                url: "/invitations/autocomplete",
+                dataType: 'json',
+                cache: true
+            },
+            createTag: function (params) {
+                console.log("Tag Invitation created...");
+                var term = $.trim(params.term);
 
-      <% unless quotation_printing.new_record? %>
-      console.log("quotation printing exist, trigger change to request products");
-      obtainCostElaboration();
-      $invitation.change();
-      <% end %>
-  });
+                if (isNaN(term)) {
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true // add additional parameters
+                    }
+
+                } else {
+                    console.log("Tag Invitation no valid");
+                    return null;
+                }
+            }
+        });
+
+        $invitation.change(function () {
+            var $quotationPrintingId = $("#quotation_printing_id");
+            var invitationId = $(this).val();
+
+            $.ajax({
+                url: "/quotation_printings/obtain_printing_products",
+                method: "get",
+                dataType: "script",
+                data: {
+                    manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+                    amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+                    invitation_id: invitationId,
+                    new_invitation: $(this).children("option:selected").data("select2-tag"),
+                    quotation_printing_id: $quotationPrintingId.val()
+                },
+                beforeSend: function (xhr) {
+                    $("body").LoadingOverlay("show");
+                },
+                complete: function (xhr) {
+                    $("body").LoadingOverlay("hide", true);
+                }
+            });
+        });
+
+        <% unless quotation_printing.new_record? %>
+        let quotation_printing_id = "<%= quotation_printing.id %>";
+        console.log("quotation printing exist, trigger change to request products: IdQuotation:" + quotation_printing_id);
+        obtainPrintingProductForQuotation(quotation_printing_id);
+        <% end %>
+
+        // Para cotizaciones existentes, se obtienen los printing_products_controller que
+        // ya tienen asignados
+        function obtainPrintingProductForQuotation(quotation_printing_id) {
+            $.ajax({
+                url: "/quotation_printings/obtain_printing_products_for_quotation",
+                method: "get",
+                dataType: "script",
+                data: {
+                    quotation_printing_id: quotation_printing_id
+                },
+                beforeSend: function (xhr) {
+                    $("body").LoadingOverlay("show");
+                },
+                complete: function (xhr) {
+                    $("body").LoadingOverlay("hide", true);
+                }
+            });
+        }
+    });
 
 </script>
 
 <!-- Search product_printing to add cotización -->
 <script>
-  $printintProductSelect = $(".autocomplete_invitation_printing_products");
+    $printintProductSelect = $(".autocomplete_invitation_printing_products");
 
-  $printintProductSelect.select2({
-		minimumInputLength: 1,
-		ajax: {
-			delay: 250,
-			url: "/printing_products/autocomplete_invitations",
-			dataType: 'json',
-			cache: true
-		}
-	});
-
-  $printintProductSelect.on('select2:select', function (e) {
-      var data = e.params.data;
-      var $invitation = $("#quotation_printing_invitation_id");
-      var invitationId = $invitation.val();
-
-      if(invitationId == "" || invitationId == undefined) {
-        toastr['error']("Agregue la invitación.");
-        return;
-      }
-
-      $.ajax({
-        url: "/quotation_printings/add_printing_product",
-        method: "post",
-        dataType: "script",
-        data: {
-          printing_product: data,
-          manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
-          amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
-          invitation_id: invitationId
-        },
-        beforeSend: function(xhr) {
-          $("body").LoadingOverlay("show");
-        },
-        complete: function(xhr) {
-          $("body").LoadingOverlay("hide", true);
+    $printintProductSelect.select2({
+        minimumInputLength: 1,
+        ajax: {
+            delay: 250,
+            url: "/printing_products/autocomplete_invitations",
+            dataType: 'json',
+            cache: true
         }
-      });
-  });
+    });
+
+    $printintProductSelect.on('select2:select', function (e) {
+        var data = e.params.data;
+        var $quotationPrintingId = $("#quotation_printing_id");
+        var $invitation = $("#quotation_printing_invitation_id");
+        var invitationId = $invitation.val();
+
+        if (invitationId == "" || invitationId == undefined) {
+            toastr['error']("Agregue la invitación.");
+            return;
+        }
+
+        $.ajax({
+            url: "/quotation_printings/add_printing_product",
+            method: "post",
+            dataType: "script",
+            data: {
+                printing_product: data,
+                manufacturing_cost: $("#quotation_printing_cost_elaboration").val(),
+                amount_to_elaborate: $("#quotation_printing_total_pieces").val(),
+                invitation_id: invitationId,
+                quotation_printing_id: $quotationPrintingId.val()
+            },
+            beforeSend: function (xhr) {
+                $("body").LoadingOverlay("show");
+            },
+            complete: function (xhr) {
+                $("body").LoadingOverlay("hide", true);
+            }
+        });
+    });
 </script>

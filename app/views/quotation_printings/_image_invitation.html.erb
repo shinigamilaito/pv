@@ -1,19 +1,29 @@
 <div class="form-group">
   <div class="col-sm-12 text-center">
-    <%= form_for(invitation, url: update_image_invitation_quotation_printing_path(invitation), authenticity_token: true, remote: true, html: {class: 'form-horizontal', id: 'update_image_invitation_form'}) do |f| %>
-      <%= f.file_field :imagen, class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg' %>
-      <% src = invitation.new_record? ? "#" : invitation.imagen_url %>
-      <% hidden = invitation.new_record? ? "hidden" : "" %>
-      <img id="img_prev_invitation" width=200 height=200 src="<%= src %>" alt="Fotografia" class="img-thumbnail <%= hidden %>"/> <br/>
-      <%= f.hidden_field :imagen_cache %>
+    <%= file_field_tag "quotation_printing[imagen]", class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg' %>
+    <% if quotation_printing.new_record? %>
+      <% src = quotation_printing.invitation.new_record? ? "#" : invitation.imagen_url %>
+      <% hidden = quotation_printing.invitation.new_record? ? "hidden" : "" %>
+    <% else %>
+      <% if quotation_printing.imagen_url != nil %>
+        <% src = quotation_printing.imagen_url %>
+        <% hidden = "" %>
+      <% else %>
+        <% src = quotation_printing.invitation.new_record? ? "#" : invitation.imagen_url %>
+        <% hidden = quotation_printing.invitation.new_record? ? "hidden" : "" %>
+      <% end %>
     <% end %>
+    <img id="img_prev_invitation" width=200 height=200 src="<%= src %>" alt="Fotografia" class="img-thumbnail <%= hidden %>"/>
+    <br/>
+    <%= hidden_field_tag "quotation_printing[imagen_cache]" %>
+
   </div>
 </div>
 
 <script>
-  readURL($("#invitation_imagen_cache"));
+  readURL($("#quotation_printing_imagen_cache"));
 
-  $("#invitation_imagen").change(function(){
+  $("#quotation_printing_imagen").change(function(){
     $('#img_prev_invitation').removeClass('hidden');
     readURL(this);
   });
@@ -24,7 +34,7 @@
 
       reader.onload = function (e) {
         $('#img_prev_invitation').attr('src', e.target.result);
-        var $formUpdateImageInvitation = $('form#update_image_invitation_form')
+        /*var $formUpdateImageInvitation = $('form#update_image_invitation_form')
         var formData = new FormData();
         var formParams = $formUpdateImageInvitation.serializeArray();
 
@@ -46,7 +56,7 @@
           type: "patch",
           url: $formUpdateImageInvitation.attr('action'),
           dataType: "script",
-        });
+        });*/
       }
 
       reader.readAsDataURL(input.files[0]);
