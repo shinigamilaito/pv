@@ -8,4 +8,9 @@ $("#printing_product_quotation_preview_price_<%= @printing_product_quotation.id 
 $("#printing_product_quotation_price_<%= @printing_product_quotation.id %>").val("<%= number_to_currency @printing_product_quotation.total %>");
 
 $('#total_to_paid_by_quotation_printings').html("<%= j render('quotation_printings/totals_costs', total_quotation_printings: @total_quotation_printings) %>");
-$('#payment_data_div').html("<%= j render('quotation_printings/payment_data_div') %>");
+
+<% if @quotation_printing_id.nil? %>
+  $('#payment_data_div').html("<%= j render('quotation_printings/payment_data_div') %>");
+<% else %>
+  $('#payment_data_div').html("");
+<% end %>

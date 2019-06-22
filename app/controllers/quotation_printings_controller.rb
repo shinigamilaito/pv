@@ -102,7 +102,13 @@ class QuotationPrintingsController < ApplicationController
       quotation_printings_policy = QuotationPrintingsPolicy.new
       @printing_product_quotation = quotation_printings_policy.update_quantity(printing_product_quotation, quantity)
 
-      @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate)
+      if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
+        @quotation_printing_id = params[:quotation_printing_id]
+      else
+        @quotation_printing_id = nil
+      end
+
+      @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
       render 'quotation_printings/update_quantity'
     rescue StandardError => e
       render js: "toastr['error']('#{e.message}');", status: :bad_request

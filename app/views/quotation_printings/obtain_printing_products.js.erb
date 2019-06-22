@@ -6,5 +6,15 @@ $("#list_invitation_printing_products").html('<%= j render("quotation_printings/
   $('#payment_data_div').html("");
 <% end %>
 
+<% if @quotation_printing_id.nil? %>
+  <% quotation_printing = QuotationPrinting.new() %>
+  <% quotation_printing.invitation = @invitation %>
+  $('#image_invitation').html("<%= j render('quotation_printings/image_invitation', quotation_printing: quotation_printing) %>");
+<% else %>
+  <% quotation_printing = QuotationPrinting.find(@quotation_printing_id) %>
+  <% quotation_printing.invitation = @invitation %>
+  $('#image_invitation').html("<%= j render('quotation_printings/image_invitation', quotation_printing: quotation_printing) %>");
+<% end %>
+
 // Refresh the select invitations to show id
 $('#select_invitations').html("<%= j render('quotation_printings/select_invitations', invitation: @invitation) %>");

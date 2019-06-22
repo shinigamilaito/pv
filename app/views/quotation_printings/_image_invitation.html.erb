@@ -2,8 +2,13 @@
   <div class="col-sm-12 text-center">
     <%= file_field_tag "quotation_printing[imagen]", class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg' %>
     <% if quotation_printing.new_record? %>
-      <% src = quotation_printing.invitation.new_record? ? "#" : invitation.imagen_url %>
-      <% hidden = quotation_printing.invitation.new_record? ? "hidden" : "" %>
+      <% if quotation_printing.invitation.present? %>
+        <% src = quotation_printing.invitation.imagen_url %>
+        <% hidden = "" %>
+      <% else %>
+        <% src = "" %>
+        <% hidden = "hidden" %>
+      <% end %>
     <% else %>
       <% if quotation_printing.imagen_url != nil %>
         <% src = quotation_printing.imagen_url %>

@@ -46,9 +46,7 @@
         </div>
 
         <div id="image_invitation">
-          <% unless quotation_printing.new_record? %>
-            <%= render "quotation_printings/image_invitation", quotation_printing: quotation_printing %>
-          <% end %>
+          <%= render "quotation_printings/image_invitation", quotation_printing: quotation_printing %>
         </div>
       </div>
 
