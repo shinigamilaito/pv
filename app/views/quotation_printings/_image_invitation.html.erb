@@ -14,7 +14,7 @@
         <% src = quotation_printing.imagen_url %>
         <% hidden = "" %>
       <% else %>
-        <% src = quotation_printing.invitation.new_record? ? "#" : invitation.imagen_url %>
+        <% src = quotation_printing.invitation.new_record? ? "#" : quotation_printing.invitation.imagen_url %>
         <% hidden = quotation_printing.invitation.new_record? ? "hidden" : "" %>
       <% end %>
     <% end %>
