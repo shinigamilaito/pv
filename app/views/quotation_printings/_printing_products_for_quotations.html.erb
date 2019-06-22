@@ -43,10 +43,8 @@
           </div>
         </td>
         <td style="width: 1px;">
-          <% unless printing_product_quotation.invitation_printing_product.from_printing_products %>
-            <%= link_to "#", method: :delete, class: 'btn btn-danger delete_printing_product_quotation', data: {url: delete_printing_product_quotation_quotation_printings_path, printing_product_quotation_id: printing_product_quotation.id}, style: 'padding: 3px 5px;' do %>
-              <i class="fa fa-fw fa-close"></i>
-            <% end %>
+          <%= link_to "#", method: :delete, class: 'btn btn-danger delete_printing_product_quotation', data: {url: delete_printing_product_quotation_quotation_printings_path, printing_product_quotation_id: printing_product_quotation.id}, style: 'padding: 3px 5px;' do %>
+            <i class="fa fa-fw fa-close"></i>
           <% end %>
         </td>
       </tr>
