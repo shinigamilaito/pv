@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :categories do
+    collection do
+      get :search
+    end
+  end
+
   resources :quotation_printings, only: [:index, :new, :create, :update] do
     get :get_pdf, on: :member
     get :generate_ticket, on: :member

@@ -1,0 +1,19 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Nombre</th>
+    <th>Descripción</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @categories.each do |category| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= category.name %></td>
+      <td><%= sanitize category.description %></td>
+      <td style="width: 1px;"><%= link_to 'Actualizar', edit_category_path(category), class: 'btn btn-edit' %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', category, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+</tbody>

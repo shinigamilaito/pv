@@ -179,6 +179,14 @@
                 <span class="roboto-font" style="padding-left: 10px;">Invitaciones</span>
               <% end %>
             </li>
+
+            <!-- Categorias -->
+            <li class="<%= @module == "categories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
+              <%= link_to categories_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-envelope-o"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Categorías</span>
+              <% end %>
+            </li>
           </ul>
         </li>
 
