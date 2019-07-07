@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: cash_opening_impressions
+#
+#  id         :bigint           not null, primary key
+#  type_cash  :string
+#  open_date  :datetime
+#  user_id    :bigint
+#  amount     :decimal(, )
+#  active     :boolean          default(TRUE)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class CashOpeningImpression < ApplicationRecord
   belongs_to :user
   has_many :printing_sales

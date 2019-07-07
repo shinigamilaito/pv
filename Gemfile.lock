@@ -40,6 +40,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
+    annotate (2.7.5)
+      activerecord (>= 3.2, < 7.0)
+      rake (>= 10.4, < 13.0)
     arel (8.0.0)
     axlsx (3.0.0.pre)
       htmlentities (~> 4.3, >= 4.3.4)
@@ -213,6 +216,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  annotate (~> 2.7, >= 2.7.5)
   axlsx_rails
   byebug
   capybara (~> 2.13)
@@ -237,4 +241,4 @@ DEPENDENCIES
   wkhtmltopdf-binary
 
 BUNDLED WITH
-   2.0.1
+   2.0.2

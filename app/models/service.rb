@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: services
+#
+#  id           :bigint           not null, primary key
+#  client_id    :bigint
+#  user_id      :bigint
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  image_client :string
+#  paid         :boolean          default(FALSE)
+#  number_folio :integer
+#
+
 class Service < ApplicationRecord
   belongs_to :client #Who is owner equipments
   belongs_to :user #Who created the service

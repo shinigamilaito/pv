@@ -66,3 +66,5 @@ gem 'will_paginate', '~> 3.1.1'
 
 # xlsx
 gem 'axlsx_rails'
+
+gem 'annotate', '~> 2.7', '>= 2.7.5'

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: invitations
+#
+#  id                   :bigint           not null, primary key
+#  name                 :string
+#  user_id              :bigint
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  imagen               :string
+#  created_in_quotation :boolean          default(FALSE)
+#
+
 class Invitation < ApplicationRecord
   mount_uploader :imagen, InvitationUploader
 

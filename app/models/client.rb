@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: clients
+#
+#  id           :bigint           not null, primary key
+#  name         :string
+#  first_name   :string
+#  last_name    :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  address      :text
+#  mobile_phone :string
+#  home_phone   :string
+#  email        :string
+#
+
 class Client < ApplicationRecord
 	validates :name, uniqueness: {case_sensitive: true, scope: :first_name }
 	validates :first_name, presence: true

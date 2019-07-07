@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: printing_products
+#
+#  id             :bigint           not null, primary key
+#  code           :string
+#  name           :string
+#  purchase_price :decimal(10, 2)   default(0.0)
+#  sale_price     :decimal(10, 2)   default(0.0)
+#  sale_unit      :string
+#  stock          :integer
+#  contains       :integer
+#  contain_unit   :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  imagen         :string
+#  discount_stock :integer          default(0)
+#
+
 class PrintingProduct < ApplicationRecord
   mount_uploader :imagen, PrintingProductUploader
 
