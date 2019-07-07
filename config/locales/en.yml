@@ -129,3 +129,13 @@ en:
          attributes:
             name:
               taken: 'Ya existe una invitación con este nombre.'
+
+       category:
+         attributes:
+            name:
+              taken: 'Ya existe una categoría con este nombre.'
+
+       subcategory:
+         attributes:
+           name:
+              taken: 'Ya existe una subcategoría con este nombre.'

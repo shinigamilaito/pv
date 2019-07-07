@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Subcategorías</h3>
+          <%= link_to 'Registrar', new_subcategory_path, class: "btn btn-info pull-right" %>
+      </div>
+
+      <div class="box-body table-responsive no-padding">
+        <%= render 'shared/search', id: 'search-subcategories',
+          placeholder: 'Buscar por nombre o descripción',
+          remote_url: search_subcategories_path %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="subcategories_table">
+            <%= render partial: 'body_subcategories' %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/paginate', elements_paginate: @subcategories %>

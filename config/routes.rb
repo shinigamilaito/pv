@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :subcategories do
+    collection do
+      get :search
+    end
+  end
+
   resources :categories do
     collection do
       get :search

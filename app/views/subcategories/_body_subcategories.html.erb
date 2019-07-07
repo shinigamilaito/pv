@@ -1,0 +1,21 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Categoría</th>
+    <th>Nombre</th>
+    <th>Descripción</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @subcategories.each do |subcategory| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= subcategory.category.name %></td>
+      <td><%= subcategory.name %></td>
+      <td><%= sanitize subcategory.description %></td>
+      <td style="width: 1px;"><%= link_to 'Actualizar', edit_subcategory_path(subcategory), class: 'btn btn-edit' %></td>
+      <td style="width: 1px;"><%= link_to 'Eliminar', subcategory, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+</tbody>

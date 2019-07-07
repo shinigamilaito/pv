@@ -180,13 +180,23 @@
               <% end %>
             </li>
 
-            <!-- Categorias -->
-            <li class="<%= @module == "categories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
-              <%= link_to categories_path, class: "subitem-menu-navegation" do %>
-                <i class="fa fa-fw fa-envelope-o"></i>
-                <span class="roboto-font" style="padding-left: 10px;">Categorías</span>
-              <% end %>
-            </li>
+            <% if current_user.admin? %>
+              <!-- Categorias -->
+              <li class="<%= @module == "categories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
+                <%= link_to categories_path, class: "subitem-menu-navegation" do %>
+                  <i class="fa fa-fw fa-envelope-o"></i>
+                  <span class="roboto-font" style="padding-left: 10px;">Categorías</span>
+                <% end %>
+              </li>
+
+              <!-- subcategorias -->
+              <li class="<%= @module == "subcategories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
+                <%= link_to subcategories_path, class: "subitem-menu-navegation" do %>
+                  <i class="fa fa-fw fa-envelope-o"></i>
+                  <span class="roboto-font" style="padding-left: 10px;">Subcategorías</span>
+                <% end %>
+              </li>
+            <% end %>
           </ul>
         </li>
 
