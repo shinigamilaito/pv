@@ -3,20 +3,20 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  name                   :string           default(""), not null
-#  first_name             :string           default(""), not null
-#  last_name              :string           default(""), not null
-#  rol_id                 :bigint           not null
-#  username               :string           default(""), not null
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
 #  address                :text
 #  contact                :string
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  first_name             :string           default(""), not null
+#  last_name              :string           default(""), not null
+#  name                   :string           default(""), not null
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  username               :string           default(""), not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  rol_id                 :bigint           not null
 #
 
 class User < ApplicationRecord

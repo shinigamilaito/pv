@@ -3,10 +3,10 @@
 # Table name: component_equipment_customers
 #
 #  id                    :bigint           not null, primary key
-#  component_id          :bigint
-#  equipment_customer_id :bigint
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  component_id          :bigint
+#  equipment_customer_id :bigint
 #
 
 require 'test_helper'

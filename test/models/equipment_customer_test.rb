@@ -3,17 +3,17 @@
 # Table name: equipment_customers
 #
 #  id                    :bigint           not null, primary key
-#  equipment_id          :bigint
-#  brand_id              :bigint
+#  component_description :text
 #  description           :text
+#  serie_number          :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  service_id            :bigint
-#  equipment_model_id    :bigint
+#  brand_id              :bigint
 #  cable_type_id         :bigint
+#  equipment_id          :bigint
+#  equipment_model_id    :bigint
 #  payment_id            :bigint
-#  serie_number          :string
-#  component_description :text
+#  service_id            :bigint
 #
 
 require 'test_helper'

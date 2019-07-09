@@ -10,10 +10,14 @@
 #  category_id :bigint
 #
 
-require 'test_helper'
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-class SubcategoryTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-end
+one:
+  category: one
+  name: MyString
+  description: MyText
+
+two:
+  category: two
+  name: MyString
+  description: MyText

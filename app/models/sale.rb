@@ -3,17 +3,17 @@
 # Table name: sales
 #
 #  id                            :bigint           not null, primary key
-#  user_id                       :bigint
+#  change                        :decimal(10, 2)   default(0.0)
+#  discount                      :decimal(10, 2)   default(0.0)
+#  paid_with                     :decimal(10, 2)   default(0.0)
+#  subtotal                      :decimal(10, 2)   default(0.0)
+#  ticket                        :integer          default(0)
+#  total                         :decimal(10, 2)   default(0.0)
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
-#  subtotal                      :decimal(10, 2)   default(0.0)
-#  discount                      :decimal(10, 2)   default(0.0)
-#  total                         :decimal(10, 2)   default(0.0)
-#  paid_with                     :decimal(10, 2)   default(0.0)
-#  change                        :decimal(10, 2)   default(0.0)
-#  ticket                        :integer          default(0)
-#  payment_type_id               :bigint
 #  cash_opening_services_sale_id :bigint
+#  payment_type_id               :bigint
+#  user_id                       :bigint
 #
 
 class Sale < ApplicationRecord

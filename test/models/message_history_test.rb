@@ -4,9 +4,9 @@
 #
 #  id                    :bigint           not null, primary key
 #  message               :text
-#  equipment_customer_id :bigint
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  equipment_customer_id :bigint
 #  user_id               :bigint
 #
 

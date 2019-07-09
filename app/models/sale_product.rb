@@ -4,16 +4,16 @@
 #
 #  id         :bigint           not null, primary key
 #  code       :string
+#  discount   :decimal(10, 2)   default(0.0)
 #  name       :string
-#  quantity   :integer
 #  price      :decimal(10, 2)   default(0.0)
-#  product_id :bigint
-#  user_id    :bigint
-#  sale_id    :bigint
+#  quantity   :integer
+#  real_price :decimal(20, 10)  default(0.0)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  discount   :decimal(10, 2)   default(0.0)
-#  real_price :decimal(20, 10)  default(0.0)
+#  product_id :bigint
+#  sale_id    :bigint
+#  user_id    :bigint
 #
 
 class SaleProduct < ApplicationRecord

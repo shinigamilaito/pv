@@ -3,28 +3,28 @@
 # Table name: quotation_printings
 #
 #  id                         :bigint           not null, primary key
-#  invitation_id              :bigint
-#  client_id                  :bigint
-#  cost_piece                 :decimal(10, 2)   default(0.0)
-#  total_pieces               :integer
+#  change                     :decimal(10, 2)   default(0.0)
 #  cost_elaboration           :decimal(10, 2)   default(0.0)
-#  total_quotations           :decimal(10, 2)   default(0.0)
+#  cost_piece                 :decimal(10, 2)   default(0.0)
+#  difference                 :decimal(10, 2)   default(0.0)
+#  full_payment               :boolean
+#  imagen                     :string
+#  number_folio               :string
+#  paid_with                  :decimal(10, 2)   default(0.0)
+#  payment                    :decimal(10, 2)   default(0.0)
+#  status                     :string
+#  ticket                     :integer          default(0)
 #  total_cost                 :decimal(10, 2)   default(0.0)
+#  total_pieces               :integer
+#  total_quotations           :decimal(10, 2)   default(0.0)
 #  utility                    :decimal(10, 2)   default(0.0)
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
-#  number_folio               :string
-#  status                     :string
-#  paid_with                  :decimal(10, 2)   default(0.0)
-#  payment                    :decimal(10, 2)   default(0.0)
-#  change                     :decimal(10, 2)   default(0.0)
-#  difference                 :decimal(10, 2)   default(0.0)
-#  payment_type_id            :bigint
-#  full_payment               :boolean
-#  user_id                    :bigint
 #  cash_opening_impression_id :bigint
-#  ticket                     :integer          default(0)
-#  imagen                     :string
+#  client_id                  :bigint
+#  invitation_id              :bigint
+#  payment_type_id            :bigint
+#  user_id                    :bigint
 #
 
 class QuotationPrinting < ApplicationRecord

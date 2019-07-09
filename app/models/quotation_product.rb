@@ -4,16 +4,16 @@
 #
 #  id           :bigint           not null, primary key
 #  code         :string
-#  name         :string
-#  quantity     :integer
-#  price        :decimal(10, 2)   default(0.0)
-#  product_id   :bigint
-#  user_id      :bigint
-#  quotation_id :bigint
 #  discount     :decimal(10, 2)   default(0.0)
+#  name         :string
+#  price        :decimal(10, 2)   default(0.0)
+#  quantity     :integer
 #  real_price   :decimal(20, 14)  default(0.0)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  product_id   :bigint
+#  quotation_id :bigint
+#  user_id      :bigint
 #
 
 class QuotationProduct < ApplicationRecord
