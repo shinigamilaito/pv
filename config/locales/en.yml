@@ -129,6 +129,8 @@ en:
          attributes:
             name:
               taken: 'Ya existe una invitación con este nombre.'
+              category_id: 'Seleccione una categoría'
+              subcategory_id: 'Seleccione una subcategoría'
 
        category:
          attributes:

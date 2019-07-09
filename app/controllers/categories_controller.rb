@@ -73,6 +73,17 @@ class CategoriesController < ApplicationController
     @index = obtain_index(params[:page].to_i)
   end
 
+  def subcategories
+    @subcategories = Category.find(params[:id]).subcategories
+    subcategories_element = render_to_string("invitations/_subcategories_element",
+                                             layout: false, locals: {subcategories: @subcategories})
+
+    render json: {
+        subcategories: subcategories_element
+    }
+
+  end
+
   private
 
     def set_category

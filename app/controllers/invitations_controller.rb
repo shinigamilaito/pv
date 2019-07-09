@@ -3,8 +3,6 @@ class InvitationsController < ApplicationController
   before_action :set_module
 
   def index
-    destroy_invitation_printing_products
-
     @invitations = Invitation
       .paginate(page: params[:page], per_page: self.elements_per_page)
       .order(updated_at: :desc)
@@ -22,23 +20,22 @@ class InvitationsController < ApplicationController
 
   def new
     @invitation = Invitation.new
-    @invitation_printing_products = invitation_printing_products(nil)
+    @subcategories = []
   end
 
   def edit
-    @invitation_printing_products = invitation_printing_products(@invitation)
+    @subcategories = Subcategory.all
   end
 
   def create
     @invitation = Invitation.new(invitation_params)
     @invitation.user = current_user
-    @invitation.invitation_printing_products = invitation_printing_products_for_save
+
     respond_to do |format|
       if @invitation.save
         flash[:success] = 'Invitación creada exitosamente.'
         format.html { redirect_to invitations_url }
       else
-        @invitation_printing_products = invitation_printing_products(nil)
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :new }
       end
@@ -46,16 +43,11 @@ class InvitationsController < ApplicationController
   end
 
   def update
-    @invitation.name = invitation_params[:name]
-    @invitation.imagen = invitation_params[:imagen]
-    @invitation.imagen_cache = invitation_params[:imagen_cache]
     respond_to do |format|
-      @invitation.invitation_printing_products << invitation_printing_products_for_save
-      if @invitation.save
+      if @invitation.update(invitation_params)
         flash[:success] = 'Invitación actualizada correctamente.'
         format.html { redirect_to invitations_url }
       else
-        @invitation_printing_products = invitation_printing_products(@invitation)
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :edit }
       end
@@ -89,38 +81,6 @@ class InvitationsController < ApplicationController
     @index = obtain_index(params[:page].to_i)
   end
 
-  def add_printing_product
-    printing_product = PrintingProduct.find(params[:printing_product][:id])
-    invitation_service = InvitationService.new(printing_product, current_user)
-    begin
-      invitation_service.create_invitation_printing_product
-      invitation_id = params[:invitation_id].to_i
-      invitation = invitation_id < 0 ? nil : Invitation.find(invitation_id)
-      @invitation_printing_products = invitation_printing_products(invitation)
-    rescue StandardError => e
-      render js: "toastr['error']('#{e.message}');", status: :bad_request
-    end
-  end
-
-  def delete_invitation_printing_product
-    begin
-      @invitation_printing_product = InvitationPrintingProduct.find(params[:id])
-      @invitation_printing_product.destroy
-      respond_to do |format|
-        flash[:success] = 'Producto eliminado correctamente.'
-        format.js do
-          invitation_id = params[:invitation_id].to_i
-          invitation = invitation_id < 0 ? nil : Invitation.find(invitation_id)
-          @invitation_printing_products = invitation_printing_products(invitation)
-          render "invitations/add_printing_product"
-        end
-      end
-    rescue ActiveRecord::InvalidForeignKey => exception
-      flash[:error] = 'El producto ya esta en uso.'
-      redirect_to invitations_url
-    end
-  end
-
   private
 
     def set_invitation
@@ -128,28 +88,11 @@ class InvitationsController < ApplicationController
     end
 
     def invitation_params
-      params.require(:invitation).permit(:name, :imagen, :imagen_cache)
+      params.require(:invitation).permit(:description, :name, :imagen, :imagen_cache, :category_id, :subcategory_id)
     end
 
     def set_module
       @module = "Invitaciones"
     end
 
-    def invitation_printing_products_for_save
-      current_user.invitation_printing_products.where(invitation_id: nil)
-    end
-
-    def invitation_printing_products(invitation)
-      if invitation.present?
-        current_user.invitation_printing_products.where(invitation_id: nil) + current_user.invitation_printing_products.where(invitation_id: invitation.id, from_printing_products: true)
-      else
-        current_user.invitation_printing_products.where(invitation_id: nil)
-      end
-    end
-
-    def destroy_invitation_printing_products
-      invitation_printing_products_for_save.each do |invitation_printing_product|
-        invitation_printing_product.destroy
-      end
-    end
 end

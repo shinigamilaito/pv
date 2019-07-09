@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190707151743) do
+ActiveRecord::Schema.define(version: 20190708234243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,7 +199,11 @@ ActiveRecord::Schema.define(version: 20190707151743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "imagen"
-    t.boolean "created_in_quotation", default: false
+    t.bigint "category_id"
+    t.bigint "subcategory_id"
+    t.text "description"
+    t.index ["category_id"], name: "index_invitations_on_category_id"
+    t.index ["subcategory_id"], name: "index_invitations_on_subcategory_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
   end
 
@@ -526,6 +530,8 @@ ActiveRecord::Schema.define(version: 20190707151743) do
   add_foreign_key "invitation_printing_products", "invitations"
   add_foreign_key "invitation_printing_products", "printing_products"
   add_foreign_key "invitation_printing_products", "users"
+  add_foreign_key "invitations", "categories"
+  add_foreign_key "invitations", "subcategories"
   add_foreign_key "invitations", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "message_histories", "users"

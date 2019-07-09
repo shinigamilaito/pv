@@ -2,17 +2,26 @@
   <tr>
     <th>No.</th>
     <th>Nombre</th>
+    <th>Categoría</th>
+    <th>Subcategoría</th>
     <th>Imagen</th>
     <th></th>
     <th></th>
   </tr>
-  <% @invitations.each_with_index do |invitation, index| %>
+  <% @invitations.each do |invitation| %>
     <tr>
       <td><%= @index %></td>
       <td><%= invitation.name %></td>
+      <td><%= invitation.category.name %></td>
+      <td><%= invitation.subcategory.name %></td>
         <td><%= image_tag(invitation.imagen_url, size:"50x50") if invitation.imagen? %></td>
-      <td style="width: 1px;"><%= link_to 'Actualizar', edit_invitation_path(invitation), class: 'btn btn-edit' %></td>
-      <td style="width: 1px;"><%= link_to 'Eliminar', invitation, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
+      <td style="width: 1px;">
+        <%= link_to 'Actualizar', edit_invitation_path(invitation), class: 'btn btn-edit' %>
+      </td>
+      <td style="width: 1px;">
+        <%= link_to 'Eliminar', invitation, method: :delete, class: 'btn btn-danger',
+                    data: { confirm: '¿Está usted seguro?' } %>
+      </td>
     </tr>
     <% @index += 1 %>
   <% end %>

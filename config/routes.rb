@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     collection do
       get :search
     end
+
+    member do
+      get :subcategories
+    end
   end
 
   resources :quotation_printings, only: [:index, :new, :create, :update] do
@@ -26,10 +30,10 @@ Rails.application.routes.draw do
   end
 
   resources :invitations do
-    delete :delete_invitation_printing_product, on: :member
-    get 'autocomplete', on: :collection
-    get 'search', on: :collection
-    get :add_printing_product, on: :collection
+    collection do
+      get :autocomplete
+      get :search
+    end
   end
 
   resources :partial_sales, only: [:index, :new, :create] do

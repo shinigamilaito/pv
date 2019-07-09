@@ -56,6 +56,7 @@
 // require toastr
 // require select2.min
 
+//= require invitations
 
 $(document).ready(function() {
 	$('[data-load="true"]').click(function() {

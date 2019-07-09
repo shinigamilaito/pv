@@ -9,17 +9,11 @@
 #  updated_at  :datetime         not null
 #  category_id :bigint
 #
-# Indexes
-#
-#  index_subcategories_on_category_id  (category_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (category_id => categories.id)
-#
 
 class Subcategory < ApplicationRecord
   belongs_to :category
+
+  has_many :invitations
 
   validates :category_id, :name, presence: true
   validates :name, uniqueness: {case_sensitive: true}

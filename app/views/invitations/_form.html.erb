@@ -1,9 +1,28 @@
 <%= form_for(@invitation, html: { class: 'form-horizontal' }) do |f| %>
-  <div class="box-body">
+  <div class="box-body" data-behavior="invitation-form">
+    <div class="form-group <%= 'has-error' unless @invitation.errors[:category_id].blank? %>">
+      <label class="col-sm-2 control-label">Categoría</label>
+      <div class="col-sm-10">
+        <%= f.collection_select :category_id, Category.all, :id, :name, {prompt: 'Seleccione la categoría' },
+                                class: 'form-control', required: true, data: { behavior: 'category'} %>
+        <span><%= @invitation.errors[:category_id].first %></span>
+      </div>
+    </div>
+
+    <div class="form-group <%= 'has-error' unless @invitation.errors[:subcategory_id].blank? %>">
+      <label class="col-sm-2 control-label">Subcategoría</label>
+      <div class="col-sm-10">
+        <div data-behavior="subcategories">
+          <%= render partial: 'subcategories_element', locals: { subcategories: @subcategories } %>
+        </div>
+        <span><%= @invitation.errors[:subcategory_id].first %></span>
+      </div>
+    </div>
+
     <div class="form-group <%= 'has-error' unless @invitation.errors[:name].blank? %>">
       <label class="col-sm-2 control-label">Nombre</label>
       <div class="col-sm-10">
-        <%= f.text_field :name, class: 'form-control', required: true, autofocus: true %>
+        <%= f.text_field :name, class: 'form-control', required: true %>
         <span><%= @invitation.errors[:name].first %></span>
       </div>
     </div>
@@ -19,34 +38,15 @@
       <%= f.hidden_field :imagen_cache %>
     </div>
 
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Productos Imprenta</label>
+    <div class="form-group <%= 'has-error' unless @invitation.errors[:description].blank? %>">
+      <label class="col-sm-2 control-label">Descripción</label>
       <div class="col-sm-10">
-        <select name="[printing_product_id]" class="form-control autocomplete_printing_products" data-remote="true" data-url="/spare_parts/new" data-method="get">
-          <option value="">Seleccione el producto</option>
-        </select>
+        <%= f.text_area :description, class: 'form-control' %>
+        <span><%= @invitation.errors[:description].first %></span>
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="col-sm-2 control-label"></label>
-      <div class="col-sm-10">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Codigo</th>
-              <th>Nombre</th>
-              <th>Unidad</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="invitation_printing_products">
-            <%= render "invitations/printing_products", invitation_printing_products: @invitation_printing_products %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+
   </div>
   <!-- /.box-body -->
   <div class="box-footer">

@@ -11,6 +11,7 @@
 
 class Category < ApplicationRecord
   has_many :subcategories
+  has_many :invitations
 
   validates :name, presence: true, uniqueness: {case_sensitive: true}
 
