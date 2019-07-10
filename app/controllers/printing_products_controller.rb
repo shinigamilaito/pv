@@ -39,8 +39,7 @@ class PrintingProductsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @printing_product.update(printing_product_params_update)
-        @printing_product.imagen = printing_product_params_update[:imagen]
+      if @printing_product.update(printing_product_params)
         flash[:success] = 'Producto Imprenta actualizado correctamente.'
         format.html { redirect_to printing_products_url }
       else
@@ -57,7 +56,8 @@ class PrintingProductsController < ApplicationController
         flash[:success] = 'Producto Imprenta eliminado correctamente.'
         format.html { redirect_to printing_products_url }
       end
-    rescue ActiveRecord::InvalidForeignKey => exception
+    rescue ActiveRecord::InvalidForeignKey => e
+      logger.debug("Failed to deleted printing product #{e}")
       flash[:error] = "El producto ya esta en uso."
       redirect_to printing_products_url
     end
@@ -83,14 +83,16 @@ class PrintingProductsController < ApplicationController
     end
   end
 
+=begin
   def translate_form
     @printing_product = PrintingProduct.find(params[:id])
     @total_units = (@printing_product.stock * @printing_product.contains) - @printing_product.discount_stock
   end
+=end
 
   def autocomplete
     @printing_products = PrintingProduct
-      .search(params[:term], params[:product_id])
+      .search(params[:term])
       .order(created_at: :desc)
   end
 
@@ -100,6 +102,7 @@ class PrintingProductsController < ApplicationController
       .order(created_at: :desc)
   end
 
+=begin
   def transfer
     source_product = PrintingProduct.find(params[:translate][:source_product_id])
     destination_product = PrintingProduct.find(params[:translate][:destination_product_id])
@@ -121,6 +124,7 @@ class PrintingProductsController < ApplicationController
       redirect_to printing_products_url
     end
   end
+=end
 
   private
 
@@ -130,20 +134,26 @@ class PrintingProductsController < ApplicationController
 
     def printing_product_params
       params.require(:printing_product).permit(
-          :code, :name, :purchase_price, :sale_price, :sale_unit, :stock, :contains,
-          :contain_unit, :imagen, :imagen_cache
+          :code, :name, :purchase_price, :sale_price,
+          :sale_unit, :purchase_unit, :content, :utility, :stock, :imagen, :imagen_cache
       )
     end
 
+=begin
     def printing_product_params_update
       params.require(:printing_product).permit(
           :purchase_price, :sale_price, :stock, :imagen, :imagen_cache
       )
     end
+=end
 
     def fixed_format_price
-        params[:printing_product][:purchase_price] = params[:printing_product][:purchase_price].gsub('$ ', '').gsub(',','')
-        params[:printing_product][:sale_price] = params[:printing_product][:sale_price].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:purchase_price] = params[:printing_product][:purchase_price]
+                                                         .gsub('$ ', '').gsub(',','')
+        params[:printing_product][:sale_price]     = params[:printing_product][:sale_price]
+                                                         .gsub('$ ', '').gsub(',','')
+        params[:printing_product][:utility]        = params[:printing_product][:utility]
+                                                         .gsub('$ ', '').gsub(',','')
     end
 
     def set_module
