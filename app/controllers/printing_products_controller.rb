@@ -134,8 +134,9 @@ class PrintingProductsController < ApplicationController
 
     def printing_product_params
       params.require(:printing_product).permit(
-          :code, :name, :purchase_price, :sale_price,
-          :sale_unit, :purchase_unit, :content, :utility, :stock, :imagen, :imagen_cache
+          :code, :name, :purchase_price, :sale_price, :sale_unit,
+          :purchase_unit, :content, :utility, :stock, :imagen,
+          :imagen_cache, :product_type
       )
     end
 

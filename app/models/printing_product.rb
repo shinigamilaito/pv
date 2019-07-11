@@ -15,6 +15,7 @@
 #  content        :integer
 #  imagen         :string
 #  name           :string
+#  product_type   :string
 #  purchase_price :decimal(10, 2)   default(0.0)
 #  purchase_unit  :string
 #  sale_price     :decimal(10, 2)   default(0.0)
@@ -55,4 +56,9 @@ class PrintingProduct < ApplicationRecord
   #def self.search_for_sales(term)
   #  where('LOWER(code) = ?', "#{term.downcase}") if term.present?
   #end
+
+  def self.product_types
+    %w(Hoja Liston Perlas Celofan Flor Grabado Tul Accesorios)
+  end
+
 end
