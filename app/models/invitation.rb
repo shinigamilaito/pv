@@ -1,3 +1,10 @@
+=begin
+#
+Catalog of invitations for the impressions module
+#
+=end
+
+
 # == Schema Information
 #
 # Table name: invitations
@@ -14,7 +21,7 @@
 #
 
 class Invitation < ApplicationRecord
-  mount_uploader :imagen, InvitationUploader
+  mount_uploader :imagen, ImagenUploader
 
   belongs_to :user
   belongs_to :category

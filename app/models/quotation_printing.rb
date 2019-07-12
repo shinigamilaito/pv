@@ -1,3 +1,10 @@
+=begin
+
+Stores the information of
+the printing quotations (invitations)
+
+=end
+
 # == Schema Information
 #
 # Table name: quotation_printings
@@ -28,7 +35,7 @@
 #
 
 class QuotationPrinting < ApplicationRecord
-  mount_uploader :imagen, InvitationUploader
+  mount_uploader :imagen, ImagenUploader
 
   belongs_to :invitation
   belongs_to :client

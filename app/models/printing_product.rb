@@ -27,7 +27,7 @@
 #
 
 class PrintingProduct < ApplicationRecord
-  mount_uploader :imagen, PrintingProductUploader
+  mount_uploader :imagen, ImagenUploader
 
   validates :code, presence: true, uniqueness: {case_sensitive: true}
   validates :name, presence: true, uniqueness: {case_sensitive: true}
