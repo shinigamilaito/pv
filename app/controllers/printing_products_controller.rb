@@ -63,6 +63,7 @@ class PrintingProductsController < ApplicationController
     end
   end
 
+  # Search index
   def search
     @printing_products = PrintingProduct
       .search_index(params[:search])
@@ -72,6 +73,7 @@ class PrintingProductsController < ApplicationController
     @index = obtain_index(params[:page].to_i)
   end
 
+  # Search to add printing product sales
   def search_sales
     begin
       discount = session[:discount_printing_sale] || '0'
@@ -82,13 +84,6 @@ class PrintingProductsController < ApplicationController
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
-
-=begin
-  def translate_form
-    @printing_product = PrintingProduct.find(params[:id])
-    @total_units = (@printing_product.stock * @printing_product.contains) - @printing_product.discount_stock
-  end
-=end
 
   def autocomplete
     @printing_products = PrintingProduct
@@ -101,30 +96,6 @@ class PrintingProductsController < ApplicationController
       .search_index(params[:term])
       .order(created_at: :desc)
   end
-
-=begin
-  def transfer
-    source_product = PrintingProduct.find(params[:translate][:source_product_id])
-    destination_product = PrintingProduct.find(params[:translate][:destination_product_id])
-    unit_to_discount = (params[:translate][:unit_to_discount]).to_i
-    printing_products_policy = PrintingProductsPolicy.new(source_product, destination_product, unit_to_discount)
-
-    unless printing_products_policy.stock_enough?
-      flash[:error] = 'Stock Insuficiente.'
-      redirect_to printing_products_url and return
-    end
-
-    begin
-      printing_products_policy.transfer
-      flash[:notice] = 'Traspaso realizado correctamente.'
-      redirect_to printing_products_url
-
-    rescue StandarError => e
-      flash[:error] = e.message
-      redirect_to printing_products_url
-    end
-  end
-=end
 
   private
 
@@ -140,14 +111,6 @@ class PrintingProductsController < ApplicationController
       )
     end
 
-=begin
-    def printing_product_params_update
-      params.require(:printing_product).permit(
-          :purchase_price, :sale_price, :stock, :imagen, :imagen_cache
-      )
-    end
-=end
-
     def fixed_format_price
         params[:printing_product][:purchase_price] = params[:printing_product][:purchase_price]
                                                          .gsub('$ ', '').gsub(',','')
@@ -160,5 +123,4 @@ class PrintingProductsController < ApplicationController
     def set_module
       @module = "printing_products"
     end
-
 end

@@ -91,14 +91,17 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Imagen</label>
       <div class="col-sm-10">
-        <%= f.file_field :imagen, class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg' %>
+        <%= f.file_field :imagen, class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg',
+                          data: {behavior: 'file-imagen'}%>
+
         <% src = @printing_product.new_record? ? "#" : @printing_product.imagen_url %>
         <% hidden = @printing_product.new_record? ? "hidden" : "" %>
+
         <img id="img_prev" width=300 height=300 src="<%= src %>" alt="Fotografia"
-             class="img-thumbnail <%= hidden %>"/>
+             class="img-thumbnail <%= hidden %>" data-behavior="imagen"/>
         <br/>
       </div>
-      <%= f.hidden_field :imagen_cache %>
+      <%= f.hidden_field :imagen_cache, data: {behavior: 'file-imagen-cache'} %>
     </div>
   </div>
 

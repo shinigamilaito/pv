@@ -1,8 +1,8 @@
 =begin
 #
-# Almacena la información de los productos
-# que son utilizados en las ventas de impresiones,
-# invitaciones
+# Stores the information of the products
+# that are used in impressions sales,
+# invitations
 #
 =end
 
@@ -33,29 +33,10 @@ class PrintingProduct < ApplicationRecord
   validates :name, presence: true, uniqueness: {case_sensitive: true}
   validates :content, :purchase_price, :purchase_unit, :sale_price, :sale_unit, :stock, presence: true
 
-  def unit_big
-    !(%w(Pieza Metro Juego).include?(self.sale_unit))
-  end
-
-  # Busqueda transfer productos
-=begin
-  def self.search(term, product_id)
-    product = PrintingProduct.find(product_id)
-    stock_unit = product.contain_unit[0...-1]
-    contains_unit = product.contain_unit
-
-    where('LOWER(name) LIKE ? AND id != ? AND (sale_unit = ? OR contain_unit = ?)', "%#{term.downcase}%", product_id, stock_unit, contains_unit) if term.present?
-  end
-=end
-
-  # Busqueda index catalogo
+  # Search catalog index
   def self.search_index(term)
     where('LOWER(code) LIKE :term or LOWER(name) LIKE :term', term: "%#{term.downcase}%") if term.present?
   end
-
-  #def self.search_for_sales(term)
-  #  where('LOWER(code) = ?', "#{term.downcase}") if term.present?
-  #end
 
   def self.product_types
     %w(Hoja Liston Perlas Celofan Flor Grabado Tul Accesorios)

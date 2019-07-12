@@ -50,12 +50,12 @@ Rails.application.routes.draw do
   end
 
   resources :printing_products do
-    get :search, on: :collection
-    get :search_sales, on: :collection
-    get :translate_form, on: :member
-    get 'autocomplete', on: :collection
-    get 'autocomplete_invitations', on: :collection
-    post 'transfer', on: :collection
+    collection do
+      get :search
+      get :search_sales
+      get :autocomplete
+      get :autocomplete_invitations
+    end
   end
 
   resources :quotations, only: [:index, :new, :create, :destroy] do

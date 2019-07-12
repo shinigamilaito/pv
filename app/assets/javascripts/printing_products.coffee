@@ -1,10 +1,3 @@
-class Utils
-  @inputMaskCurrency: (item, options) ->
-    $(item).inputmask("currency", options)
-
-  @inputMaskInteger: (item, options) ->
-    $(item).inputmask("integer", options);
-
 class PrintingProductForm
   constructor: (item) ->
     @$item = $(item)
@@ -12,11 +5,8 @@ class PrintingProductForm
     @setEvents()
 
   initialize: ->
-    $.map @$item.find("[data-input-mask='currency-input']"), (item) ->
-      Utils.inputMaskCurrency(item, {rightAlign: false})
-
-    $.map @$item.find("[data-input-mask='integer-input']"), (item) ->
-      Utils.inputMaskInteger(item, {rightAlign: false})
+    @.inputsMask()
+    @.imageLoad()
 
     @$purchase_price = @$item.find("[data-behavior='purchase-price']")
     @$content = @$item.find("[data-behavior='content']")
@@ -24,12 +14,14 @@ class PrintingProductForm
     @$utility = @$item.find("[data-behavior='utility']")
 
   setEvents: ->
+    @$item.find("[data-behavior='file-imagen']").on "change", @handleImage
+
     [@$purchase_price, @$content, @$sale_price].forEach((element) ->
       console.log("Element listener keyup: #{element.val()}")
-      element.on "keyup", @handleToggle
+      element.on "keyup", @handleContent
     , @)
 
-  handleToggle: =>
+  handleContent: =>
     sale_price = parseFloat @$sale_price.val().slice(1).trim()
     purchase_price = parseFloat @$purchase_price.val().slice(1).trim()
     content = parseFloat @$content.val().trim()
@@ -38,6 +30,20 @@ class PrintingProductForm
       @$utility.val('')
     else
       @$utility.val(content * sale_price - purchase_price)
+
+  handleImage: (event) =>
+    console.log("Calling Util.readURL from: handleImage")
+    Utils.readURL(event.target, @$imagen)
+
+  inputsMask: ->
+    Utils.inputsMask({rightAlign: false})
+
+  imageLoad: ->
+    @$fileImagenCache = @$item.find("[data-behavior='file-imagen-cache']")
+    @$imagen = @$item.find("[data-behavior='imagen']")
+
+    console.log("Calling Util.readURL from: imageLoad")
+    Utils.readURL(@$fileImagenCache, @$imagen)
 
 jQuery ->
   console.log("Printing Products file is loaded....")

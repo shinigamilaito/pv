@@ -33,6 +33,8 @@
 
 //= require toastr
 
+//= require utils
+
 //= require clients
 //= require spare_parts
 //= require products
@@ -57,7 +59,6 @@
 // require select2.min
 
 //= require invitations
-//= require printing_products_in_coffee
 
 $(document).ready(function() {
 	$('[data-load="true"]').click(function() {
