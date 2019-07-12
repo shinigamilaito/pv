@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: content_for_invitations
+#
+#  id             :bigint           not null, primary key
+#  description    :text
+#  image          :string
+#  name           :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  category_id    :bigint
+#  subcategory_id :bigint
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: one
+  subcategory: one
+  name: MyString
+  image: MyString
+  description: MyText
+
+two:
+  category: two
+  subcategory: two
+  name: MyString
+  image: MyString
+  description: MyText

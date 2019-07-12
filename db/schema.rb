@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190711035311) do
+ActiveRecord::Schema.define(version: 20190712024114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,18 @@ ActiveRecord::Schema.define(version: 20190711035311) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "content_for_invitations", force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "subcategory_id"
+    t.string "name"
+    t.string "image"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_content_for_invitations_on_category_id"
+    t.index ["subcategory_id"], name: "index_content_for_invitations_on_subcategory_id"
   end
 
   create_table "equipment_customers", force: :cascade do |t|
@@ -522,6 +534,8 @@ ActiveRecord::Schema.define(version: 20190711035311) do
   add_foreign_key "cash_opening_services_sales", "users"
   add_foreign_key "component_equipment_customers", "components"
   add_foreign_key "component_equipment_customers", "equipment_customers"
+  add_foreign_key "content_for_invitations", "categories"
+  add_foreign_key "content_for_invitations", "subcategories"
   add_foreign_key "equipment_customers", "brands"
   add_foreign_key "equipment_customers", "cable_types"
   add_foreign_key "equipment_customers", "equipment_models"
