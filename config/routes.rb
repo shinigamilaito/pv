@@ -36,6 +36,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :content_for_invitations do
+    collection do
+      get :autocomplete
+      get :search
+    end
+  end
+
   resources :partial_sales, only: [:index, :new, :create] do
     get :find_partial_sales_by_client, on: :collection
     get 'generate_ticket', on: :member

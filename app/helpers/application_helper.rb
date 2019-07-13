@@ -26,7 +26,9 @@ module ApplicationHelper
 
   def collapse_menu_catalogs?(section)
     sections = %w(Equipos Marcas Modelos Refacciones Empleados Productos
-                  Clientes printing_products Invitaciones categories subcategories)
+                  Clientes printing_products Invitaciones categories
+                  subcategories content_for_invitations)
+
     sections << 'Precios Genéricos'
 
     if sections.include?(section)

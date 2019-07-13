@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog">Contenidos para Invitaciones</h3>
+          <%= link_to 'Registrar', new_content_for_invitation_path, class: "btn btn-info pull-right" %>
+      </div>
+
+      <div class="box-body table-responsive no-padding">
+        <%= render 'shared/search', id: 'search-content-for-invitations',
+          placeholder: 'Buscar por nombre',
+          remote_url: '/content_for_invitations/search' %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="content_for_invitations_table">
+          <%= render 'body_content_for_invitations' %>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/paginate', elements_paginate: @content_for_invitations %>

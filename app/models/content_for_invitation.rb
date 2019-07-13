@@ -1,7 +1,7 @@
 =begin
 
 Catalog of contents to save the texts of the invitations.
-Same use as the sample catalog, only the images will be text.
+Same use as the invitations catalog (sample), only the images will be text.
 
 =end
 
@@ -20,6 +20,15 @@ Same use as the sample catalog, only the images will be text.
 #
 
 class ContentForInvitation < ApplicationRecord
+  mount_uploader :image, ImagenUploader
+
   belongs_to :category
   belongs_to :subcategory
+
+  validates :name, presence: true, uniqueness: {case_sensitive: true}
+  validates :category_id, :subcategory_id, presence: true
+
+  def self.search(term)
+    where('LOWER(name) LIKE :term', term: "%#{term.downcase}%") if term.present?
+  end
 end

@@ -1,0 +1,60 @@
+<%= form_for(@content_for_invitation, html: { class: 'form-horizontal' }) do |f| %>
+  <div class="box-body" data-behavior="content-invitation-form">
+    <div class="form-group <%= 'has-error' unless @content_for_invitation.errors[:category_id].blank? %>">
+      <label class="col-sm-2 control-label">Categoría</label>
+      <div class="col-sm-10">
+        <%= f.collection_select :category_id, Category.all, :id, :name, {prompt: 'Seleccione la categoría' },
+                                class: 'form-control', required: true, data: { behavior: 'category'} %>
+        <span><%= @content_for_invitation.errors[:category_id].first %></span>
+      </div>
+    </div>
+
+    <div class="form-group <%= 'has-error' unless @content_for_invitation.errors[:subcategory_id].blank? %>">
+      <label class="col-sm-2 control-label">Subcategoría</label>
+      <div class="col-sm-10">
+        <div data-behavior="subcategories">
+          <%= render partial: 'subcategories_element', locals: { subcategories: @subcategories } %>
+        </div>
+        <span><%= @content_for_invitation.errors[:subcategory_id].first %></span>
+      </div>
+    </div>
+
+    <div class="form-group <%= 'has-error' unless @content_for_invitation.errors[:name].blank? %>">
+      <label class="col-sm-2 control-label">Nombre</label>
+      <div class="col-sm-10">
+        <%= f.text_field :name, class: 'form-control', required: true %>
+        <span><%= @content_for_invitation.errors[:name].first %></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Fotografia</label>
+      <div class="col-sm-10">
+        <%= f.file_field :image, class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg',
+                          data: { behavior: 'file-image'}%>
+        <% src = @content_for_invitation.new_record? ? "#" : @content_for_invitation.image_url %>
+        <% hidden = @content_for_invitation.new_record? ? "hidden" : "" %>
+        <img id="img_prev" width=200 height=200 src="<%= src %>" alt="Fotografia"
+             class="img-thumbnail <%= hidden %>" data-behavior="imagen"/>
+        <br/>
+      </div>
+      <%= f.hidden_field :image_cache, data: {behavior: 'file-image-cache'} %>
+    </div>
+
+    <div class="form-group <%= 'has-error' unless @content_for_invitation.errors[:description].blank? %>">
+      <label class="col-sm-2 control-label">Descripción</label>
+      <div class="col-sm-10">
+        <%= f.text_area :description, class: 'form-control' %>
+        <span><%= @content_for_invitation.errors[:description].first %></span>
+      </div>
+    </div>
+
+
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer">
+    <%= f.submit 'Guardar', class: 'btn btn-info pull-right btn-block' %>
+  </div>
+  <!-- /.box-footer -->
+<% end %>
+

@@ -1,0 +1,30 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Nombre</th>
+    <th>Categoría</th>
+    <th>Subcategoría</th>
+    <th>Descripción</th>
+    <th>Imagen</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @content_for_invitations.each do |content_for_invitation| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= content_for_invitation.name %></td>
+      <td><%= content_for_invitation.category.name %></td>
+      <td><%= content_for_invitation.subcategory.name %></td>
+      <td><%= content_for_invitation.description %></td>
+        <td><%= image_tag(content_for_invitation.image_url, size:"50x50") if content_for_invitation.image? %></td>
+      <td style="width: 1px;">
+        <%= link_to 'Actualizar', edit_content_for_invitation_path(content_for_invitation), class: 'btn btn-edit' %>
+      </td>
+      <td style="width: 1px;">
+        <%= link_to 'Eliminar', content_for_invitation, method: :delete, class: 'btn btn-danger',
+                    data: { confirm: '¿Está usted seguro?' } %>
+      </td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+</tbody>

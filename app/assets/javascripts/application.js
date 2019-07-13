@@ -59,6 +59,7 @@
 // require select2.min
 
 //= require invitations
+//= require content_for_invitations
 
 $(document).ready(function() {
 	$('[data-load="true"]').click(function() {

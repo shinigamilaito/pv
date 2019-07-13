@@ -132,6 +132,13 @@ en:
               category_id: 'Seleccione una categoría'
               subcategory_id: 'Seleccione una subcategoría'
 
+       content_for_invitation:
+         attributes:
+            name:
+              taken: 'Ya existe un contenido con este nombre.'
+              category_id: 'Seleccione una categoría'
+              subcategory_id: 'Seleccione una subcategoría'
+
        category:
          attributes:
             name:
