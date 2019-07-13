@@ -27,7 +27,6 @@
 #  roll           :decimal(10, 2)   default(0.0)
 #  set            :decimal(10, 2)   default(0.0)
 #  stock          :integer
-#  utility        :decimal(, )
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

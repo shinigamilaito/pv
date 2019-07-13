@@ -108,14 +108,13 @@ class PrintingProductsController < ApplicationController
 
     def printing_product_params
       params.require(:printing_product).permit(
-          :code, :name, :purchase_price, :purchase_unit, :content, :utility, :stock, :imagen,
+          :code, :name, :purchase_price, :purchase_unit, :content, :stock, :imagen,
           :imagen_cache, :product_type, :piece, :package, :box, :meter, :roll, :bag, :set
       )
     end
 
     def fixed_format_price
         params[:printing_product][:purchase_price] = params[:printing_product][:purchase_price].gsub('$ ', '').gsub(',','')
-        params[:printing_product][:utility] = params[:printing_product][:utility].gsub('$ ', '').gsub(',','')
         params[:printing_product][:piece] = params[:printing_product][:piece].gsub('$ ', '').gsub(',','')
         params[:printing_product][:package] = params[:printing_product][:package].gsub('$ ', '').gsub(',','')
         params[:printing_product][:box] = params[:printing_product][:box].gsub('$ ', '').gsub(',','')

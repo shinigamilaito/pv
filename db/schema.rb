@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190713050046) do
+ActiveRecord::Schema.define(version: 20190713142543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -302,7 +302,6 @@ ActiveRecord::Schema.define(version: 20190713050046) do
     t.integer "stock"
     t.string "purchase_unit"
     t.integer "content"
-    t.decimal "utility"
     t.string "product_type"
     t.decimal "piece", precision: 10, scale: 2, default: "0.0"
     t.decimal "package", precision: 10, scale: 2, default: "0.0"
