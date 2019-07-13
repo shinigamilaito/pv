@@ -1,0 +1,148 @@
+<div class="box">
+  <div class="box-header text-center">
+    <h3 class="box-title title-catalog">Detalle</h3>
+    <%= link_to printing_products_path, class: "btn btn-info pull-right" do %>
+      <i class="fa fa-fw fa-reply"></i>
+    <% end %>
+  </div>
+
+  <%= form_for(@printing_product, html: {class: "form-horizontal"}) do |f| %>
+    <div class="box-body">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Código</label>
+        <div class="col-sm-10"><%= f.text_field :code, class: "form-control", disabled: true %></div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Nombre</label>
+        <div class="col-sm-10"><%= f.text_field :name, class: "form-control", disabled: true %></div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Tipo de Producto</label>
+        <div class="col-sm-10">
+          <%= f.select :product_type, PrintingProduct.product_types, {}, disabled: true, class: "form-control",
+                       style: "text-align: left !important;" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Unidad Compra</label>
+        <div class="col-sm-10">
+          <%= f.select :purchase_unit, PrintingProductsPolicy.sale_units, {},
+                       {class: "form-control", style: "text-align: left !important;", disabled: true} %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Precio Compra</label>
+        <div class="col-sm-10">
+          <p class="form-control" disabled= "true" style="text-align: left !important;">
+            <%= number_to_currency @printing_product.purchase_price %>
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Contenido</label>
+        <div class="col-sm-10">
+          <%= f.text_field :content, class: "form-control", disabled: true, style: "text-align: left !important;" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-offset-1 col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Pieza</label>
+            <div class="col-sm-10">
+              <p class="form-control" disabled="true" style="text-align: left !important;">
+                <%= number_to_currency @printing_product.piece %>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Metro</label>
+            <div class="col-sm-10">
+              <p class="form-control" disabled="true" style="text-align: left !important;">
+                <%= number_to_currency @printing_product.meter %>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Caja</label>
+            <div class="col-sm-10">
+              <p class="form-control" disabled="true" style="text-align: left !important;">
+                <%= number_to_currency @printing_product.box %>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Rollo</label>
+            <div class="col-sm-10">
+              <p class="form-control" disabled="true" style="text-align: left !important;">
+                <%= number_to_currency @printing_product.roll %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-5">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Paquete</label>
+            <div class="col-sm-10">
+              <p class="form-control" disabled="true" style="text-align: left !important;">
+                <%= number_to_currency @printing_product.package %>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Bolsa</label>
+            <div class="col-sm-10">
+              <p class="form-control" disabled="true" style="text-align: left !important;">
+                <%= number_to_currency @printing_product.bag %>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Juego</label>
+            <div class="col-sm-10">
+              <p class="form-control" disabled="true" style="text-align: left !important;">
+                <%= number_to_currency @printing_product.set %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Utilidad</label>
+        <div class="col-sm-10">
+          <p class="form-control" disabled="true" style="text-align: left !important;">
+            <%= number_to_currency @printing_product.utility %>
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Stock</label>
+        <div class="col-sm-10">
+          <%= f.text_field :stock, class: "form-control", disabled: true, style: "text-align: left !important;" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Imagen</label>
+        <div class="col-sm-10">
+          <% src = @printing_product.imagen_url %>
+          <img id="img_prev" width=300 height=300 src="<%= src %>" alt="Fotografia" class="img-thumbnail>"/>
+          <br/>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

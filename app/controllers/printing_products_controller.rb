@@ -1,5 +1,5 @@
 class PrintingProductsController < ApplicationController
-  before_action :set_printing_product, only: [:edit, :update, :destroy, :translate]
+  before_action :set_printing_product, only: [:show, :edit, :update, :destroy, :translate]
   before_action :fixed_format_price, only: [:create, :update]
   before_action :set_module
 
@@ -16,6 +16,9 @@ class PrintingProductsController < ApplicationController
     end
   end
 
+  def show
+  end
+
   def new
     @printing_product = PrintingProduct.new
   end
@@ -29,7 +32,7 @@ class PrintingProductsController < ApplicationController
     respond_to do |format|
       if @printing_product.save
         flash[:success] = 'Producto Imprenta creado correctamente.'
-        format.html { redirect_to printing_products_url }
+        format.html { redirect_to @printing_product }
       else
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :new }
@@ -41,7 +44,7 @@ class PrintingProductsController < ApplicationController
     respond_to do |format|
       if @printing_product.update(printing_product_params)
         flash[:success] = 'Producto Imprenta actualizado correctamente.'
-        format.html { redirect_to printing_products_url }
+        format.html { redirect_to @printing_product }
       else
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :edit }
@@ -105,19 +108,21 @@ class PrintingProductsController < ApplicationController
 
     def printing_product_params
       params.require(:printing_product).permit(
-          :code, :name, :purchase_price, :sale_price, :sale_unit,
-          :purchase_unit, :content, :utility, :stock, :imagen,
-          :imagen_cache, :product_type
+          :code, :name, :purchase_price, :purchase_unit, :content, :utility, :stock, :imagen,
+          :imagen_cache, :product_type, :piece, :package, :box, :meter, :roll, :bag, :set
       )
     end
 
     def fixed_format_price
-        params[:printing_product][:purchase_price] = params[:printing_product][:purchase_price]
-                                                         .gsub('$ ', '').gsub(',','')
-        params[:printing_product][:sale_price]     = params[:printing_product][:sale_price]
-                                                         .gsub('$ ', '').gsub(',','')
-        params[:printing_product][:utility]        = params[:printing_product][:utility]
-                                                         .gsub('$ ', '').gsub(',','')
+        params[:printing_product][:purchase_price] = params[:printing_product][:purchase_price].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:utility] = params[:printing_product][:utility].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:piece] = params[:printing_product][:piece].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:package] = params[:printing_product][:package].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:box] = params[:printing_product][:box].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:meter] = params[:printing_product][:meter].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:roll] = params[:printing_product][:roll].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:bag] = params[:printing_product][:bag].gsub('$ ', '').gsub(',','')
+        params[:printing_product][:set] = params[:printing_product][:set].gsub('$ ', '').gsub(',','')
     end
 
     def set_module

@@ -22,7 +22,7 @@
       <label class="col-sm-2 control-label">Tipo de Producto</label>
       <div class="col-sm-10">
         <%= f.select :product_type, PrintingProduct.product_types, {prompt: 'Seleccione un tipo de producto'},
-                     { class: "form-control", required: true, style: "text-align: left !important;" } %>
+                     readonly: !@printing_product.new_record?, class: "form-control", required: true, style: "text-align: left !important;" %>
       </div>
     </div>
 
@@ -48,43 +48,39 @@
       <label class="col-sm-2 control-label">Contenido</label>
       <div class="col-sm-10">
         <%= f.text_field :content, class: "form-control", required: true,
-                         style: "text-align: left !important;", data: {input_mask: 'integer-input',
-                                                                       behavior: 'content'} %>
+                         style: "text-align: left !important;",
+                         data: {input_mask: 'integer-input', behavior: 'content'} %>
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Unidad Venta</label>
-      <div class="col-sm-10">
-        <%= f.select :sale_unit, PrintingProductsPolicy.sale_units, {prompt: 'Seleccione una unidad'},
-                     { class: "form-control", required: true, style: "text-align: left !important;",
-                       disabled: !@printing_product.new_record? } %>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Precio Venta</label>
-      <div class="col-sm-10">
-        <%= f.text_field :sale_price, class: "form-control", required: true,
-                         style: "text-align: left !important;", data: {input_mask: 'currency-input',
-                                                                       behavior: 'sale-price'} %>
-      </div>
-    </div>
+    <%= render partial: 'units_prices', locals: { f: f } %>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Utilidad</label>
       <div class="col-sm-10">
         <%= f.text_field :utility, class: "form-control", required: true, readonly: true,
-                         style: "text-align: left !important;", data: {input_mask: 'currency-input',
-                                                                       behavior: 'utility'} %>
+                         style: "text-align: left !important;", readonly: !@printing_product.new_record?,
+                         data: {input_mask: 'currency-input', behavior: 'utility'} %>
       </div>
     </div>
+
+    <% unless @printing_product.new_record? %>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Aumentar Stock</label>
+        <div class="col-sm-10">
+          <%= f.text_field :increase_stock, class: "form-control", required: true,
+                           style: "text-align: left !important;",
+                           data: {input_mask: 'integer-input', behavior: 'increase-stock'} %>
+        </div>
+      </div>
+    <% end %>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Stock</label>
       <div class="col-sm-10">
         <%= f.text_field :stock, class: "form-control", required: true,
-                         style: "text-align: left !important;", data: {input_mask: 'integer-input'} %>
+                         style: "text-align: left !important;", readonly: !@printing_product.new_record?,
+                         data: {stock: @printing_product.stock, input_mask: 'integer-input', behavior: 'stock'} %>
       </div>
     </div>
 
