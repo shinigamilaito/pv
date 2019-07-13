@@ -24,7 +24,7 @@ class InvitationsController < ApplicationController
   end
 
   def edit
-    @subcategories = Subcategory.all
+    subcategories
   end
 
   def create
@@ -36,6 +36,7 @@ class InvitationsController < ApplicationController
         flash[:success] = 'Invitación creada exitosamente.'
         format.html { redirect_to invitations_url }
       else
+        subcategories
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :new }
       end
@@ -48,6 +49,7 @@ class InvitationsController < ApplicationController
         flash[:success] = 'Invitación actualizada correctamente.'
         format.html { redirect_to invitations_url }
       else
+        subcategories
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :edit }
       end
@@ -93,6 +95,10 @@ class InvitationsController < ApplicationController
 
     def set_module
       @module = "Invitaciones"
+    end
+
+    def subcategories
+      @subcategories = @invitation.category.subcategories
     end
 
 end
