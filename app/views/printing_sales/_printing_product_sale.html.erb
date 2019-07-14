@@ -1,28 +1,52 @@
-<tr id="printing_sale_product_<%= printing_product.id %>">
-  <td><%= printing_product.code %></td>
-  <td><%= "#{printing_product.name} (#{printing_product.sale_unit})" %></td>
+<tr id="printing_sale_product_<%= printing_sale_product.id %>">
+  <td><%= printing_sale_product.code %></td>
+
+  <td><%= printing_sale_product.name %></td>
+
+  <td>
+    <%= select :printing_sale_product, :sale_unit, printing_sale_product.printing_product.sales_units_bigger_zero.collect {|p| [p.last, p.first]},
+               {prompt: 'Seleccione la unidad'}, data: {printing_sale_product_id: printing_sale_product.id} %>
+  </td>
+
   <td style="width: 18%;">
     <div class="input-group">
-      <%= hidden_field_tag :preview_quantity, printing_product.quantity, id: "printing_sale_preview_quantity_#{printing_product.id}" %>
-      <%= text_field_tag 'printing_sale[quantity]', printing_product.quantity, id: "printing_sale_quantity_#{printing_product.id}", class: 'form form-control', style: 'width: 70%', data: {id: printing_product.id}, autocomplete: "off" %>
+      <%= hidden_field_tag :preview_quantity, printing_sale_product.quantity,
+                           id: "printing_sale_preview_quantity_#{printing_sale_product.id}" %>
+
+      <%= text_field_tag 'printing_sale[quantity]', printing_sale_product.quantity, disabled: true,
+                         id: "printing_sale_quantity_#{printing_sale_product.id}", class: 'form form-control',
+                         style: 'width: 70%', data: {id: printing_sale_product.id}, autocomplete: "off" %>
     </div>
   </td>
-  <td style="width: 18%;" id="printing_sale_discount_<%= printing_product.id %>">
+
+  <td style="width: 18%;" id="printing_sale_discount_<%= printing_sale_product.id %>">
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <%= hidden_field_tag :preview_real_price, printing_product.real_price, id: "printing_sale_preview_real_price_#{printing_product.id}" %>
-      <%= text_field_tag 'printing_sale[real_price]', printing_product.real_price, id: "printing_sale_real_price_#{printing_product.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product.id}, autocomplete: "off" %>
+      <%= hidden_field_tag :preview_real_price, printing_sale_product.real_price,
+                           id: "printing_sale_preview_real_price_#{printing_sale_product.id}" %>
+
+      <%= text_field_tag 'printing_sale[real_price]', printing_sale_product.real_price, disabled: true,
+                         id: "printing_sale_real_price_#{printing_sale_product.id}", class: 'form form-control',
+                         style: "text-align: left !important;", data: {id: printing_sale_product.id}, autocomplete: "off" %>
     </div>
   </td>
+
   <td style="width: 18%;">
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <%= hidden_field_tag :preview_price, printing_product.real_price, id: "printing_sale_preview_price_#{printing_product.id}" %>
-      <%= text_field_tag 'printing_sale[price]', printing_product.real_price, id: "printing_sale_price_#{printing_product.id}", class: 'form form-control', style: "text-align: left !important;", data: {id: printing_product.id}, autocomplete: "off" %>
+      <%= hidden_field_tag :preview_price, printing_sale_product.real_price,
+                           id: "printing_sale_preview_price_#{printing_sale_product.id}" %>
+
+      <%= text_field_tag 'printing_sale[price]', printing_sale_product.real_price,
+                         id: "printing_sale_price_#{printing_sale_product.id}", class: 'form form-control', disabled: true,
+                         style: "text-align: left !important;", data: {id: printing_sale_product.id}, autocomplete: "off" %>
     </div>
   </td>
+
   <td style="width: 1px;">
-    <%= link_to delete_product_printing_sales_path(printing_sale_product_id: printing_product.id), method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?', remote: true }, style: 'padding: 3px 5px;' do %>
+    <%= link_to delete_product_printing_sales_path(printing_sale_product_id: printing_sale_product.id), method: :delete,
+                class: 'btn btn-danger', data: {confirm: '¿Está usted seguro?', remote: true},
+                style: 'padding: 3px 5px;' do %>
       <i class="fa fa-fw fa-close"></i>
     <% end %>
   </td>
@@ -30,145 +54,205 @@
 
 <!-- Update quantity -->
 <script>
-  $(document).ready(function() {
-    var $elementQuantity = $("#printing_sale_quantity_<%= printing_product.id %>");
-    var originalQuantity = $elementQuantity.val();
-    console.log("originalQuantity Before", originalQuantity);
-    $elementQuantity.on("keydown", _.debounce(update_quantity_product, 1000));
-    setInteger($elementQuantity);
+    $(document).ready(function () {
+        let $elementQuantity = $("#printing_sale_quantity_<%= printing_sale_product.id %>");
+        let originalQuantity = $elementQuantity.val();
+        console.log("originalQuantity Before", originalQuantity);
+        $elementQuantity.on("keydown", _.debounce(update_quantity_product, 1000));
+        setInteger($elementQuantity);
 
-    function update_quantity_product() {
-      var $that = $(this);
-      var newValue = $that.val();
-      var $elementPreviewQuantity = $("#printing_sale_preview_quantity_<%= printing_product.id %>");
+        function update_quantity_product() {
+            let $that = $(this);
+            let newValue = $that.val();
+            let $elementPreviewQuantity = $("#printing_sale_preview_quantity_<%= printing_sale_product.id %>");
 
-      if(newValue > 0) {
-        //$elementPreviewQuantity.val(newValue);
+            if (newValue > 0) {
+                //$elementPreviewQuantity.val(newValue);
 
-        $.ajax({
-          url: "/printing_sales/update_quantity_product",
-          method: "post",
-          dataType: "script",
-          data: {
-            quantity: newValue,
-            printing_sale_printing_product_id: $that.data('id')
-          },
-          beforeSend: function(xhr) {
-            $that.LoadingOverlay("show");
-          },
-          complete: function(xhr, status) {
-            if(xhr.status == 400) {
-              $that.val($elementPreviewQuantity.val());
+                $.ajax({
+                    url: "/printing_sales/update_quantity_product",
+                    method: "post",
+                    dataType: "script",
+                    data: {
+                        quantity: newValue,
+                        printing_sale_printing_product_id: $that.data('id')
+                    },
+                    beforeSend: function (xhr) {
+                        //$that.LoadingOverlay("show");
+                    },
+                    complete: function (xhr) {
+                        if (xhr.status === 400) {
+                            $that.val($elementPreviewQuantity.val());
+                        } else {
+                            $elementPreviewQuantity.val(newValue);
+                        }
+                        //$that.LoadingOverlay("hide", true);
+                    }
+                });
+
             } else {
-              $elementPreviewQuantity.val(newValue);
+                console.log("Put originalQuantity", originalQuantity);
+                $that.val($elementPreviewQuantity.val());
             }
-            $that.LoadingOverlay("hide", true);
-          }
-        });
-
-      } else {
-        console.log("Put originalQuantity", originalQuantity);
-        $that.val($elementPreviewQuantity.val());
-        return;
-      }
-    }
-  });
+        }
+    });
 </script>
 
 <!-- Update price por total -->
 <script>
-  $(document).ready(function() {
-    var $elementPrice = $("#printing_sale_price_<%= printing_product.id %>");
-    var originalPrice = $elementPrice.val();
-    console.log("originalPrice Before", originalPrice);
-    $elementPrice.on("keydown", _.debounce(update_price_product, 1000));
-    $elementPrice.inputmask("currency", {
-      rightAlign: false,
-      "prefix": ""
-    });
-
-    function update_price_product() {
-      var $that = $(this);
-      var newValue = Number($that.val().replace(/,/g, ""));
-      var $elementPreviewPrice = $("#printing_sale_preview_price_<%= printing_product.id %>");
-      var beforePrice = Number($elementPreviewPrice.val().replace(/,/g, ""));
-
-      if(newValue >= 0) {
-        $elementPreviewPrice.val(newValue);
-
-        $.ajax({
-          url: "/printing_sales/update_price_product",
-          method: "post",
-          dataType: "script",
-          data: {
-            price: newValue,
-            printing_sale_printing_product_id: $that.data('id')
-          },
-          beforeSend: function(xhr) {
-            $that.LoadingOverlay("show");
-          },
-          complete: function(xhr, status) {
-            if(xhr.status == 400) {
-              $that.val(originalPrice);
-            }
-            $that.LoadingOverlay("hide", true);
-          }
+    $(document).ready(function () {
+        let $elementPrice = $("#printing_sale_price_<%= printing_sale_product.id %>");
+        let originalPrice = $elementPrice.val();
+        console.log("originalPrice Before", originalPrice);
+        $elementPrice.on("keydown", _.debounce(update_price_product, 1000));
+        $elementPrice.inputmask("currency", {
+            rightAlign: false,
+            "prefix": ""
         });
 
-      } else {
-        console.log("Put originalPrice", originalPrice);
-        $that.val($elementPreviewPrice.val());
-        return;
-      }
-    }
-  });
+        function update_price_product() {
+            let $that = $(this);
+            let newValue = Number($that.val().replace(/,/g, ""));
+            let $elementPreviewPrice = $("#printing_sale_preview_price_<%= printing_sale_product.id %>");
+            //let beforePrice = Number($elementPreviewPrice.val().replace(/,/g, ""));
+
+            if (newValue >= 0) {
+                $elementPreviewPrice.val(newValue);
+
+                $.ajax({
+                    url: "/printing_sales/update_price_product",
+                    method: "post",
+                    dataType: "script",
+                    data: {
+                        price: newValue,
+                        printing_sale_printing_product_id: $that.data('id')
+                    },
+                    beforeSend: function () {
+                        //$that.LoadingOverlay("show");
+                    },
+                    complete: function (xhr) {
+                        if (xhr.status === 400) {
+                            $that.val(originalPrice);
+                        }
+                        //$that.LoadingOverlay("hide", true);
+                    }
+                });
+
+            } else {
+                console.log("Put originalPrice", originalPrice);
+                $that.val($elementPreviewPrice.val());
+            }
+        }
+    });
 </script>
 
 <!-- Update price por unit -->
 <script>
-  $(document).ready(function() {
-    var $elementRealPrice = $("#printing_sale_real_price_<%= printing_product.id %>");
-    var originalRealPrice = $elementRealPrice.val();
-    console.log("originalRealPrice Before", originalRealPrice);
-    $elementRealPrice.on("keydown", _.debounce(update_real_price_product, 1000));
-    $elementRealPrice.inputmask("currency", {
-      rightAlign: false,
-      "prefix": ""
-    });
-
-    function update_real_price_product() {
-      var $that = $(this);
-      var newValue = Number($that.val().replace(/,/g, ""));
-      var $elementPreviewRealPrice = $("#printing_sale_preview_real_price_<%= printing_product.id %>");
-      var beforeRealPrice = Number($elementPreviewRealPrice.val().replace(/,/g, ""));
-
-      if(newValue >= 0) {
-        $elementPreviewRealPrice.val(newValue);
-
-        $.ajax({
-          url: "/printing_sales/update_real_price_product",
-          method: "post",
-          dataType: "script",
-          data: {
-            real_price: newValue,
-            printing_sale_product_id: $that.data('id')
-          },
-          beforeSend: function(xhr) {
-            $that.LoadingOverlay("show");
-          },
-          complete: function(xhr, status) {
-            if(xhr.status == 400) {
-              $that.val(originalRealPrice);
-            }
-            $that.LoadingOverlay("hide", true);
-          }
+    $(document).ready(function () {
+        let $elementRealPrice = $("#printing_sale_real_price_<%= printing_sale_product.id %>");
+        let originalRealPrice = $elementRealPrice.val();
+        console.log("originalRealPrice Before", originalRealPrice);
+        $elementRealPrice.on("keydown", _.debounce(update_real_price_product, 1000));
+        $elementRealPrice.inputmask("currency", {
+            rightAlign: false,
+            "prefix": ""
         });
 
-      } else {
-        console.log("Put originalRealPrice", originalRealPrice);
-        $that.val($elementPreviewRealPrice.val());
-        return;
-      }
+        function update_real_price_product() {
+            let $that = $(this);
+            let newValue = Number($that.val().replace(/,/g, ""));
+            let $elementPreviewRealPrice = $("#printing_sale_preview_real_price_<%= printing_sale_product.id %>");
+            //var beforeRealPrice = Number($elementPreviewRealPrice.val().replace(/,/g, ""));
+
+            if (newValue >= 0) {
+                $elementPreviewRealPrice.val(newValue);
+
+                $.ajax({
+                    url: "/printing_sales/update_real_price_product",
+                    method: "post",
+                    dataType: "script",
+                    data: {
+                        real_price: newValue,
+                        printing_sale_product_id: $that.data('id')
+                    },
+                    beforeSend: function () {
+                        //$that.LoadingOverlay("show");
+                    },
+                    complete: function (xhr) {
+                        if (xhr.status === 400) {
+                            $that.val(originalRealPrice);
+                        }
+                        //$that.LoadingOverlay("hide", true);
+                    }
+                });
+
+            } else {
+                console.log("Put originalRealPrice", originalRealPrice);
+                $that.val($elementPreviewRealPrice.val());
+            }
+        }
+    });
+</script>
+
+
+<script>
+    // Manage the sale unit change
+    // Enable Fields and update prices
+
+    let $sale_unit = $("#printing_sale_product_sale_unit");
+    $sale_unit.on("change", saleUnitChange);
+
+    function saleUnitChange(e) {
+        let $unitSaleSelect = $(e.target);
+        let keyUnit = $unitSaleSelect.find("option:selected").val();
+        let valueUnit = $unitSaleSelect.find("option:selected").text();
+        let printingSaleProductId = $unitSaleSelect.data("printing-sale-product-id");
+        updateUnitPrintingProduct(printingSaleProductId, keyUnit, valueUnit);
     }
-  });
+
+    function updateUnitPrintingProduct(printingSaleProductId, keyUnit, valueUnit) {
+        console.log("Update unit sale for: " + printingSaleProductId + " with unit name: " + keyUnit + "value name: " + valueUnit);
+        if (keyUnit === "") {
+            disabledElements(true, printingSaleProductId)
+            return;
+        }
+
+        $.ajax({
+            url: "/printing_sales/update_sale_unit",
+            method: "patch",
+            dataType: "json",
+            data: {
+                key_unit: keyUnit,
+                value_unit: valueUnit,
+                printing_sale_product_id: printingSaleProductId
+            },
+            success: updateUIChangeUnitSale,
+            complete: function (xhr) {
+                if (xhr.status === 400) {
+                    toastr["error"]("La unidad no pudo ser asignada.", "ERROR");
+                }
+            }
+        });
+    }
+
+    function updateUIChangeUnitSale(printing_sale_product) {
+        console.log(printing_sale_product);
+        disabledElements(false, printing_sale_product.id)
+    }
+
+    function disabledElements(disabled, printing_sale_product_id) {
+        let $quantity = $("#printing_sale_quantity_" + printing_sale_product_id);
+        let $realPrice = $("#printing_sale_real_price_" + printing_sale_product_id);
+        let $price = $("#printing_sale_price_" + printing_sale_product_id);
+
+        if (disabled) {
+            $quantity.attr("disabled", "disabled");
+            $realPrice.attr("disabled", "disabled");
+            $price.attr("disabled", "disabled");
+        } else {
+            $quantity.removeAttr("disabled");
+            $realPrice.removeAttr("disabled");
+            $price.removeAttr("disabled");
+        }
+    }
 </script>

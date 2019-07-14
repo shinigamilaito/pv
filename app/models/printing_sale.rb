@@ -1,3 +1,6 @@
+# Record printing sales, the products are obtained from
+# printing products catalogs
+
 # == Schema Information
 #
 # Table name: printing_sales
@@ -33,16 +36,12 @@ class PrintingSale < ApplicationRecord
   def self.total(printing_sales_complet)
     return nil if printing_sales_complet.blank?
 
-    printing_sales_complet
-      .map {|printing_sale_complet| printing_sale_complet.total }
-      .sum
+    printing_sales_complet.map(&:total).sum
   end
 
   def self.parcial(printing_sales_parcial)
     return nil if printing_sales_parcial.blank?
 
-    printing_sales_parcial
-      .map {|printing_sale_parcial| printing_sale_parcial.payment }
-      .sum
+    printing_sales_parcial.map(&:payment).sum
   end
 end

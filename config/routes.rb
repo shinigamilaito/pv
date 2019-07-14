@@ -49,11 +49,14 @@ Rails.application.routes.draw do
   end
 
   resources :printing_sales, only: [:index, :new, :create] do
-    delete :delete_product, on: :collection
-    post :update_real_price_product, on: :collection
-    post :update_quantity_product, on: :collection
-    post :update_price_product, on: :collection
-    get :search_sales, on: :collection
+    collection do
+      patch :update_sale_unit
+      delete :delete_product
+      post :update_real_price_product
+      post :update_quantity_product
+      post :update_price_product
+      get :search_sales
+    end
   end
 
   resources :printing_products do

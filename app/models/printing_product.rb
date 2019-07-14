@@ -64,7 +64,7 @@ class PrintingProduct < ApplicationRecord
       end
     end
 
-    sales_units.values
+    sales_units
   end
 
 end

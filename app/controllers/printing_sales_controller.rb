@@ -2,8 +2,7 @@ class PrintingSalesController < ApplicationController
   before_action :set_printing_sale_policy, except: [:index]
 
   def index
-    sales = Sale
-      .all
+    sales = Sale.all
 
     @total = Sale.total(sales)
     @sales = sales
@@ -24,7 +23,7 @@ class PrintingSalesController < ApplicationController
     end
   end
 
-  # Vista agregar productos a ventas impresiones
+  # Add products printing to sales
   def new
     unless cash_impression_open?
       flash[:warning] = 'La caja de impresiones no ha sido abierta.'
@@ -70,7 +69,7 @@ class PrintingSalesController < ApplicationController
 
   # Actualizar el descuento de la venta
   def update_discount
-    session[:discount_sale] = BigDecimal.new(params[:discount].gsub(',',''))
+    session[:discount_sale] = BigDecimal.new(params[:discount].gsub(',',''), 2)
 
     if current_user.sale_products.present?
       @total_sales = @sales_policy.totals(session[:discount_sale])
@@ -97,8 +96,8 @@ class PrintingSalesController < ApplicationController
   # Actualizar el precio en total del producto
   def update_price_product
     printing_sale_product_id = params[:printing_sale_printing_product_id]
-    new_price = BigDecimal.new(params[:price].gsub(',', ''))
-    discount_sale_percentage = session[:discount_printing_sale] || BigDecimal.new('0')
+    new_price = BigDecimal.new(params[:price].gsub(',', ''), 2)
+    discount_sale_percentage = session[:discount_printing_sale] || BigDecimal.new('0', 2)
     @printing_sale_product = @printing_sales_policy.change_price_product(printing_sale_product_id, new_price)
     @total_printing_sales = @printing_sales_policy.totals(discount_sale_percentage)
   end
@@ -106,8 +105,8 @@ class PrintingSalesController < ApplicationController
   # Actualizar el precio en unidad del producto
   def update_real_price_product
     printing_sale_product_id = params[:printing_sale_product_id]
-    new_price = BigDecimal.new(params[:real_price].gsub(',', ''))
-    discount_sale_percentage = session[:discount_printing_sale] || BigDecimal.new('0')
+    new_price = BigDecimal.new(params[:real_price].gsub(',', ''), 2)
+    discount_sale_percentage = session[:discount_printing_sale] || BigDecimal.new('0',2)
     @printing_sale_product = @printing_sales_policy.change_real_price_product(printing_sale_product_id, new_price)
     @total_printing_sales = @printing_sales_policy.totals(discount_sale_percentage)
 
@@ -117,6 +116,21 @@ class PrintingSalesController < ApplicationController
   # Buscar productos para ventas de impresiones
   def search_sales
     @printing_products = PrintingProduct.search_index(params[:term]).order(created_at: :desc)
+  end
+
+  # Update the sale unit for printing_sale_product
+  # that was added to printing sale
+  def update_sale_unit
+    printing_sale_product = PrintingSaleProduct.find params[:printing_sale_product_id]
+    printing_sale_product.sale_unit = params[:value_unit]
+    printing_sale_product.price = printing_sale_product.printing_product.send(params[:key_unit].to_s)
+    printing_sale_product.real_price = printing_sale_product.printing_product.send(params[:key_unit].to_s)
+
+    if printing_sale_product.save
+      render json: printing_sale_product
+    else
+      head :bad_requests
+    end
   end
 
   private

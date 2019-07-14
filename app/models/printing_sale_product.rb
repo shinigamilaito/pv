@@ -1,3 +1,5 @@
+# Contains the relationship of printed products sold
+
 # == Schema Information
 #
 # Table name: printing_sale_products

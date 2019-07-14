@@ -53,13 +53,13 @@ class PrintingSalesPolicy
     total_discount = obtain_discount(discount)
     total_final = total_products - total_discount
 
-    return {
+    {
       total_products: total_products,
       total_discount: total_discount,
       discount_percentage: discount,
       total_final: total_final,
-      paid_with: BigDecimal.new('0'),
-      change: BigDecimal.new('0')
+      paid_with: BigDecimal.new('0', 2),
+      change: BigDecimal.new('0', 2)
     }
   end
 
@@ -79,7 +79,7 @@ class PrintingSalesPolicy
       @sale_product.save
     end
 
-    return @sale_product
+    @sale_product
   end
 
   # Actualiza el precio en total del producto
@@ -88,7 +88,7 @@ class PrintingSalesPolicy
     @printing_sale_product.real_price = new_price / @printing_sale_product.quantity
     @printing_sale_product.save
 
-    return @printing_sale_product
+    @printing_sale_product
   end
 
   # Actualiza el precio del producto por unidad
@@ -97,7 +97,7 @@ class PrintingSalesPolicy
     @printing_sale_product.real_price = new_price
     @printing_sale_product.save
 
-    return @printing_sale_product
+    @printing_sale_product
   end
 
   private
@@ -132,7 +132,7 @@ class PrintingSalesPolicy
         printing_product.stock >= quantity
       end
     else
-      printing_product.stock >= quantity
+      printing_product.stock >= quantity && printing_product.sales_units_bigger_zero.present?
     end
   end
 
@@ -148,10 +148,7 @@ class PrintingSalesPolicy
     printing_sale_product = PrintingSaleProduct.new
     printing_sale_product.code = printing_product.code
     printing_sale_product.name = printing_product.name
-    printing_sale_product.sale_unit = printing_product.sale_unit
     printing_sale_product.quantity = 1
-    printing_sale_product.price = printing_product.sale_price # Sin descuento
-    printing_sale_product.real_price = printing_product.sale_price # Podria aplicarsele descuento
     printing_sale_product.printing_product = printing_product
 
     printing_sale_product
@@ -172,7 +169,7 @@ class PrintingSalesPolicy
     printing_product.save
   end
 
-  # Se restablece la cantidad del producto
+  # Se restablece la cantidad del producto, en piezas
   # después de eliminarlo de la venta
   def adjust_quantity_product(quantity)
     printing_product.stock += quantity
@@ -180,12 +177,10 @@ class PrintingSalesPolicy
   end
 
   def cost_products
-    total = products_for_sale.inject(BigDecimal("0.00")) do |total, product|
+    products_for_sale.inject(BigDecimal("0.00")) do |total, product|
       total += total_cost(product)
       total
     end
-
-    total
   end
 
   def total_cost(product)
@@ -194,9 +189,9 @@ class PrintingSalesPolicy
 
   def obtain_discount(discount)
     total_products = cost_products
-    total_discount = BigDecimal.new(discount)
+    total_discount = BigDecimal.new(discount, 2)
     total_percentaje = total_products * total_discount
 
-    return (total_percentaje / BigDecimal.new('100.00'))
+    (total_percentaje / BigDecimal.new('100.00', 2))
   end
 end
