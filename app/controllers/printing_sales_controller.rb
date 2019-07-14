@@ -122,11 +122,14 @@ class PrintingSalesController < ApplicationController
   # that was added to printing sale
   def update_sale_unit
     printing_sale_product = PrintingSaleProduct.find params[:printing_sale_product_id]
-    printing_sale_product.sale_unit = params[:value_unit]
-    printing_sale_product.price = printing_sale_product.printing_product.send(params[:key_unit].to_s)
-    printing_sale_product.real_price = printing_sale_product.printing_product.send(params[:key_unit].to_s)
+    printing_sales_policy = PrintingSalesPolicy.new(printing_sale_product.printing_product.id, current_user)
 
-    if printing_sale_product.save
+    if printing_sale_product.sale_unit.present?
+      printing_sales_policy.adjust_quantity_product(printing_sale_product.quantity)
+    end
+
+    if printing_sale_product.update_fields_to(key_sale: params[:key_unit].to_s, value_sale: params[:value_unit])
+      printing_sales_policy.decrement_total_product(printing_sale_product.quantity)
       render json: printing_sale_product
     else
       head :bad_requests

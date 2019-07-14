@@ -26,4 +26,11 @@ class PrintingSaleProduct < ApplicationRecord
   def total
     self.quantity * self.real_price
   end
+
+  def update_fields_to(key_sale:, value_sale:)
+    self.sale_unit = value_sale
+    self.price = self.printing_product.send(key_sale)
+    self.real_price = self.printing_product.send(key_sale)
+    self.save
+  end
 end
