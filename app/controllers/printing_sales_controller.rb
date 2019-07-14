@@ -128,9 +128,12 @@ class PrintingSalesController < ApplicationController
       printing_sales_policy.adjust_quantity_product(printing_sale_product.quantity)
     end
 
-    if printing_sale_product.update_fields_to(key_sale: params[:key_unit].to_s, value_sale: params[:value_unit])
+    if printing_sale_product.update_fields_to(
+        key_sale: params[:key_unit].to_s, value_sale: params[:value_unit], quantity: params[:quantity].to_i)
+
       printing_sales_policy.decrement_total_product(printing_sale_product.quantity)
       render json: printing_sale_product
+
     else
       head :bad_requests
     end

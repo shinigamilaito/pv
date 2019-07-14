@@ -5,7 +5,8 @@
 
   <td>
     <%= select :printing_sale_product, :sale_unit, printing_sale_product.printing_product.sales_units_bigger_zero.collect {|p| [p.last, p.first]},
-               {prompt: 'Seleccione la unidad'}, data: {printing_sale_product_id: printing_sale_product.id} %>
+               {prompt: 'Seleccione la unidad'}, data: { printing_sale_product_id: printing_sale_product.id,
+                                                        behavior: 'unit-printing-product' } %>
   </td>
 
   <td style="width: 18%;">
@@ -78,7 +79,7 @@
                         printing_sale_printing_product_id: $that.data('id')
                     },
                     beforeSend: function (xhr) {
-                        //$that.LoadingOverlay("show");
+                        $that.LoadingOverlay("show");
                     },
                     complete: function (xhr) {
                         if (xhr.status === 400) {
@@ -86,7 +87,7 @@
                         } else {
                             $elementPreviewQuantity.val(newValue);
                         }
-                        //$that.LoadingOverlay("hide", true);
+                        $that.LoadingOverlay("hide", true);
                     }
                 });
 
@@ -128,13 +129,13 @@
                         printing_sale_printing_product_id: $that.data('id')
                     },
                     beforeSend: function () {
-                        //$that.LoadingOverlay("show");
+                        $that.LoadingOverlay("show");
                     },
                     complete: function (xhr) {
                         if (xhr.status === 400) {
                             $that.val(originalPrice);
                         }
-                        //$that.LoadingOverlay("hide", true);
+                        $that.LoadingOverlay("hide", true);
                     }
                 });
 
@@ -176,13 +177,13 @@
                         printing_sale_product_id: $that.data('id')
                     },
                     beforeSend: function () {
-                        //$that.LoadingOverlay("show");
+                        $that.LoadingOverlay("show");
                     },
                     complete: function (xhr) {
                         if (xhr.status === 400) {
                             $that.val(originalRealPrice);
                         }
-                        //$that.LoadingOverlay("hide", true);
+                        $that.LoadingOverlay("hide", true);
                     }
                 });
 
@@ -199,21 +200,27 @@
     // Manage the sale unit change
     // Enable Fields and update prices
 
-    let $sale_unit = $("#printing_sale_product_sale_unit");
+    let $sale_unit = $("[data-behavior='unit-printing-product']");
     $sale_unit.on("change", saleUnitChange);
 
     function saleUnitChange(e) {
         let $unitSaleSelect = $(e.target);
+        let $trItem = $unitSaleSelect.closest("tr");
+        let $inputQuantity = $trItem.find("[name='printing_sale[quantity]']");
         let keyUnit = $unitSaleSelect.find("option:selected").val();
         let valueUnit = $unitSaleSelect.find("option:selected").text();
         let printingSaleProductId = $unitSaleSelect.data("printing-sale-product-id");
-        updateUnitPrintingProduct(printingSaleProductId, keyUnit, valueUnit);
+        let quantity = $inputQuantity.val();
+
+
+        updateUnitPrintingProduct(printingSaleProductId, keyUnit, valueUnit, quantity);
     }
 
-    function updateUnitPrintingProduct(printingSaleProductId, keyUnit, valueUnit) {
-        console.log("Update unit sale for: " + printingSaleProductId + " with unit name: " + keyUnit + "value name: " + valueUnit);
+    function updateUnitPrintingProduct(printingSaleProductId, keyUnit, valueUnit, quantity) {
+        console.log("Update unit sale for: " + printingSaleProductId + " with unit name: " +
+            keyUnit + "value name: " + valueUnit + " quantity: " + quantity);
         if (keyUnit === "") {
-            disabledElements(true, printingSaleProductId)
+            disabledElements(true, printingSaleProductId);
             return;
         }
 
@@ -224,7 +231,8 @@
             data: {
                 key_unit: keyUnit,
                 value_unit: valueUnit,
-                printing_sale_product_id: printingSaleProductId
+                printing_sale_product_id: printingSaleProductId,
+                quantity: quantity
             },
             success: updateUIChangeUnitSale,
             complete: function (xhr) {
