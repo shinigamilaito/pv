@@ -1,12 +1,14 @@
 <% new_product = @add_printing_product[:new] %>
-<% printing_product = @add_printing_product[:printing_product] %>
+<% printing_sale_product = @add_printing_product[:printing_product] %>
 
 <% if new_product %>
-  $("#header-table-printing-sales").after("<%= j render('printing_sales/printing_product_sale', printing_product: printing_product) %>");
+  $("#header-table-printing-sales").after("<%= j render('printing_sales/printing_product_sale',
+  printing_sale_product: printing_sale_product) %>");
 <% else %>
-  $("#printing_sale_quantity_<%= printing_product.id %>").val("<%= printing_product.quantity %>");
-  $("#printing_sale_price_<%= printing_product.id %>").val("<%= printing_product.total %>");
-  $("#printing_sale_preview_price_<%= printing_product.id %>").val("<%= printing_product.total %>");
+  $("#printing_sale_quantity_<%= printing_sale_product.id %>").val("<%= printing_sale_product.quantity %>");
+  $("#printing_sale_price_<%= printing_sale_product.id %>").val("<%= printing_sale_product.total %>");
+  $("#printing_sale_preview_price_<%= printing_sale_product.id %>").val("<%= printing_sale_product.total %>");
 <% end %>
 
-$('#total_cost_printing_sales').html("<%= j render('printing_sales/totals_costs', total_printing_sales: @total_printing_sales) %>");
+$('#total_cost_printing_sales').html("<%= j render('printing_sales/totals_costs',
+                                                    total_printing_sales: @total_printing_sales) %>");

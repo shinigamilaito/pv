@@ -47,4 +47,24 @@ class PrintingProduct < ApplicationRecord
     %w(Hoja Liston Perlas Celofan Flor Grabado Tul Accesorios)
   end
 
+  def sales_units_bigger_zero
+    sales_units = {
+        bag: 'Bolsa',
+        box: 'Caja',
+        meter: 'Metro',
+        package: 'Paquete',
+        piece: 'Pieza',
+        roll: 'Rollo',
+        set: 'Juego'
+    }
+
+    [:bag, :box, :meter, :package, :piece, :roll, :set].each do |attr|
+      if send(attr) <= BigDecimal.new("0", 2)
+        sales_units.delete(attr)
+      end
+    end
+
+    sales_units.values
+  end
+
 end

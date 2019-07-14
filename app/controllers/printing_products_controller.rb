@@ -1,5 +1,5 @@
 class PrintingProductsController < ApplicationController
-  before_action :set_printing_product, only: [:show, :edit, :update, :destroy, :translate]
+  before_action :set_printing_product, only: [:show, :edit, :update, :destroy]
   before_action :fixed_format_price, only: [:create, :update]
   before_action :set_module
 
