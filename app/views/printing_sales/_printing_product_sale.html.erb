@@ -237,7 +237,12 @@
 
     function updateUIChangeUnitSale(printing_sale_product) {
         console.log(printing_sale_product);
+        let $realPrice = $("#printing_sale_real_price_" + printing_sale_product.id);
+        let $price = $("#printing_sale_price_" + printing_sale_product.id);
         disabledElements(false, printing_sale_product.id)
+
+        $realPrice.val(printing_sale_product.real_price);
+        $price.val(printing_sale_product.price);
     }
 
     function disabledElements(disabled, printing_sale_product_id) {
