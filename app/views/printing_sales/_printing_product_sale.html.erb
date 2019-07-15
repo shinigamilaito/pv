@@ -199,9 +199,10 @@
 <script>
     // Manage the sale unit change
     // Enable Fields and update prices
-
-    let $sale_unit = $("[data-behavior='unit-printing-product']");
-    $sale_unit.on("change", saleUnitChange);
+    $(document).ready(function () {
+        let $sale_unit = $("[data-behavior='unit-printing-product']");
+        $sale_unit.on("change", saleUnitChange);
+    });
 
     function saleUnitChange(e) {
         let $unitSaleSelect = $(e.target);

@@ -66,7 +66,7 @@ class TicketPrintingSale < Ticket
       code: product.code,
       quantity: product.quantity,
       description: product.name,
-      price: product.price,
+      price: product.real_price,
       total: total_cost(product)
     }
   end
