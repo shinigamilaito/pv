@@ -65,4 +65,8 @@ class QuotationPrinting < ApplicationRecord
       .map {|quotation_printing| quotation_printing.payment }
       .sum
   end
+
+  def self.impression_types
+    ["Laser"]
+  end
 end

@@ -60,6 +60,7 @@
 
 //= require invitations
 //= require content_for_invitations
+//= require quotation_printings
 
 $(document).ready(function() {
 	$('[data-load="true"]').click(function() {
@@ -80,6 +81,9 @@ $(document).ready(function() {
 	setHTMLDescription($('.textarea'));
 });
 
+function escapeMarkup(markup) {
+    return markup;
+}
 
 function formatRepoClient (client) {
 	if (client.loading) {

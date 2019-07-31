@@ -26,6 +26,13 @@ class QuotationPrintingsController < ApplicationController
   def find_quotation_printings_by_client
     quotation_printing_policy = QuotationPrintingsPolicy.new(params[:client][:id].to_i)
     @quotation_printings = quotation_printing_policy.find_quotation_printings[:quotation_printings_present]
+
+    quotation_printing_element = render_to_string("quotation_printings/_select_quotation_printings",
+                                             layout: false)
+
+    render json: {
+        quotation_printing: quotation_printing_element
+    }
   end
 
   def new
@@ -39,6 +46,10 @@ class QuotationPrintingsController < ApplicationController
       @invitation_id = @quotation_printing.invitation_id
       @invitations = [@quotation_printing.invitation.name, @invitation_id]
     end
+
+    quotation_printing_element = render_to_string("quotation_printings/new", layout: false,
+                                                  locals: { quotation_printing: @quotation_printing} )
+    render json: { quotation_printing: quotation_printing_element }
   end
 
   # Obtiene los productos(printing_product_quotations) que han sido agregados a las cotizaciones
@@ -347,6 +358,15 @@ class QuotationPrintingsController < ApplicationController
                }
       end
     end
+  end
+
+  # Data for carousel
+  def data_carousel
+    data_carousel = render_to_string("quotation_printings/data_carousel", layout: false)
+
+    render json: {
+        data: data_carousel
+    }
   end
 
   private

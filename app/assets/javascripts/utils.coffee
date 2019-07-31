@@ -1,16 +1,18 @@
 class @Utils
   @inputsMask: (options) ->
     $.map $(document).find("[data-input-mask='currency-input']"), (item) ->
-      Utils.inputMaskCurrency(item, options)
+      $(item).inputmask("currency", options)
 
     $.map $(document).find("[data-input-mask='integer-input']"), (item) ->
-      Utils.inputMaskInteger(item, options)
+      $(item).inputmask("integer", options);
 
-  @inputMaskCurrency: (item, options) ->
-    $(item).inputmask("currency", options)
-
-  @inputMaskInteger: (item, options) ->
-    $(item).inputmask("integer", options);
+  @setDatePicker: ->
+    $.map $(document).find("[data-behavior='date']"), (item) ->
+      console.log("Put datepicker utils")
+      $(item).datepicker(
+        format: "dd/mm/yyyy"
+        language: "es"
+      )
 
   @readURL: (fileImagen, $imagen) ->
     console.log(fileImagen.files)
@@ -31,3 +33,18 @@ class @Utils
         $imagen.removeClass('hidden')
         $imagen.attr 'src', "uploads/tmp/#{tmpSrcImagePath}"
         console.log("Utils imagen working")
+
+  @clientsAutocomplete: ->
+    $.map $(document).find("[data-behavior='clients-autocomplete']"), (item) ->
+      $(item).select2({
+        minimumInputLength: 1,
+        ajax: {
+          delay: 250,
+          url: "/clients/autocomplete",
+          dataType: 'json',
+          cache: true
+        },
+        escapeMarkup: escapeMarkup,
+        templateResult: formatRepoClient,
+        templateSelection: formatRepoSelectionClient
+      })

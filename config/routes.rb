@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :todo_lists
   resources :subcategories do
     collection do
       get :search
@@ -16,17 +17,21 @@ Rails.application.routes.draw do
   end
 
   resources :quotation_printings, only: [:index, :new, :create, :update] do
+    collection do
+      get :data_carousel
+      delete :delete_printing_product_quotation
+      post :add_printing_product
+      get :obtain_total_costs
+      post :update_real_price_product
+      post :update_price_product
+      post :update_quantity_product
+      get :find_quotation_printings_by_client
+      get :obtain_printing_products
+      get :obtain_printing_products_for_quotation
+    end
     get :get_pdf, on: :member
     get :generate_ticket, on: :member
-    delete :delete_printing_product_quotation, on: :collection
-    post :add_printing_product, on: :collection
-    get :obtain_total_costs, on: :collection
-    post :update_real_price_product, on: :collection
-    post :update_price_product, on: :collection
-    post :update_quantity_product, on: :collection
-    get :find_quotation_printings_by_client, on: :collection
-    get :obtain_printing_products, on: :collection
-    get :obtain_printing_products_for_quotation, on: :collection
+
   end
 
   resources :invitations do

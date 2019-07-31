@@ -1,0 +1,164 @@
+<%= form_for(quotation_printing, html: {multipart: true}) do |f| %>
+  <%= f.hidden_field :full_payment, value: false %>
+  <% unless quotation_printing.new_record? %>
+    <%= hidden_field_tag "quotation_printing_id", quotation_printing.id %>
+  <% end %>
+
+  <div class="box-body">
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group">
+          <label class="col-sm-5 control-label">Cliente</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;">
+            <%= f.text_field :client_id, value: quotation_printing.client.formal_name, class: 'form-control', readonly: true %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-5">
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Fecha Entrega (Borrador)</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= text_field_tag "quotation_printing[draft_delivery_date]", nil, class: 'form-control',
+                               data: { behavior: 'date'} %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group">
+          <div class="col-sm-5" style="margin-bottom: 10px;">
+            <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(Category.order(:name), "id", "name"),
+                           {class: "form-control", required: true, prompt: "Seleccionar categoría"} %>
+          </div>
+          <p class="col-sm-4">
+            <%= link_to (image_tag "default3.png", class: "img-responsive"), "#", data: {behavior: "open-carousel"} %>
+          </p>
+          <label class="col-sm-3 control-label">Muestra</label>
+        </div>
+      </div>
+
+      <div class="col-sm-5">
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Fecha Entrega</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= text_field_tag "quotation_printing[delivery_date]", nil, class: 'form-control',
+                             data: { behavior: 'date'} %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Contenido</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= f.text_field :total_pieces, class: "form-control", required: true %>
+            <span><%= quotation_printing.errors[:total_pieces].first %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-5">
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:total_pieces].blank? %>">
+          <label class="col-sm-6 control-label">Cantidad</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= f.text_field :total_pieces, class: "form-control", required: true %>
+            <span><%= quotation_printing.errors[:total_pieces].first %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5 col-sm-offset-5">
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:impression_type].blank? %>">
+          <label class="col-sm-6 control-label">Tipo Impresión</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= select_tag "quotation_printing[impression_type]", options_for_select(QuotationPrinting.impression_types),
+                           { class: "form-control", required: true, prompt: "Seleccionar tipo de impresión" } %>
+            <span><%= quotation_printing.errors[:impression_type].first %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:invitation_id].blank? %>">
+          <label class="col-sm-5 control-label">Modelo a Cotizar</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;" id="select_invitations">
+            <%= select_tag "quotation_printing[invitation_id]", options_for_select([@invitations], @invitation_id), prompt: 'Buscar invitación', class: 'form-control', required: true %>
+          </div>
+        </div>
+
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_piece].blank? %>">
+          <label class="col-sm-5 control-label">Costo por Invitación</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;">
+            <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <%= f.text_field :cost_piece, class: "form-control", required: true %>
+              <span><%= quotation_printing.errors[:cost_piece].first %></span>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="form-group <%= 'has-error' unless quotation_printing.errors[:cost_elaboration].blank? %>">
+          <label class="col-sm-5 control-label">Costo por Elaboración</label>
+          <div class="col-sm-7" style="margin-bottom: 10px;">
+            <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <%= f.text_field :cost_elaboration, class: "form-control", required: true, readonly: true %>
+              <span><%= quotation_printing.errors[:cost_elaboration].first %></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="image_invitation">
+          <%= render "quotation_printings/image_invitation", quotation_printing: quotation_printing %>
+        </div>
+      </div>
+
+      <!-- Lista de productos imprenta -->
+      <div class="col-sm-7">
+        <div id="list_invitation_printing_products">
+          <div class="form-group text-center">
+            <label>Material a Utilizar</label>
+            <select name="[invitation_printing_product_id]" class="form-control autocomplete_invitation_printing_products" data-remote="true" data-url="/quotation_printing/add_invitation" data-method="get">
+              <option value="">Seleccione Material</option>
+            </select>
+          </div>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Precio Unidad</th>
+              <th>Precio</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody id="invitation_printing_products_used_by_quotation">
+            </tbody>
+          </table>
+
+          <div class="table-responsive" id="total_to_paid_by_quotation_printings">
+          </div>
+        </div>
+
+        <!-- Opción con los datos del status y los datos del pago -->
+        <div id="payment_data_div">
+        </div>
+
+        <%= f.submit 'Guardar', class: 'btn btn-info btn-block', id: 'quotation_printing_save_button', style: 'margin-top: 15px;', data: {disable_with: 'Registrando...'} %>
+      </div>
+    </div>
+  </div>
+<% end %>
