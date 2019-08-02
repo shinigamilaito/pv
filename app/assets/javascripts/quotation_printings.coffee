@@ -89,10 +89,38 @@ class Carousel
 
   setEvents: ->
     @modal.find("[data-behavior='category']").on "change", @handleCategoryChange
+    @modalBody.find("[data-toggle='lightbox']").on "click", @handleLightBox
 
   handleCategoryChange: (e) =>
     $option = $(e.target).find("option:selected")
     alert("Mostrar muestras para #{$option.text()}")
+
+  handleLightBox: (e) =>
+    e.preventDefault()
+    @currentImage = $(e.currentTarget)
+    console.log("Index in current Image #{@currentImage.data("position-carousel")} Id Invitation #{@currentImage.data("invitation-id")}")
+    console.log("In handleLightBox")
+    console.log(e)
+    console.log($(e.currentTarget).html())
+    $(e.currentTarget).ekkoLightbox({
+      #alwaysShowClose: true
+      onContentLoaded: (e) =>
+        console.log('onContentLoaded' + e)
+      onShow: (e) =>
+        console.log(e)
+      onHide: (e) =>
+        console.log($(this))
+      onHidden: (e) =>
+        console.log('onHidden' + e)
+      onShown: (e) =>
+        console.log('Checking our the events huh?' + e);
+      onNavigate: (direction, itemIndex) =>
+        @currentImage = $(@modalBody.find("[data-toggle='lightbox']")[itemIndex])
+        console.log('Navigating '+direction+'. Current item: '+itemIndex);
+        console.log("Index in current Image #{@currentImage.data("position-carousel")} Id Invitation #{@currentImage.data("invitation-id")}")
+    })
+
+    ######
 
 jQuery ->
   console.log("QuoationPrinting file is loaded....")

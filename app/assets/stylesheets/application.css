@@ -37,6 +37,7 @@
  *= require accordion
  *= require pagination
  *= require welcome
+ *= require plugins/lightbox/lightbox
  *= require_self
  */
 
