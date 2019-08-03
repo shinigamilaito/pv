@@ -362,10 +362,17 @@ class QuotationPrintingsController < ApplicationController
 
   # Data for carousel
   def data_carousel
-    category = Category.find params[:category_id]
-    @subcategories = category.subcategories.order(:created_at)
-    @subcategory = @subcategories.first
-    data_carousel = render_to_string("quotation_printings/data_carousel", layout: false)
+    if params[:category_id].present?
+      category = Category.find params[:category_id]
+      @subcategories = category.subcategories.order(:created_at)
+      @subcategory = @subcategories.first
+      data_carousel = render_to_string("quotation_printings/data_carousel", layout: false)
+    end
+
+    if params[:subcategory_id].present?
+      @subcategory = Subcategory.find(params[:subcategory_id])
+      data_carousel = render_to_string("quotation_printings/_images_carousel", layout: false, locals: {subcategory: @subcategory})
+    end
 
     render json: {
         data: data_carousel

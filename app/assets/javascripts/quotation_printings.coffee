@@ -76,7 +76,6 @@ class QuotationPrinting
     modal = @item.find("[data-behavior='modal']")
     modalBody = modal.find("[data-behavior='modal-body']")
     modalBody.html(response.data)
-
     @carousel = new Carousel
 
 class Carousel
@@ -91,13 +90,29 @@ class Carousel
     @modal.modal('show')
 
   setEvents: ->
-    @modal.find("[data-behavior='category']").on "change", @handleSubcategoryChange
-    @modalBody.find("[data-toggle='lightbox']").on "click", @handleLightBox
+    @modal.find("[data-behavior='subcategory']").on "change", @handleSubcategoryChange
+    @setLighBoxEvent()
 
   handleSubcategoryChange: (e) =>
-    $option = $(e.target).find("option:selected")
-    alert("Change subcategory")
+    subcategory_id = $(e.target).find("option:selected").val()
+    if subcategory_id
+      $.ajax
+        url: "/quotation_printings/data_carousel?subcategory_id=#{subcategory_id}"
+        method: "get"
+        dataType: "json"
+        beforeSend: (xhr) ->
+          $("body").LoadingOverlay("show")
+        success: @handleSubcategoryChangeSuccess
+        complete: (xhr) ->
+          $("body").LoadingOverlay("hide", true)
 
+  handleSubcategoryChangeSuccess: (response) =>
+    console.log(response.data)
+    @modal.find("[data-behavior='gallery']").html(response.data)
+    @setLighBoxEvent()
+
+  setLighBoxEvent: =>
+    @modalBody.find("[data-toggle='lightbox']").on "click", @handleLightBox
 
   handleLightBox: (e) =>
     e.preventDefault()
@@ -107,7 +122,7 @@ class Carousel
     console.log(e)
     console.log($(e.currentTarget).html())
     $(e.currentTarget).ekkoLightbox({
-      #alwaysShowClose: true
+#alwaysShowClose: true
       onContentLoaded: (e) =>
         console.log('onContentLoaded' + e)
       onShow: (e) =>
@@ -120,11 +135,11 @@ class Carousel
         console.log('Checking our the events huh?' + e);
       onNavigate: (direction, itemIndex) =>
         @currentImage = $(@modalBody.find("[data-toggle='lightbox']")[itemIndex])
-        console.log('Navigating '+direction+'. Current item: '+itemIndex);
+        console.log('Navigating ' + direction + '. Current item: ' + itemIndex);
         console.log("Index in current Image #{@currentImage.data("position-carousel")} Id Invitation #{@currentImage.data("invitation-id")}")
     })
 
-    ######
+######
 
 jQuery ->
   console.log("QuoationPrinting file is loaded....")
