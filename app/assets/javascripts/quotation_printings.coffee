@@ -55,19 +55,22 @@ class QuotationPrinting
 
   handleLoadFormSuccess: (data) =>
     @wrapperForm.html data.quotation_printing
+    @category = @wrapperForm.find("[data-behavior='category']")
     @item.find("[data-behavior='open-carousel']").on "click", @handleOpenCarousel
     Utils.setDatePicker()
 
   handleOpenCarousel: (e) =>
-    $.ajax
-      url: "/quotation_printings/data_carousel"
-      method: "get"
-      dataType: "json"
-      beforeSend: (xhr) ->
-        $("body").LoadingOverlay("show")
-      success: @showModal
-      complete: (xhr) ->
-        $("body").LoadingOverlay("hide", true)
+    category_id = @category.find("option:selected").val()
+    if category_id
+      $.ajax
+        url: "/quotation_printings/data_carousel?category_id=#{category_id}"
+        method: "get"
+        dataType: "json"
+        beforeSend: (xhr) ->
+          $("body").LoadingOverlay("show")
+        success: @showModal
+        complete: (xhr) ->
+          $("body").LoadingOverlay("hide", true)
 
   showModal: (response) =>
     modal = @item.find("[data-behavior='modal']")
@@ -88,12 +91,13 @@ class Carousel
     @modal.modal('show')
 
   setEvents: ->
-    @modal.find("[data-behavior='category']").on "change", @handleCategoryChange
+    @modal.find("[data-behavior='category']").on "change", @handleSubcategoryChange
     @modalBody.find("[data-toggle='lightbox']").on "click", @handleLightBox
 
-  handleCategoryChange: (e) =>
+  handleSubcategoryChange: (e) =>
     $option = $(e.target).find("option:selected")
-    alert("Mostrar muestras para #{$option.text()}")
+    alert("Change subcategory")
+
 
   handleLightBox: (e) =>
     e.preventDefault()

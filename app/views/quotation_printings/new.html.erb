@@ -31,7 +31,7 @@
         <div class="form-group">
           <div class="col-sm-5" style="margin-bottom: 10px;">
             <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(Category.order(:name), "id", "name"),
-                           {class: "form-control", required: true, prompt: "Seleccionar categoría"} %>
+                           {class: "form-control", required: true, prompt: "Seleccionar categoría", data: {behavior: "category"} } %>
           </div>
           <p class="col-sm-4">
             <%= link_to (image_tag "default3.png", class: "img-responsive"), "#", data: {behavior: "open-carousel"} %>

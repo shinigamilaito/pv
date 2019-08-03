@@ -1,20 +1,24 @@
 <div class="row">
   <div class="form-group">
-    <label class="col-sm-2 control-label">Categoría</label>
+    <label class="col-sm-2 control-label">Subcategoría</label>
     <div class="col-sm-3" style="margin-bottom: 10px;">
-      <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(Category.order(:name), "id", "name"),
-                     {class: "form-control", required: true, prompt: "Seleccionar categoría", data: {behavior: 'category'}} %>
+      <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(@subcategories, "id", "name", @subcategory),
+                     {class: "form-control", required: true, data: {behavior: 'category'}} %>
     </div>
   </div>
 </div>
 
 <div class="row justify-content-center">
-  <div class="col-md-12">
-    <div class="row">
-      <% Category.last.invitations.each_with_index do |invitation, index| %>
-        <%= link_to (image_tag invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive"), invitation.imagen_url,
-          data: { toggle: "lightbox", gallery: "example-gallery", position_carousel: index, invitation_id: invitation.id },
-                    class: "col-sm-3" %>
+  <div class="row">
+    <div class="col-md-12">
+      <% if @subcategory.present? %>
+        <% @subcategory.invitations.each_with_index do |invitation, index| %>
+          <%= link_to (image_tag invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive"), invitation.imagen_url,
+                      data: {toggle: "lightbox", gallery: "example-gallery", position_carousel: index, invitation_id: invitation.id},
+                      class: "col-sm-3" %>
+        <% end %>
+      <% else %>
+        <h2>Muestras no encontradas</h2>
       <% end %>
     </div>
   </div>
