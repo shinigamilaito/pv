@@ -1,5 +1,6 @@
 <%= form_for(quotation_printing, html: {multipart: true}) do |f| %>
   <%= f.hidden_field :full_payment, value: false %>
+  <%= f.hidden_field :invitation_id, value: nil, data: {behavior: 'invitation-input'} %>
   <% unless quotation_printing.new_record? %>
     <%= hidden_field_tag "quotation_printing_id", quotation_printing.id %>
   <% end %>
@@ -34,7 +35,8 @@
                            {class: "form-control", required: true, prompt: "Seleccionar categoría", data: {behavior: "category"} } %>
           </div>
           <p class="col-sm-4">
-            <%= link_to (image_tag "default3.png", class: "img-responsive"), "#", data: {behavior: "open-carousel"} %>
+            <%= link_to (image_tag "default3.png", class: "img-responsive", data: {behavior:'image-invitation'}), "#",
+                        data: {behavior:"open-carousel"} %>
           </p>
           <label class="col-sm-3 control-label">Muestra</label>
         </div>

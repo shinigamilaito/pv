@@ -116,30 +116,37 @@ class Carousel
 
   handleLightBox: (e) =>
     e.preventDefault()
-    @currentImage = $(e.currentTarget)
-    console.log("Index in current Image #{@currentImage.data("position-carousel")} Id Invitation #{@currentImage.data("invitation-id")}")
     console.log("In handleLightBox")
-    console.log(e)
-    console.log($(e.currentTarget).html())
     $(e.currentTarget).ekkoLightbox({
 #alwaysShowClose: true
       onContentLoaded: (e) =>
-        console.log('onContentLoaded' + e)
+        @setClicImage()
       onShow: (e) =>
-        console.log(e)
+        console.log('onShow' + e)
       onHide: (e) =>
-        console.log($(this))
+        console.log('onHide' + e)
       onHidden: (e) =>
         console.log('onHidden' + e)
       onShown: (e) =>
-        console.log('Checking our the events huh?' + e);
+        console.log('onShown Checking our the events huh?' + e);
       onNavigate: (direction, itemIndex) =>
-        @currentImage = $(@modalBody.find("[data-toggle='lightbox']")[itemIndex])
         console.log('Navigating ' + direction + '. Current item: ' + itemIndex);
-        console.log("Index in current Image #{@currentImage.data("position-carousel")} Id Invitation #{@currentImage.data("invitation-id")}")
     })
 
-######
+  setClicImage: =>
+    console.log("setclickImageMthod")
+    $(document).off "click", "[data-behavior='select-image']"
+    $(document).on "click", "[data-behavior='select-image']", @handleSelectImage
+
+  handleSelectImage: (e) =>
+    invitation_id = $(e.target).data("invitation-id")
+    imagen_url = $(e.target).data("image-url")
+    $(".ekko-lightbox, .modal, .fade, .in, .show").modal('hide')
+    @modal.modal('hide')
+    placeholder = $(document).find("[data-behavior='image-invitation']")
+    placeholder.attr "src", imagen_url
+    $(document).find("[data-behavior='invitation-input']").val invitation_id
+    console.log("InvitationID after close image: #{invitation_id}")
 
 jQuery ->
   console.log("QuoationPrinting file is loaded....")

@@ -2,9 +2,13 @@
   <div class="row">
     <div class="col-md-12">
       <% if @subcategory.present? %>
-        <% @subcategory.invitations.each_with_index do |invitation, index| %>
+        <% @subcategory.invitations.each do |invitation| %>
           <%= link_to (image_tag invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive"), invitation.imagen_url,
-                      data: {toggle: "lightbox", gallery: "example-gallery", position_carousel: index, invitation_id: invitation.id},
+                      data: {toggle: "lightbox", gallery: "example-gallery",
+                             title: invitation.name, footer: "<button data-behavior='select-image'
+                             data-invitation-id='#{invitation.id}' data-image-url='#{invitation.imagen_url}'
+                             class='pull-right'>Seleccionar</button>",
+                             },
                       class: "col-sm-3" %>
         <% end %>
       <% else %>
