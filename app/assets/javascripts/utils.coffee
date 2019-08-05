@@ -48,3 +48,21 @@ class @Utils
         templateResult: formatRepoClient,
         templateSelection: formatRepoSelectionClient
       })
+
+  @collapsible: ->
+    $.map $(document).find("[data-behavior='collapsible']"), (item) ->
+      $(item).on "click", Utils.handleCollapsible
+
+  @handleCollapsible: (e) ->
+    $collapsible = $(e.target).parent()
+    $collapsibleTitle = $collapsible.find "[data-behavior='collapsible-title']"
+    $collapsibleBody = $collapsible.find "[data-behavior='collapsible-body']"
+
+    if $collapsibleTitle.hasClass('active')
+      $collapsibleTitle.removeClass "active"
+      $collapsibleBody.css "height", ""
+    else
+      $collapsibleTitle.addClass "active"
+      height = $collapsibleBody.prop('scrollHeight') + 40 + "px"
+      $collapsibleBody.css "height", height
+

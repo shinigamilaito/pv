@@ -58,6 +58,7 @@ class QuotationPrinting
     @category = @wrapperForm.find("[data-behavior='category']")
     @item.find("[data-behavior='open-carousel']").on "click", @handleOpenCarousel
     Utils.setDatePicker()
+    Utils.collapsible()
 
   handleOpenCarousel: (e) =>
     category_id = @category.find("option:selected").val()
