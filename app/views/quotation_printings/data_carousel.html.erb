@@ -2,8 +2,15 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">Subcategoría</label>
     <div class="col-sm-3" style="margin-bottom: 10px;">
-      <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(@subcategories, "id", "name", @subcategory),
-                     {class: "form-control", required: true, data: {behavior: 'subcategory'}} %>
+      <% if @type.eql?("invitations") %>
+        <%= select_tag "quotation_printing[invitation_id]", options_from_collection_for_select(@subcategories, "id", "name", @subcategory),
+                     {class: "form-control", required: true, data: {behavior: 'subcategory', type:@type}} %>
+      <% end %>
+
+      <% if @type.eql?("contents") %>
+        <%= select_tag "quotation_printing[content_for_invitation_id]", options_from_collection_for_select(@subcategories, "id", "name", @subcategory),
+                       {class: "form-control", required: true, data: {behavior: 'subcategory', type:@type}} %>
+      <% end %>
     </div>
   </div>
 </div>

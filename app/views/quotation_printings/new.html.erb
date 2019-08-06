@@ -1,6 +1,7 @@
 <%= form_for(quotation_printing, html: {multipart: true}) do |f| %>
   <%= f.hidden_field :full_payment, value: false %>
   <%= f.hidden_field :invitation_id, value: nil, data: {behavior: 'invitation-input'} %>
+  <%= f.hidden_field :content_for_invitation_id, value: nil, data: {behavior: 'content-for-invitation-input'} %>
   <% unless quotation_printing.new_record? %>
     <%= hidden_field_tag "quotation_printing_id", quotation_printing.id %>
   <% end %>
@@ -32,13 +33,14 @@
         <div class="form-group">
           <div class="col-sm-5" style="margin-bottom: 10px;">
             <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(Category.order(:name), "id", "name"),
-                           {class: "form-control", required: true, prompt: "Seleccionar categoría", data: {behavior: "category"} } %>
+                           {class: "form-control", required: true, prompt: "Seleccionar tipo de categoría",
+                            data: {behavior: "category-invitation"} } %>
           </div>
-          <p class="col-sm-4">
-            <%= link_to (image_tag "default3.png", class: "img-responsive", data: {behavior:'image-invitation'}), "#",
-                        data: {behavior:"open-carousel"} %>
+          <p class="col-sm-5">
+            <%= link_to (image_tag "default3.png", class: "img-responsive", data: {behavior:'image-invitation'}, style:"width:100%"), "#",
+                        data: {behavior:"open-carousel", carousel_type:"invitations"} %>
           </p>
-          <label class="col-sm-3 control-label">Muestra</label>
+          <label class="col-sm-2 control-label">Muestra</label>
         </div>
       </div>
 
@@ -48,6 +50,32 @@
           <div class="col-sm-6" style="margin-bottom: 10px;">
             <%= text_field_tag "quotation_printing[delivery_date]", nil, class: 'form-control',
                              data: { behavior: 'date'} %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group">
+          <div class="col-sm-5" style="margin-bottom: 10px;">
+            <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(Category.order(:name), "id", "name"),
+                           {class: "form-control", required: true, prompt: "Seleccionar tipo de contenido",
+                            data: {behavior: "category-content"} } %>
+          </div>
+          <p class="col-sm-5">
+            <%= link_to (image_tag "default3.png", class: "img-responsive", data: {behavior:'image-content'}, style:"width:100%"), "#",
+                        data: {behavior:"open-carousel", carousel_type:"contents"} %>
+          </p>
+          <label class="col-sm-2 control-label">Muestra</label>
+        </div>
+      </div>
+
+      <div class="col-sm-5">
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Cantidad</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= f.text_field :total_pieces, class: 'form-control', data: { input_mask:'integer-input' } %>
           </div>
         </div>
       </div>

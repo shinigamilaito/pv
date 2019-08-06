@@ -2,15 +2,31 @@
   <div class="row">
     <div class="col-md-12">
       <% if @subcategory.present? %>
-        <% @subcategory.invitations.each do |invitation| %>
-          <%= link_to (image_tag invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive"), invitation.imagen_url,
+
+        <% if @type.eql?("invitations") %>
+          <% @subcategory.invitations.each do |invitation| %>
+            <%= link_to (image_tag invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive"), invitation.imagen_url,
                       data: {toggle: "lightbox", gallery: "example-gallery",
-                             title: invitation.name, footer: "<button data-behavior='select-image'
+                             title: invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
                              data-invitation-id='#{invitation.id}' data-image-url='#{invitation.imagen_url}'
                              class='pull-right'>Seleccionar</button>",
                              },
                       class: "col-sm-3" %>
+          <% end %>
         <% end %>
+
+        <% if @type.eql?("contents") %>
+          <% @subcategory.content_for_invitations.each do |content_for_invitation| %>
+            <%= link_to (image_tag content_for_invitation.image_url, class: "img-fluid img-thumbnail img-responsive"), content_for_invitation.image_url,
+                        data: {toggle: "lightbox", gallery: "example-gallery",
+                               title: content_for_invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
+                             data-content-for-invitation-id='#{content_for_invitation.id}' data-image-url='#{content_for_invitation.image_url}'
+                             class='pull-right'>Seleccionar</button>",
+                        },
+                        class: "col-sm-3" %>
+          <% end %>
+        <% end %>
+
       <% else %>
         <h2>Muestras no encontradas</h2>
       <% end %>

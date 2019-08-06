@@ -14,6 +14,7 @@ class Subcategory < ApplicationRecord
   belongs_to :category
 
   has_many :invitations
+  has_many :content_for_invitations
 
   validates :category_id, :name, presence: true
   validates :name, uniqueness: {case_sensitive: true}

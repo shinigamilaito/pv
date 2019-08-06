@@ -11,6 +11,7 @@ class QuotationPrinting
 
   initialize: ->
     Utils.clientsAutocomplete()
+    Utils.inputsMask({rightAlign: false})
 
   setEvents: ->
     console.log("Set Event change")
@@ -55,16 +56,26 @@ class QuotationPrinting
 
   handleLoadFormSuccess: (data) =>
     @wrapperForm.html data.quotation_printing
-    @category = @wrapperForm.find("[data-behavior='category']")
     @item.find("[data-behavior='open-carousel']").on "click", @handleOpenCarousel
     Utils.setDatePicker()
     Utils.collapsible()
 
   handleOpenCarousel: (e) =>
-    category_id = @category.find("option:selected").val()
+    type = $(e.currentTarget).data("carousel-type")
+    console.log("In HandleOpenCarousel")
+    console.log("Type: #{type}")
+
+    if type == "invitations"
+      category = @wrapperForm.find("[data-behavior='category-invitation']")
+      category_id = category.find("option:selected").val()
+
+    if type == "contents"
+      category = @wrapperForm.find("[data-behavior='category-content']")
+      category_id = category.find("option:selected").val()
+
     if category_id
       $.ajax
-        url: "/quotation_printings/data_carousel?category_id=#{category_id}"
+        url: "/quotation_printings/data_carousel?category_id=#{category_id}&type=#{type}"
         method: "get"
         dataType: "json"
         beforeSend: (xhr) ->
@@ -96,9 +107,11 @@ class Carousel
 
   handleSubcategoryChange: (e) =>
     subcategory_id = $(e.target).find("option:selected").val()
+    type = $(e.target).data("type")
+
     if subcategory_id
       $.ajax
-        url: "/quotation_printings/data_carousel?subcategory_id=#{subcategory_id}"
+        url: "/quotation_printings/data_carousel?subcategory_id=#{subcategory_id}&type=#{type}"
         method: "get"
         dataType: "json"
         beforeSend: (xhr) ->
@@ -108,7 +121,6 @@ class Carousel
           $("body").LoadingOverlay("hide", true)
 
   handleSubcategoryChangeSuccess: (response) =>
-    console.log(response.data)
     @modal.find("[data-behavior='gallery']").html(response.data)
     @setLighBoxEvent()
 
@@ -140,14 +152,24 @@ class Carousel
     $(document).on "click", "[data-behavior='select-image']", @handleSelectImage
 
   handleSelectImage: (e) =>
-    invitation_id = $(e.target).data("invitation-id")
     imagen_url = $(e.target).data("image-url")
+    type = $(e.target).data("type")
     $(".ekko-lightbox, .modal, .fade, .in, .show").modal('hide')
     @modal.modal('hide')
-    placeholder = $(document).find("[data-behavior='image-invitation']")
-    placeholder.attr "src", imagen_url
-    $(document).find("[data-behavior='invitation-input']").val invitation_id
-    console.log("InvitationID after close image: #{invitation_id}")
+
+    if type == 'invitations'
+      placeholder = $(document).find("[data-behavior='image-invitation']")
+      placeholder.attr "src", imagen_url
+      invitation_id = $(e.target).data("invitation-id")
+      $(document).find("[data-behavior='invitation-input']").val invitation_id
+      console.log("InvitationID after close image: #{invitation_id}")
+
+    if type == 'contents'
+      placeholder = $(document).find("[data-behavior='image-content']")
+      placeholder.attr "src", imagen_url
+      content_for_invitation_id = $(e.target).data("content-for-invitation-id")
+      $(document).find("[data-behavior='content-for-invitation-input']").val content_for_invitation_id
+      console.log("InvitationID after close image: #{invitation_id}")
 
 jQuery ->
   console.log("QuoationPrinting file is loaded....")

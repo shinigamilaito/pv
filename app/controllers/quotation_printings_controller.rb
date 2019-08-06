@@ -366,11 +366,13 @@ class QuotationPrintingsController < ApplicationController
       category = Category.find params[:category_id]
       @subcategories = category.subcategories.order(:created_at)
       @subcategory = @subcategories.first
+      @type = params[:type]
       data_carousel = render_to_string("quotation_printings/data_carousel", layout: false)
     end
 
     if params[:subcategory_id].present?
       @subcategory = Subcategory.find(params[:subcategory_id])
+      @type = params[:type]
       data_carousel = render_to_string("quotation_printings/_images_carousel", layout: false, locals: {subcategory: @subcategory})
     end
 
