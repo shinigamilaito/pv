@@ -11,7 +11,6 @@ class QuotationPrinting
 
   initialize: ->
     Utils.clientsAutocomplete()
-    Utils.inputsMask({rightAlign: false})
 
   setEvents: ->
     console.log("Set Event change")
@@ -58,6 +57,7 @@ class QuotationPrinting
     @wrapperForm.html data.quotation_printing
     @item.find("[data-behavior='open-carousel']").on "click", @handleOpenCarousel
     Utils.setDatePicker()
+    Utils.inputsMask({rightAlign: false})
     Utils.collapsible()
 
   handleOpenCarousel: (e) =>
