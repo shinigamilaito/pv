@@ -70,6 +70,7 @@ Rails.application.routes.draw do
       get :search_sales
       get :autocomplete
       get :autocomplete_invitations
+      get :data_carousel
     end
   end
 

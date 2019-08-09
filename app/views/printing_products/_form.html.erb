@@ -21,7 +21,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Tipo de Producto</label>
       <div class="col-sm-10">
-        <%= f.select :product_type, PrintingProduct.product_types, {prompt: 'Seleccione un tipo de producto'},
+        <%= f.select :product_type, PrintingProduct.product_types.sort, {prompt: 'Seleccione un tipo de producto'},
                      readonly: !@printing_product.new_record?, class: "form-control", required: true, style: "text-align: left !important;" %>
       </div>
     </div>

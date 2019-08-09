@@ -44,7 +44,7 @@ class PrintingProduct < ApplicationRecord
   end
 
   def self.product_types
-    %w(Hoja Liston Perlas Celofan Flor Grabado Tul Accesorios)
+    %w(Hoja Liston Perlas Celofan Flor Grabado Tul Accesorios Corte)
   end
 
   def sales_units_bigger_zero

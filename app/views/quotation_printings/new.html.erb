@@ -20,11 +20,11 @@
           <div class="col-sm-5" style="margin-top:60px; margin-bottom: 10px;">
             <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(Category.order(:name), "id", "name"),
                            {class: "form-control", required: true, prompt: "Seleccionar tipo de categoría",
-                            data: {behavior: "category-invitation"} } %>
+                            data: {behavior: "category-invitation"}} %>
           </div>
           <p class="col-sm-5">
-            <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior:'image-invitation'},
-                                  style:"width:100%; height:150px;"), "#", data:{behavior:"open-carousel", carousel_type:"invitations"}) %>
+            <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior: 'image-invitation'},
+                                  style: "width:100%; height:150px;"), "#", data: {behavior: "open-carousel", carousel_type: "invitations"}) %>
           </p>
           <label style="margin-top:60px;" class="col-sm-2 control-label">Muestra</label>
         </div>
@@ -33,11 +33,11 @@
           <div class="col-sm-5" style="margin-top:60px; margin-bottom: 10px;">
             <%= select_tag "quotation_printing[category_id]", options_from_collection_for_select(Category.order(:name), "id", "name"),
                            {class: "form-control", required: true, prompt: "Seleccionar tipo de contenido",
-                            data: {behavior: "category-content"} } %>
+                            data: {behavior: "category-content"}} %>
           </div>
           <p class="col-sm-5">
-            <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior:'image-content'},
-                                  style:"width:100%; height:150px;"), "#", data: {behavior:"open-carousel", carousel_type:"contents"}) %>
+            <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior: 'image-content'},
+                                  style: "width:100%; height:150px;"), "#", data: {behavior: "open-carousel", carousel_type: "contents"}) %>
           </p>
           <label style="margin-top:60px;" class="col-sm-2 control-label">Muestra</label>
         </div>
@@ -48,7 +48,7 @@
           <label class="col-sm-6 control-label">Fecha Entrega (Borrador)</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
             <%= text_field_tag "quotation_printing[draft_delivery_date]", nil, class: 'form-control',
-                               data: { behavior: 'date'} %>
+                               data: {behavior: 'date'} %>
           </div>
         </div>
 
@@ -56,14 +56,14 @@
           <label class="col-sm-6 control-label">Fecha Entrega</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
             <%= text_field_tag "quotation_printing[delivery_date]", nil, class: 'form-control',
-                               data: { behavior: 'date'} %>
+                               data: {behavior: 'date'} %>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-6 control-label">Cantidad</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
-            <%= f.text_field :total_pieces, class: 'form-control', data: { input_mask:'integer-input' } %>
+            <%= f.text_field :total_pieces, class: 'form-control', data: {input_mask: 'integer-input'} %>
           </div>
         </div>
 
@@ -71,7 +71,7 @@
           <label class="col-sm-6 control-label">Tipo Impresión</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
             <%= select_tag "quotation_printing[impression_type]", options_for_select(QuotationPrinting.impression_types),
-                           { class: "form-control", required: true, prompt: "Seleccionar tipo de impresión" } %>
+                           {class: "form-control", required: true, prompt: "Seleccionar tipo de impresión"} %>
             <span><%= quotation_printing.errors[:impression_type].first %></span>
           </div>
         </div>
@@ -116,7 +116,23 @@
           <h3 class="box-title">Detalle Contenido</h3>
         </a>
         <div class="panel" data-behavior="collapsible-body">
-          <p>Otros datos</p>
+          <div class="row">
+            <% PrintingProduct.product_types.sort.each do |product_type| %>
+              <div class="col-sm-6">
+                <div class="row">
+                  <label style="margin-top:60px;" class="col-sm-2 control-label"><%= product_type %></label>
+                  <p class="col-sm-4">
+                    <%= link_to(image_tag("default3.png", class: "img-responsive", data: {image_product_type: product_type},
+                                          style: "width:100%; height:150px;"), "#", data: {behavior: "open-carousel",
+                                                                                           carousel_type: "printing-products", product_type: product_type}) %>
+                  </p>
+                  <div class="col-sm-4">
+                    <%= text_field_tag "quotation_printing[name]", nil, class: "form-control", placeholder: "Cantidad", style:"margin-top:60px;" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

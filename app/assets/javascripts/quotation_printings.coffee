@@ -65,6 +65,14 @@ class QuotationPrinting
     console.log("In HandleOpenCarousel")
     console.log("Type: #{type}")
 
+    if type == 'printing-products'
+      @handleOpenCarouselPrintingProducts(e)
+    else
+      @handleOpenCarouselInvitations(e)
+
+  handleOpenCarouselInvitations: (e) =>
+    type = $(e.currentTarget).data("carousel-type")
+
     if type == "invitations"
       category = @wrapperForm.find("[data-behavior='category-invitation']")
       category_id = category.find("option:selected").val()
@@ -83,6 +91,20 @@ class QuotationPrinting
         success: @showModal
         complete: (xhr) ->
           $("body").LoadingOverlay("hide", true)
+
+  handleOpenCarouselPrintingProducts: (e) =>
+    product_type = $(e.currentTarget).data("product-type")
+
+    $.ajax
+      url: "/printing_products/data_carousel?product_type=#{product_type}"
+      method: "get"
+      dataType: "json"
+      beforeSend: (xhr) ->
+        $("body").LoadingOverlay("show")
+      success: @showModal
+      complete: (xhr) ->
+        $("body").LoadingOverlay("hide", true)
+
 
   showModal: (response) =>
     modal = @item.find("[data-behavior='modal']")

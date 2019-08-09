@@ -100,6 +100,11 @@ class PrintingProductsController < ApplicationController
       .order(created_at: :desc)
   end
 
+  def data_carousel
+    @printing_products = PrintingProduct.find_by_product_type(params[:product_type])
+
+  end
+
   private
 
     def set_printing_product
