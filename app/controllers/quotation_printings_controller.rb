@@ -1,6 +1,6 @@
 class QuotationPrintingsController < ApplicationController
   before_action :set_module
-  before_action :fixed_format_price, only: [:create]
+  #before_action :fixed_format_price, only: [:create]
 
   def index
     unless cash_impression_open?
@@ -29,7 +29,6 @@ class QuotationPrintingsController < ApplicationController
 
     quotation_printing_element = render_to_string("quotation_printings/_select_quotation_printings",
                                              layout: false)
-
     render json: {
         quotation_printing: quotation_printing_element
     }
@@ -39,12 +38,12 @@ class QuotationPrintingsController < ApplicationController
     if params[:number_folio] == 'Nueva Cotización'
       @quotation_printing = QuotationPrinting.new
       @quotation_printing.client_id = params[:client_id]
-      @invitations = []
-      @invitation_id = nil
+      # @invitations = []
+      # @invitation_id = nil
     else
       @quotation_printing = QuotationPrinting.find_by_number_folio(params[:number_folio])
-      @invitation_id = @quotation_printing.invitation_id
-      @invitations = [@quotation_printing.invitation.name, @invitation_id]
+      # @invitation_id = @quotation_printing.invitation_id
+      # @invitations = [@quotation_printing.invitation.name, @invitation_id]
     end
 
     quotation_printing_element = render_to_string("quotation_printings/new", layout: false,
@@ -53,6 +52,7 @@ class QuotationPrintingsController < ApplicationController
   end
 
   # Obtiene los productos(printing_product_quotations) que han sido agregados a las cotizaciones
+=begin
   def obtain_printing_products
     begin
       manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
@@ -87,8 +87,10 @@ class QuotationPrintingsController < ApplicationController
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
+=end
 
   #Obtiene los productos(printing_product_quotation) para una cotización ya creada
+=begin
   def obtain_printing_products_for_quotation
     @quotation_printing = QuotationPrinting.find(params[:quotation_printing_id])
     @invitation = @quotation_printing.invitation
@@ -97,8 +99,10 @@ class QuotationPrintingsController < ApplicationController
     quotation_printings_policy = QuotationPrintingsPolicy.new
     @total_quotation_printings = quotation_printings_policy.totals_by_quotation(@quotation_printing)
   end
+=end
 
   # Actualizar las cantidades del producto
+=begin
   def update_quantity_product
     begin
       manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
@@ -125,8 +129,10 @@ class QuotationPrintingsController < ApplicationController
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
+=end
 
   # Actualizar el precio en total del producto
+=begin
   def update_price_product
     begin
       manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
@@ -153,8 +159,10 @@ class QuotationPrintingsController < ApplicationController
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
+=end
 
   # Actualizar el precio en unidad del producto
+=begin
   def update_real_price_product
     begin
       manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
@@ -181,8 +189,10 @@ class QuotationPrintingsController < ApplicationController
       render js: "toastr['error']('#{e.message}');", status: :bad_request
     end
   end
+=end
 
   # Obtiene el costo total después de un cambio en el costo de Elaboración
+=begin
   def obtain_total_costs
     manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
     if params[:amount_to_elaborate] == ""
@@ -201,6 +211,7 @@ class QuotationPrintingsController < ApplicationController
     quotation_printings_policy = QuotationPrintingsPolicy.new
     @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
   end
+=end
 
   def create
     unless cash_impression_open?
@@ -208,6 +219,19 @@ class QuotationPrintingsController < ApplicationController
       redirect_to root_url and return
     end
 
+    @quotation_printing = QuotationPrinting.new(quotation_printing_params)
+    @quotation_printing.user = current_user
+
+    if @quotation_printing.save
+      flash[:success] = 'Cotización para productos imprenta, registrada correctamente.'
+      # redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
+      redirect_to quotation_printings_path
+    else
+      flash[:error] = 'Se presento un error al registrar la cotización. Intente mas tarde.'
+      redirect_to quotation_printings_path
+    end
+
+=begin
     PgLock.new(name: "quotation_printings_create").lock do
       @quotation_printing = QuotationPrinting.new(quoation_printing_params)
       @quotation_printing.user = current_user
@@ -233,6 +257,7 @@ class QuotationPrintingsController < ApplicationController
         redirect_to quotation_printings_path
       end
     end
+=end
   end
 
   def update
@@ -261,6 +286,7 @@ class QuotationPrintingsController < ApplicationController
     end
   end
 
+=begin
   def add_printing_product
     begin
       manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
@@ -359,6 +385,7 @@ class QuotationPrintingsController < ApplicationController
       end
     end
   end
+=end
 
   # Data for carousel
   def data_carousel
@@ -384,21 +411,22 @@ class QuotationPrintingsController < ApplicationController
   private
 
   def set_module
-    @module = "OrdenTrabajo"
+    @module = "quotation_printing"
   end
 
-  def quoation_printing_params
-    params.require(:quotation_printing).permit(:invitation_id, :client_id, :cost_piece,
-      :total_pieces, :cost_elaboration, :total_quotations, :total_cost, :utility,
-      :status, :paid_with, :payment, :change, :difference, :payment_type_id, :full_payment,
-      :imagen, :imagen_cache
-    )
+  def quotation_printing_params
+    params.require(:quotation_printing).permit([:client_id, :invitation_id,
+      :content_for_invitation_id, :draft_delivery_date, :delivery_date, :total_pieces, :printing_type,
+      :description, :description_adjust_design, product_types: [:printing_product_id, :quantity]
+    ])
   end
 
+=begin
   def fixed_format_price
       params[:quotation_printing][:paid_with] = params[:quotation_printing][:paid_with].gsub(',','')
       params[:quotation_printing][:payment] = params[:quotation_printing][:payment].gsub(',','')
       params[:quotation_printing][:change] = params[:quotation_printing][:change].gsub(',','')
   end
+=end
 
 end

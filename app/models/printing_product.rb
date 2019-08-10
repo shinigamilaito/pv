@@ -34,6 +34,8 @@
 class PrintingProduct < ApplicationRecord
   mount_uploader :imagen, ImagenUploader
 
+  has_many :printing_product_quotation_printings
+
   validates :code, presence: true, uniqueness: {case_sensitive: true}
   validates :name, presence: true, uniqueness: {case_sensitive: true}
   validates :content, :purchase_price, :purchase_unit, :stock, presence: true

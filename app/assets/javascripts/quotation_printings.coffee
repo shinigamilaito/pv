@@ -56,6 +56,9 @@ class QuotationPrinting
   handleLoadFormSuccess: (data) =>
     @wrapperForm.html data.quotation_printing
     @item.find("[data-behavior='open-carousel']").on "click", @handleOpenCarousel
+
+    @form = @wrapperForm.find("[data-behavior='form']")
+    @form.on "submit", @handleValidateForm
     Utils.setDatePicker()
     Utils.inputsMask({rightAlign: false})
     Utils.collapsible()
@@ -105,12 +108,19 @@ class QuotationPrinting
       complete: (xhr) ->
         $("body").LoadingOverlay("hide", true)
 
-
   showModal: (response) =>
     modal = @item.find("[data-behavior='modal']")
     modalBody = modal.find("[data-behavior='modal-body']")
     modalBody.html(response.data)
     @carousel = new Carousel
+
+  handleValidateForm: =>
+    invitation = @wrapperForm.find("[data-behavior='invitation-input']")
+    content_for_invitation = @wrapperForm.find("[data-behavior='content-for-invitation-input']")
+    console.log("Validate Form: #{invitation.val()} => #{content_for_invitation.val()}")
+    unless invitation.val() && content_for_invitation.val()
+      toastr['error']('Proporcione los datos correctos');
+      return false
 
 class Carousel
   constructor: ->
@@ -200,8 +210,6 @@ class Carousel
       printing_product_id = $(e.target).data("printing-product-id")
       $(document).find("[data-behavior='printing-product-input-#{product_type}']").val printing_product_id
       console.log("InvitationID after close image: #{invitation_id}")
-
-
 
 jQuery ->
   console.log("QuoationPrinting file is loaded....")
