@@ -122,7 +122,8 @@
                 <div class="row">
                   <label style="margin-top:60px;" class="col-sm-2 control-label"><%= product_type %></label>
                   <p class="col-sm-4">
-                    <%= link_to(image_tag("default3.png", class: "img-responsive", data: {image_product_type: product_type},
+                    <%= hidden_field_tag "quotation_printing[product_types][][#{product_type}][printing_product_id]", nil, data: {behavior: "printing-product-input-#{product_type}"} %>
+                    <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior: "image-product-type-#{product_type}"},
                                           style: "width:100%; height:150px;"), "#", data: {behavior: "open-carousel",
                                                                                            carousel_type: "printing-products", product_type: product_type}) %>
                   </p>

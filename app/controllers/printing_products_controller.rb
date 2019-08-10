@@ -101,7 +101,12 @@ class PrintingProductsController < ApplicationController
   end
 
   def data_carousel
-    @printing_products = PrintingProduct.find_by_product_type(params[:product_type])
+    @printing_products = PrintingProduct.where("product_type = ? AND imagen IS NOT NULL", params[:product_type])
+    data_carousel = render_to_string("printing_products/data_carousel", layout: false, locals: {printing_products: @printing_products})
+
+    render json: {
+        data: data_carousel
+    }
 
   end
 

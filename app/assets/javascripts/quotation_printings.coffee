@@ -193,6 +193,16 @@ class Carousel
       $(document).find("[data-behavior='content-for-invitation-input']").val content_for_invitation_id
       console.log("InvitationID after close image: #{invitation_id}")
 
+    if type = 'printing_products'
+      product_type = $(e.target).data("product-type")
+      placeholder = $(document).find("[data-behavior='image-product-type-#{product_type}']")
+      placeholder.attr "src", imagen_url
+      printing_product_id = $(e.target).data("printing-product-id")
+      $(document).find("[data-behavior='printing-product-input-#{product_type}']").val printing_product_id
+      console.log("InvitationID after close image: #{invitation_id}")
+
+
+
 jQuery ->
   console.log("QuoationPrinting file is loaded....")
   $.map $("[data-behavior='quotation-printing']"), (item) ->

@@ -2,20 +2,21 @@
   <div class="row justify-content-center">
     <div class="row">
       <div class="col-md-12">
-        <% if @printing_products.present? %>
+        <% if printing_products.present? %>
 
-            <% @printing_products.each do |printing_product| %>
+            <% printing_products.each do |printing_product| %>
               <%= link_to (image_tag printing_product.imagen_url, class: "img-fluid img-thumbnail img-responsive"), printing_product.imagen_url,
                           data: {toggle: "lightbox", gallery: "example-gallery",
                                  title: printing_product.name, footer: "<button data-behavior='select-image' data-type='printing-product'
-                             data-invitation-id='#{invitation.id}' data-image-url='#{invitation.imagen_url}'
+                             data-printing-product-id='#{printing_product.id}' data-image-url='#{printing_product.imagen_url}'
+                             data-product-type='#{printing_product.product_type}'
                              class='pull-right'>Seleccionar</button>",
                           },
                           class: "col-sm-3" %>
             <% end %>
 
         <% else %>
-          <h2>Muestras no encontradas</h2>
+          <h2>Productos no encontrados</h2>
         <% end %>
       </div>
     </div>
