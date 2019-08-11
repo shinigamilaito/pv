@@ -5,7 +5,7 @@
 
   <div class="box-body">
     <div class="row">
-      <div class="col-sm-5">
+      <div class="col-sm-6">
         <div class="form-group">
           <label class="col-sm-5 control-label">Cliente</label>
           <div class="col-sm-7" style="margin-bottom: 10px;">
@@ -14,7 +14,8 @@
         </div>
 
         <div class="form-group">
-          <div class="col-sm-5" style="margin-top:60px; margin-bottom: 10px;">
+          <div class="col-sm-5" style="margin-top:30px; margin-bottom: 10px;">
+            <label class="control-label" data-behavior="category-invitation-label">Seleccionar tipo de categoría</label>
             <%= select_tag "category_id", options_from_collection_for_select(Category.order(:name), "id", "name"),
                            {class: "form-control", prompt: "Seleccionar tipo de categoría",
                             data: {behavior: "category-invitation"}} %>
@@ -27,7 +28,8 @@
         </div>
 
         <div class="form-group">
-          <div class="col-sm-5" style="margin-top:60px; margin-bottom: 10px;">
+          <div class="col-sm-5" style="margin-top:30px; margin-bottom: 10px;">
+            <label class="control-label">Contenido</label>
             <%= select_tag "category_id", options_from_collection_for_select(Category.order(:name), "id", "name"),
                            {class: "form-control", prompt: "Seleccionar tipo de contenido",
                             data: {behavior: "category-content"}} %>
@@ -40,7 +42,7 @@
         </div>
       </div>
 
-      <div class="col-sm-5">
+      <div class="col-sm-6">
         <div class="form-group">
           <label class="col-sm-6 control-label">Fecha Entrega (Borrador)</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">

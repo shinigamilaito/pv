@@ -59,6 +59,9 @@ class QuotationPrinting
 
     @form = @wrapperForm.find("[data-behavior='form']")
     @form.on "submit", @handleValidateForm
+
+    @wrapperForm.find("[data-behavior='category-invitation']").on "change", @handleChangeCategoryInvitation
+
     Utils.setDatePicker()
     Utils.inputsMask({rightAlign: false})
     Utils.collapsible()
@@ -121,6 +124,11 @@ class QuotationPrinting
     unless invitation.val() && content_for_invitation.val()
       toastr['error']('Proporcione los datos correctos');
       return false
+
+  handleChangeCategoryInvitation: (e) =>
+    category = $(e.currentTarget).find("option:selected").text()
+    label = @wrapperForm.find("[data-behavior='category-invitation-label']")
+    label.text category
 
 class Carousel
   constructor: ->
