@@ -221,6 +221,7 @@ class QuotationPrintingsController < ApplicationController
 
     @quotation_printing = QuotationPrinting.new(quotation_printing_params)
     @quotation_printing.user = current_user
+    @quotation_printing.message_history_quotation_printings.first.user = current_user
 
     if @quotation_printing.save
       flash[:success] = 'Cotización para productos imprenta, registrada correctamente.'
@@ -417,7 +418,7 @@ class QuotationPrintingsController < ApplicationController
   def quotation_printing_params
     params.require(:quotation_printing).permit([:client_id, :invitation_id,
       :content_for_invitation_id, :draft_delivery_date, :delivery_date, :total_pieces, :printing_type,
-      :description, :description_adjust_design, product_types: [:printing_product_id, :quantity]
+      :description, :description_adjust_design, :message, product_types: [:printing_product_id, :quantity]
     ])
   end
 

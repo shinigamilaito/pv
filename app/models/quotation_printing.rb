@@ -52,6 +52,7 @@ class QuotationPrinting < ApplicationRecord
 
   # has_many :printing_product_quotations # Revisar
   has_many :printing_product_quotation_printings, dependent: :destroy
+  has_many :message_history_quotation_printings, dependent: :destroy
   #has_many :printing_products, through: :printing_product_quotation_printings
 
   validates :client_id, :user_id, presence: true
@@ -91,6 +92,12 @@ class QuotationPrinting < ApplicationRecord
         })
         printing_product_quotation_printings << printing_product_quotation
       end
+    end
+  end
+
+  def message=(message_history)
+    if message_history.present?
+      message_history_quotation_printings << MessageHistoryQuotationPrinting.new(message: message_history)
     end
   end
 
