@@ -1,33 +1,5 @@
 <div class="container-fluid">
-  <div class="row alwaysbreak">
-  <div class="col-xs-7">
-    <% logo_path = image_url("logo_nota_servicios.jpg") %>
-    <%= wicked_pdf_image_tag(logo_path, {size: "560x350"}) %>
-    <%#= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
-  </div>
-  <div class="col-xs-5">
-    <h3 class="text-center"><%= "FECHA: " + @note_quotation.date %></h3>
-    <div class="m-b-10 text-right">
-      <h3 style="display: inline-block;" class="not-margin text-right">
-        <strong>Número:</strong>
-      </h3>
-      <h1 class="number-folio red not-margin"><%= @note_quotation.folio %></h1>
-    </div>
-    <h3 class="not-margin-top text-right"><%= @note_quotation.street %></h3>
-    <h3 class="f-s-a-f not-margin-top text-right"><%= @note_quotation.city %></h3>
-    <div class="m-b-10 row">
-      <div class="col-xs-6">
-        <h3 class="not-margin"><%= @note_quotation.telephones[:one] %></h3>
-      </div>
-      <div class="col-xs-6 text-right">
-        <h3 class="not-margin"><%= @note_quotation.telephones[:two] %></h3>
-      </div>
-    </div>
-    <h3 class="not-margin-top text-right"><%= @note_quotation.email %></h3>
-    <h3 class="not-margin-top red">HORARIO: 9:00 am 8:30 pm</h3>
-  </div>
-  </div>
-
+  <%= render 'pdfs/header_note', {note: @note_quotation, title: 'Número:'} %>
   <section class="section-blue m-b-20"></section>
 
   <div class="row">
@@ -40,7 +12,8 @@
     <div class="col-xs-12">
       <h5><%= "Cliente: " + @note_quotation.client[:name] %></h5>
       <h5><%= "Direccion: " + @note_quotation.client[:address] %></h5>
-      <h5><%= "Teléfono: " + @note_quotation.client[:home_phone] %></h5>
+      <h5><%= "Teléfono Fijo: " + @note_quotation.client[:home_phone] %></h5>
+      <h5><%= "Teléfono Movil: " + @note_quotation.client[:mobile_phone] %></h5>
       <h5><%= "Correo: " + @note_quotation.client[:email] %></h5>
     </div>
   </div>

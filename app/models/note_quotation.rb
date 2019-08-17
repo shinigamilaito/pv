@@ -38,6 +38,7 @@ class NoteQuotation
       name: client_name,
       address: client_address,
       home_phone: client_home_phone,
+      mobile_phone: client_mobile_phone,
       email: client_email
     }
   end
@@ -71,11 +72,11 @@ class NoteQuotation
  end
 
 def client_home_phone
-  quotation.client.home_phone
+  quotation.client.home_phone || ""
 end
 
 def client_mobile_phone
-  quotation.client.mobile_phone
+  quotation.client.mobile_phone || ""
 end
 
 def client_email

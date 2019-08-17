@@ -1,32 +1,5 @@
 <% @note_service.equipment_customers.each do |equipment_customer| %>
-  <div class="row alwaysbreak">
-    <div class="col-xs-7">
-      <% logo_path = image_url("logo_nota_servicios.jpg") %>
-      <%= wicked_pdf_image_tag(logo_path, {size: "560x350"}) %>
-      <%#= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
-    </div>
-    <div class="col-xs-5">
-      <h3 class="text-center"><%= "FECHA: " + @note_service.date %></h3>
-      <div class="m-b-10 text-right">
-        <h3 style="display: inline-block;" class="not-margin text-right">
-          <strong>ORDEN:</strong>
-        </h3>
-        <h1 class="number-folio red not-margin"><%= @note_service.folio %></h1>
-      </div>
-      <h3 class="not-margin-top text-right"><%= @note_service.street %></h3>
-      <h3 class="f-s-a-f not-margin-top text-right"><%= @note_service.city %></h3>
-      <div class="m-b-10 row">
-        <div class="col-xs-6">
-          <h3 class="not-margin"><%= @note_service.telephones[:one] %></h3>
-        </div>
-        <div class="col-xs-6 text-right">
-          <h3 class="not-margin"><%= @note_service.telephones[:two] %></h3>
-        </div>
-      </div>
-      <h3 class="not-margin-top text-right"><%= @note_service.email %></h3>
-      <h3 class="not-margin-top red">HORARIO: 9:00 am 8:30 pm</h3>
-    </div>
-  </div>
+  <%= render 'pdfs/header_note', note: @note_service, title: 'ORDEN:' %>
   <section class="section-blue m-b-20"></section>
 
   <div class="container-fluid">
@@ -42,7 +15,8 @@
     <div class="row border">
       <div class="col-xs-6">
         <p><%= "Cliente: " + @note_service.client[:name] %></p>
-        <p><%= "Teléfono: " + @note_service.client[:home_phone] %></p>
+        <p><%= "Teléfono Fijo: " + @note_service.client[:home_phone] %></p>
+        <p><%= "Teléfono Movil: " + @note_service.client[:mobile_phone] %></p>
         <p><%= "Correo: " + @note_service.client[:email] %></p>
       </div>
       <div class="col-xs-6 border-left">
@@ -67,7 +41,7 @@
         <div class="row">
           <% @components[0..2].each do |component| %>
             <%= render partial: 'components/component_note', locals: { component: component, check_component: check_component?(equipment_customer, component)} %>
-            <% end %>
+          <% end %>
         </div>
         <div class="row">
           <% @components[-3..-1].each do |component| %>
@@ -105,11 +79,12 @@
     <div class="row border">
       <div class="col-xs-6">
         <p><%= "Cliente: " + @note_service.client[:name] %></p>
-        <p><%= "Teléfono: " + @note_service.client[:home_phone] %></p>
+        <p><%= "Teléfono Fijo: " + @note_service.client[:home_phone] %></p>
+        <p><%= "Teléfono Movil: " + @note_service.client[:mobile_phone] %></p>
         <p><%= "Correo: " + @note_service.client[:email] %></p>
       </div>
       <div class="col-xs-6 border-left">
-        <h1 class="number_folio">Orden: <span class="red"><%= @note_service.folio %></span></h1>
+        <p>Orden: <span class="red number-folio-owner"><%= @note_service.folio %></span></p>
         <p><%= "Marca: " + equipment_customer.brand.name %></p>
         <p><%= "Modelo: " + equipment_customer.equipment_model.name %></p>
         <p><%= "No. Serie: " + equipment_customer.serie_number %></p>

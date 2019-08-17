@@ -38,6 +38,7 @@ class NoteService
       name: client_name,
       address: client_address,
       home_phone: client_home_phone,
+      mobile_phone: client_mobile_phone,
       email: client_email
     }
   end
@@ -57,11 +58,11 @@ class NoteService
  end
 
 def client_home_phone
-  service.client.home_phone
+  service.client.home_phone || ""
 end
 
 def client_mobile_phone
-  service.client.mobile_phone
+  service.client.mobile_phone || ""
 end
 
 def client_email

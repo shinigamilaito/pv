@@ -1,0 +1,27 @@
+<div class="row alwaysbreak">
+  <div class="col-xs-7">
+    <%= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
+  </div>
+  <div class="col-xs-5">
+    <h3 class="text-center"><%= "FECHA: " + note.date %></h3>
+    <div class="m-b-10 text-right">
+      <h3 style="display: inline-block;" class="not-margin text-right">
+        <strong><%= title %></strong>
+      </h3>
+      <h1 class="number-folio red not-margin"><%= note.folio %></h1>
+    </div>
+    <h3 class="not-margin-top text-right"><%= note.street %></h3>
+    <h3 class="f-s-a-f not-margin-top text-right"><%= note.city %></h3>
+    <div class="m-b-10 row">
+      <div class="col-xs-6">
+        <h3 class="not-margin"><%= note.telephones[:one] %></h3>
+      </div>
+      <div class="col-xs-6 text-right">
+        <h3 class="not-margin"><%= note.telephones[:two] %></h3>
+      </div>
+    </div>
+    <h3 class="not-margin-top text-right"><%= note.email %></h3>
+    <h3 class="not-margin-top red">HORARIO: Lunes a Viernes 9:30 AM a 3:30 PM y 5:00 PM a 9:00 PM</h3>
+    <h3 class="not-margin-top red">Sabados 9:30 AM a 3:30 PM y 5:00 PM a 8:00 PM</h3>
+  </div>
+</div>
