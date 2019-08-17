@@ -46,7 +46,7 @@ class PrintingProductForm
       $increase_stock.val('0')
 
     else
-      $stock.val(increase_stock_val + stock_val)
+      $stock.val(increase_stock_val + $stock.data("stock"))
 
   handleImage: (event) =>
     console.log("Calling Util.readURL from: handleImage")
