@@ -19,11 +19,13 @@ class PartialSalesController < ApplicationController
 
   def new
     @printing_sale = PrintingSale.find_by_ticket(params[:ticket_printing_sale])
-    @partial_sale = PartialSale.new
-    @partial_sale.printing_sale = @printing_sale
     partial_sale_policy = PartialSalesPolicy.new()
     @total = partial_sale_policy.total(@printing_sale)
     @total_payments = partial_sale_policy.total_payments(@printing_sale)
+
+    @partial_sale = PartialSale.new
+    @partial_sale.printing_sale = @printing_sale
+    @partial_sale.difference = @total - @total_payments
   end
 
   def create
