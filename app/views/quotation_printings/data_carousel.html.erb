@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row" data-behavior="background-image" data-url="<%= @url_background %>">
   <div class="form-group">
-    <label class="col-sm-2 control-label">Subcategoría</label>
+    <label class="col-sm-2 control-label background-color-carousel">Subcategoría</label>
     <div class="col-sm-3" style="margin-bottom: 10px;">
       <% if @type.eql?("invitations") %>
         <%= select_tag "quotation_printing[invitation_id]", options_from_collection_for_select(@subcategories, "id", "name", @subcategory),
@@ -11,6 +11,15 @@
         <%= select_tag "quotation_printing[content_for_invitation_id]", options_from_collection_for_select(@subcategories, "id", "name", @subcategory),
                        {class: "form-control", required: true, data: {behavior: 'subcategory', type:@type}} %>
       <% end %>
+    </div>
+    <label class="col-sm-2 control-label background-color-carousel">Fondo:</label>
+    <div class="col-sm-5">
+      <%= form_tag quotation_modal_image_path, multipart: true, data: {remote: true, type: :json} do %>
+        <%= file_field_tag "configuration[url_background_carousel]", class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg',
+                           data: {behavior: 'file-background-image'}%>
+        <%= submit_tag "update", data: {behavior:'form-background-image'}, style: "display: none;" %>
+      <% end %>
+
     </div>
   </div>
 </div>

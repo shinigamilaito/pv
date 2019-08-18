@@ -251,3 +251,7 @@ padding-left: 3px;
 .login-box {
   margin: 2% auto !important;
 }
+
+.background-color-carousel {
+    background-color: #f6f9f8ab !important;
+}

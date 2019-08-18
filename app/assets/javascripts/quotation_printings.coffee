@@ -115,6 +115,7 @@ class QuotationPrinting
     modal = @item.find("[data-behavior='modal']")
     modalBody = modal.find("[data-behavior='modal-body']")
     modalBody.html(response.data)
+    @handleBackgroundImage(modalBody)
     @carousel = new Carousel
 
   handleValidateForm: =>
@@ -129,6 +130,37 @@ class QuotationPrinting
     category = $(e.currentTarget).find("option:selected").text()
     label = @wrapperForm.find("[data-behavior='category-invitation-label']")
     label.text category
+
+  handleBackgroundImage: (modalBody) =>
+    fileBackgroundImage = modalBody.find("[data-behavior='file-background-image']")
+    fileBackgroundImage.on "change", @handleChangeBackgroundImage
+    @showBackgroundImage(modalBody)
+
+  handleChangeBackgroundImage: (e) =>
+    modal = @item.find("[data-behavior='modal']")
+    modalBody = modal.find("[data-behavior='modal-body']")
+    formBackground = modalBody.find("[data-behavior='form-background-image']")
+
+    formBackground.parents("form")
+      .on("ajax:success", (event) =>
+        [data, status, xhr] = event.detail
+        @setBackgroundImage(modalBody, data.url)
+      ).on "ajax:error", (event) ->
+        console.log("ERROR")
+
+    formBackground.click()
+
+  showBackgroundImage: (modalBody) =>
+    backgroundURL = modalBody.find("[data-behavior='background-image']")
+    urlImageBackground = backgroundURL.data("url")
+    modalBody
+      .css("background-image", "url(#{urlImageBackground})")
+      .animate({opacity: 1},{duration:1000});
+
+  setBackgroundImage: (modalBody, url) =>
+    backgroundURL = modalBody.find("[data-behavior='background-image']")
+    urlImageBackground = backgroundURL.data("url", url)
+    @showBackgroundImage(modalBody)
 
 class Carousel
   constructor: ->

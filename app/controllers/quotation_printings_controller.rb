@@ -38,12 +38,8 @@ class QuotationPrintingsController < ApplicationController
     if params[:number_folio] == 'Nueva Cotización'
       @quotation_printing = QuotationPrinting.new
       @quotation_printing.client_id = params[:client_id]
-      # @invitations = []
-      # @invitation_id = nil
     else
       @quotation_printing = QuotationPrinting.find_by_number_folio(params[:number_folio])
-      # @invitation_id = @quotation_printing.invitation_id
-      # @invitations = [@quotation_printing.invitation.name, @invitation_id]
     end
 
     quotation_printing_element = render_to_string("quotation_printings/new", layout: false,
@@ -390,6 +386,8 @@ class QuotationPrintingsController < ApplicationController
 
   # Data for carousel
   def data_carousel
+    @url_background = ConfigurationData.configure.background_url
+
     if params[:category_id].present?
       category = Category.find params[:category_id]
       @subcategories = category.subcategories.order(:created_at)
