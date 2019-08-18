@@ -1,9 +1,0 @@
-<div class="direct-chat-msg">
-  <div class="direct-chat-info clearfix">
-      <span class="direct-chat-timestamp pull-right" style="margin-left: 10px;"><%= message_history.created_at.strftime("%d/%m/%Y %I:%M %p") %></span>
-    <span class="direct-chat-name pull-right"><%= message_history.user.formal_name %></span>
-  </div>
-  <div class="direct-chat-text" style="text-align: right;">
-    <%= message_history.message %>
-  </div>
-</div>

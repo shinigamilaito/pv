@@ -66,3 +66,6 @@ class @Utils
       height = $collapsibleBody.prop('scrollHeight') + 40 + "px"
       $collapsibleBody.css "height", height
 
+  @setScroll: (element) ->
+    height = element[0].scrollHeight
+    element.scrollTop height

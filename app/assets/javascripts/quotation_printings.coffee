@@ -56,15 +56,18 @@ class QuotationPrinting
   handleLoadFormSuccess: (data) =>
     @wrapperForm.html data.quotation_printing
     @item.find("[data-behavior='open-carousel']").on "click", @handleOpenCarousel
+    @item.find("[data-behavior='add_history']").on "click", @handleHistory
 
     @form = @wrapperForm.find("[data-behavior='form']")
     @form.on "submit", @handleValidateForm
+    @form.on "keypress", @handleNoSendForm
 
     @wrapperForm.find("[data-behavior='category-invitation']").on "change", @handleChangeCategoryInvitation
 
     Utils.setDatePicker()
     Utils.inputsMask({rightAlign: false})
     Utils.collapsible()
+    Utils.setScroll(@item.find("[data-behavior='chat_history']"))
 
   handleOpenCarousel: (e) =>
     type = $(e.currentTarget).data("carousel-type")
@@ -126,6 +129,25 @@ class QuotationPrinting
       toastr['error']('Proporcione los datos correctos');
       return false
 
+  handleNoSendForm: (e) =>
+    if e.keyCode == 13
+      e.preventDefault()
+
+  handleHistory: (e) =>
+    input = @item.find("[data-behavior='message_history']")
+    message = input.val()
+    url = input.data("url")
+    if message
+      $.ajax(
+        url: url
+        method: "post"
+        dataType: "json"
+        data:
+          message: message
+        success: @handleHistorySuccess
+      )
+
+
   handleChangeCategoryInvitation: (e) =>
     category = $(e.currentTarget).find("option:selected").text()
     label = @wrapperForm.find("[data-behavior='category-invitation-label']")
@@ -161,6 +183,14 @@ class QuotationPrinting
     backgroundURL = modalBody.find("[data-behavior='background-image']")
     urlImageBackground = backgroundURL.data("url", url)
     @showBackgroundImage(modalBody)
+
+  handleHistorySuccess: (data) =>
+    wrapper_messages = @item.find("[data-behavior='wrapper_history']")
+    input = @item.find("[data-behavior='message_history']")
+
+    wrapper_messages.append(data.result)
+    input.val("")
+    Utils.setScroll(@item.find("[data-behavior='chat_history']"))
 
 class Carousel
   constructor: ->

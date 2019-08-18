@@ -422,6 +422,18 @@ class QuotationPrintingsController < ApplicationController
     }
   end
 
+  def add_history
+    quotation_printing = QuotationPrinting.find params[:id]
+    message_history = MessageHistoryQuotationPrinting.new({message: params[:message], user_id: current_user.id})
+    quotation_printing.message_history_quotation_printings << message_history
+    quotation_printing.save
+
+    render json: {
+        result: render_to_string("message_history_quotation_printings/_message_history_quotation_printing",
+                               layout: false, locals: {message_history_quotation_printing: message_history})
+    }
+  end
+
   private
 
   def set_module

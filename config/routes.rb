@@ -31,9 +31,11 @@ Rails.application.routes.draw do
       get :obtain_printing_products
       get :obtain_printing_products_for_quotation
     end
-    get :get_pdf, on: :member
-    get :generate_ticket, on: :member
-
+    member do
+      get :get_pdf
+      get :generate_ticket
+      post :add_history
+    end
   end
 
   resources :invitations do
