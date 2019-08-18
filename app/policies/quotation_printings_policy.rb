@@ -24,7 +24,8 @@ class QuotationPrintingsPolicy
 
   def quotation_printings_with_date_creation(quotation_printing)
     date = ActionController::Base.helpers.l(quotation_printing.created_at, format: '%A, %d %b %Y %I:%M:%S')
-    return "#{quotation_printing.number_folio} - Creado: #{date}. - #{quotation_printing.status}"
+    return "#{quotation_printing.number_folio} - Creado: #{date}"
+    #return "#{quotation_printing.number_folio} - Creado: #{date}. - #{quotation_printing.status}"
   end
 
   def generate_printing_product(invitation, user, quotation_printing_id = nil)

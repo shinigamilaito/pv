@@ -16,13 +16,13 @@
         <div class="form-group" id="quotation_printing">
           <label>Buscar/Agregar Cotización</label>
           <%= select_tag 'quotation_printing[number_folio]', options_for_select(@quotation_printings, @quotation_printing),
-                         class: 'form-control', required: true %>
+                         class: 'form-control', required: true, data: {behavior: "quotation_select"} %>
         </div>
       </div>
 
       <div class="col-md-2">
         <div class="form-group">
-          <%= link_to 'Registrar', "#", class: 'btn btn-info btn-block disabled', id: 'search_quotation_printing_button', style: 'margin-top: 25px;',
+          <%= link_to 'Registrar', "javascript:void(0);", class: 'btn btn-info btn-block disabled', style: 'margin-top: 25px;',
           data: {behavior: 'quotation-register'}%>
         </div>
       </div>
@@ -34,23 +34,6 @@
 
   <%= render "quotation_printings/modal" %>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $searchQuotationPrintingButton = $('#search_quotation_printing_button');
-
-
-    $('.autocomplete_quotation_printings').on('select2:select', function (e) {
-      var textQuotation = e.params.data.text;
-      if (textQuotation != 'Nueva Cotización') {
-        $searchQuotationPrintingButton.val("Buscar");
-      } else {
-        $searchQuotationPrintingButton.val("Registrar");
-      }
-    });
-
-  });
-</script>
 
 <script>
   <% if @get_quotation_pdf %>

@@ -37,7 +37,17 @@ class QuotationPrinting
     @item.find("[data-behavior='div-quotation-printings']").html(data.quotation_printing)
     @selectNumberFolio = @item.find("[data-behavior='select-number-folio']")
     @selectNumberFolio.select2()
+    @selectNumberFolio.on "select2:select", @handleNumberFolioChange
     @buttonRegister.removeClass "disabled"
+
+  handleNumberFolioChange: (e) =>
+    text = "Nueva Cotización"
+    option = e.params.data.text;
+    if option == text
+      @buttonRegister.text 'Registrar'
+    else
+      @buttonRegister.text 'Buscar'
+
 
   handleLoadForm: =>
     $.ajax
