@@ -1,7 +1,8 @@
 <%= form_for(quotation_printing, data: {behavior: 'form'}) do |f| %>
   <%= f.hidden_field :client_id, value: quotation_printing.client_id %>
-  <%= f.hidden_field :invitation_id, value: nil, data: {behavior: 'invitation-input'} %>
-  <%= f.hidden_field :content_for_invitation_id, value: nil, data: {behavior: 'content-for-invitation-input'} %>
+  <%= f.hidden_field :invitation_id, value: quotation_printing.invitation_id, data: {behavior: 'invitation-input'} %>
+  <%= f.hidden_field :content_for_invitation_id, value: quotation_printing.content_for_invitation_id,
+                     data: {behavior: 'content-for-invitation-input'} %>
 
   <div class="box-body">
     <div class="row">
@@ -16,12 +17,14 @@
         <div class="form-group">
           <div class="col-sm-5" style="margin-top:30px; margin-bottom: 10px;">
             <label class="control-label" data-behavior="category-invitation-label">Seleccionar tipo de categoría</label>
-            <%= select_tag "category_id", options_from_collection_for_select(Category.order(:name), "id", "name"),
+            <% category = quotation_printing.new_record? ? nil:quotation_printing.invitation.category_id %>
+            <%= select_tag "category_id", options_from_collection_for_select(Category.order(:name), "id", "name", category),
                            {class: "form-control", prompt: "Seleccionar tipo de categoría",
                             data: {behavior: "category-invitation"}} %>
           </div>
           <p class="col-sm-5">
-            <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior: 'image-invitation'},
+            <% url_image = quotation_printing.new_record? ? 'default3.png':quotation_printing.invitation.imagen_url %>
+            <%= link_to(image_tag(url_image, class: "img-responsive", data: {behavior: 'image-invitation'},
                                   style: "width:100%; height:150px;"), "#", data: {behavior: "open-carousel", carousel_type: "invitations"}) %>
           </p>
           <label style="margin-top:60px;" class="col-sm-2 control-label">Muestra</label>
@@ -30,12 +33,14 @@
         <div class="form-group">
           <div class="col-sm-5" style="margin-top:30px; margin-bottom: 10px;">
             <label class="control-label">Contenido</label>
-            <%= select_tag "category_id", options_from_collection_for_select(Category.order(:name), "id", "name"),
+            <% category = quotation_printing.new_record? ? nil:quotation_printing.content_for_invitation.category_id %>
+            <%= select_tag "category_id", options_from_collection_for_select(Category.order(:name), "id", "name", category),
                            {class: "form-control", prompt: "Seleccionar tipo de contenido",
                             data: {behavior: "category-content"}} %>
           </div>
           <p class="col-sm-5">
-            <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior: 'image-content'},
+            <% url_image = quotation_printing.new_record? ? 'default3.png':quotation_printing.content_for_invitation.image_url %>
+            <%= link_to(image_tag(url_image, class: "img-responsive", data: {behavior: 'image-content'},
                                   style: "width:100%; height:150px;"), "#", data: {behavior: "open-carousel", carousel_type: "contents"}) %>
           </p>
           <label style="margin-top:60px;" class="col-sm-2 control-label">Muestra</label>
@@ -46,16 +51,16 @@
         <div class="form-group">
           <label class="col-sm-6 control-label">Fecha Entrega (Borrador)</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
-            <%= text_field_tag "quotation_printing[draft_delivery_date]", nil, class: 'form-control', autocomplete: "off",
-                               data: {behavior: 'date'}, required: true %>
+            <%= f.text_field :draft_delivery_date, class: 'form-control', autocomplete: "off", data: {behavior: 'date'},
+                             required: true %>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-6 control-label">Fecha Entrega</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
-            <%= text_field_tag "quotation_printing[delivery_date]", nil, class: 'form-control', autocomplete: "off",
-                               data: {behavior: 'date'}, required: true %>
+            <%= f.text_field :delivery_date, class: 'form-control', autocomplete: "off", data: {behavior: 'date'},
+                             required: true %>
           </div>
         </div>
 
@@ -70,8 +75,8 @@
         <div class="form-group <%= 'has-error' unless quotation_printing.errors[:impression_type].blank? %>">
           <label class="col-sm-6 control-label">Tipo Impresión</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
-            <%= select_tag "quotation_printing[printing_type]", options_for_select(QuotationPrinting.impression_types),
-                           {class: "form-control", required: true, prompt: "Seleccionar tipo de impresión"} %>
+            <%= f.select :printing_type, options_for_select(QuotationPrinting.impression_types, selected: quotation_printing.printing_type),
+                         {include_blank: "Seleccionar tipo de impresión"}, {class: "form-control", required: true } %>
             <span><%= quotation_printing.errors[:printing_type].first %></span>
           </div>
         </div>
@@ -83,7 +88,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label>Descripción:</label>
-          <%= text_area_tag "quotation_printing[description]", nil, class: "form-control", rows: "5", style: "resize:none;" %>
+          <%= f.text_area :description, class: "form-control", rows: "5", style: "resize:none;" %>
           <div class="invalid-feedback"><%= quotation_printing.errors[:description].first %></div>
         </div>
       </div>
@@ -93,7 +98,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label>Descripción Ajuste Diseño:</label>
-          <%= text_area_tag "quotation_printing[description_adjust_design]", nil, class: "form-control", rows: "5", style: "resize:none;" %>
+          <%= f.text_area :description_adjust_design, class: "form-control", rows: "5", style: "resize:none;" %>
           <div class="invalid-feedback"><%= quotation_printing.errors[:description_adjust_design].first %></div>
         </div>
       </div>
@@ -120,13 +125,16 @@
                 <div class="row">
                   <label style="margin-top:60px;" class="col-sm-2 control-label"><%= product_type %></label>
                   <p class="col-sm-4">
-                    <%= hidden_field_tag "quotation_printing[product_types][][printing_product_id]", nil, data: {behavior: "printing-product-input-#{product_type}"} %>
-                    <%= link_to(image_tag("default3.png", class: "img-responsive", data: {behavior: "image-product-type-#{product_type}"},
-                                          style: "width:100%; height:150px;"), "#", data: {behavior: "open-carousel",
-                                                                                           carousel_type: "printing-products", product_type: product_type}) %>
+                    <%= hidden_field_tag "quotation_printing[product_types][][printing_product_id]",
+                                         quotation_printing.printing_product_id_by(product_type),
+                                         data: {behavior: "printing-product-input-#{product_type}"} %>
+                    <%= link_to(image_tag(quotation_printing.printing_product_image_url_by(product_type),
+                                          class: "img-responsive", data: {behavior: "image-product-type-#{product_type}"},
+                                          style: "width:100%; height:150px;"), "#",
+                                data: {behavior: "open-carousel", carousel_type: "printing-products", product_type: product_type}) %>
                   </p>
                   <div class="col-sm-4">
-                    <%= text_field_tag "quotation_printing[product_types][][quantity]", 0,
+                    <%= text_field_tag "quotation_printing[product_types][][quantity]", quotation_printing.printing_product_quantity_by(product_type),
                                        class: "form-control", placeholder: "Cantidad", style:"margin-top:60px;",
                                        data: {input_mask: 'integer-input'} %>
                   </div>

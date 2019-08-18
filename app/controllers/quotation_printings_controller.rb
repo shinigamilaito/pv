@@ -263,6 +263,20 @@ class QuotationPrintingsController < ApplicationController
       redirect_to root_url and return
     end
 
+    @quotation_printing = QuotationPrinting.find(params[:id])
+    @quotation_printing.user = current_user
+    #@quotation_printing.message_history_quotation_printings.first.user = current_user
+
+    if @quotation_printing.update(quotation_printing_params)
+      flash[:success] = 'Cotización para productos imprenta, actualizada correctamente.'
+      # redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
+      redirect_to quotation_printings_path
+    else
+      flash[:error] = 'Se presento un error al actualizar la cotización. Intente mas tarde.'
+      redirect_to quotation_printings_path
+    end
+
+=begin
     PgLock.new(name: "quotation_printings_update").lock do
       @quotation_printing = QuotationPrinting.find(params[:id])
       @quotation_printing.user = current_user
@@ -281,6 +295,7 @@ class QuotationPrintingsController < ApplicationController
         redirect_to quotation_printings_path
       end
     end
+=end
   end
 
 =begin

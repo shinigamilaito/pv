@@ -13,11 +13,11 @@ the printing quotations (invitations)
 #  change                     :decimal(10, 2)   default(0.0)
 #  cost_elaboration           :decimal(10, 2)   default(0.0)
 #  cost_piece                 :decimal(10, 2)   default(0.0)
-#  delivery_date              :datetime
+#  delivery_date              :string
 #  description                :text
 #  description_adjust_design  :text
 #  difference                 :decimal(10, 2)   default(0.0)
-#  draft_delivery_date        :datetime
+#  draft_delivery_date        :string
 #  full_payment               :boolean
 #  imagen                     :string
 #  number_folio               :string
@@ -53,12 +53,12 @@ class QuotationPrinting < ApplicationRecord
   # has_many :printing_product_quotations # Revisar
   has_many :printing_product_quotation_printings, dependent: :destroy
   has_many :message_history_quotation_printings, dependent: :destroy
-  #has_many :printing_products, through: :printing_product_quotation_printings
+  has_many :printing_products, through: :printing_product_quotation_printings
 
   validates :client_id, :user_id, presence: true
   validates :number_folio, presence: true, uniqueness: {case_sensitive: true}
 
-  before_validation :set_number_folio
+  before_validation :set_number_folio, unless: Proc.new { |model| model.persisted? }
 
   def set_number_folio
     self.number_folio = QuotationPrinting.count + 1
@@ -103,5 +103,45 @@ class QuotationPrinting < ApplicationRecord
 
   def self.impression_types
     ["Laser"]
+  end
+
+  def printing_product_id_by(product_type)
+    if new_record?
+      nil
+    else
+      printing_product = printing_product_by(product_type)
+      printing_product.nil? ? nil : printing_product.id
+    end
+  end
+
+  def printing_product_image_url_by(product_type)
+    if new_record?
+      "default3.png"
+    else
+      printing_product = printing_product_by(product_type)
+      printing_product.nil? ? "default3.png" : printing_product.imagen_url
+    end
+  end
+
+  def printing_product_quantity_by(product_type)
+    if new_record?
+      0
+    else
+      printing_product = printing_product_by(product_type)
+      if printing_product.nil?
+        return 0
+      else
+        printing_product_quotation_printing = printing_product_quotation_printings
+                                                  .where(printing_product_id: printing_product.id)
+                                                  .first
+        printing_product_quotation_printing.nil? ? 0 : printing_product_quotation_printing.quantity
+      end
+    end
+  end
+
+  private
+
+  def printing_product_by(product_type)
+    printing_products.find_by_product_type(product_type)
   end
 end
