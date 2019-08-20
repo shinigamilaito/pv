@@ -243,9 +243,11 @@ class Carousel
     e.preventDefault()
     console.log("In handleLightBox")
     $(e.currentTarget).ekkoLightbox({
+      showArrows: false,
 #alwaysShowClose: true
       onContentLoaded: (e) =>
         @setClicImage()
+        @handleZoomEvent()
       onShow: (e) =>
         console.log('onShow' + e)
       onHide: (e) =>
@@ -290,6 +292,19 @@ class Carousel
       printing_product_id = $(e.target).data("printing-product-id")
       $(document).find("[data-behavior='printing-product-input-#{product_type}']").val printing_product_id
       console.log("InvitationID after close image: #{invitation_id}")
+
+  handleZoomEvent: =>
+    console.log("Handle Zoom Event")
+    element = $(".ekko-lightbox-item.fade.in.show > img")
+    element.mlens({
+        imgSrc: $(element).attr("src"),
+        lensShape: "circle",
+        lensSize: 250,
+        borderSize: 4,
+        borderColor: "#fff",
+        borderRadius: 0,
+        overlayAdapt: true
+    })
 
 jQuery ->
   console.log("QuoationPrinting file is loaded....")

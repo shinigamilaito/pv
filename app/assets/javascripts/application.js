@@ -62,6 +62,7 @@
 //= require content_for_invitations
 //= require quotation_printings
 //= require plugins/lightbox/lightbox
+//= require plugins/mlens/mlens
 
 $(document).ready(function() {
 	$('[data-load="true"]').click(function() {
