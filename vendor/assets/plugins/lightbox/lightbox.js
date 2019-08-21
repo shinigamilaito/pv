@@ -101,7 +101,24 @@
 
                 var header = '<div class="modal-header' + (this._config.title || this._config.alwaysShowClose ? '' : ' hide') + '">' + (this._isBootstrap3 ? btn + h4 : h4 + btn) + '</div>';
                 var footer = '<div class="modal-footer' + (this._config.footer ? '' : ' hide') + '">' + (this._config.footer || "&nbsp;") + '</div>';
-                var body = '<div class="modal-body"><div class="ekko-lightbox-container"><div class="ekko-lightbox-item fade in show"></div></div></div>';
+                var body = '<div class="modal-body">' +
+                        '<div class="row">' +
+                            '<div class="col-sm-8" data-behavior="lightbox-image-wrapper">' +
+                                '<div class="ekko-lightbox-container">' +
+                                    '<div class="ekko-lightbox-item fade in show"></div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="col-sm-4" data-behavior="lightbox-description-wrapper" style="height:500px; overflow: scroll;">' +
+                                '<h4>Descripción</h4>' +
+                                '<p><strong>Producto: </strong><span data-behavior="product-modal">Invitación modelo 821D.</span></p>' +
+                                '<p><strong>Categoría: </strong><span data-behavior="category-modal">Invitaciones de boda. Atardecer en la playa. Tendencias 2019-2010</span></p>' +
+                                /*'<p><strong>Etiquetas: </strong>#bodas #playa #invitacionesplaya</p>' +
+                                '<p><strong>Tipo: </strong>Invitación mediana. Sobre. Esquela</p>' +
+                                '<p><strong>Técnica: </strong>Impresión digital.</p>' +
+                                '<p><strong>Sobre: </strong>Forro. Impresión de textura.</p>' +*/
+                    '</div>' +
+                        '</div>' +
+                    '</div>';
                 var dialog = '<div class="modal-dialog" role="document"><div class="modal-content">' + header + body + footer + '</div></div>';
                 $(this._config.doc.body).append('<div id="' + this._modalId + '" class="ekko-lightbox modal fade" tabindex="-1" tabindex="-1" role="dialog" aria-hidden="true">' + dialog + '</div>');
 

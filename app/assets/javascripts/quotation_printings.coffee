@@ -80,29 +80,29 @@ class QuotationPrinting
     Utils.setScroll(@item.find("[data-behavior='chat_history']"))
 
   handleOpenCarousel: (e) =>
-    type = $(e.currentTarget).data("carousel-type")
+    @type = $(e.currentTarget).data("carousel-type")
     console.log("In HandleOpenCarousel")
-    console.log("Type: #{type}")
+    console.log("Type: #{@type}")
 
-    if type == 'printing-products'
+    if @type == 'printing-products'
       @handleOpenCarouselPrintingProducts(e)
     else
       @handleOpenCarouselInvitations(e)
 
   handleOpenCarouselInvitations: (e) =>
-    type = $(e.currentTarget).data("carousel-type")
+    #type = $(e.currentTarget).data("carousel-type")
 
-    if type == "invitations"
+    if @type == "invitations"
       category = @wrapperForm.find("[data-behavior='category-invitation']")
       category_id = category.find("option:selected").val()
 
-    if type == "contents"
+    if @type == "contents"
       category = @wrapperForm.find("[data-behavior='category-content']")
       category_id = category.find("option:selected").val()
 
     if category_id
       $.ajax
-        url: "/quotation_printings/data_carousel?category_id=#{category_id}&type=#{type}"
+        url: "/quotation_printings/data_carousel?category_id=#{category_id}&type=#{@type}"
         method: "get"
         dataType: "json"
         beforeSend: (xhr) ->
@@ -129,7 +129,7 @@ class QuotationPrinting
     modalBody = modal.find("[data-behavior='modal-body']")
     modalBody.html(response.data)
     @handleBackgroundImage(modalBody)
-    @carousel = new Carousel
+    @carousel = new Carousel(@type)
 
   handleValidateForm: =>
     invitation = @wrapperForm.find("[data-behavior='invitation-input']")
@@ -203,10 +203,11 @@ class QuotationPrinting
     Utils.setScroll(@item.find("[data-behavior='chat_history']"))
 
 class Carousel
-  constructor: ->
+  constructor: (type) ->
     console.log("Carousel created")
     @modal = $("[data-behavior='modal']")
     @modalBody = @modal.find("[data-behavior='modal-body']")
+    @type = type
     @initialize()
     @setEvents()
 
@@ -248,6 +249,7 @@ class Carousel
       onContentLoaded: (e) =>
         @setClicImage()
         @handleZoomEvent()
+        @setDataDescription()
       onShow: (e) =>
         console.log('onShow' + e)
       onHide: (e) =>
@@ -305,6 +307,24 @@ class Carousel
         borderRadius: 0,
         overlayAdapt: true
     })
+
+    element.parent().css("width", 'auto')
+
+  setDataDescription: =>
+    if @type == 'printing-products'
+      imageWrapper = $("[data-behavior='lightbox-image-wrapper']")
+      imageWrapper.removeClass("col-sm-8").addClass("col-sm-12")
+
+      descriptionWrapper = $("[data-behavior='lightbox-description-wrapper']")
+      descriptionWrapper.remove("col-sm-4").addClass("hidden")
+
+    else
+      title = $("[data-invitation-name]").data("invitation-name")
+      category = $("[data-category-name]").data("category-name")
+      subcategory = $("[data-subcategory-name]").data("subcategory-name")
+      $("[data-behavior='product-modal']").text(title)
+      $("[data-behavior='category-modal']").html("#{category} <br>#{subcategory}")
+
 
 jQuery ->
   console.log("QuoationPrinting file is loaded....")
