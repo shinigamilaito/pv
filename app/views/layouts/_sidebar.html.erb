@@ -71,37 +71,37 @@
         </li>
 
         <!-- Impresiones -->
-        <li class="treeview">
+        <!--<li class="treeview">
           <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="glyphicon glyphicon-print"></i><span class="roboto-font" style="padding-left: 10px;">Impresiones</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_printing_sales?(@module) %>">
-            <li class="<%= @module == "VentasImpresiones" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%= link_to new_printing_sale_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+          <ul class="treeview-menu background-gray menu-open" style="<%#= collapse_menu_printing_sales?(@module) %>">
+            <li class="<%#= @module == "VentasImpresiones" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%#= link_to new_printing_sale_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
                 <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ventas de Impresiones</span>
-              <% end %>
+              <%# end %>
             </li>
 
-            <li class="<%= @module == "VentasParciales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%= link_to partial_sales_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+            <li class="<%#= @module == "VentasParciales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%#= link_to partial_sales_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
                 <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ventas Parciales</span>
-              <% end %>
+              <%# end %>
             </li>
 
-            <!-- Orden de Trabajo -->
-            <li class="<%= @module == "OrdenTrabajo" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%= link_to quotation_printings_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+
+            <li class="<%#= @module == "OrdenTrabajo" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%#= link_to quotation_printings_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
                 <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ordenes de Trabajo</span>
-              <% end %>
+              <%# end %>
             </li>
           </ul>
-        </li>
+        </li>-->
 
         <!-- Catalogos -->
         <li class="treeview">
