@@ -5,7 +5,7 @@ class CashOpenService
   def initialize(open_date, employee, amount, type_cash = nil)
     @open_date = open_date
     @employee = employee
-    @amount = BigDecimal.new(amount)
+    @amount = BigDecimal.new(amount, 2)
     @type_cash = type_cash
   end
 
@@ -14,11 +14,11 @@ class CashOpenService
   def types_cashes
     types_cashes = []
     cash_policy = CashPolicy.new
-    cash_services_sales = cash_policy.cash_services_sales if @employee.sales_product?
-    cash_impressions = cash_policy.cash_impressions if @employee.sales_printing?
+    cash_services_sales = cash_policy.cash_services_sales
+    cash_impressions = cash_policy.cash_impressions
 
-    types_cashes << ["Servicios y Ventas", "services_sales"] if cash_services_sales.blank?
-    types_cashes << ["Impresiones", "impressions"] if cash_impressions.blank?
+    types_cashes << ["Servicios y Ventas", "services_sales"] if cash_services_sales.blank? && @employee.sales_product?
+    types_cashes << ["Impresiones", "impressions"] if cash_impressions.blank? && @employee.sales_printing?
 
     return types_cashes
   end

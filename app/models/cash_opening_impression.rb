@@ -23,17 +23,17 @@ class CashOpeningImpression < ApplicationRecord
 
   def total_effective
     total_effective_partial_printing_sales + total_effective_full_printing_sales +
-    total_effective_partial_sales + total_effective_quotation_printings
+    total_effective_partial_sales # + total_effective_quotation_printings
   end
 
   def total_debit
     total_debit_partial_printing_sales + total_debit_full_printing_sales +
-    total_debit_partial_sales + total_debit_quotation_printings
+    total_debit_partial_sales # + total_debit_quotation_printings
   end
 
   def total_credit
     total_credit_partial_printing_sales + total_credit_full_printing_sales +
-    total_credit_partial_sales + total_credit_quotation_printings
+    total_credit_partial_sales # + total_credit_quotation_printings
   end
 
   private

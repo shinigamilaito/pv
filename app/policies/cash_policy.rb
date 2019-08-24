@@ -4,11 +4,11 @@ class CashPolicy
   end
 
   def cash_services_sales
-    return CashOpeningServicesSale.find_by(active: true)
+    CashOpeningServicesSale.find_by(active: true)
   end
 
   def cash_impressions
-    return CashOpeningImpression.find_by(active: true)
+    CashOpeningImpression.find_by(active: true)
   end
 
   def incomes_services_sales(cash)
@@ -40,17 +40,17 @@ class CashPolicy
       incomes << income
     end
 
-    return incomes
+    incomes
   end
 
   def totals_services_sales(cash)
     payments = cash.payments
     sales = cash.sales
 
-    total_payments = Payment.total(payments) || BigDecimal.new("0")
-    total_sales = Sale.total(sales) || BigDecimal.new("0")
+    total_payments = Payment.total(payments) || BigDecimal.new("0", 2)
+    total_sales = Sale.total(sales) || BigDecimal.new("0", 2)
 
-    return total_payments + total_sales
+    total_payments + total_sales
   end
 
   def totals_by_payment(income)
@@ -116,7 +116,7 @@ class CashPolicy
       incomes << income
     end
 
-    return incomes
+    incomes
 
   end
 
@@ -126,12 +126,12 @@ class CashPolicy
     printing_sales_parcial = cash.printing_sales.where(full_payment: false)
     quotation_printings = cash.quotation_printings
 
-    total_partial_sales = PartialSale.total(partial_sales) || BigDecimal.new("0")
-    total_printing_sales_complet = PrintingSale.total(printing_sales_complet) || BigDecimal.new("0")
-    total_printing_sales_parcial = PrintingSale.parcial(printing_sales_parcial) || BigDecimal.new("0")
-    total_quotation_printings = QuotationPrinting.total(quotation_printings) || BigDecimal.new("0")
+    total_partial_sales = PartialSale.total(partial_sales) || BigDecimal.new("0", 2)
+    total_printing_sales_complet = PrintingSale.total(printing_sales_complet) || BigDecimal.new("0", 2)
+    total_printing_sales_parcial = PrintingSale.parcial(printing_sales_parcial) || BigDecimal.new("0", 2)
+#    total_quotation_printings = QuotationPrinting.total(quotation_printings) || BigDecimal.new("0")
 
-    return total_partial_sales + total_printing_sales_complet + total_printing_sales_parcial + total_quotation_printings
+    return total_partial_sales + total_printing_sales_complet + total_printing_sales_parcial # + total_quotation_printings
   end
 
 end
