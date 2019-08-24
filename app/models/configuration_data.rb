@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: configurations
+# Table name: configuration_data
 #
 #  id                      :bigint           not null, primary key
 #  url_background_carousel :string

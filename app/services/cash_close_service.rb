@@ -13,8 +13,8 @@ class CashCloseService
     types_cashes = []
     cash_policy = CashPolicy.new
 
-    types_cashes << ["Servicios y Ventas", "services_sales"] if cash_policy.cash_services_sales.present?
-    types_cashes << ["Impresiones", "impressions"] if cash_policy.cash_impressions.present?
+    types_cashes << ["Servicios y Ventas", "services_sales"] if cash_policy.cash_services_sales.present? && @employee.sales_product?
+    types_cashes << ["Impresiones", "impressions"] if cash_policy.cash_impressions.present? && @employee.sales_printing?
 
     return types_cashes
   end

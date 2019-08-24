@@ -14,8 +14,8 @@ class CashOpenService
   def types_cashes
     types_cashes = []
     cash_policy = CashPolicy.new
-    cash_services_sales = cash_policy.cash_services_sales
-    cash_impressions = cash_policy.cash_impressions
+    cash_services_sales = cash_policy.cash_services_sales if @employee.sales_product?
+    cash_impressions = cash_policy.cash_impressions if @employee.sales_printing?
 
     types_cashes << ["Servicios y Ventas", "services_sales"] if cash_services_sales.blank?
     types_cashes << ["Impresiones", "impressions"] if cash_impressions.blank?

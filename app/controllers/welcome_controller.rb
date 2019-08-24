@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
   def index
     @module = "Home"
-    @items = ItemsByFinish.new
+    @items = ItemsByFinish.new(current_user)
       .elements
       #.paginate(page: params[:page], per_page: self.elements_per_page)
 

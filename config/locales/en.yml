@@ -94,6 +94,7 @@ en:
              invalid: "No es una contraseña valida"
            email:
              blank: "Proporciona tu email."
+             taken: "Proporciona otra cuenta de email."
 
        equipment_customer:
          attributes:

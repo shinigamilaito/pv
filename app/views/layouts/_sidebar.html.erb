@@ -14,6 +14,7 @@
         </li>
 
         <!-- Menu desplegable tienda -->
+        <% if current_user.sales_product? %>
         <li class="treeview">
           <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Tienda</span>
@@ -44,8 +45,10 @@
             </li>
           </ul>
         </li>
+        <% end %>
 
         <!-- Servicios -->
+        <% if current_user.sales_product? %>
         <li class="treeview">
           <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Servicios</span>
@@ -69,39 +72,42 @@
             </li>
           </ul>
         </li>
+        <% end %>
 
         <!-- Impresiones -->
-        <!--<li class="treeview">
+        <% if current_user.sales_printing? %>
+        <li class="treeview">
           <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
             <i class="glyphicon glyphicon-print"></i><span class="roboto-font" style="padding-left: 10px;">Impresiones</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu background-gray menu-open" style="<%#= collapse_menu_printing_sales?(@module) %>">
-            <li class="<%#= @module == "VentasImpresiones" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%#= link_to new_printing_sale_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+          <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_printing_sales?(@module) %>">
+            <li class="<%= @module == "VentasImpresiones" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to new_printing_sale_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
                 <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ventas de Impresiones</span>
-              <%# end %>
+              <% end %>
             </li>
 
-            <li class="<%#= @module == "VentasParciales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%#= link_to partial_sales_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+            <li class="<%= @module == "VentasParciales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to partial_sales_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
                 <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ventas Parciales</span>
-              <%# end %>
+              <% end %>
             </li>
 
 
-            <li class="<%#= @module == "OrdenTrabajo" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%#= link_to quotation_printings_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+            <li class="<%= @module == "OrdenTrabajo" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to quotation_printings_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
                 <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ordenes de Trabajo</span>
-              <%# end %>
+              <% end %>
             </li>
           </ul>
-        </li>-->
+        </li>
+        <% end %>
 
         <!-- Catalogos -->
         <li class="treeview">
@@ -112,6 +118,7 @@
             </span>
           </a>
           <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_catalogs?(@module) %>">
+            <% if current_user.sales_product? %>
             <li class="<%= @module == "Equipos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to equipments_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-television"></i>
@@ -136,6 +143,14 @@
                 <span class="roboto-font" style="padding-left: 5px;">Refacciones</span>
               <% end %>
             </li>
+            <li class="<%= @module == "Productos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to products_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-hdd-o"></i>
+                <span class="roboto-font" style="padding-left: 5px;">Productos</span>
+              <% end %>
+            </li>
+            <% end %>
+
             <% if current_user.admin? %>
             <li class="<%= @module == "Precios Genéricos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to generic_prices_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
@@ -150,25 +165,13 @@
               <% end %>
             </li>
             <% end %>
-            <li class="<%= @module == "Productos" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-              <%= link_to products_path, class: "subitem-menu-navegation" do %>
-                <i class="fa fa-fw fa-hdd-o"></i>
-                <span class="roboto-font" style="padding-left: 5px;">Productos</span>
-              <% end %>
-            </li>
 
             <!-- Productos Imprenta -->
+            <% if current_user.sales_printing? %>
             <li class="<%= @module == "printing_products" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to printing_products_path, class: "subitem-menu-navegation" do %>
                 <i class="fa fa-fw fa-hdd-o"></i>
                 <span class="roboto-font" style="padding-left: 5px; font-size: 16px !important;">Productos Imprenta</span>
-              <% end %>
-            </li>
-
-            <li class="<%= @module == "Clientes" ? 'active-sidebar' : '' %> subitem-menu-navigation">
-              <%= link_to clients_path, class: "subitem-menu-navegation" do %>
-                <i class="fa fa-fw fa-user-md"></i>
-                <span class="roboto-font" style="padding-left: 10px;">Clientes</span>
               <% end %>
             </li>
 
@@ -180,31 +183,39 @@
               <% end %>
             </li>
 
-            <% if current_user.admin? %>
-              <!-- Categorias -->
-              <li class="<%= @module == "categories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
-                <%= link_to categories_path, class: "subitem-menu-navegation" do %>
-                  <i class="fa fa-fw fa-envelope-o"></i>
-                  <span class="roboto-font" style="padding-left: 10px;">Categorías</span>
-                <% end %>
-              </li>
+            <!-- Categorias -->
+            <li class="<%= @module == "categories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
+              <%= link_to categories_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-envelope-o"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Categorías</span>
+              <% end %>
+            </li>
 
-              <!-- subcategorias -->
-              <li class="<%= @module == "subcategories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
-                <%= link_to subcategories_path, class: "subitem-menu-navegation" do %>
-                  <i class="fa fa-fw fa-envelope-o"></i>
-                  <span class="roboto-font" style="padding-left: 10px;">Subcategorías</span>
-                <% end %>
-              </li>
+            <!-- subcategorias -->
+            <li class="<%= @module == "subcategories" ? 'active-sidebar' : '' %> subitem-menu-navigation">
+              <%= link_to subcategories_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-envelope-o"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Subcategorías</span>
+              <% end %>
+            </li>
 
-              <!-- content for invitations -->
-              <li class="<%= @module == "content_for_invitations" ? 'active-sidebar' : '' %> subitem-menu-navigation">
-                <%= link_to content_for_invitations_path, class: "subitem-menu-navegation" do %>
-                  <i class="fa fa-fw fa-envelope-o"></i>
-                  <span class="roboto-font" style="padding-left: 10px;">Contenidos</span>
-                <% end %>
-              </li>
+            <!-- content for invitations -->
+            <li class="<%= @module == "content_for_invitations" ? 'active-sidebar' : '' %> subitem-menu-navigation">
+              <%= link_to content_for_invitations_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-envelope-o"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Contenidos</span>
+              <% end %>
+            </li>
             <% end %>
+
+            <% if current_user.sales_product? || current_user.sales_printing? %>
+            <li class="<%= @module == "Clientes" ? 'active-sidebar' : '' %> subitem-menu-navigation">
+              <%= link_to clients_path, class: "subitem-menu-navegation" do %>
+                <i class="fa fa-fw fa-user-md"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Clientes</span>
+              <% end %>
+            </li>
+           <% end %>
           </ul>
         </li>
 
