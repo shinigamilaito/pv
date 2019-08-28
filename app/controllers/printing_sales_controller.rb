@@ -1,5 +1,5 @@
 class PrintingSalesController < ApplicationController
-  before_action :set_printing_sale_policy, except: [:index]
+  before_action :set_printing_sale_policy, except: [:index, :delete_product]
 
   def index
     sales = Sale.all
@@ -62,6 +62,7 @@ class PrintingSalesController < ApplicationController
     discount = session[:discount_printing_sale] || '0'
     printing_sale_product = PrintingSaleProduct.includes(:printing_product).find(params[:printing_sale_product_id])
     printing_product = printing_sale_product.printing_product
+    @printing_sales_policy = PrintingSalesPolicy.new(printing_product.id, current_user)
     @printing_sales_policy.delete(printing_sale_product, printing_product)
     @printing_sale_product = printing_sale_product
     @total_printing_sales = @printing_sales_policy.totals(discount)
