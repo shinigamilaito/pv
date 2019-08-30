@@ -32,7 +32,7 @@ class PrintingProductsController < ApplicationController
     respond_to do |format|
       if @printing_product.save
         flash[:success] = 'Producto Imprenta creado correctamente.'
-        format.html { redirect_to @printing_product }
+        format.html { redirect_to printing_products_url }
       else
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :new }
@@ -44,7 +44,7 @@ class PrintingProductsController < ApplicationController
     respond_to do |format|
       if @printing_product.update(printing_product_params)
         flash[:success] = 'Producto Imprenta actualizado correctamente.'
-        format.html { redirect_to @printing_product }
+        format.html { redirect_to printing_products_url }
       else
         flash[:error] = 'Proporciona los datos correctos.'
         format.html { render :edit }

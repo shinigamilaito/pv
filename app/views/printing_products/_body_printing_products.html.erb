@@ -7,6 +7,7 @@
     <th>Unidad Compra</th>
     <th>Precio Compra</th>
     <th>Contenido</th>
+    <th>Stock</th>
     <th>Imagen</th>
     <th></th>
     <th></th>
@@ -20,8 +21,8 @@
     <td><%= printing_product.purchase_unit %></td>
     <td><%= number_to_currency printing_product.purchase_price %></td>
     <td><%= printing_product.content %></td>
+    <td><%= printing_product.stock %></td>
     <td><%= image_tag(printing_product.imagen_url, size:"50x50") if printing_product.imagen? %></td>
-    <td style="width: 1px;"><%= link_to 'Ver', printing_product, class: 'btn btn-info' %></td>
     <td style="width: 1px;"><%= link_to 'Actualizar', edit_printing_product_path(printing_product), class: 'btn btn-edit' %></td>
     <td style="width: 1px;"><%= link_to 'Eliminar', printing_product, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
   </tr>
