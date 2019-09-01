@@ -108,7 +108,7 @@
                                     '<div class="ekko-lightbox-item fade in show"></div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="col-sm-4" data-behavior="lightbox-description-wrapper" style="height:500px; overflow: scroll;">' +
+                            '<div class="col-sm-4" data-behavior="lightbox-description-wrapper" style="min-height:500px; overflow: hidden;">' +
                                 '<h4>Descripción</h4>' +
                                 '<p><strong>Producto: </strong><span data-behavior="product-modal">Invitación modelo 821D.</span></p>' +
                                 '<p><strong>Categoría: </strong><span data-behavior="category-modal">Invitaciones de boda. Atardecer en la playa. Tendencias 2019-2010</span></p>' +

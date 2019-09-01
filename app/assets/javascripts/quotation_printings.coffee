@@ -187,6 +187,7 @@ class QuotationPrinting
     urlImageBackground = backgroundURL.data("url")
     modalBody
       .css("background-image", "url(#{urlImageBackground})")
+      .css("background-size", "cover")
       .animate({opacity: 1},{duration:1000});
 
   setBackgroundImage: (modalBody, url) =>
@@ -308,13 +309,28 @@ class Carousel
         overlayAdapt: true
     })
 
-    element.parent().css("width", 'auto')
+    if @type == 'printing-products'
+      element.parent().css("width", 'auto')
+
+    else
+      modal = $(".ekko-lightbox.modal.fade.in.show").find("div.modal-dialog")
+      modal.css("max-width", "1150px")
+      $(".ekko-lightbox-item.fade.in.show").css("width", "100%")
+      mlensWrapper = $(".ekko-lightbox-item.fade.in.show")
+        .find(">:first-child")
+        .css("width", "auto")
+        .css("overflow", "scroll")
+        .css("max-height", "550px")
+
+      mlensWrapper
+        .find("img")
+        .css("height", "auto")
 
   setDataDescription: =>
     if @type == 'printing-products'
       imageWrapper = $("[data-behavior='lightbox-image-wrapper']")
       imageWrapper.removeClass("col-sm-8").addClass("col-sm-12")
-
+      element = $(".ekko-lightbox-item.fade.in.show > img")
       descriptionWrapper = $("[data-behavior='lightbox-description-wrapper']")
       descriptionWrapper.remove("col-sm-4").addClass("hidden")
 
