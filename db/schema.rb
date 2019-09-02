@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190713142543) do
+ActiveRecord::Schema.define(version: 20190901235351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,12 @@ ActiveRecord::Schema.define(version: 20190713142543) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "configuration_data", force: :cascade do |t|
+    t.string "url_background_carousel"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "content_for_invitations", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "subcategory_id"
@@ -229,6 +235,16 @@ ActiveRecord::Schema.define(version: 20190713142543) do
     t.index ["user_id"], name: "index_message_histories_on_user_id"
   end
 
+  create_table "message_history_quotation_printings", force: :cascade do |t|
+    t.text "message"
+    t.bigint "quotation_printing_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quotation_printing_id"], name: "index_m_h_q_p_on_quotation_printing_id"
+    t.index ["user_id"], name: "index_m_h_q_p_on_user_id"
+  end
+
   create_table "partial_sales", force: :cascade do |t|
     t.bigint "printing_sale_id"
     t.decimal "payment", precision: 10, scale: 2, default: "0.0"
@@ -274,6 +290,16 @@ ActiveRecord::Schema.define(version: 20190713142543) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "printing_product_quotation_printings", force: :cascade do |t|
+    t.bigint "printing_product_id"
+    t.bigint "quotation_printing_id"
+    t.integer "quantity", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["printing_product_id"], name: "index_p_p_q_p_on_printing_product_id"
+    t.index ["quotation_printing_id"], name: "index_p_p_q_p_on_quotation_printing_id"
+  end
+
   create_table "printing_product_quotations", force: :cascade do |t|
     t.bigint "invitation_printing_product_id"
     t.bigint "quotation_printing_id"
@@ -311,6 +337,12 @@ ActiveRecord::Schema.define(version: 20190713142543) do
     t.decimal "bag", precision: 10, scale: 2, default: "0.0"
     t.decimal "set", precision: 10, scale: 2, default: "0.0"
     t.integer "increase_stock", default: 0
+    t.integer "package_stock", default: 0
+    t.integer "meter_stock", default: 0
+    t.integer "bag_stock", default: 0
+    t.integer "box_stock", default: 0
+    t.integer "set_stock", default: 0
+    t.integer "roll_stock", default: 0
   end
 
   create_table "printing_sale_products", force: :cascade do |t|
@@ -387,8 +419,15 @@ ActiveRecord::Schema.define(version: 20190713142543) do
     t.bigint "cash_opening_impression_id"
     t.integer "ticket", default: 0
     t.string "imagen"
+    t.string "draft_delivery_date"
+    t.string "delivery_date"
+    t.string "printing_type"
+    t.text "description"
+    t.text "description_adjust_design"
+    t.bigint "content_for_invitation_id"
     t.index ["cash_opening_impression_id"], name: "index_quotation_printings_on_cash_opening_impression_id"
     t.index ["client_id"], name: "index_quotation_printings_on_client_id"
+    t.index ["content_for_invitation_id"], name: "index_quotation_printings_on_content_for_invitation_id"
     t.index ["invitation_id"], name: "index_quotation_printings_on_invitation_id"
     t.index ["payment_type_id"], name: "index_quotation_printings_on_payment_type_id"
     t.index ["user_id"], name: "index_quotation_printings_on_user_id"
@@ -509,6 +548,22 @@ ActiveRecord::Schema.define(version: 20190713142543) do
     t.index ["category_id"], name: "index_subcategories_on_category_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "todo_list_id"
+    t.string "name"
+    t.boolean "completed"
+    t.date "due"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["todo_list_id"], name: "index_tasks_on_todo_list_id"
+  end
+
+  create_table "todo_lists", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "first_name", default: "", null: false
@@ -555,6 +610,8 @@ ActiveRecord::Schema.define(version: 20190713142543) do
   add_foreign_key "invitations", "users"
   add_foreign_key "message_histories", "equipment_customers"
   add_foreign_key "message_histories", "users"
+  add_foreign_key "message_history_quotation_printings", "quotation_printings"
+  add_foreign_key "message_history_quotation_printings", "users"
   add_foreign_key "partial_sales", "cash_opening_impressions"
   add_foreign_key "partial_sales", "payment_types"
   add_foreign_key "partial_sales", "printing_sales"
@@ -564,6 +621,8 @@ ActiveRecord::Schema.define(version: 20190713142543) do
   add_foreign_key "payments", "payment_types"
   add_foreign_key "payments", "services"
   add_foreign_key "payments", "users"
+  add_foreign_key "printing_product_quotation_printings", "printing_products"
+  add_foreign_key "printing_product_quotation_printings", "quotation_printings"
   add_foreign_key "printing_product_quotations", "invitation_printing_products"
   add_foreign_key "printing_product_quotations", "quotation_printings"
   add_foreign_key "printing_product_quotations", "users"
@@ -576,6 +635,7 @@ ActiveRecord::Schema.define(version: 20190713142543) do
   add_foreign_key "printing_sales", "users"
   add_foreign_key "quotation_printings", "cash_opening_impressions"
   add_foreign_key "quotation_printings", "clients"
+  add_foreign_key "quotation_printings", "content_for_invitations"
   add_foreign_key "quotation_printings", "invitations"
   add_foreign_key "quotation_printings", "payment_types"
   add_foreign_key "quotation_printings", "users"
@@ -596,4 +656,5 @@ ActiveRecord::Schema.define(version: 20190713142543) do
   add_foreign_key "services", "clients"
   add_foreign_key "services", "users"
   add_foreign_key "subcategories", "categories"
+  add_foreign_key "tasks", "todo_lists"
 end

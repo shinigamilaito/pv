@@ -2,7 +2,7 @@
   <div class="col-sm-offset-1 col-sm-6">
     <div class="form-group">
       <label class="col-sm-2 control-label">Pieza</label>
-      <div class="col-sm-9">
+      <div class="col-sm-5">
         <%= f.text_field :piece, class: "form-control", required: true,
                          style: "text-align: left !important;", data: {input_mask: 'currency-input'} %>
       </div>
@@ -10,25 +10,37 @@
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Metro</label>
-      <div class="col-sm-9">
+      <div class="col-sm-5">
         <%= f.text_field :meter, class: "form-control", required: true,
                          style: "text-align: left !important;", data: {input_mask: 'currency-input'} %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.text_field :meter_stock, class: "form-control", required: true,
+                         style: "text-align: left !important;", data: {input_mask: 'integer-input'} %>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Caja</label>
-      <div class="col-sm-9">
+      <div class="col-sm-5">
         <%= f.text_field :box, class: "form-control", required: true,
                          style: "text-align: left !important;", data: {input_mask: 'currency-input'} %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.text_field :box_stock, class: "form-control", required: true,
+                         style: "text-align: left !important;", data: {input_mask: 'integer-input'} %>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Rollo</label>
-      <div class="col-sm-9">
+      <div class="col-sm-5">
         <%= f.text_field :roll, class: "form-control", required: true,
                          style: "text-align: left !important;", data: {input_mask: 'currency-input'} %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.text_field :roll_stock, class: "form-control", required: true,
+                         style: "text-align: left !important;", data: {input_mask: 'integer-input'} %>
       </div>
     </div>
 
@@ -36,25 +48,37 @@
   <div class="col-sm-5">
     <div class="form-group">
       <label class="col-sm-2 control-label">Paquete</label>
-      <div class="col-sm-10">
+      <div class="col-sm-5">
         <%= f.text_field :package, class: "form-control", required: true,
                          style: "text-align: left !important;", data: {input_mask: 'currency-input'} %>
+      </div>
+      <div class="col-sm-5">
+        <%= f.text_field :package_stock, class: "form-control", required: true,
+                         style: "text-align: left !important;", data: {input_mask: 'integer-input'} %>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Bolsa</label>
-      <div class="col-sm-10">
+      <div class="col-sm-5">
         <%= f.text_field :bag, class: "form-control", required: true,
                          style: "text-align: left !important;", data: {input_mask: 'currency-input'} %>
+      </div>
+      <div class="col-sm-5">
+        <%= f.text_field :bag_stock, class: "form-control", required: true,
+                         style: "text-align: left !important;", data: {input_mask: 'integer-input'} %>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Juego</label>
-      <div class="col-sm-10">
+      <div class="col-sm-5">
         <%= f.text_field :set, class: "form-control", required: true,
                          style: "text-align: left !important;", data: {input_mask: 'currency-input'} %>
+      </div>
+      <div class="col-sm-5">
+        <%= f.text_field :set_stock, class: "form-control", required: true,
+                         style: "text-align: left !important;", data: {input_mask: 'integer-input'} %>
       </div>
     </div>
   </div>

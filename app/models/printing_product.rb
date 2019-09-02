@@ -12,20 +12,26 @@
 #
 #  id             :bigint           not null, primary key
 #  bag            :decimal(10, 2)   default(0.0)
+#  bag_stock      :integer          default(0)
 #  box            :decimal(10, 2)   default(0.0)
+#  box_stock      :integer          default(0)
 #  code           :string
 #  content        :integer
 #  imagen         :string
 #  increase_stock :integer          default(0)
 #  meter          :decimal(10, 2)   default(0.0)
+#  meter_stock    :integer          default(0)
 #  name           :string
 #  package        :decimal(10, 2)   default(0.0)
+#  package_stock  :integer          default(0)
 #  piece          :decimal(10, 2)   default(0.0)
 #  product_type   :string
 #  purchase_price :decimal(10, 2)   default(0.0)
 #  purchase_unit  :string
 #  roll           :decimal(10, 2)   default(0.0)
+#  roll_stock     :integer          default(0)
 #  set            :decimal(10, 2)   default(0.0)
+#  set_stock      :integer          default(0)
 #  stock          :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
