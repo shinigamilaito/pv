@@ -115,7 +115,11 @@ class PrintingSalesPolicy
     if sale_unit == @piece_unit || sale_unit == nil || sale_unit == ""
       quantity
     else
-      printing_product.content * quantity
+      if printing_product.purchase_unit.eql?(printing_sale_product.sale_unit)
+        return printing_product.content * quantity
+      else
+        return printing_product.send("#{printing_sale_product.real_sale_unit}_stock") * quantity
+      end
     end
   end
 
@@ -156,7 +160,21 @@ class PrintingSalesPolicy
 
     if pending_in_sale?
       unless is_increment
-        product.stock + printing_sale_product.quantity >= obtain_total_pieces_to_sale(quantity: quantity)
+        sale_unit = printing_sale_product.sale_unit
+        if sale_unit == @piece_unit || sale_unit == nil || sale_unit == ""
+          quantity_in_pieces = quantity
+        else
+          if printing_sale_product.real_sale_unit.eql?("piece")
+            quantity_in_pieces = printing_sale_product.quantity
+          else
+            if printing_product.purchase_unit.eql?(printing_sale_product.sale_unit)
+              quantity_in_pieces = printing_product.content
+            else
+              quantity_in_pieces = printing_product.send(printing_sale_product.real_sale_unit + "_stock")
+            end
+          end
+        end
+        product.stock + quantity_in_pieces >= obtain_total_pieces_to_sale(quantity: quantity)
       else
         product.stock >= obtain_total_pieces_to_sale(quantity: quantity)
       end

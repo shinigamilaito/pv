@@ -4,6 +4,7 @@
     <th>Nombre</th>
     <th>Categoría</th>
     <th>Subcategoría</th>
+    <th>Descripción</th>
     <th>Imagen</th>
     <th></th>
     <th></th>
@@ -14,6 +15,7 @@
       <td><%= invitation.name %></td>
       <td><%= invitation.category.name %></td>
       <td><%= invitation.subcategory.name %></td>
+      <td><%= invitation.description %></td>
         <td><%= image_tag(invitation.imagen_url, size:"50x50") if invitation.imagen? %></td>
       <td style="width: 1px;">
         <%= link_to 'Actualizar', edit_invitation_path(invitation), class: 'btn btn-edit' %>

@@ -7,15 +7,16 @@
 #  id                  :bigint           not null, primary key
 #  code                :string
 #  name                :string
-#  quantity            :integer
 #  price               :decimal(10, 2)   default(0.0)
-#  printing_product_id :bigint
-#  user_id             :bigint
-#  printing_sale_id    :bigint
+#  quantity            :integer
 #  real_price          :decimal(20, 10)  default(0.0)
+#  real_sale_unit      :string
+#  sale_unit           :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  sale_unit           :string
+#  printing_product_id :bigint
+#  printing_sale_id    :bigint
+#  user_id             :bigint
 #
 
 class PrintingSaleProduct < ApplicationRecord
@@ -28,6 +29,7 @@ class PrintingSaleProduct < ApplicationRecord
   end
 
   def update_fields_to(key_sale:, value_sale:, quantity:)
+    self.real_sale_unit = key_sale
     self.sale_unit = value_sale
     self.price = self.printing_product.send(key_sale) * quantity
     self.real_price = self.printing_product.send(key_sale)

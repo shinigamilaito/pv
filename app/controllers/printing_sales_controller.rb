@@ -119,24 +119,40 @@ class PrintingSalesController < ApplicationController
     @printing_products = PrintingProduct.search_index(params[:term]).order(created_at: :desc)
   end
 
-  # Update the sale unit for printing_sale_product
-  # that was added to printing sale
+  # Changed sale unit
+  # {"key_unit"=>"box", "value_unit"=>"Caja", "printing_sale_product_id"=>"103", "quantity"=>"1"}
   def update_sale_unit
     printing_sale_product = PrintingSaleProduct.find params[:printing_sale_product_id]
     printing_sales_policy = PrintingSalesPolicy.new(printing_sale_product.printing_product.id, current_user)
 
-    if printing_sale_product.sale_unit.present?
-      printing_sales_policy.adjust_quantity_product(printing_sale_product.quantity)
+    #Check availability stock
+    printing_product = printing_sale_product.printing_product
+    if printing_product.purchase_unit.eql?(params[:value_unit])
+      quantity_to_decrease = printing_product.content * params[:quantity].to_i
+    else
+      quantity_to_decrease = printing_product.send("#{params[:key_unit]}_stock") * params[:quantity].to_i
     end
 
-    if printing_sale_product.update_fields_to(
-        key_sale: params[:key_unit].to_s, value_sale: params[:value_unit], quantity: params[:quantity].to_i)
-
-      printing_sales_policy.decrement_total_product(printing_sale_product.quantity)
-      render json: printing_sale_product
-
+    if printing_product.stock < quantity_to_decrease
+      head :bad_request
     else
-      head :bad_requests
+      if printing_sale_product.sale_unit.present?
+        # Return quantity product to stock
+        printing_sales_policy.adjust_quantity_product(printing_sale_product.quantity)
+      end
+
+      if printing_sale_product.update_fields_to(
+          key_sale: params[:key_unit].to_s, value_sale: params[:value_unit], quantity: params[:quantity].to_i)
+
+        if printing_sales_policy.decrement_total_product(printing_sale_product.quantity)
+          render json: printing_sale_product
+        else
+          head :bad_requests
+        end
+
+      else
+        head :bad_requests
+      end
     end
   end
 

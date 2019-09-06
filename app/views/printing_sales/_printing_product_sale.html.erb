@@ -199,8 +199,13 @@
 <script>
     // Manage the sale unit change
     // Enable Fields and update prices
+    let previous = "";
     $(document).ready(function () {
         let $sale_unit = $("[data-behavior='unit-printing-product']");
+        $sale_unit.on('focus', function() {
+          previous = this.value;
+          console.log("Saving the current unit: " + previous)
+        });
         $sale_unit.on("change", saleUnitChange);
     });
 
@@ -212,8 +217,6 @@
         let valueUnit = $unitSaleSelect.find("option:selected").text();
         let printingSaleProductId = $unitSaleSelect.data("printing-sale-product-id");
         let quantity = $inputQuantity.val();
-
-
         updateUnitPrintingProduct(printingSaleProductId, keyUnit, valueUnit, quantity);
     }
 
@@ -238,6 +241,9 @@
             success: updateUIChangeUnitSale,
             complete: function (xhr) {
                 if (xhr.status === 400) {
+                    let $sale_unit = $("[data-behavior='unit-printing-product']");
+                    $sale_unit.val(previous);
+                    console.log("Updating with prev sale unit: " + previous);
                     toastr["error"]("La unidad no pudo ser asignada.", "ERROR");
                 }
             }
