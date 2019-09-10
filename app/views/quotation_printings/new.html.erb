@@ -59,8 +59,7 @@
         <div class="form-group">
           <label class="col-sm-6 control-label">Fecha Entrega</label>
           <div class="col-sm-6" style="margin-bottom: 10px;">
-            <%= f.text_field :delivery_date, class: 'form-control', autocomplete: "off", data: {behavior: 'date'},
-                             required: true %>
+            <%= f.text_field :delivery_date, class: 'form-control', autocomplete: "off", data: {behavior: 'date'} %>
           </div>
         </div>
 
@@ -80,6 +79,33 @@
             <span><%= quotation_printing.errors[:printing_type].first %></span>
           </div>
         </div>
+
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Total</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= f.text_field :total_cost, class: 'form-control', data: {behavior: 'total', input_mask: 'currency-input'},
+                             autocomplete: "off" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Anticipo</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= f.text_field :payment, class: 'form-control', data: {behavior: 'payment', input_mask: 'currency-input'},
+                             autocomplete: "off" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Resta</label>
+          <div class="col-sm-6" style="margin-bottom: 10px;">
+            <%= f.text_field :difference, class: 'form-control', data: {behavior: 'difference', input_mask: 'currency-input'},
+                             autocomplete: "off", readonly: true %>
+          </div>
+        </div>
+
+
+
       </div>
     </div>
 

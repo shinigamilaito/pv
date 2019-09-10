@@ -79,6 +79,7 @@ class QuotationPrinting < ApplicationRecord
 =end
 
   def product_types=(printing_products)
+    update_stock_printing_product(printing_products)
     printing_product_quotation_printings.clear
 
     printing_products.each do |printing_product|
@@ -143,5 +144,32 @@ class QuotationPrinting < ApplicationRecord
 
   def printing_product_by(product_type)
     printing_products.find_by_product_type(product_type)
+  end
+
+  def update_stock_printing_product(printing_products)
+    printing_products.each do |printing_product|
+      printing_product_id = printing_product[:printing_product_id]
+      quantity = printing_product[:quantity].to_i
+
+      if printing_product_id.present? && quantity > 0
+        if self.draft_delivery_date.present? && payment_set?
+          printing_product_quotation_printing = self.printing_product_quotation_printings.where(printing_product_id: printing_product_id.to_i).first
+          if printing_product_quotation_printing.present?
+            printing_product = printing_product_quotation_printing.printing_product
+            printing_product.stock -= (quantity - printing_product_quotation_printing.quantity)
+            printing_product.save
+          else
+            printing_product = PrintingProduct.find(printing_product_id)
+            printing_product.stock -= quantity
+            printing_product.save
+          end
+        end
+      end
+    end
+  end
+
+  def payment_set?
+    return false unless self.payment.present?
+    self.payment > 0
   end
 end

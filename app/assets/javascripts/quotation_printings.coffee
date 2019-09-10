@@ -48,7 +48,6 @@ class QuotationPrinting
     else
       @buttonRegister.text 'Buscar'
 
-
   handleLoadForm: =>
     $.ajax
       url: "/quotation_printings/new"
@@ -78,6 +77,8 @@ class QuotationPrinting
     Utils.inputsMask({rightAlign: false})
     Utils.collapsible()
     Utils.setScroll(@item.find("[data-behavior='chat_history']"))
+
+    new Payment(@wrapperForm)
 
   handleOpenCarousel: (e) =>
     @type = $(e.currentTarget).data("carousel-type")
@@ -156,7 +157,6 @@ class QuotationPrinting
           message: message
         success: @handleHistorySuccess
       )
-
 
   handleChangeCategoryInvitation: (e) =>
     category = $(e.currentTarget).find("option:selected").text()
@@ -340,6 +340,27 @@ class Carousel
       subcategory = $("[data-subcategory-name]").data("subcategory-name")
       $("[data-behavior='product-modal']").text(title)
       $("[data-behavior='category-modal']").html("#{category} <br>#{subcategory}")
+
+class Payment
+  constructor: (item) ->
+    console.log("Payment created")
+    @item = item
+    @totalCost = @item.find("[data-behavior='total']") #Costo Total
+    @payment = @item.find("[data-behavior='payment']") #Anticipo
+    @difference = @item.find("[data-behavior='difference']") #Diferencia
+    @setEvents()
+
+  setEvents: ->
+    console.log("Set events Payment")
+    @totalCost.on "keyup", @handlePayment
+    @payment.on "keyup", @handlePayment
+    @difference.on "keyup", @handlePayment
+
+  handlePayment: =>
+    totalCost = @totalCost.val().replace("$ ", "")
+    payment = @payment.val().replace("$ ", "")
+    difference = Number(totalCost) - Number(payment)
+    @difference.val(difference)
 
 
 jQuery ->

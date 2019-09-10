@@ -1,6 +1,6 @@
 class QuotationPrintingsController < ApplicationController
   before_action :set_module
-  #before_action :fixed_format_price, only: [:create]
+  before_action :fixed_format_price, only: [:create, :update]
 
   def index
     unless cash_impression_open?
@@ -443,16 +443,15 @@ class QuotationPrintingsController < ApplicationController
   def quotation_printing_params
     params.require(:quotation_printing).permit([:client_id, :invitation_id,
       :content_for_invitation_id, :draft_delivery_date, :delivery_date, :total_pieces, :printing_type,
-      :description, :description_adjust_design, :message, product_types: [:printing_product_id, :quantity]
+      :description, :description_adjust_design, :message, :total_cost, :payment, :difference,
+                                                product_types: [:printing_product_id, :quantity]
     ])
   end
 
-=begin
   def fixed_format_price
-      params[:quotation_printing][:paid_with] = params[:quotation_printing][:paid_with].gsub(',','')
-      params[:quotation_printing][:payment] = params[:quotation_printing][:payment].gsub(',','')
-      params[:quotation_printing][:change] = params[:quotation_printing][:change].gsub(',','')
+      params[:quotation_printing][:total_cost] = params[:quotation_printing][:total_cost].gsub("$ ","").gsub(',','')
+      params[:quotation_printing][:payment] = params[:quotation_printing][:payment].gsub("$ ","").gsub(',','')
+      params[:quotation_printing][:difference] = params[:quotation_printing][:difference].gsub("$ ","").gsub(',','')
   end
-=end
 
 end
