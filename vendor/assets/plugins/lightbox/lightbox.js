@@ -112,11 +112,13 @@
                                 '<h4>Descripción</h4>' +
                                 '<p><strong>Producto: </strong><span data-behavior="product-modal">Invitación modelo 821D.</span></p>' +
                                 '<p><strong>Categoría: </strong><span data-behavior="category-modal">Invitaciones de boda. Atardecer en la playa. Tendencias 2019-2010</span></p>' +
-                                /*'<p><strong>Etiquetas: </strong>#bodas #playa #invitacionesplaya</p>' +
-                                '<p><strong>Tipo: </strong>Invitación mediana. Sobre. Esquela</p>' +
-                                '<p><strong>Técnica: </strong>Impresión digital.</p>' +
-                                '<p><strong>Sobre: </strong>Forro. Impresión de textura.</p>' +*/
-                    '</div>' +
+                            '</div>' +
+                            '<div class="col-sm-4 hidden" data-behavior="lightbox-description-printing-product-wrapper" style="min-height:500px; overflow: hidden;">' +
+                                '<h4>Descripción</h4>' +
+                                '<p><strong>Codigo: </strong><span data-behavior="code-modal">Invitación modelo 821D.</span></p>' +
+                                '<p><strong>Nombre: </strong><span data-behavior="name-modal">Invitaciones de boda. Atardecer en la playa. Tendencias 2019-2010</span></p>' +
+                                '<p><strong>Tipo de Producto: </strong><span data-behavior="product-type-modal">Invitaciones de boda. Atardecer en la playa. Tendencias 2019-2010</span></p>' +
+                            '</div>' +
                         '</div>' +
                     '</div>';
                 var dialog = '<div class="modal-dialog" role="document"><div class="modal-content">' + header + body + footer + '</div></div>';

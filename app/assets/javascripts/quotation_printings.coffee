@@ -301,38 +301,39 @@ class Carousel
     element = $(".ekko-lightbox-item.fade.in.show > img")
     element.mlens({
         imgSrc: $(element).attr("src"),
-        lensShape: "circle",
-        lensSize: 250,
+        lensShape: "square",
+        lensSize: 300,
         borderSize: 4,
         borderColor: "#fff",
         borderRadius: 0,
         overlayAdapt: true
     })
 
-    if @type == 'printing-products'
-      element.parent().css("width", 'auto')
+    modal = $(".ekko-lightbox.modal.fade.in.show").find("div.modal-dialog")
+    modal.css("max-width", "1150px")
+    $(".ekko-lightbox-item.fade.in.show").css("width", "100%")
+    mlensWrapper = $(".ekko-lightbox-item.fade.in.show")
+      .find(">:first-child")
+      .css("width", "auto")
+      .css("overflow", "scroll")
+      .css("max-height", "550px")
 
-    else
-      modal = $(".ekko-lightbox.modal.fade.in.show").find("div.modal-dialog")
-      modal.css("max-width", "1150px")
-      $(".ekko-lightbox-item.fade.in.show").css("width", "100%")
-      mlensWrapper = $(".ekko-lightbox-item.fade.in.show")
-        .find(">:first-child")
-        .css("width", "auto")
-        .css("overflow", "scroll")
-        .css("max-height", "550px")
-
-      mlensWrapper
-        .find("img")
-        .css("height", "auto")
+    mlensWrapper
+      .find("img")
+      .css("height", "auto")
 
   setDataDescription: =>
     if @type == 'printing-products'
-      imageWrapper = $("[data-behavior='lightbox-image-wrapper']")
-      imageWrapper.removeClass("col-sm-8").addClass("col-sm-12")
-      element = $(".ekko-lightbox-item.fade.in.show > img")
-      descriptionWrapper = $("[data-behavior='lightbox-description-wrapper']")
-      descriptionWrapper.remove("col-sm-4").addClass("hidden")
+      descriptionCategoryContentWrapper = $("[data-behavior='lightbox-description-wrapper']")
+      descriptionPrintingProductWrapper = $("[data-behavior='lightbox-description-printing-product-wrapper']")
+      descriptionCategoryContentWrapper.remove("col-sm-4").addClass("hidden")
+      descriptionPrintingProductWrapper.removeClass("hidden")
+      code = $("[data-product-code]").data("product-code")
+      name = $("[data-product-name]").data("product-name")
+      productType = $("[data-product-type]").data("product-type")
+      $("[data-behavior='code-modal']").text(code)
+      $("[data-behavior='name-modal']").text(name)
+      $("[data-behavior='product-type-modal']").text(productType)
 
     else
       title = $("[data-invitation-name]").data("invitation-name")
