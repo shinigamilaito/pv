@@ -1,0 +1,7 @@
+$("#printing_sale_real_price_<%= @printing_sale_product.id %>").val("<%= number_to_currency @printing_sale_product.real_price %>");
+$("#printing_sale_price_<%= @printing_sale_product.id %>").val("<%= number_to_currency @printing_sale_product.price %>");
+$('#total_cost_printing_sales').html("<%= j render('printing_sales/totals_costs', total_printing_sales: @total_printing_sales) %>");
+
+$("#printing_sale_quantity_<%= @printing_sale_product.id %>").removeAttr("disabled");
+$("#printing_sale_real_price_<%= @printing_sale_product.id %>").removeAttr("disabled");
+$("#printing_sale_price_<%= @printing_sale_product.id %>").removeAttr("disabled");

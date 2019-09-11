@@ -224,21 +224,22 @@
         console.log("Update unit sale for: " + printingSaleProductId + " with unit name: " +
             keyUnit + "value name: " + valueUnit + " quantity: " + quantity);
         if (keyUnit === "") {
-            disabledElements(true, printingSaleProductId);
+            let $sale_unit = $("[data-behavior='unit-printing-product']");
+            $sale_unit.val(previous);
+            toastr["error"]("La unidad no pudo ser asignada.", "ERROR");
             return;
         }
 
         $.ajax({
             url: "/printing_sales/update_sale_unit",
             method: "patch",
-            dataType: "json",
+            dataType: "script",
             data: {
                 key_unit: keyUnit,
                 value_unit: valueUnit,
                 printing_sale_product_id: printingSaleProductId,
                 quantity: quantity
             },
-            success: updateUIChangeUnitSale,
             complete: function (xhr) {
                 if (xhr.status === 400) {
                     let $sale_unit = $("[data-behavior='unit-printing-product']");
@@ -251,6 +252,7 @@
     }
 
     function updateUIChangeUnitSale(printing_sale_product) {
+        console.log("updateUIChangeUnitSale");
         console.log(printing_sale_product);
         let $realPrice = $("#printing_sale_real_price_" + printing_sale_product.id);
         let $price = $("#printing_sale_price_" + printing_sale_product.id);

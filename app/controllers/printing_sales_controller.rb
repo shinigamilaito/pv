@@ -120,40 +120,45 @@ class PrintingSalesController < ApplicationController
   end
 
   # Changed sale unit
-  # {"key_unit"=>"box", "value_unit"=>"Caja", "printing_sale_product_id"=>"103", "quantity"=>"1"}
   def update_sale_unit
-    printing_sale_product = PrintingSaleProduct.find params[:printing_sale_product_id]
-    printing_sales_policy = PrintingSalesPolicy.new(printing_sale_product.printing_product.id, current_user)
+    @printing_sale_product = PrintingSaleProduct.find params[:printing_sale_product_id]
+    printing_product = @printing_sale_product.printing_product
+    printing_sales_policy = PrintingSalesPolicy.new(@printing_sale_product.printing_product.id, current_user)
 
-    #Check availability stock
-    printing_product = printing_sale_product.printing_product
-    if printing_product.purchase_unit.eql?(params[:value_unit])
-      quantity_to_decrease = printing_product.content * params[:quantity].to_i
-    else
-      quantity_to_decrease = printing_product.send("#{params[:key_unit]}_stock") * params[:quantity].to_i
+    #Check availability stock, only sale_unit is nil
+    if @printing_sale_product.sale_unit.nil?
+      if printing_product.stock < quantity_to_decrease(params[:value_unit], params[:quantity].to_i, params[:key_unit])
+        head :bad_request and return
+      end
     end
 
-    if printing_product.stock < quantity_to_decrease
-      head :bad_request
-    else
-      if printing_sale_product.sale_unit.present?
-        # Return quantity product to stock
-        printing_sales_policy.adjust_quantity_product(printing_sale_product.quantity)
+    if @printing_sale_product.sale_unit.present?
+      current_quantity = printing_sales_policy.obtain_total_pieces_to_sale(quantity: @printing_sale_product.quantity)
+      total_stock = printing_product.stock + current_quantity
+      quantity_to_decrease = quantity_to_decrease(params[:value_unit], params[:quantity].to_i, params[:key_unit])
+
+      if total_stock < quantity_to_decrease
+        head :bad_request and return
       end
 
-      if printing_sale_product.update_fields_to(
-          key_sale: params[:key_unit].to_s, value_sale: params[:value_unit], quantity: params[:quantity].to_i)
+      # Return quantity product to stock
+      printing_sales_policy.adjust_quantity_product(@printing_sale_product.quantity)
+    end
 
-        if printing_sales_policy.decrement_total_product(printing_sale_product.quantity)
-          render json: printing_sale_product
-        else
-          head :bad_requests
-        end
+    if @printing_sale_product.update_fields_to(
+        key_sale: params[:key_unit].to_s, value_sale: params[:value_unit], quantity: params[:quantity].to_i)
 
+      if printing_sales_policy.decrement_total_product(@printing_sale_product.quantity)
+        @total_printing_sales = printing_sales_policy.totals
+        render :update_unit_product
       else
         head :bad_requests
       end
+
+    else
+      head :bad_requests
     end
+
   end
 
   private
@@ -169,5 +174,21 @@ class PrintingSalesController < ApplicationController
 
     def clear_variables
       session[:discount_printing_sale] = nil
+    end
+
+    def quantity_to_decrease(value_unit, quantity, key_unit)
+      printing_product = @printing_sale_product.printing_product
+      if printing_product.purchase_unit.eql?(value_unit)
+        quantity_to_decrease = printing_product.content * quantity
+      else
+        sale_unit = key_unit
+        if sale_unit == "piece" || sale_unit == nil || sale_unit == ""
+          quantity_to_decrease = params[:quantity].to_i
+        else
+          quantity_to_decrease = printing_product.send("#{key_unit}_stock") * quantity
+        end
+      end
+
+      return quantity_to_decrease
     end
 end
