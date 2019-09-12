@@ -414,6 +414,7 @@ class QuotationPrintingsController < ApplicationController
     if params[:subcategory_id].present?
       @subcategory = Subcategory.find(params[:subcategory_id])
       @type = params[:type]
+      @search = params[:search]
       data_carousel = render_to_string("quotation_printings/_images_carousel", layout: false, locals: {subcategory: @subcategory})
     end
 

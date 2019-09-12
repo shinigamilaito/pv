@@ -217,15 +217,51 @@ class Carousel
 
   setEvents: ->
     @modal.find("[data-behavior='subcategory']").on "change", @handleSubcategoryChange
+    @modal.find("[data-behavior='input-search']").on "keyup", @handleSearchChange
     @setLighBoxEvent()
 
+  handleSearchChange: (e) =>
+    search = $(e.target).val()
+    searchPrintingProducts = $(e.target).data("type")
+
+    if searchPrintingProducts == "printing-products"
+      product_type = $(e.target).data("product-type")
+
+      $.ajax
+        url: "/printing_products/data_carousel?product_type=#{product_type}&search=#{search}"
+        method: "get"
+        dataType: "json"
+        beforeSend: (xhr) ->
+          $("body").LoadingOverlay("show")
+        success: @handleSubcategoryChangeSuccess
+        complete: (xhr) ->
+          $("body").LoadingOverlay("hide", true)
+
+    else
+      subcategory = @modal.find("[data-behavior='subcategory']")
+      subcategory_id = subcategory.find("option:selected").val()
+      type = subcategory.data("type")
+
+      if subcategory_id
+        $.ajax
+          url: "/quotation_printings/data_carousel?subcategory_id=#{subcategory_id}&type=#{type}&search=#{search}"
+          method: "get"
+          dataType: "json"
+          beforeSend: (xhr) ->
+            $("body").LoadingOverlay("show")
+          success: @handleSubcategoryChangeSuccess
+          complete: (xhr) ->
+            $("body").LoadingOverlay("hide", true)
+
   handleSubcategoryChange: (e) =>
-    subcategory_id = $(e.target).find("option:selected").val()
-    type = $(e.target).data("type")
+    subcategory = @modal.find("[data-behavior='subcategory']")
+    subcategory_id = subcategory.find("option:selected").val()
+    type = subcategory.data("type")
+    search = @modal.find("[data-behavior='input-search']").val()
 
     if subcategory_id
       $.ajax
-        url: "/quotation_printings/data_carousel?subcategory_id=#{subcategory_id}&type=#{type}"
+        url: "/quotation_printings/data_carousel?subcategory_id=#{subcategory_id}&type=#{type}&search=#{search}"
         method: "get"
         dataType: "json"
         beforeSend: (xhr) ->

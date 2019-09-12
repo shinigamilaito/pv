@@ -1,6 +1,12 @@
 <div class="row" data-behavior="background-image" data-url="<%= @url_background %>">
+  <div class="col-sm-12">
+    <%= render 'quotation_printings/search', locals: {type: @type} %>
+  </div>
+  <hr/>
   <div class="form-group">
-    <label class="col-sm-2 control-label background-color-carousel">Subcategoría</label>
+    <div class="col-sm-2">
+      <label class="col-sm-12 control-label background-color-carousel">Subcategoría</label>
+    </div>
     <div class="col-sm-3" style="margin-bottom: 10px;">
       <% if @type.eql?("invitations") %>
         <%= select_tag "quotation_printing[invitation_id]", options_from_collection_for_select(@subcategories, "id", "name", @subcategory),

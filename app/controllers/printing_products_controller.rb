@@ -101,9 +101,18 @@ class PrintingProductsController < ApplicationController
   end
 
   def data_carousel
-    @printing_products = PrintingProduct.where("product_type = ? AND imagen IS NOT NULL", params[:product_type])
+    @type = "printing-products"
+    @search = params[:search]
+    @product_type = params[:product_type]
     @url_background = ConfigurationData.configure.background_url
-    data_carousel = render_to_string("printing_products/data_carousel", layout: false, locals: {printing_products: @printing_products})
+
+    unless @search.present? || @search == ""
+      @printing_products = PrintingProduct.where("product_type = ? AND imagen IS NOT NULL", @product_type)
+      data_carousel = render_to_string("printing_products/data_carousel", layout: false, locals: {printing_products: @printing_products})
+    else
+      @printing_products = PrintingProduct.where("product_type = ? AND imagen IS NOT NULL AND name LIKE ?", @product_type, "%#{@search}%")
+      data_carousel = render_to_string("printing_products/_images_carousel", layout: false, locals: {printing_products: @printing_products})
+    end
 
     render json: {
         data: data_carousel

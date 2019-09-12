@@ -4,7 +4,12 @@
       <% if @subcategory.present? %>
 
         <% if @type.eql?("invitations") %>
-          <% @subcategory.invitations.each do |invitation| %>
+          <% if @search.present? %>
+            <% invitations = @subcategory.invitations.where("name LIKE ?", "%#{@search}%") %>
+          <% else %>
+            <% invitations = @subcategory.invitations %>
+          <% end %>
+          <% invitations.each do |invitation| %>
             <%= link_to (image_tag invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive"), invitation.imagen_url,
                       data: {toggle: "lightbox", gallery: "example-gallery",
                              title: invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
@@ -17,7 +22,12 @@
         <% end %>
 
         <% if @type.eql?("contents") %>
-          <% @subcategory.content_for_invitations.each do |content_for_invitation| %>
+          <% if @search.present? %>
+            <% invitations = @subcategory.content_for_invitations.where("name LIKE ?", "%#{@search}%") %>
+          <% else %>
+            <% invitations = @subcategory.content_for_invitations %>
+          <% end %>
+          <% invitations.each do |content_for_invitation| %>
             <%= link_to (image_tag content_for_invitation.image_url, class: "img-fluid img-thumbnail img-responsive"), content_for_invitation.image_url,
                         data: {toggle: "lightbox", gallery: "example-gallery",
                                title: content_for_invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
