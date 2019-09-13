@@ -1,0 +1,21 @@
+<div class="row border">
+  <div class="col-xs-6">
+    <p><%= "Cliente: " + note_service.client[:name] %></p>
+    <p><%= "Teléfono Fijo: " + note_service.client[:home_phone] %></p>
+    <p><%= "Teléfono Movil: " + note_service.client[:mobile_phone] %></p>
+    <p><%= "Correo: " + note_service.client[:email] %></p>
+  </div>
+  <div class="col-xs-6 border-left">
+    <p><%= "Marca: " + equipment_customer.brand.name %></p>
+    <p><%= "Modelo: " + equipment_customer.equipment_model.name %></p>
+    <p><%= "No. Serie: " + equipment_customer.serie_number %></p>
+    <p><%= "Fecha Ingreso: " + equipment_customer.created_at.strftime("%d/%m/%Y") %></p>
+  </div>
+</div>
+
+<div class="row border-not-top">
+  <div class="col-xs-12">
+    <p>Desperfecto:</p>
+    <%= sanitize(equipment_customer.description) %>
+  </div>
+</div>

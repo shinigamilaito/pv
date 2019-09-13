@@ -6,10 +6,14 @@ class ItemsByFinish
   end
 
   def elements
+    if user.admin?
+      return public_products + public_spare_parts + public_printing_products
+    end
     if user.sales_product?
-      public_products + public_spare_parts
-    else
-      public_printing_products
+      return public_products + public_spare_parts
+    end
+    if user.sales_printing?
+      return public_printing_products
     end
   end
 
