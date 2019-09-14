@@ -10,14 +10,17 @@
             <% invitations = @subcategory.invitations %>
           <% end %>
           <% invitations.each do |invitation| %>
-            <%= link_to (image_tag invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive"), invitation.imagen_url,
+            <% image = image_tag(invitation.imagen_url, class: "img-fluid img-thumbnail img-responsive") %>
+            <% title = label_tag invitation.name, nil, style: "text-align: center; display: block;", class: "background-color-carousel" %>
+            <%= link_to(image+title, invitation.imagen_url,
                       data: {toggle: "lightbox", gallery: "example-gallery",
                              title: invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
                              data-invitation-name='#{invitation.name}' data-category-name='#{invitation.category.name}'
                              data-subcategory-name='#{invitation.subcategory.name}' data-image-url='#{invitation.imagen_url}'
                              data-invitation-id='#{invitation.id}' class='pull-right'>Seleccionar</button>",
                              },
-                      class: "col-sm-3" %>
+                      class: "col-sm-3") %>
+
           <% end %>
         <% end %>
 
@@ -28,14 +31,16 @@
             <% invitations = @subcategory.content_for_invitations %>
           <% end %>
           <% invitations.each do |content_for_invitation| %>
-            <%= link_to (image_tag content_for_invitation.image_url, class: "img-fluid img-thumbnail img-responsive"), content_for_invitation.image_url,
+            <% image = image_tag(content_for_invitation.image_url, class: "img-fluid img-thumbnail img-responsive") %>
+            <% title = label_tag content_for_invitation.name, nil, style: "text-align: center; display: block;", class: "background-color-carousel" %>
+            <%= link_to(image+title, content_for_invitation.image_url,
                         data: {toggle: "lightbox", gallery: "example-gallery",
                                title: content_for_invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
                                data-invitation-name='#{content_for_invitation.name}' data-category-name='#{content_for_invitation.category.name}'
                                data-subcategory-name='#{content_for_invitation.subcategory.name}' data-image-url='#{content_for_invitation.image_url}'
                                data-content-for-invitation-id='#{content_for_invitation.id}' class='pull-right'>Seleccionar</button>",
                               },
-                        class: "col-sm-3" %>
+                        class: "col-sm-3") %>
           <% end %>
         <% end %>
 

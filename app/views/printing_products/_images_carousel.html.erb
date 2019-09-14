@@ -2,7 +2,9 @@
   <% if printing_products.present? %>
 
     <% printing_products.each do |printing_product| %>
-      <%= link_to((image_tag printing_product.imagen_url, class: "img-fluid img-thumbnail img-responsive"), printing_product.imagen_url,
+      <% image = image_tag(printing_product.imagen_url, class: "img-fluid img-thumbnail img-responsive") %>
+      <% title = label_tag printing_product.name, nil, style: "text-align: center; display: block;", class: "background-color-carousel" %>
+      <%= link_to(image+title, printing_product.imagen_url,
                   data: { toggle: "lightbox",
                           gallery: "example-gallery",
                           title: printing_product.name,
