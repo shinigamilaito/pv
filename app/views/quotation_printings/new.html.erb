@@ -114,7 +114,8 @@
       <div class="col-md-12">
         <div class="form-group">
           <label>Descripción:</label>
-          <%= f.text_area :description, class: "form-control", rows: "5", style: "resize:none;" %>
+          <%= f.text_area :description, class: "form-control", rows: "5", style: "resize:none;",
+                          data: {behavior: "description"}, readonly: true %>
           <div class="invalid-feedback"><%= quotation_printing.errors[:description].first %></div>
         </div>
       </div>

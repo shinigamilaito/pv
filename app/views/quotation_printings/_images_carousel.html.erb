@@ -17,6 +17,7 @@
                              title: invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
                              data-invitation-name='#{invitation.name}' data-category-name='#{invitation.category.name}'
                              data-subcategory-name='#{invitation.subcategory.name}' data-image-url='#{invitation.imagen_url}'
+                             data-invitation-description='#{invitation.description}'
                              data-invitation-id='#{invitation.id}' class='pull-right'>Seleccionar</button>",
                              },
                       class: "col-sm-3") %>
@@ -38,6 +39,7 @@
                                title: content_for_invitation.name, footer: "<button data-behavior='select-image' data-type='#{@type}'
                                data-invitation-name='#{content_for_invitation.name}' data-category-name='#{content_for_invitation.category.name}'
                                data-subcategory-name='#{content_for_invitation.subcategory.name}' data-image-url='#{content_for_invitation.image_url}'
+                               data-invitation-description='#{content_for_invitation.description}'
                                data-content-for-invitation-id='#{content_for_invitation.id}' class='pull-right'>Seleccionar</button>",
                               },
                         class: "col-sm-3") %>

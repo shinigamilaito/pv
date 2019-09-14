@@ -112,6 +112,7 @@
                                 '<h4>Descripción</h4>' +
                                 '<p><strong>Producto: </strong><span data-behavior="product-modal">Invitación modelo 821D.</span></p>' +
                                 '<p><strong>Categoría: </strong><span data-behavior="category-modal">Invitaciones de boda. Atardecer en la playa. Tendencias 2019-2010</span></p>' +
+                                '<p><strong>Descripción: </strong><span data-behavior="description-modal">Invitaciones de boda. Atardecer en la playa. Tendencias 2019-2010</span></p>' +
                             '</div>' +
                             '<div class="col-sm-4 hidden" data-behavior="lightbox-description-printing-product-wrapper" style="min-height:500px; overflow: hidden;">' +
                                 '<h4>Descripción</h4>' +

@@ -317,12 +317,22 @@ class Carousel
       $(document).find("[data-behavior='invitation-input']").val invitation_id
       console.log("InvitationID after close image: #{invitation_id}")
 
+      description = $(e.target).data("invitation-description")
+      $descriptionInput = $(document).find("[data-behavior='description']")
+      contentForInvitationDescription = $descriptionInput.val().split("\n\n")[1] || ""
+      $descriptionInput.val("#{description}\n\n#{contentForInvitationDescription}")
+
     if type == 'contents'
       placeholder = $(document).find("[data-behavior='image-content']")
       placeholder.attr "src", imagen_url
       content_for_invitation_id = $(e.target).data("content-for-invitation-id")
       $(document).find("[data-behavior='content-for-invitation-input']").val content_for_invitation_id
       console.log("InvitationID after close image: #{invitation_id}")
+
+      description = $(e.target).data("invitation-description")
+      $descriptionInput = $(document).find("[data-behavior='description']")
+      invitationDescription = $descriptionInput.val().split("\n\n")[0]
+      $descriptionInput.val("#{invitationDescription}\n\n#{description}")
 
     if type = 'printing_products'
       product_type = $(e.target).data("product-type")
@@ -375,8 +385,10 @@ class Carousel
       title = $("[data-invitation-name]").data("invitation-name")
       category = $("[data-category-name]").data("category-name")
       subcategory = $("[data-subcategory-name]").data("subcategory-name")
+      description = $("[data-invitation-description]").data("invitation-description")
       $("[data-behavior='product-modal']").text(title)
       $("[data-behavior='category-modal']").html("#{category} <br>#{subcategory}")
+      $("[data-behavior='description-modal']").html(description)
 
 class Payment
   constructor: (item) ->
