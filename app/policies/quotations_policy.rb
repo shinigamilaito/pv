@@ -78,11 +78,17 @@ class QuotationsPolicy
     raise 'Error al eliminar el producto' unless quotation_product.destroy
   end
 
-  # Retorna las cotizaciones que pertenecen  a un cliente
-  def self.quotations_by(client)
-    Quotation
-      .joins(:client)
-      .where('LOWER(name) LIKE :term or LOWER(first_name) LIKE :term or LOWER(last_name) LIKE :term', term: "%#{client.downcase}%")
+  # Retorna las cotizaciones que pertenecen  a un cliente o tienen el numero de folio
+  def self.quotations_by(term)
+    if term.to_i == 0
+      Quotation
+          .joins(:client)
+          .where('(LOWER(name) LIKE :term or LOWER(first_name) LIKE :term or LOWER(last_name) LIKE :term)', term: "%#{term.downcase}%")
+    else
+      Quotation
+          .where('folio = ?', term.to_i)
+    end
+
   end
 
   private

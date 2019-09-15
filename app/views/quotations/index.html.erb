@@ -7,7 +7,7 @@
 
       <div class="box-body table-responsive no-padding">
         <%= render 'shared/search', id: 'search-quotations',
-          placeholder: 'Buscar por nombre',
+          placeholder: 'Buscar por nombre o folio',
           remote_url: '/quotations/quotations_by_client' %>
         <table class="table table-responsive table-hover table-condensed table-striped" id="quotations_table">
           <%= render 'quotations_index' %>
