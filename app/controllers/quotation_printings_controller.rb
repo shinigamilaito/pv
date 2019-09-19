@@ -221,8 +221,7 @@ class QuotationPrintingsController < ApplicationController
 
     if @quotation_printing.save
       flash[:success] = 'Cotización para productos imprenta, registrada correctamente.'
-      # redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
-      redirect_to quotation_printings_path
+      redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
     else
       flash[:error] = 'Se presento un error al registrar la cotización. Intente mas tarde.'
       redirect_to quotation_printings_path
@@ -269,8 +268,7 @@ class QuotationPrintingsController < ApplicationController
 
     if @quotation_printing.update(quotation_printing_params)
       flash[:success] = 'Cotización para productos imprenta, actualizada correctamente.'
-      # redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
-      redirect_to quotation_printings_path
+      redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
     else
       flash[:error] = 'Se presento un error al actualizar la cotización. Intente mas tarde.'
       redirect_to quotation_printings_path
@@ -351,6 +349,7 @@ class QuotationPrintingsController < ApplicationController
       render js: "toastr['error']('Imposible eliminar el producto imprenta de la cotización.');", status: :bad_request
     end
   end
+=end
 
   # Nota de la cotización
   def get_pdf
@@ -358,8 +357,6 @@ class QuotationPrintingsController < ApplicationController
 
     respond_to do |format|
       format.pdf do
-        @note_quotation_printing = NoteQuotationPrinting.new(@quotation_printing)
-
         render pdf: 'report',
                #wkhtmltopdf: route_wicked,
                template: 'quotation_printings/note.pdf.html.erb',
@@ -376,6 +373,7 @@ class QuotationPrintingsController < ApplicationController
     end
   end
 
+=begin
   def generate_ticket
     @quotation_printing = QuotationPrinting.find(params[:id])
     respond_to do |format|

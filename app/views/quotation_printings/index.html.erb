@@ -37,10 +37,6 @@
 
 <script>
   <% if @get_quotation_pdf %>
-    <% if @quotation_printing_created.status.eql?('Cotización') %>
-      printPage(null, "<%= get_pdf_quotation_printing_path(@quotation_printing_created.id, format: 'pdf') %>");
-    <% else  %>
-      printPage(null, "<%= generate_ticket_quotation_printing_path(@quotation_printing_created.id, format: 'pdf') %>");
-    <% end %>
+    printPage(null, "<%= get_pdf_quotation_printing_path(@quotation_printing_created.id, format: 'pdf') %>");
   <% end %>
 </script>

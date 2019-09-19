@@ -1,124 +1,136 @@
 <div class="container-fluid">
-  <div class="row alwaysbreak">
-  <div class="col-xs-7">
-    <% logo_path = image_url("logo_nota_servicios.jpg") %>
-    <%= wicked_pdf_image_tag(logo_path, {size: "560x350"}) %>
-    <%#= image_tag wicked_pdf_asset_base64('logo_nota_servicios.jpg'), class: 'img-responsive', style: "height: 290px;" %>
-  </div>
-  <div class="col-xs-5">
-    <h3 class="text-center"><%= "FECHA: " + @note_quotation_printing.date %></h3>
-    <div class="m-b-10 text-right">
-      <h3 style="display: inline-block;" class="not-margin text-right">
-        <strong>Número:</strong>
-      </h3>
-      <h1 class="number-folio red not-margin"><%= @note_quotation_printing.folio %></h1>
-    </div>
-    <h3 class="not-margin-top text-right"><%= @note_quotation_printing.street %></h3>
-    <h3 class="f-s-a-f not-margin-top text-right"><%= @note_quotation_printing.city %></h3>
-    <div class="m-b-10 row">
-      <div class="col-xs-6">
-        <h3 class="not-margin"><%= @note_quotation_printing.telephones[:one] %></h3>
-      </div>
-      <div class="col-xs-6 text-right">
-        <h3 class="not-margin"><%= @note_quotation_printing.telephones[:two] %></h3>
-      </div>
-    </div>
-    <h3 class="not-margin-top text-right"><%= @note_quotation_printing.email %></h3>
-    <h3 class="not-margin-top red">HORARIO: 9:00 am 8:30 pm</h3>
-  </div>
-  </div>
-
-  <section class="section-blue m-b-20"></section>
-
-  <div class="row">
-    <div class="col-xs-12  b-c-g">
-      <h3 class="text-center not-margin-top"><strong>DATOS DEL CLIENTE</strong></h3>
-    </div>
-  </div>
-
-  <div class="row border">
-    <div class="col-xs-12">
-      <h5><%= "Cliente: " + @note_quotation_printing.client[:name] %></h5>
-      <h5><%= "Direccion: " + @note_quotation_printing.client[:address] %></h5>
-      <h5><%= "Teléfono: " + @note_quotation_printing.client[:home_phone] %></h5>
-      <h5><%= "Correo: " + @note_quotation_printing.client[:email] %></h5>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-4 text-center">
-      <h3><strong>CONCEPTO</strong></h3>
-    </div>
-    <div class="col-xs-4 text-center">
-      <h3><strong>CANTIDAD</strong></h3>
-    </div>
-    <div class="col-xs-4 text-center">
-      <h3><strong>PRECIO</strong></h3>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-4 text-center">
-      <h2>ELABORACIÓN DE INVITACIONES</h2>
-      <h4><%= @note_quotation_printing.invitation_name %></h4>
-
-      <% if @note_quotation_printing.has_image? %>
-        <div class="form-group">
-          <div class="col-xs-12">
-            <% src = @note_quotation_printing.url_imagen %>
-            <%= wicked_pdf_image_tag(src, {size: "250x250"}) %>
-            <br/>
-          </div>
+  <div class="row alwaysbreak m-l-100 m-r-100">
+    <div class="col-xs-8 m-t-150">
+      <div class="row">
+        <div class="col-xs-2">
+          <h1><strong>Nombre: </strong></h1>
         </div>
-      <% end %>
-    </div>
+        <div class="col-xs-4">
+          <h1><%= @quotation_printing.client.formal_name %></h1>
+        </div>
+        <div class="col-xs-2">
+          <h1><strong>Orden: </strong></h1>
+        </div>
+        <div class="col-xs-4">
+          <h1><%= "%04d" % @quotation_printing.number_folio %></h1>
+        </div>
+      </div>
 
-    <div class="col-xs-4 text-center">
-      <h2><%= @note_quotation_printing.total_pieces %></h2>
+      <div class="row">
+        <div class="col-xs-2">
+          <h1><strong>Fecha: </strong></h1>
+        </div>
+        <div class="col-xs-10">
+          <h1><%= @quotation_printing.updated_at.strftime("%d/%m/%Y") %></h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-2">
+          <h1><strong>Fecha Entrega Borrador: </strong></h1>
+        </div>
+        <div class="col-xs-4">
+          <h1><%= @quotation_printing.draft_delivery_date %></h1>
+        </div>
+        <div class="col-xs-2">
+          <h1><strong>Fecha Entrega Invitación: </strong></h1>
+        </div>
+        <div class="col-xs-4">
+          <h1><%= @quotation_printing.delivery_date %></h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-2">
+          <h1><strong>Le atendió: </strong></h1>
+        </div>
+        <div class="col-xs-10">
+          <h1><%= @quotation_printing.user.formal_name %></h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-2">
+          <h1><strong>Cantidad: </strong></h1>
+        </div>
+        <div class="col-xs-4">
+          <h1><%= @quotation_printing.total_pieces %></h1>
+        </div>
+        <div class="col-xs-2">
+          <h1><strong>Total: </strong></h1>
+        </div>
+        <div class="col-xs-4">
+          <h1><%= number_to_currency @quotation_printing.total_cost %></h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-2">
+          <h1><strong>A/C: </strong></h1>
+        </div>
+        <div class="col-xs-10">
+          <h1><%= number_to_currency @quotation_printing.payment %></h1>
+        </div>
+      </div>
     </div>
-    <div class="col-xs-4 text-center">
-      <h2><%= number_to_currency @note_quotation_printing.cost_total_quotation %></h2>
+    <div class="col-xs-4">
+      <div class="row">
+        <div class="col-xs-12">
+          <% logo_path = image_url("logomichel2019-08-30.jpeg") %>
+          <%= wicked_pdf_image_tag(logo_path, style: "width: 100%;") %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-8 col-xs-offset-4">
+          <h1><strong>Súper Creativas, Súper O</strong></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4 text-right">
+          <% logo_path = image_url("facebook-transparent-icon-9.jpg") %>
+          <%= wicked_pdf_image_tag(logo_path, style: "width: 60%; height: 100px;") %>
+        </div>
+        <div class="col-xs-8">
+          <h1><strong>Invitaciones Michel</strong></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-8 col-xs-offset-4">
+          <h1><strong>Tel: 530 09 29</strong></h1>
+        </div>
+      </div>
     </div>
   </div>
 
-  <% if @note_quotation_printing.is_orden? %>
-    <div class="row">
-      <div class="col-xs-3 col-xs-offset-6 text-right">
-        <h4><strong>Tipo de Pago:</strong></h4>
+  <div class="row m-t-150 m-l-100 m-r-100" style="height: 1000px;">
+    <div class="col-xs-6 text-center">
+      <div class="col-xs-12 m-t-20 m-b-20">
+        <h1><strong>CONTENIDO #</strong></h1>
       </div>
-      <div class="col-xs-3 text-left">
-        <h4><%= @note_quotation_printing.payment_type %></h4>
-      </div>
-      <div class="col-xs-3 col-xs-offset-6 text-right">
-        <h4><strong>Pago con:</strong></h4>
-      </div>
-      <div class="col-xs-3 text-left">
-        <h4><%= number_to_currency @note_quotation_printing.paid_with %></h4>
-      </div>
-      <div class="col-xs-3 col-xs-offset-6 text-right">
-        <h4><strong>Abona:</strong></h4>
-      </div>
-      <div class="col-xs-3 text-left">
-        <h4><%= number_to_currency @note_quotation_printing.payment %></h4>
-      </div>
-      <div class="col-xs-3 col-xs-offset-6 text-right">
-        <h4><strong>Cambio:</strong></h4>
-      </div>
-      <div class="col-xs-3 text-left">
-        <h4><%= number_to_currency @note_quotation_printing.change %></h4>
-      </div>
-      <div class="col-xs-3 col-xs-offset-6 text-right">
-        <h4><strong>Resta:</strong></h4>
-      </div>
-      <div class="col-xs-3 text-left">
-        <h4><%= number_to_currency @note_quotation_printing.difference %></h4>
+      <div class="col-xs-12">
+        <% logo_path = @quotation_printing.content_for_invitation.image_url %>
+        <%= wicked_pdf_image_tag(logo_path, style: "width: 100%; height: 100%") %>
       </div>
     </div>
-  <% end %>
-
-  <div class="row" style="margin-top: 20px !important;">
-    <h4 class="term-cond text-center">
-      <%= "Cotizacion valida hasta el #{l @note_quotation_printing.valid_until, format: '%A, %d %b %Y'}" %>
-    </h4>
+    <div class="col-xs-6 text-center">
+      <div class="col-xs-12 m-t-20 m-b-20">
+        <h1><strong>INVITACIÓN #</strong></h1>
+      </div>
+      <div class="col-xs-12">
+        <% logo_path = @quotation_printing.invitation.imagen_url %>
+        <%= wicked_pdf_image_tag(logo_path, style: "width: 100%; height: 100%;") %>
+      </div>
+    </div>
   </div>
+
+  <div class="row m-l-100 m-r-100">
+    <div class="col-xs-12 m-t-150" style="height: 500px; background-color: rgba(255, 255, 255, 0.5)">
+      <h1><strong><%= @quotation_printing.description %></strong></h1>
+    </div>
+
+    <div class="col-xs-12 m-t-100" style="height: 500px; background-color: rgba(255, 255, 255, 0.5)">
+      <h1><strong><%= @quotation_printing.description_adjust_design %></strong></h1>
+    </div>
+  </div>
+
 </div>
