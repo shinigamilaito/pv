@@ -28,7 +28,7 @@ class QuotationPrintingsController < ApplicationController
     @quotation_printings = quotation_printing_policy.find_quotation_printings[:quotation_printings_present]
 
     quotation_printing_element = render_to_string("quotation_printings/_select_quotation_printings",
-                                             layout: false)
+                                                  layout: false)
     render json: {
         quotation_printing: quotation_printing_element
     }
@@ -43,8 +43,8 @@ class QuotationPrintingsController < ApplicationController
     end
 
     quotation_printing_element = render_to_string("quotation_printings/new", layout: false,
-                                                  locals: { quotation_printing: @quotation_printing} )
-    render json: { quotation_printing: quotation_printing_element }
+                                                  locals: {quotation_printing: @quotation_printing})
+    render json: {quotation_printing: quotation_printing_element}
   end
 
   # Obtiene los productos(printing_product_quotations) que han sido agregados a las cotizaciones
@@ -217,7 +217,10 @@ class QuotationPrintingsController < ApplicationController
 
     @quotation_printing = QuotationPrinting.new(quotation_printing_params)
     @quotation_printing.user = current_user
-    @quotation_printing.message_history_quotation_printings.first.user = current_user
+
+    if @quotation_printing.message_history_quotation_printings.first.present?
+      @quotation_printing.message_history_quotation_printings.first.user = current_user
+    end
 
     if @quotation_printing.save
       flash[:success] = 'Cotización para productos imprenta, registrada correctamente.'
@@ -364,10 +367,10 @@ class QuotationPrintingsController < ApplicationController
                layout: 'pdf.html.erb',
                page_size: 'Letter',
                margin: {
-                 left: 0,
-                 right: 0,
-                 top: 5,
-                 bottom: 4
+                   left: 0,
+                   right: 0,
+                   top: 5,
+                   bottom: 4
                }
       end
     end
@@ -429,7 +432,7 @@ class QuotationPrintingsController < ApplicationController
 
     render json: {
         result: render_to_string("message_history_quotation_printings/_message_history_quotation_printing",
-                               layout: false, locals: {message_history_quotation_printing: message_history})
+                                 layout: false, locals: {message_history_quotation_printing: message_history})
     }
   end
 
@@ -441,16 +444,16 @@ class QuotationPrintingsController < ApplicationController
 
   def quotation_printing_params
     params.require(:quotation_printing).permit([:client_id, :invitation_id,
-      :content_for_invitation_id, :draft_delivery_date, :delivery_date, :total_pieces, :printing_type,
-      :description, :description_adjust_design, :message, :total_cost, :payment, :difference,
+                                                :content_for_invitation_id, :draft_delivery_date, :delivery_date, :total_pieces, :printing_type,
+                                                :description, :description_adjust_design, :message, :total_cost, :payment, :difference,
                                                 product_types: [:printing_product_id, :quantity]
-    ])
+                                               ])
   end
 
   def fixed_format_price
-      params[:quotation_printing][:total_cost] = params[:quotation_printing][:total_cost].gsub("$ ","").gsub(',','')
-      params[:quotation_printing][:payment] = params[:quotation_printing][:payment].gsub("$ ","").gsub(',','')
-      params[:quotation_printing][:difference] = params[:quotation_printing][:difference].gsub("$ ","").gsub(',','')
+    params[:quotation_printing][:total_cost] = params[:quotation_printing][:total_cost].gsub("$ ", "").gsub(',', '')
+    params[:quotation_printing][:payment] = params[:quotation_printing][:payment].gsub("$ ", "").gsub(',', '')
+    params[:quotation_printing][:difference] = params[:quotation_printing][:difference].gsub("$ ", "").gsub(',', '')
   end
 
 end
