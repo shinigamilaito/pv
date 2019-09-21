@@ -104,10 +104,11 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:code, :name, :quantity, :price, :description, :stock_minimum)
+      params.require(:product).permit(:code, :name, :quantity, :price_purchase, :price, :description, :stock_minimum)
     end
 
     def fixed_format_price
+        params[:product][:price_purchase] = params[:product][:price_purchase].gsub('$ ', '').gsub(',','')
         params[:product][:price] = params[:product][:price].gsub('$ ', '').gsub(',','')
     end
 

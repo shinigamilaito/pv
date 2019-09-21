@@ -98,10 +98,11 @@ class SparePartsController < ApplicationController
     end
 
     def spare_part_params
-      params.require(:spare_part).permit(:name, :description, :price, :total, :code, :stock_minimum)
+      params.require(:spare_part).permit(:name, :description, :price_purchase, :price, :total, :code, :stock_minimum)
     end
 
     def fixed_format_price
+      params[:spare_part][:price_purchase] = params[:spare_part][:price_purchase].gsub('$ ', '').gsub(',','')
       params[:spare_part][:price] = params[:spare_part][:price].gsub('$ ', '').gsub(',','')
     end
 

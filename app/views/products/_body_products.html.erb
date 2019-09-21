@@ -3,7 +3,8 @@
     <th>No.</th>
     <th>Código</th>
     <th>Nombre</th>
-    <th>Precio</th>
+    <th>Precio Compra</th>
+    <th>Precio Venta</th>
     <th>Stock</th>
     <th>Stock Minimo</th>
     <th>Descripción</th>
@@ -16,6 +17,7 @@
     <td><%= @index %></td>
     <td><%= product.code %></td>
     <td><%= product.name %></td>
+    <td><%= number_to_currency product.price_purchase %></td>
     <td><%= number_to_currency product.price %></td>
     <td><%= product.quantity %></td>
     <td><%= product.stock_minimum %></td>

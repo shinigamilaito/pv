@@ -2,15 +2,16 @@
 #
 # Table name: products
 #
-#  id            :bigint           not null, primary key
-#  code          :string
-#  name          :string
-#  quantity      :integer
-#  price         :decimal(10, 2)   default(0.0)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  description   :text
-#  stock_minimum :integer          default(0)
+#  id             :bigint           not null, primary key
+#  code           :string
+#  description    :text
+#  name           :string
+#  price          :decimal(10, 2)   default(0.0)
+#  price_purchase :decimal(10, 2)
+#  quantity       :integer
+#  stock_minimum  :integer          default(0)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 class Product < ApplicationRecord

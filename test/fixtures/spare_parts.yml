@@ -2,15 +2,16 @@
 #
 # Table name: spare_parts
 #
-#  id            :bigint           not null, primary key
-#  name          :string
-#  description   :text
-#  price         :decimal(10, 2)
-#  total         :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  code          :string
-#  stock_minimum :integer          default(0)
+#  id             :bigint           not null, primary key
+#  code           :string
+#  description    :text
+#  name           :string
+#  price          :decimal(10, 2)
+#  price_purchase :decimal(10, 2)
+#  stock_minimum  :integer          default(0)
+#  total          :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

@@ -15,13 +15,23 @@
         <span><%= @spare_part.errors[:name].first %></span>
       </div>
     </div>
+
     <div class="form-group">
-      <label class="col-sm-2 control-label">Precio</label>
+      <label class="col-sm-2 control-label">Precio Compra</label>
+      <div class="col-sm-10">
+        <%= f.text_field :price_purchase, class: "form-control", required: true, style: "text-align: left !important;" %>
+        <div class="invalid-feedback"><%= @spare_part.errors[:price].first %></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Precio Venta</label>
       <div class="col-sm-10">
         <%= f.text_field :price, class: "form-control", required: true, style: "text-align: left !important;" %>
         <div class="invalid-feedback"><%= @spare_part.errors[:price].first %></div>
       </div>
     </div>
+
     <div class="form-group">
       <label class="col-sm-2 control-label">Stock</label>
       <div class="col-sm-10">
@@ -29,6 +39,7 @@
         <div class="invalid-feedback"><%= @spare_part.errors[:total].first %></div>
       </div>
     </div>
+
     <div class="form-group">
       <label class="col-sm-2 control-label">Stock Minimo</label>
       <div class="col-sm-10">
@@ -36,6 +47,7 @@
         <div class="invalid-feedback"><%= @spare_part.errors[:stock_minimum].first %></div>
       </div>
     </div>
+
     <div class="form-group">
       <label class="col-sm-2 control-label">Descripción</label>
       <div class="col-sm-10">
@@ -43,6 +55,7 @@
         <div class="invalid-feedback"><%= @spare_part.errors[:description].first %></div>
       </div>
     </div>
+  </div>
   <!-- /.box-body -->
   <div class="box-footer">
     <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block" %>

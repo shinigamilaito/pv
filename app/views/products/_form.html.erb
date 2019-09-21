@@ -17,7 +17,15 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Precio</label>
+      <label class="col-sm-2 control-label">Precio Compra</label>
+      <div class="col-sm-10">
+        <%= f.text_field :price_purchase, class: "form-control", required: true, style: "text-align: left !important;" %>
+        <div class="invalid-feedback"><%= @product.errors[:price_purchase].first %></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Precio Venta</label>
       <div class="col-sm-10">
         <%= f.text_field :price, class: "form-control", required: true, style: "text-align: left !important;" %>
         <div class="invalid-feedback"><%= @product.errors[:price].first %></div>
@@ -47,6 +55,7 @@
         <div class="invalid-feedback"><%= @product.errors[:description].first %></div>
       </div>
     </div>
+  </div>
 
   <div class="box-footer">
     <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block" %>
