@@ -1,75 +1,75 @@
 <div class="container-fluid">
-  <div class="row alwaysbreak m-l-100 m-r-100">
-    <div class="col-xs-8 m-t-150">
+  <div class="row alwaysbreak m-l-30 m-r-30">
+    <div class="col-xs-8 m-t-50">
       <div class="row">
         <div class="col-xs-2">
-          <h1><strong>Nombre: </strong></h1>
+          <h3><strong>Nombre: </strong></h3>
         </div>
         <div class="col-xs-4">
-          <h1><%= @quotation_printing.client.formal_name %></h1>
+          <h3><%= @quotation_printing.client.formal_name %></h3>
         </div>
         <div class="col-xs-2">
-          <h1><strong>Orden: </strong></h1>
+          <h3><strong>Orden: </strong></h3>
         </div>
         <div class="col-xs-4">
-          <h1><%= "%04d" % @quotation_printing.number_folio %></h1>
+          <h3><%= "%04d" % @quotation_printing.number_folio %></h3>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-2">
-          <h1><strong>Fecha: </strong></h1>
+          <h3><strong>Fecha: </strong></h3>
         </div>
         <div class="col-xs-10">
-          <h1><%= @quotation_printing.updated_at.strftime("%d/%m/%Y") %></h1>
+          <h3><%= @quotation_printing.updated_at.strftime("%d/%m/%Y") %></h3>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-2">
-          <h1><strong>Fecha Entrega Borrador: </strong></h1>
+          <h3><strong>Fecha Entrega Borrador: </strong></h3>
         </div>
         <div class="col-xs-4">
-          <h1><%= @quotation_printing.draft_delivery_date %></h1>
+          <h3><%= @quotation_printing.draft_delivery_date %></h3>
         </div>
         <div class="col-xs-2">
-          <h1><strong>Fecha Entrega Invitación: </strong></h1>
+          <h3><strong>Fecha Entrega Invitación: </strong></h3>
         </div>
         <div class="col-xs-4">
-          <h1><%= @quotation_printing.delivery_date %></h1>
+          <h3><%= @quotation_printing.delivery_date %></h3>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-2">
-          <h1><strong>Le atendió: </strong></h1>
+          <h3><strong>Le atendió: </strong></h3>
         </div>
         <div class="col-xs-10">
-          <h1><%= @quotation_printing.user.formal_name %></h1>
+          <h3><%= @quotation_printing.user.formal_name %></h3>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-2">
-          <h1><strong>Cantidad: </strong></h1>
+          <h3><strong>Cantidad: </strong></h3>
         </div>
         <div class="col-xs-4">
-          <h1><%= @quotation_printing.total_pieces %></h1>
+          <h3><%= @quotation_printing.total_pieces %></h3>
         </div>
         <div class="col-xs-2">
-          <h1><strong>Total: </strong></h1>
+          <h3><strong>Total: </strong></h3>
         </div>
         <div class="col-xs-4">
-          <h1><%= number_to_currency @quotation_printing.total_cost %></h1>
+          <h3><%= number_to_currency @quotation_printing.total_cost %></h3>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-2">
-          <h1><strong>A/C: </strong></h1>
+          <h3><strong>A/C: </strong></h3>
         </div>
         <div class="col-xs-10">
-          <h1><%= number_to_currency @quotation_printing.payment %></h1>
+          <h3><%= number_to_currency @quotation_printing.payment %></h3>
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@
       </div>
       <div class="row">
         <div class="col-xs-8 col-xs-offset-4">
-          <h1><strong>Súper Creativas, Súper O</strong></h1>
+          <h3><strong>Súper Creativas, Súper O</strong></h3>
         </div>
       </div>
       <div class="row">
@@ -91,21 +91,21 @@
           <%= wicked_pdf_image_tag(logo_path, style: "width: 60%; height: 100px;") %>
         </div>
         <div class="col-xs-8">
-          <h1><strong>Invitaciones Michel</strong></h1>
+          <h3><strong>Invitaciones Michel</strong></h3>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-8 col-xs-offset-4">
-          <h1><strong>Tel: 530 09 29</strong></h1>
+          <h3><strong>Tel: 530 09 29</strong></h3>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row m-t-150 m-l-100 m-r-100" style="height: 1000px;">
+  <div class="row m-t-50 m-l-30 m-r-30" style="height: 1000px;">
     <div class="col-xs-6 text-center">
       <div class="col-xs-12 m-t-20 m-b-20">
-        <h1><strong>CONTENIDO #</strong></h1>
+        <h3><strong>CONTENIDO #</strong></h3>
       </div>
       <div class="col-xs-12">
         <% logo_path = @quotation_printing.content_for_invitation.image_url %>
@@ -114,7 +114,7 @@
     </div>
     <div class="col-xs-6 text-center">
       <div class="col-xs-12 m-t-20 m-b-20">
-        <h1><strong>INVITACIÓN #</strong></h1>
+        <h3><strong>INVITACIÓN #</strong></h3>
       </div>
       <div class="col-xs-12">
         <% logo_path = @quotation_printing.invitation.imagen_url %>
@@ -123,13 +123,13 @@
     </div>
   </div>
 
-  <div class="row m-l-100 m-r-100">
-    <div class="col-xs-12 m-t-150" style="height: 500px; background-color: rgba(255, 255, 255, 0.5)">
-      <h1><strong><%= @quotation_printing.description %></strong></h1>
+  <div class="row m-l-30 m-r-30">
+    <div class="col-xs-12 m-t-50" style="height: 500px; background-color: rgba(255, 255, 255, 0.5)">
+      <h3><strong><%= @quotation_printing.description %></strong></h3>
     </div>
 
-    <div class="col-xs-12 m-t-100" style="height: 500px; background-color: rgba(255, 255, 255, 0.5)">
-      <h1><strong><%= @quotation_printing.description_adjust_design %></strong></h1>
+    <div class="col-xs-12 m-t-50" style="height: 500px; background-color: rgba(255, 255, 255, 0.5)">
+      <h3><strong><%= @quotation_printing.description_adjust_design %></strong></h3>
     </div>
   </div>
 
