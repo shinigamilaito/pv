@@ -140,6 +140,12 @@ class QuotationPrinting < ApplicationRecord
     end
   end
 
+  def self.all_by_client(client)
+        self
+        .joins(:client)
+        .where('LOWER(name) LIKE :term or LOWER(first_name) LIKE :term or LOWER(last_name) LIKE :term', term: "%#{client.downcase}%")
+  end
+
   private
 
   def printing_product_by(product_type)

@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       get :find_quotation_printings_by_client
       get :obtain_printing_products
       get :obtain_printing_products_for_quotation
+      get :all
+      get :all_by_client
     end
     member do
       get :get_pdf

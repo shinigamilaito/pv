@@ -98,11 +98,17 @@
               <% end %>
             </li>
 
-
             <li class="<%= @module == "quotation_printing" ? 'active-sidebar' : '' %> subitem-menu-navegation">
               <%= link_to quotation_printings_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
                 <i class="glyphicon glyphicon-print"></i>
                 <span class="roboto-font" style="padding-left: 10px;">Ordenes de Trabajo</span>
+              <% end %>
+            </li>
+
+            <li class="<%= @module == "quotation_printings" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+              <%= link_to all_quotation_printings_path, style: "font-size: 14px !important;", class: "subitem-menu-navegation" do %>
+                <i class="glyphicon glyphicon-print"></i>
+                <span class="roboto-font" style="padding-left: 10px;">Ordenes en Proceso</span>
               <% end %>
             </li>
           </ul>

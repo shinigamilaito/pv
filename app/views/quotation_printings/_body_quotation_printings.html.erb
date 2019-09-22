@@ -1,0 +1,17 @@
+<tbody>
+  <tr>
+    <th>No.</th>
+    <th>Cliente</th>
+    <th>Actualizado el</th>
+    <th>Folio</th>
+  </tr>
+  <% @quotation_printings.each do |quotation_printing| %>
+    <tr>
+      <td><%= @index %></td>
+      <td><%= link_to quotation_printing.client.formal_name, quotation_printings_path(quotation_printing_id: quotation_printing), target: "_blank" %></td>
+      <td><%= date_time_helper(quotation_printing.updated_at) %></td>
+      <td><%= quotation_printing.number_folio %></td>
+    </tr>
+    <% @index += 1 %>
+  <% end %>
+</tbody>

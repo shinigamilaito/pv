@@ -8,9 +8,19 @@ class QuotationPrintingsController < ApplicationController
       redirect_to root_url and return
     end
 
-    @clients = []
-    @quotation_printings = []
-    @quotation_printing = nil
+    if params[:quotation_printing_id].present?
+      @clients = Client.all
+      @quotation_printing = QuotationPrinting.find(params[:quotation_printing_id])
+      @client = @quotation_printing.client
+      quotation_printing_policy = QuotationPrintingsPolicy.new(@quotation_printing.client_id)
+      @quotation_printings = quotation_printing_policy.find_quotation_printings[:quotation_printings_present]
+      @number_folio = quotation_printing_policy.quotation_printings_with_date_creation(@quotation_printing)
+    else
+      @clients = []
+      @quotation_printings = []
+      @quotation_printing = nil
+      @client = nil
+    end
 
     quotation_printings_policy = QuotationPrintingsPolicy.new
     quotation_printings_policy.destroy_printing_product_quotations(current_user)
@@ -47,168 +57,6 @@ class QuotationPrintingsController < ApplicationController
     render json: {quotation_printing: quotation_printing_element}
   end
 
-  # Obtiene los productos(printing_product_quotations) que han sido agregados a las cotizaciones
-=begin
-  def obtain_printing_products
-    begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
-      if params[:amount_to_elaborate] == ""
-        amount_to_elaborate = 0
-      else
-        amount_to_elaborate = params[:amount_to_elaborate].to_i
-      end
-
-      if params[:new_invitation].present? && params[:new_invitation].eql?("true")
-        @invitation = Invitation.new
-        @invitation.name = params[:invitation_id]
-        @invitation.user = current_user
-        @invitation.created_in_quotation = true
-        raise 'Error al registrar la invitación' unless @invitation.save
-      else
-        @invitation = Invitation.find(params[:invitation_id])
-      end
-
-      if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
-        @quotation_printing_id = params[:quotation_printing_id]
-      else
-        @quotation_printing_id = nil
-      end
-
-      @printing_products = @invitation.invitation_printing_products
-      quotation_printings_policy = QuotationPrintingsPolicy.new
-      quotation_printings_policy.generate_printing_product(@invitation, current_user, @quotation_printing_id)
-      @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@invitation, current_user, @quotation_printing_id)
-      @total_quotation_printings = quotation_printings_policy.totals(@invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
-    rescue StandardError => e
-      render js: "toastr['error']('#{e.message}');", status: :bad_request
-    end
-  end
-=end
-
-  #Obtiene los productos(printing_product_quotation) para una cotización ya creada
-=begin
-  def obtain_printing_products_for_quotation
-    @quotation_printing = QuotationPrinting.find(params[:quotation_printing_id])
-    @invitation = @quotation_printing.invitation
-    @printing_products = @invitation.invitation_printing_products
-    @printing_product_quotations = @quotation_printing.printing_product_quotations
-    quotation_printings_policy = QuotationPrintingsPolicy.new
-    @total_quotation_printings = quotation_printings_policy.totals_by_quotation(@quotation_printing)
-  end
-=end
-
-  # Actualizar las cantidades del producto
-=begin
-  def update_quantity_product
-    begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
-      if params[:amount_to_elaborate] == ""
-        amount_to_elaborate = 0
-      else
-        amount_to_elaborate = params[:amount_to_elaborate].to_i
-      end
-      quantity = params[:quantity].to_i
-      invitation = Invitation.find(params[:invitation_id])
-      printing_product_quotation = PrintingProductQuotation.find(params[:printing_product_quotation_id])
-      quotation_printings_policy = QuotationPrintingsPolicy.new
-      @printing_product_quotation = quotation_printings_policy.update_quantity(printing_product_quotation, quantity)
-
-      if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
-        @quotation_printing_id = params[:quotation_printing_id]
-      else
-        @quotation_printing_id = nil
-      end
-
-      @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
-      render 'quotation_printings/update_quantity'
-    rescue StandardError => e
-      render js: "toastr['error']('#{e.message}');", status: :bad_request
-    end
-  end
-=end
-
-  # Actualizar el precio en total del producto
-=begin
-  def update_price_product
-    begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
-      if params[:amount_to_elaborate] == ""
-        amount_to_elaborate = 0
-      else
-        amount_to_elaborate = params[:amount_to_elaborate].to_i
-      end
-      new_price = BigDecimal.new(params[:price].gsub(',', ''))
-      invitation = Invitation.find(params[:invitation_id])
-      printing_product_quotation = PrintingProductQuotation.find(params[:printing_product_quotation_id])
-      quotation_printings_policy = QuotationPrintingsPolicy.new
-      @printing_product_quotation = quotation_printings_policy.change_price_product(printing_product_quotation, new_price)
-
-      if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
-        @quotation_printing_id = params[:quotation_printing_id]
-      else
-        @quotation_printing_id = nil
-      end
-
-      @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
-      render 'quotation_printings/update_quantity'
-    rescue StandardError => e
-      render js: "toastr['error']('#{e.message}');", status: :bad_request
-    end
-  end
-=end
-
-  # Actualizar el precio en unidad del producto
-=begin
-  def update_real_price_product
-    begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
-      if params[:amount_to_elaborate] == ""
-        amount_to_elaborate = 0
-      else
-        amount_to_elaborate = params[:amount_to_elaborate].to_i
-      end
-      real_price = BigDecimal.new(params[:real_price].gsub(',', ''))
-      invitation = Invitation.find(params[:invitation_id])
-      printing_product_quotation = PrintingProductQuotation.find(params[:printing_product_quotation_id])
-      quotation_printings_policy = QuotationPrintingsPolicy.new
-      @printing_product_quotation = quotation_printings_policy.change_real_price_product(printing_product_quotation, real_price)
-
-      if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
-        @quotation_printing_id = params[:quotation_printing_id]
-      else
-        @quotation_printing_id = nil
-      end
-
-      @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
-      render 'quotation_printings/update_quantity'
-    rescue StandardError => e
-      render js: "toastr['error']('#{e.message}');", status: :bad_request
-    end
-  end
-=end
-
-  # Obtiene el costo total después de un cambio en el costo de Elaboración
-=begin
-  def obtain_total_costs
-    manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
-    if params[:amount_to_elaborate] == ""
-      amount_to_elaborate = 0
-    else
-      amount_to_elaborate = params[:amount_to_elaborate].to_i
-    end
-    invitation = Invitation.find(params[:invitation_id])
-
-    if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
-      @quotation_printing_id = params[:quotation_printing_id]
-    else
-      @quotation_printing_id = nil
-    end
-
-    quotation_printings_policy = QuotationPrintingsPolicy.new
-    @total_quotation_printings = quotation_printings_policy.totals(invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
-  end
-=end
-
   def create
     unless cash_impression_open?
       flash[:warning] = 'La caja de impresiones no ha sido abierta.'
@@ -229,34 +77,6 @@ class QuotationPrintingsController < ApplicationController
       flash[:error] = 'Se presento un error al registrar la cotización. Intente mas tarde.'
       redirect_to quotation_printings_path
     end
-
-=begin
-    PgLock.new(name: "quotation_printings_create").lock do
-      @quotation_printing = QuotationPrinting.new(quoation_printing_params)
-      @quotation_printing.user = current_user
-      @quotation_printing.full_payment = @quotation_printing.difference <= BigDecimal.new("0")
-      @quotation_printing.number_folio = @quotation_printing.set_number_folio
-      @quotation_printing.ticket = @quotation_printing.set_number_ticket
-      @quotation_printing.cash_opening_impression = CashPolicy.new.cash_impressions
-      quotation_printings_policy = QuotationPrintingsPolicy.new()
-      printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@quotation_printing.invitation, current_user)
-      @quotation_printing.printing_product_quotations = printing_product_quotations
-
-      if params[:quotation_printing][:imagen].blank? || params[:quotation_printing][:imagen].eql?("")
-        if @quotation_printing.imagen.nil?
-          @quotation_printing.imagen = @quotation_printing.invitation.imagen
-        end
-      end
-
-      if @quotation_printing.save
-        flash[:success] = 'Cotización para productos imprenta, registrada correctamente.'
-        redirect_to quotation_printings_path(quotation_printing_created: @quotation_printing.id)
-      else
-        flash[:error] = 'Se presento un error al registrar la cotización. Intente mas tarde.'
-        redirect_to quotation_printings_path
-      end
-    end
-=end
   end
 
   def update
@@ -298,61 +118,6 @@ class QuotationPrintingsController < ApplicationController
     end
 =end
   end
-
-=begin
-  def add_printing_product
-    begin
-      manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
-      if params[:amount_to_elaborate] == ""
-        amount_to_elaborate = 0
-      else
-        amount_to_elaborate = params[:amount_to_elaborate].to_i
-      end
-      @invitation = Invitation.find(params[:invitation_id])
-      quotation_printings_policy = QuotationPrintingsPolicy.new
-      printing_product = PrintingProduct.find(params[:printing_product][:id])
-
-      if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
-        @quotation_printing_id = params[:quotation_printing_id]
-      else
-        @quotation_printing_id = nil
-      end
-
-      quotation_printings_policy.add(current_user, @invitation, printing_product, @quotation_printing_id)
-      @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@invitation, current_user, @quotation_printing_id)
-      @total_quotation_printings = quotation_printings_policy.totals(@invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
-      render "obtain_printing_products"
-    rescue StandardError => e
-      render js: "toastr['error']('#{e.message}');", status: :bad_request
-    end
-  end
-
-  def delete_printing_product_quotation
-    manufacturing_cost = BigDecimal.new(params[:manufacturing_cost].gsub(',', ''))
-    if params[:amount_to_elaborate] == ""
-      amount_to_elaborate = 0
-    else
-      amount_to_elaborate = params[:amount_to_elaborate].to_i
-    end
-    @invitation = Invitation.find(params[:invitation_id])
-    printing_product_quotation = PrintingProductQuotation.find(params[:printing_product_quotation_id])
-
-    if params[:quotation_printing_id].present? && params[:quotation_printing_id] != ""
-      @quotation_printing_id = params[:quotation_printing_id]
-    else
-      @quotation_printing_id = nil
-    end
-
-    if printing_product_quotation.destroy
-      quotation_printings_policy = QuotationPrintingsPolicy.new
-      @printing_product_quotations = quotation_printings_policy.obtain_printing_product_quotations_in_use(@invitation, current_user, @quotation_printing_id)
-      @total_quotation_printings = quotation_printings_policy.totals(@invitation, current_user, manufacturing_cost, amount_to_elaborate, @quotation_printing_id)
-      render "obtain_printing_products"
-    else
-      render js: "toastr['error']('Imposible eliminar el producto imprenta de la cotización.');", status: :bad_request
-    end
-  end
-=end
 
   # Nota de la cotización
   def get_pdf
@@ -434,6 +199,31 @@ class QuotationPrintingsController < ApplicationController
         result: render_to_string("message_history_quotation_printings/_message_history_quotation_printing",
                                  layout: false, locals: {message_history_quotation_printing: message_history})
     }
+  end
+
+  # Pending quotations
+  def all
+    @quotation_printings = QuotationPrinting
+                               .all
+                               .paginate(page: params[:page], per_page: self.elements_per_page)
+                               .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
+    @module = "quotation_printings"
+
+    respond_to do |format|
+      format.html {render :quotations}
+      format.js {render :quotations_by_client}
+    end
+  end
+
+  def all_by_client
+    @quotation_printings = QuotationPrinting
+                            .all_by_client(params[:search])
+                            .paginate(page: params[:page], per_page: self.elements_per_page)
+                            .order(updated_at: :desc)
+
+    @index = obtain_index(params[:page].to_i)
   end
 
   private

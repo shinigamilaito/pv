@@ -7,7 +7,7 @@
       <div class="col-md-5">
         <div class="form-group">
           <label>Seleccionar cliente</label>
-          <%= collection_select :client, :client_id, @clients, :id, :name, { prompt: 'Buscar cliente' },
+          <%= collection_select :client, :client_id, @clients, :id, :formal_name, { selected: @client, prompt: 'Buscar cliente' },
                                 class: 'form-control', required: true, data: {behavior: 'clients-autocomplete'} %>
         </div>
       </div>
@@ -15,8 +15,8 @@
       <div class="col-md-5" data-behavior="div-quotation-printings">
         <div class="form-group" id="quotation_printing">
           <label>Buscar/Agregar Cotización</label>
-          <%= select_tag 'quotation_printing[number_folio]', options_for_select(@quotation_printings, @quotation_printing),
-                         class: 'form-control', required: true, data: {behavior: "quotation_select"} %>
+          <%= select_tag 'quotation_printing[number_folio]', options_for_select(@quotation_printings, @number_folio),
+                         class: 'form-control', required: true, data: {behavior: "select-number-folio"} %>
         </div>
       </div>
 
@@ -39,4 +39,12 @@
   <% if @get_quotation_pdf %>
     printPage(null, "<%= get_pdf_quotation_printing_path(@quotation_printing_created.id, format: 'pdf') %>");
   <% end %>
+</script>
+
+<script>
+    $(document).ready(function () {
+        <% if @number_folio.present? %>
+          $("[data-behavior='quotation-register']").click();
+        <% end %>
+    })
 </script>
