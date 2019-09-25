@@ -16,6 +16,14 @@
       </div>
     </div>
 
+    <div class="form-group <%= 'has-error' unless @product.errors[:brand].blank? %>">
+      <label class="col-sm-2 control-label">Marca</label>
+      <div class="col-sm-10">
+        <%= f.collection_select :brand_id, Brand.all.order(:name), :id, :name, { prompt: 'Seleccione una marca' }, class: 'form-control', required: true %>
+        <span><%= @product.errors[:brand].first %></span>
+      </div>
+    </div>
+
     <div class="form-group">
       <label class="col-sm-2 control-label">Precio Compra</label>
       <div class="col-sm-10">
@@ -62,3 +70,9 @@
   </div>
 
 <% end %>
+
+<script>
+  $(document).ready(function () {
+     $("#product_brand_id").select2();
+  });
+</script>

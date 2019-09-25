@@ -3,6 +3,7 @@
     <th>No.</th>
     <th>Código</th>
     <th>Nombre</th>
+    <th>Marca</th>
     <th>Precio Compra</th>
     <th>Precio Venta</th>
     <th>Stock</th>
@@ -17,6 +18,8 @@
     <td><%= @index %></td>
     <td><%= product.code %></td>
     <td><%= product.name %></td>
+    <% brand_name = product.brand.nil? ? "" : product.brand.name %>
+    <td><%= brand_name %></td>
     <td><%= number_to_currency product.price_purchase %></td>
     <td><%= number_to_currency product.price %></td>
     <td><%= product.quantity %></td>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190921020200) do
+ActiveRecord::Schema.define(version: 20190925021435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -396,6 +396,8 @@ ActiveRecord::Schema.define(version: 20190921020200) do
     t.text "description"
     t.integer "stock_minimum", default: 0
     t.decimal "price_purchase", precision: 10, scale: 2
+    t.bigint "brand_id"
+    t.index ["brand_id"], name: "index_products_on_brand_id"
   end
 
   create_table "quotation_printings", force: :cascade do |t|
@@ -636,6 +638,7 @@ ActiveRecord::Schema.define(version: 20190921020200) do
   add_foreign_key "printing_sales", "clients"
   add_foreign_key "printing_sales", "payment_types"
   add_foreign_key "printing_sales", "users"
+  add_foreign_key "products", "brands"
   add_foreign_key "quotation_printings", "cash_opening_impressions"
   add_foreign_key "quotation_printings", "clients"
   add_foreign_key "quotation_printings", "content_for_invitations"
