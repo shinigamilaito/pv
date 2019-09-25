@@ -32,11 +32,13 @@ Rails.application.routes.draw do
       get :obtain_printing_products_for_quotation
       get :all
       get :all_by_client
+
     end
     member do
       get :get_pdf
       get :generate_ticket
       post :add_history
+      post :cancel
     end
   end
 

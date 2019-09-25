@@ -11,6 +11,16 @@
       <td><%= link_to quotation_printing.client.formal_name, quotation_printings_path(quotation_printing_id: quotation_printing), target: "_blank" %></td>
       <td><%= date_time_helper(quotation_printing.updated_at) %></td>
       <td><%= quotation_printing.number_folio %></td>
+      <% unless quotation_printing.is_canceled? %>
+      <td id="<%= quotation_printing.id %>">
+        <%= link_to "Cancelar", cancel_quotation_printing_path(quotation_printing), class: "btn btn-danger",
+                    data: {method: :post, remote: true} %>
+      </td>
+      <% else %>
+        <td>
+          <p class='btn btn-warning'>Cancelado</p>
+        </td>
+      <% end %>
     </tr>
     <% @index += 1 %>
   <% end %>

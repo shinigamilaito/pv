@@ -1,0 +1,4 @@
+<% if @quotation_printing.is_canceled? %>
+  $("#" + "<%= @quotation_printing.id %>").html("<p class='btn btn-warning'>Cancelado</p>");
+  toastr['success']('Cancelación exitosa.');
+<% end %>

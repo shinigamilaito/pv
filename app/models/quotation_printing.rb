@@ -146,6 +146,10 @@ class QuotationPrinting < ApplicationRecord
         .where('LOWER(name) LIKE :term or LOWER(first_name) LIKE :term or LOWER(last_name) LIKE :term', term: "%#{client.downcase}%")
   end
 
+  def is_canceled?
+    self.status == "canceled"
+  end
+
   private
 
   def printing_product_by(product_type)

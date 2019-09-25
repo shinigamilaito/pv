@@ -226,6 +226,12 @@ class QuotationPrintingsController < ApplicationController
     @index = obtain_index(params[:page].to_i)
   end
 
+  def cancel
+    @quotation_printing = QuotationPrinting.find(params[:id])
+    @quotation_printing.status = "canceled"
+    @quotation_printing.save
+  end
+
   private
 
   def set_module
