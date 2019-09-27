@@ -98,10 +98,9 @@ class CashesController < ApplicationController
       @title = "Ingresos por Servicios y Ventas"
       @sucursal = "Accesorios y Servicios"
     else
-      # Cambiar por caja de impresiones
       @cash = CashOpeningImpression.find(params[:cash])
-      @title = "Ingresos por Ventas"
-      @sucursal = "Accesorios"
+      @title = "Ingresos por Impresiones"
+      @sucursal = "Impresiones"
     end
     respond_to do |format|
       format.pdf do

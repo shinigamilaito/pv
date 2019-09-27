@@ -8,7 +8,7 @@
 
       <div class="box-body table-responsive no-padding">
         <%= render 'shared/search', id: 'search-products',
-          placeholder: 'Buscar por código ó nombre',
+          placeholder: 'Buscar por código, nombre ó marca',
           remote_url: '/products/search' %>
         <table class="table table-responsive table-hover table-condensed table-striped" id="products_table">
           <%= render 'body_products' %>

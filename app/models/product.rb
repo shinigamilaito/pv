@@ -24,7 +24,7 @@ class Product < ApplicationRecord
 
   def self.search(term)
     Product
-    .joins(:brand)
+    .left_outer_joins(:brand)
     .where('LOWER(brands.name) LIKE :term or (LOWER(products.code) LIKE :term or LOWER(products.name) LIKE :term)', term: "%#{term.downcase}%") if term.present?
   end
 
