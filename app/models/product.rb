@@ -20,7 +20,7 @@ class Product < ApplicationRecord
   validates :name, presence: true, uniqueness: {case_sensitive: true}
   validates :stock_minimum, presence: true
 
-  belongs_to :brand
+  belongs_to :brand, optional: true
 
   def self.search(term)
     Product

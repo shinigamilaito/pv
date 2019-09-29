@@ -3,7 +3,7 @@
 # Table name: service_spare_parts
 #
 #  id             :bigint           not null, primary key
-#  control_number :integer          default(0)
+#  control_number :string           default("0")
 #  description    :text
 #  name           :string
 #  price          :decimal(10, 2)
