@@ -5,6 +5,7 @@
 #  id             :bigint           not null, primary key
 #  code           :string
 #  description    :text
+#  imagen         :string
 #  name           :string
 #  price          :decimal(10, 2)   default(0.0)
 #  price_purchase :decimal(10, 2)
@@ -16,6 +17,8 @@
 #
 
 class Product < ApplicationRecord
+  mount_uploader :imagen, ImagenUploader
+
   validates :code, presence: true, uniqueness: {case_sensitive: true}
   validates :name, presence: true, uniqueness: {case_sensitive: true}
   validates :stock_minimum, presence: true

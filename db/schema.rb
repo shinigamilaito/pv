@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190929033745) do
+ActiveRecord::Schema.define(version: 20191127021052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -397,6 +397,7 @@ ActiveRecord::Schema.define(version: 20190929033745) do
     t.integer "stock_minimum", default: 0
     t.decimal "price_purchase", precision: 10, scale: 2
     t.bigint "brand_id"
+    t.string "imagen"
     t.index ["brand_id"], name: "index_products_on_brand_id"
   end
 

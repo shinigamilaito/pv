@@ -9,6 +9,7 @@
     <th>Stock</th>
     <th>Stock Minimo</th>
     <th>Descripción</th>
+    <th>Imagen</th>
     <th></th>
     <th></th>
     <th></th>
@@ -25,6 +26,7 @@
     <td><%= product.quantity %></td>
     <td><%= product.stock_minimum %></td>
     <td><%= product.description %></td>
+    <td><%= image_tag(product.imagen_url, size:"50x50") if product.imagen? %></td>
     <td style="width: 1px;"><%= link_to 'Traspasar', translate_product_path(product), method: :post, class: 'btn',  data: { confirm: "Se traspasará una unidad al cátalogo de refacciones. \n ¿Está usted seguro?" } if current_user.admin? %></td>
     <td style="width: 1px;"><%= link_to 'Actualizar', edit_product_path(product), class: 'btn btn-edit' if current_user.admin? %></td>
     <td style="width: 1px;"><%= link_to 'Eliminar', product, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } if current_user.admin? %></td>

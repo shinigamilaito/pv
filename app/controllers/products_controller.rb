@@ -105,7 +105,7 @@ class ProductsController < ApplicationController
 
     def product_params
       params.require(:product).permit(:code, :name, :quantity, :price_purchase, :price,
-                                      :description, :stock_minimum, :brand_id)
+                                      :description, :stock_minimum, :brand_id, :imagen)
     end
 
     def fixed_format_price
