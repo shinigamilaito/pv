@@ -4,7 +4,7 @@ class ConcentratedReportPolicy
   def initialize(type)
     @months_strings = %w(Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
     @type = type
-    @all_total = BigDecimal.new("0.00")
+    @all_total = BigDecimal.new("0.00", 2)
   end
 
   def all_months(year)
@@ -123,7 +123,7 @@ class ConcentratedReportPolicy
     end
 
     if total.nil?
-      total = BigDecimal.new("0.00")
+      total = BigDecimal.new("0.00", 2)
     end
 
     @all_total += total

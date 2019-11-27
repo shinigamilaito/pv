@@ -225,11 +225,11 @@
           </ul>
         </li>
 
-        <!-- Ingresos -->
+        <!-- Reportes -->
         <% if current_user.admin? %>
           <li class="treeview">
             <a href="#" style="font-size: 1.8rem;" class="item-menu-navegation">
-              <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Ingresos</span>
+              <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">REPORTES</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-down pull-right"></i>
               </span>
@@ -252,13 +252,19 @@
               <li class="<%= @module == "concentrated_reports_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
                 <%= link_to concentrated_reports_sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Ventas</span>
+                  <span class="roboto-font" style="padding-left: 5px;">Simplif. de Ventas</span>
                 <% end %>
               </li>
               <li class="<%= @module == "concentrated_reports_services" ? 'active-sidebar' : '' %> subitem-menu-navegation">
                 <%= link_to concentrated_reports_services_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Reporte S. de Servicios</span>
+                  <span class="roboto-font" style="padding-left: 5px;">Simplif. de Servicios</span>
+                <% end %>
+              </li>
+              <li class="<%= @module == "cash_movements" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+                <%= link_to cashes_report_close_cashes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Movimientos de Caja</span>
                 <% end %>
               </li>
             </ul>

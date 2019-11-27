@@ -5,7 +5,7 @@
         <div class="row">
           <label class="control-label col-sm-4" for="search_start_date">Mes</label>
           <div class="col-sm-8">
-            <%= f.select :month, @months, {}, class: 'form-control' %>
+            <%= f.select :month, options_for_select(@months, Date.current.month), {}, class: 'form-control' %>
           </div>
         </div>
       </div>
@@ -28,6 +28,7 @@
                 ¿Incluir Mes y Año?
               </label>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -52,6 +53,7 @@
 <!-- Change en month and year -->
 <script>
   $(document).ready(function() {
+    $('#search_checked').prop('checked', true);
     $('#search_month').on('change', searchByMonthAndYear);
     $('#search_year').on('change', searchByMonthAndYear);
 
@@ -71,7 +73,7 @@
       } else {
         if($(this).attr('id') == 'search_year') {
           $filterForm.attr("action", "/concentrated_reports/sales_by_year");
-          $xlsLink.attr("href", "/concentrated_reports/sales_by_year.xlsx")
+          $xlsLink.attr("href", "/concentrated_reports/sales_by_year.xlsx");
           $submitButton.click();
         }
       }

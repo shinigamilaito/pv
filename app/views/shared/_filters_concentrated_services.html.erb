@@ -5,7 +5,7 @@
         <div class="row">
           <label class="control-label col-sm-4" for="search_start_date">Mes</label>
           <div class="col-sm-8">
-            <%= f.select :month, @months, {}, class: 'form-control' %>
+            <%= f.select :month, options_for_select(@months, Date.current.month), {}, class: 'form-control' %>
           </div>
         </div>
       </div>
@@ -28,6 +28,7 @@
                 ¿Incluir Mes y Año?
               </label>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -52,29 +53,30 @@
 <!-- Change en month and year -->
 <script>
   $(document).ready(function() {
-    $('#search_month').on('change', searchByMonthAndYear);
-    $('#search_year').on('change', searchByMonthAndYear);
+      $('#search_checked').prop('checked', true);
+      $('#search_month').on('change', searchByMonthAndYear);
+      $('#search_year').on('change', searchByMonthAndYear);
 
-    function searchByMonthAndYear() {
-      var checked = $("#search_checked").prop('checked');
-      var $filterForm = $("#filter_form");
-      var $submitButton = $("#submit_button");
-      var $xlsLink = $("#link_concentrated_services_xlsx");
-      var month =  $('#search_month').val()
-      var year =  $('#search_year').val()
+      function searchByMonthAndYear() {
+        var checked = $("#search_checked").prop('checked');
+        var $filterForm = $("#filter_form");
+        var $submitButton = $("#submit_button");
+        var $xlsLink = $("#link_concentrated_services_xlsx");
+        var month =  $('#search_month').val()
+        var year =  $('#search_year').val()
 
-      if(checked) {
-        $filterForm.attr("action", "/concentrated_reports/services_by_month_year");
-        $xlsLink.attr("href", "/concentrated_reports/services_by_month_year.xlsx");
-        $submitButton.click();
-
-      } else {
-        if($(this).attr('id') == 'search_year') {
-          $filterForm.attr("action", "/concentrated_reports/services_by_year");
-          $xlsLink.attr("href", "/concentrated_reports/services_by_year.xlsx")
+        if(checked) {
+          $filterForm.attr("action", "/concentrated_reports/services_by_month_year");
+          $xlsLink.attr("href", "/concentrated_reports/services_by_month_year.xlsx");
           $submitButton.click();
+
+        } else {
+          if($(this).attr('id') == 'search_year') {
+            $filterForm.attr("action", "/concentrated_reports/services_by_year");
+            $xlsLink.attr("href", "/concentrated_reports/services_by_year.xlsx")
+            $submitButton.click();
+          }
         }
       }
-    }
   });
 </script>

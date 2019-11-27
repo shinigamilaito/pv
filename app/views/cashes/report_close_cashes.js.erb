@@ -1,0 +1,3 @@
+$("#report_close_cashes_table").html("<%= j render('cashes/report_close_cashes') %>");
+$("#link_cashes_close_cash_xlsx").attr("href", "<%= cashes_report_close_cashes_path(format: :xlsx, page: @page, type: @type) %>");
+<%= render 'shared/paginate', elements_paginate: @cashes_close %>

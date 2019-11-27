@@ -1,0 +1,19 @@
+<tbody>
+<tr id="header-table-concentrated_report_sales">
+  <th>No.</th>
+  <th>Fecha de Operación</th>
+  <th>Caja</th>
+  <th>Monto de apertura</th>
+  <th>Monto al cierre</th>
+</tr>
+<% @cashes_close.each do |cash_close| %>
+  <tr>
+    <td><%= @index %></td>
+    <td><%= cash_close.close_date.strftime("%d/%m/%Y")  %></td>
+    <td><%= @type == "sales_services" ? "Ventas y Servicios" : "Impresiones" %></td>
+    <td><%= number_to_currency cash_close.open_amount %></td>
+    <td><%= number_to_currency cash_close.total %></td>
+  </tr>
+  <% @index += 1 %>
+<% end %>
+</tbody>

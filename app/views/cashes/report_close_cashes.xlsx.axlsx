@@ -1,0 +1,26 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  title = style.add_style(size: 15,
+                          b: true,
+                          u: true,
+                          alignment: { horizontal: :center })
+  default = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                            alignment: { horizontal: :left })
+  header = style.add_style(bg_color: '00', fg_color: 'FF', b: true)
+  profitable = style.add_style(fg_color: 'FF428751',
+                               sz: 12,
+                               b: true,
+                               border: Axlsx::STYLE_THIN_BORDER)
+
+  wb.add_worksheet(name: "Cierres de Caja") do |sheet|
+    sheet.add_row [@title], style: title
+    sheet.add_row
+    sheet.add_row ["No.", "Fecha de Operación", "Caja", "Monto de apertura", "Monto al cierre"], style: header
+    @cashes_close.each_with_index do |cash_close, index|
+      sheet.add_row [index + 1, cash_close.close_date.strftime("%d/%m/%Y"), @type == "sales_services" ? "Ventas y Servicios" : "Impresiones", number_to_currency(cash_close.open_amount), number_to_currency(cash_close.total)], style: default
+    end
+    sheet.add_row
+    sheet.column_widths 6, nil, nil, nil, nil
+    sheet.merge_cells 'A1:E1'
+  end
+end

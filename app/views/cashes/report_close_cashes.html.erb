@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header text-center">
+        <h3 class="box-title title-catalog"><%= @title %></h3>
+      </div>
+
+      <div class="box-body table-responsive no-padding">
+        <%= form_for :search, html: { method: :get, remote: true, id: 'filter_form'} do |f| %>
+          <br/>
+          <div class="container-fluid">
+            <div class="col-xs-12">
+              <div class="row">
+                <label class="control-label col-xs-1" for="search_start_date">Caja</label>
+                <div class="col-xs-3">
+                  <%= f.select :cash, options_for_select([["Ventas y Servicios", "sales_services"], ["Impresiones", "impresions"]], "sales_services"),
+                               {}, class: 'form-control' %>
+                </div>
+                <div class="col-xs-3 col-xs-offset-5">
+                  <%= link_to cashes_report_close_cashes_path(format: :xlsx, page: @page), id: 'link_cashes_close_cash_xlsx',  class: "btn btn-default pull-right", style: "margin-right: 45px;" do %>
+                    <i class="fa fa-fw fa-file-excel-o"></i>
+                    Exportar a Excel
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" id="submit_button" style="display:none">Submit</button>
+          <br/>
+        <% end %>
+        <table class="table table-responsive table-hover table-condensed table-striped" id="report_close_cashes_table">
+          <%= render 'report_close_cashes' %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/paginate', elements_paginate: @cashes_close %>
+
+<script>
+  $(document).ready(function() {
+      $("#search_cash").change(function() {
+          $.ajax({
+              url: "/cashes/report_close_cashes?type=" + $(this).val(),
+              method: "get",
+              dataType: "script",
+              beforeSend: function(xhr) {
+                  $("body").LoadingOverlay("show");
+              },
+              complete: function(xhr) {
+                  $("body").LoadingOverlay("hide", true);
+              }
+          });
+      });
+  });
+</script>

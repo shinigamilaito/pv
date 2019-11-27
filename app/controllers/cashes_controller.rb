@@ -1,5 +1,5 @@
 class CashesController < ApplicationController
-    before_action :fixed_format_amount, only: [:create_movement]
+  before_action :fixed_format_amount, only: [:create_movement]
 
   # Vista para mostrar formulario
   # de aperturas de cajas
@@ -113,10 +113,10 @@ class CashesController < ApplicationController
                show_as_html: true,
                page_size: 'A8',
                margin: {
-                 left: 0,
-                 right: 0,
-                 top: 5,
-                 bottom: 4
+                   left: 0,
+                   right: 0,
+                   top: 5,
+                   bottom: 4
                }
       end
     end
@@ -158,17 +158,45 @@ class CashesController < ApplicationController
     respond_to do |format|
       if @cash_movement.save
         flash[:success] = 'Movimiento registrado correctamente.'
-        format.html { redirect_to root_url }
+        format.html {redirect_to root_url}
       else
         flash[:error] = 'Proporcione los datos correctos.'
-        format.html { redirect_to cashes_new_movement_url }
+        format.html {redirect_to cashes_new_movement_url}
       end
     end
   end
 
+  def report_close_cashes
+    @type = params[:type] || "sales_services"
+    @module = "cash_movements"
+    @title = "Reporte de apertura y cierre de caja"
+
+    if @type == "sales_services"
+      object = CashClosingServicesSale
+    else
+      object = CashClosingImpression
+    end
+
+    @cashes_close = object
+                        .paginate(page: params[:page], per_page: self.elements_per_page)
+                        .order(created_at: :desc)
+    @index = obtain_index(params[:page].to_i)
+    @page = params[:page]
+
+    respond_to do |format|
+      format.html { }
+      format.js { }
+      format.xlsx {
+        response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
+      }
+    end
+  end
+
+
   private
+
   def fixed_format_amount
-      params[:cash_movement][:amount] = params[:cash_movement][:amount].gsub('$', '').gsub(',','')
+    params[:cash_movement][:amount] = params[:cash_movement][:amount].gsub('$', '').gsub(',', '')
   end
 
   def format_amount(amount)

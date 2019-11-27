@@ -107,6 +107,7 @@ Rails.application.routes.draw do
   get 'cashes/ticket_open_cash'
   get 'cashes/new_movement'
   post 'cashes/create_movement'
+  get 'cashes/report_close_cashes'
 
   get 'filters_sales/range_date_incomes'
   get 'filters_sales/employee_incomes'
