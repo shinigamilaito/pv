@@ -1,0 +1,42 @@
+<tbody>
+<tr>
+  <th>No.</th>
+  <th>Ticket</th>
+  <th>Fecha</th>
+  <th>Producto</th>
+  <th>Empleado</th>
+  <th>Precio de compra</th>
+  <th>Precio de venta</th>
+  <th>Ganancia</th>
+</tr>
+<% @sales.each do |sale| %>
+  <% sale_products = sale.class.name == "Sale" ? sale.sale_products : sale.printing_sale_products %>
+  <% sale_products.each do |sale_product| %>
+  <tr>
+    <td><%= @index %></td>
+    <td><%= link_to sale.ticket, "javascript:void(0);", data: {url: generate_ticket_sale_path(sale, format: :pdf)}, class: "ticket_sale" %></td>
+    <td><%= sale.created_at.strftime("%d/%m/%Y") %></td>
+    <td><%= sale_product.name %></td>
+    <td><%= sale_product.user.formal_name %></td>
+    <td><%= number_to_currency sale_product.real_purchase_price %></td>
+    <td><%= number_to_currency sale_product.real_price %></td>
+    <td><%= number_to_currency sale_product.earning %></td>
+  <% end %>
+  </tr>
+  <% @index += 1 %>
+<% end %>
+<% if @total.present? %>
+  <tr>
+    <td colspan="7" class="text-right" style="color: #3c8dbc;"><strong>Total Ganancias</strong></td>
+    <td><%= number_to_currency @total %></td>
+  </tr>
+<% end %>
+</tbody>
+
+<script>
+    $(document).ready(function() {
+        $('.ticket_sale').click(function() {
+            printPage($(this), $(this).data("url"));
+        });
+    });
+</script>

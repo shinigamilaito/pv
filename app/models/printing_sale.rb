@@ -44,4 +44,12 @@ class PrintingSale < ApplicationRecord
 
     printing_sales_parcial.map(&:payment).sum
   end
+
+  def self.earnings_by_product(sales)
+    earning = 0.0
+    sales.each do |sale|
+      earning += sale.printing_sale_products.inject(0) { |sum, sale_product| sum + sale_product.earning }
+    end
+    earning
+  end
 end

@@ -1,0 +1,120 @@
+<%= form_for :search, html: { method: :get, remote: true, id: 'filter_form'} do |f| %>
+  <%= f.hidden_field :type %>
+  <div class="container-fluid">
+    <div class="row" style="margin: 6px 0px;">
+      <div class="col-sm-3">
+        <div class="row">
+          <label class="control-label col-sm-4" for="search_start_date">Desde</label>
+          <div class="col-sm-8">
+            <%= text_field :search, :start_date, value: @start_date, class: 'form-control form-control-sm datepicker', autocomplete: 'off' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="row">
+          <label class="control-label col-sm-3" for="search_employee_id">Por empleado</label>
+          <div class="col-sm-9">
+            <%= f.collection_select :employee_id, [], :id, :name, { prompt: 'Seleccionar empleado' }, class: 'form-control autocomplete_employes' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin: 6px 0px;">
+      <div class="col-sm-3">
+        <div class="row">
+          <label class="control-label col-sm-4" for="search_end_date">Hasta</label>
+          <div class="col-sm-8">
+            <%= text_field :search, :end_date, value: @start_date, class: 'form-control form-control-sm datepicker', autocomplete: 'off' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="row">
+          <label class="control-label col-sm-3" for="search_employee_id">Productos de</label>
+          <div class="col-sm-9">
+            <%= f.select :source, options_for_select([["Tienda", "Sale"], ["Imprenta", "PrintingSale"]], selected: "Sale"), {}, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin: 6px 0px;">
+      <div class="col-sm-12">
+        <%= link_to product_earnings_report_index_path, class: "btn btn-default pull-left" do %>
+          <i class="fa fa-fw fa-undo"></i>
+          Eliminar Filtros
+        <% end %>
+        <%= link_to product_earnings_report_index_path(format: :xlsx), id: 'link_export_xls',  class: "btn btn-default pull-right", style: "margin-right: 45px;" do %>
+          <i class="fa fa-fw fa-file-excel-o"></i>
+          Exportar a Excel
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" id="submit_button" style="display:none">Submit</button>
+<% end %>
+
+<!-- Search by range dates -->
+<script>
+    $(document).ready(function() {
+        setDatePicker($(".datepicker"));
+
+        $('.datepicker')
+            .datepicker()
+            .on('changeDate', sendForm);
+    });
+
+    function sendForm() {
+        let source = $("#search_source").val();
+        let startDate = $("#search_start_date").val();
+        let endDate = $("#search_end_date").val();
+        let $filterForm = $("#filter_form");
+        let $submitButton = $("#submit_button");
+        let $xlsLink = $("#link_export_xls");
+        $("#search_type").val("date");
+        let params_xlsx = "search[start_date]=" + startDate + "&search[end_date]=" + endDate + "&search[type]=date&search[source]=" + source;
+
+
+        if(startDate != undefined && endDate != undefined) {
+            $filterForm.attr("action", "/product_earnings_report");
+            $xlsLink.attr("href", "/product_earnings_report.xlsx?" + params_xlsx);
+            $submitButton.click();
+            console.log("Submit form....")
+        }
+    }
+</script>
+
+<!-- Search by employee -->
+<script>
+    $(document).ready(function() {
+        $('.autocomplete_employes').select2({
+            minimumInputLength: 1,
+            ajax: {
+                delay: 250,
+                url: "/employes/autocomplete",
+                dataType: 'json',
+                cache: true
+            }
+        });
+
+        $('.autocomplete_employes').on('select2:select', function () {
+            let source = $("#search_source").val();
+            let startDate = $("#search_start_date").val();
+            let endDate = $("#search_end_date").val();
+            let $filterForm = $("#filter_form");
+            let $submitButton = $("#submit_button");
+            let $xlsLink = $("#link_export_xls");
+            $("#search_type").val("employee");
+            let params_xlsx = "search[start_date]=" + startDate + "&search[end_date]=" + endDate + "&search[employee_id]=" +
+                $(this).val() + "&search[type]=employee&search[source]=" + source;
+
+            $filterForm.attr("action", "/product_earnings_report");
+            $xlsLink.attr("href", "/product_earnings_report.xlsx?" + params_xlsx);
+            $submitButton.click();
+        });
+    });
+</script>

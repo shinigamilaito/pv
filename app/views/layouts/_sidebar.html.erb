@@ -267,6 +267,12 @@
                   <span class="roboto-font" style="padding-left: 5px;">Movimientos de Caja</span>
                 <% end %>
               </li>
+              <li class="<%= @module == "product_earnings_report" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+                <%= link_to product_earnings_report_index_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
+                  <i class="fa fa-fw fa-money"></i>
+                  <span class="roboto-font" style="padding-left: 5px;">Reporte de Ganancias</span>
+                <% end %>
+              </li>
             </ul>
           </li>
         <% end %>

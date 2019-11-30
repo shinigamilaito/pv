@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191127021052) do
+ActiveRecord::Schema.define(version: 20191129025144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -358,6 +358,7 @@ ActiveRecord::Schema.define(version: 20191127021052) do
     t.datetime "updated_at", null: false
     t.string "sale_unit"
     t.string "real_sale_unit"
+    t.decimal "purchase_price", precision: 10, scale: 2, default: "0.0"
     t.index ["printing_product_id"], name: "index_printing_sale_products_on_printing_product_id"
     t.index ["printing_sale_id"], name: "index_printing_sale_products_on_printing_sale_id"
     t.index ["user_id"], name: "index_printing_sale_products_on_user_id"
@@ -483,6 +484,7 @@ ActiveRecord::Schema.define(version: 20191127021052) do
     t.datetime "updated_at", null: false
     t.decimal "discount", precision: 10, scale: 2, default: "0.0"
     t.decimal "real_price", precision: 20, scale: 10, default: "0.0"
+    t.decimal "purchase_price", precision: 10, scale: 2, default: "0.0"
     t.index ["product_id"], name: "index_sale_products_on_product_id"
     t.index ["sale_id"], name: "index_sale_products_on_sale_id"
     t.index ["user_id"], name: "index_sale_products_on_user_id"

@@ -8,6 +8,7 @@
 #  code                :string
 #  name                :string
 #  price               :decimal(10, 2)   default(0.0)
+#  purchase_price      :decimal(10, 2)   default(0.0)
 #  quantity            :integer
 #  real_price          :decimal(20, 10)  default(0.0)
 #  real_sale_unit      :string
@@ -34,5 +35,17 @@ class PrintingSaleProduct < ApplicationRecord
     self.price = self.printing_product.send(key_sale) * quantity
     self.real_price = self.printing_product.send(key_sale)
     self.save
+  end
+
+  def real_purchase_price
+    if self.purchase_price == BigDecimal.new("0.0", 2)
+      return self.printing_product.purchase_price.present? ? self.printing_product.purchase_price : self.purchase_price
+    else
+      return self.purchase_price
+    end
+  end
+
+  def earning
+    return self.real_price - self.real_purchase_price
   end
 end

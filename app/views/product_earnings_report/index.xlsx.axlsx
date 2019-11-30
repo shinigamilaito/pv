@@ -1,0 +1,29 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  title = style.add_style(size: 15,
+                          b: true,
+                          u: true,
+                          alignment: { horizontal: :center })
+  default = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                            alignment: { horizontal: :left })
+  header = style.add_style(bg_color: '00', fg_color: 'FF', b: true)
+  profitable = style.add_style(fg_color: 'FF428751',
+                               sz: 12,
+                               b: true,
+                               border: Axlsx::STYLE_THIN_BORDER)
+
+  wb.add_worksheet(name: "Reporte de Ganancias") do |sheet|
+    sheet.add_row [@title], style: title
+    sheet.add_row
+    sheet.add_row ["No.", "Ticket", "Fecha", "Producto", "Empleado", "Precio de compra", "Precio de venta", "Ganancia"], style: header
+    @sales.each_with_index do |sale, index|
+        sale.sale_products.each do |sale_product|
+            sheet.add_row [index + 1, sale.ticket, sale.created_at.strftime("%d/%m/%Y"), sale_product.name, sale_product.user.formal_name, number_to_currency(sale_product.real_purchase_price), number_to_currency(sale_product.real_price), number_to_currency(sale_product.earning)], style: default
+        end
+    end
+    sheet.add_row
+    sheet.add_row [nil, nil, nil, nil, nil, nil, "Total Ingresos:", number_to_currency(@total)], style: [nil, nil, nil, nil, nil, nil, profitable, default]
+    sheet.column_widths 8, nil, nil, nil, nil
+    sheet.merge_cells 'A1:H1'
+  end
+end

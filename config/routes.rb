@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   post 'configuration/quotation_printing_modal_image', as: :quotation_modal_image
 
+  resources :product_earnings_report, only: [:index]
   resources :todo_lists
   resources :subcategories do
     collection do
