@@ -150,6 +150,12 @@ class QuotationPrinting < ApplicationRecord
     self.status == "canceled"
   end
 
+  def self.total(quotation_printings)
+    return nil if quotation_printings.blank?
+
+    quotation_printings.map(&:payment).sum
+  end
+
   private
 
   def printing_product_by(product_type)

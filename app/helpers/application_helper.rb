@@ -40,7 +40,7 @@ module ApplicationHelper
 
   def collapse_menu_incomes?(section)
     sections = %w(incomes incomes_sales concentrated_reports_sales concentrated_reports_services
-                  cash_movements product_earnings_report incomes_printing)
+                  cash_movements product_earnings_report incomes_printing incomes_quotation_printing)
 
     if sections.include?(section)
       return "display: block;"

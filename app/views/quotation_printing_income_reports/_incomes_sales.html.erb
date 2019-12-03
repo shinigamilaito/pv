@@ -1,0 +1,33 @@
+<tbody>
+<tr>
+  <th>No.</th>
+  <th>Cobrado el</th>
+  <th>Folio</th>
+  <th>Cobrado por</th>
+  <th>Cantidad</th>
+</tr>
+<% @sales.each_with_index do |sale, index| %>
+  <tr>
+    <td><%= @index %></td>
+    <td><%= date_time_helper(sale.updated_at) %></td>
+    <td><%= link_to sale.number_folio, "javascript:void(0);", data: {url: get_pdf_quotation_printing_path(sale.id, format: 'pdf')}, class: "ticket_sale" %></td>
+    <td><%= sale.user.formal_name %></td>
+    <td><%= number_to_currency sale.payment %></td>
+  </tr>
+  <% @index += 1 %>
+<% end %>
+<% if @total.present? %>
+  <tr>
+    <td colspan="4" class="text-right" style="color: #3c8dbc;"><strong>Total Ingresos</strong></td>
+    <td><%= number_to_currency @total %></td>
+  </tr>
+<% end %>
+</tbody>
+
+<script>
+    $(document).ready(function() {
+        $('.ticket_sale').click(function() {
+            printPage($(this), $(this).data("url"));
+        });
+    });
+</script>

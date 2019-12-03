@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'quotation_printing_income_reports/index'
+  get 'quotation_printing_income_reports/range_date_incomes'
+  get 'quotation_printing_income_reports/employee_incomes'
+  get 'quotation_printing_income_reports/range_quantity_incomes'
+  get 'quotation_printing_income_reports/ticket_incomes'
+
   get 'printing_income_reports/index'
   get 'printing_income_reports/range_date_incomes'
   get 'printing_income_reports/employee_incomes'
