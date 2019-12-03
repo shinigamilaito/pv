@@ -2,27 +2,38 @@
   <%= f.hidden_field :type %>
   <div class="container-fluid">
     <div class="row" style="margin: 6px 0px;">
-      <div class="col-sm-3">
         <div class="row">
-          <label class="control-label col-sm-4" for="search_start_date">Desde</label>
-          <div class="col-sm-8">
-            <%= text_field :search, :start_date, value: @start_date, class: 'form-control form-control-sm datepicker', autocomplete: 'off' %>
+          <div class="col-sm-4">
+            <div class="row">
+              <label class="control-label col-sm-4" for="search_employee_id">Productos de</label>
+              <div class="col-sm-8">
+                <%= f.select :source, options_for_select([["Tienda", "Sale"], ["Imprenta", "PrintingSale"]], selected: "Sale"), {}, class: 'form-control' %>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="col-sm-6">
-        <div class="row">
-          <label class="control-label col-sm-3" for="search_employee_id">Por empleado</label>
-          <div class="col-sm-9">
-            <%= f.collection_select :employee_id, [], :id, :name, { prompt: 'Seleccionar empleado' }, class: 'form-control autocomplete_employes' %>
+          <div class="col-sm-4">
+            <div class="row">
+              <label class="control-label col-sm-4" for="search_start_date">Desde</label>
+              <div class="col-sm-8">
+                <%= text_field :search, :start_date, value: @start_date, class: 'form-control form-control-sm datepicker', autocomplete: 'off' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="row">
+              <label class="control-label col-sm-4" for="search_employee_id">Por empleado</label>
+              <div class="col-sm-8">
+                <%= f.collection_select :employee_id, [], :id, :name, { prompt: 'Seleccionar empleado' }, class: 'form-control autocomplete_employes' %>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
 
     <div class="row" style="margin: 6px 0px;">
-      <div class="col-sm-3">
+      <div class="col-sm-4 col-sm-offset-4">
         <div class="row">
           <label class="control-label col-sm-4" for="search_end_date">Hasta</label>
           <div class="col-sm-8">
@@ -31,14 +42,7 @@
         </div>
       </div>
 
-      <div class="col-sm-6">
-        <div class="row">
-          <label class="control-label col-sm-3" for="search_employee_id">Productos de</label>
-          <div class="col-sm-9">
-            <%= f.select :source, options_for_select([["Tienda", "Sale"], ["Imprenta", "PrintingSale"]], selected: "Sale"), {}, class: 'form-control' %>
-          </div>
-        </div>
-      </div>
+
     </div>
 
     <div class="row" style="margin: 6px 0px;">
