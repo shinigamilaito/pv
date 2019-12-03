@@ -52,4 +52,12 @@ class PrintingSale < ApplicationRecord
     end
     earning
   end
+
+  def total_parcial_payments
+    if self.full_payment
+      BigDecimal.new(0.00, 2)
+    else
+      PartialSale.total(self.partial_sales)
+    end
+  end
 end

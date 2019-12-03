@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'printing_income_reports/index'
+  get 'printing_income_reports/range_date_incomes'
+  get 'printing_income_reports/employee_incomes'
+  get 'printing_income_reports/range_quantity_incomes'
+  get 'printing_income_reports/ticket_incomes'
+
   post 'configuration/quotation_printing_modal_image', as: :quotation_modal_image
 
   resources :product_earnings_report, only: [:index]
