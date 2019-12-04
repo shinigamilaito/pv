@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'concentrated_reports_printing/quotation_printings'
+  get 'concentrated_reports_printing/quotation_printings_by_month_year'
+  get 'concentrated_reports_printing/quotation_printings_by_year'
+
+  get 'concentrated_reports_printing/sales'
+  get 'concentrated_reports_printing/sales_by_month_year'
+  get 'concentrated_reports_printing/sales_by_year'
+
   get 'quotation_printing_income_reports/index'
   get 'quotation_printing_income_reports/range_date_incomes'
   get 'quotation_printing_income_reports/employee_incomes'

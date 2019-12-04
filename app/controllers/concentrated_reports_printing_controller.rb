@@ -1,16 +1,16 @@
-class ConcentratedReportsController < ApplicationController
+class ConcentratedReportsPrintingController < ApplicationController
   def sales
-    initialize_variables("sales")
+    initialize_variables("printing_sales")
     @concentrated = @concentrated_report.one_month(Date.current)
     @total = set_total
-    @module = "concentrated_reports_sales"
+    @module = "concentrated_reports_printing_sales"
     respond_to do |format|
       format.html {}
       format.js { render :search }
       format.xlsx {
-        @title = 'Reporte Simplificado de Ventas en Tienda'
+        @title = 'Reporte Simplificado de Ventas en Imprenta'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
-        render xlsx: @title, template: 'concentrated_reports/sales'
+        render xlsx: @title, template: 'concentrated_reports_printing/sales'
       }
     end
   end
@@ -25,7 +25,7 @@ class ConcentratedReportsController < ApplicationController
       date = (session["sales_by_month_year"]).to_date
     end
 
-    initialize_variables("sales")
+    initialize_variables("printing_sales")
     @concentrated = @concentrated_report.one_month(date)
     @total = set_total
     respond_to do |format|
@@ -35,9 +35,9 @@ class ConcentratedReportsController < ApplicationController
         render :concentrated_sales
       }
       format.xlsx {
-        @title = 'Reporte Simplificado de Ventas'
+        @title = 'Reporte Simplificado de Ventas en Imprenta'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
-        render xlsx: @title, template: 'concentrated_reports/sales'
+        render xlsx: @title, template: 'concentrated_reports_printing/sales'
       }
     end
   end
@@ -49,7 +49,7 @@ class ConcentratedReportsController < ApplicationController
       year = (session[:sales_by_year]).to_i
     end
 
-    initialize_variables("sales")
+    initialize_variables("printing_sales")
     @concentrated = @concentrated_report.all_months(year)
     @total = set_total
     respond_to do |format|
@@ -58,31 +58,31 @@ class ConcentratedReportsController < ApplicationController
         session[:sales_by_year] = year
         render :concentrated_sales }
       format.xlsx {
-        @title = 'Reporte Simplificado de Ventas'
+        @title = 'Reporte Simplificado de Ventas en Imprenta'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
-        render xlsx: @title, template: 'concentrated_reports/sales'
+        render xlsx: @title, template: 'concentrated_reports_printing/sales'
       }
     end
   end
 
-  # Concentrated Reports for Services
-  def services
-    initialize_variables("services")
+  # Concentrated Reports for Quotation Printing
+  def quotation_printings
+    initialize_variables("quotation_printings")
     @concentrated = @concentrated_report.one_month(Date.current)
     @total = set_total
-    @module = "concentrated_reports_services"
+    @module = "concentrated_reports_quotation_printings"
     respond_to do |format|
       format.html {}
       format.js { render :search }
       format.xlsx {
-        @title = 'Reporte Simplificado de Servicios'
+        @title = 'Reporte Simplificado de Ordenes de Trabajo'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
-        render xlsx: @title, template: 'concentrated_reports/services'
+        render xlsx: @title, template: 'concentrated_reports_printing/quotation_printings'
       }
     end
   end
 
-  def services_by_month_year
+  def quotation_printings_by_month_year
     if params[:search].present?
       year = (params[:search][:year]).to_i
       month = (params[:search][:month]).to_i
@@ -92,42 +92,42 @@ class ConcentratedReportsController < ApplicationController
       date = (session["services_by_month_year"]).to_date
     end
 
-    initialize_variables("services")
+    initialize_variables("quotation_printings")
     @concentrated = @concentrated_report.one_month(date)
     @total = set_total
     respond_to do |format|
       format.html {}
       format.js {
         session["services_by_month_year"] = date
-        render :concentrated_services
+        render :concentrated_quotation_printings
       }
       format.xlsx {
-        @title = 'Reporte Simplificado de Servicios'
+        @title = 'Reporte Simplificado de Ordenes de Trabajo'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
-        render xlsx: @title, template: 'concentrated_reports/services'
+        render xlsx: @title, template: 'concentrated_reports_printing/quotation_printings'
       }
     end
   end
 
-  def services_by_year
+  def quotation_printings_by_year
     if params[:search].present?
       year = (params[:search][:year]).to_i
     else
       year = (session[:sales_by_year]).to_i
     end
 
-    initialize_variables("services")
+    initialize_variables("quotation_printings")
     @concentrated = @concentrated_report.all_months(year)
     @total = set_total
     respond_to do |format|
       format.html {}
       format.js {
         session[:services_by_year] = year
-        render :concentrated_services }
+        render :concentrated_quotation_printings }
       format.xlsx {
-        @title = 'Reporte Simplificado de Servicios'
+        @title = 'Reporte Simplificado de Ordenes de Trabajo'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title}.xlsx"
-        render xlsx: @title, template: 'concentrated_reports/services'
+        render xlsx: @title, template: 'concentrated_reports_printing/quotation_printings'
       }
     end
   end
@@ -155,5 +155,4 @@ class ConcentratedReportsController < ApplicationController
   def set_total
     @concentrated_report.all_total
   end
-
 end

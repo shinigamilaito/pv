@@ -97,10 +97,15 @@ class ConcentratedReportPolicy
   end
 
   def incomes_by(date)
-    if type == "services"
+    case type
+    when "services"
       type_object = Payment
-    elsif type == "sales"
+    when "sales"
       type_object = Sale
+    when "printing_sales"
+      type_object = PrintingSale
+    when "quotation_printings"
+      type_object = QuotationPrinting
     end
 
     incomes_ids = type_object
@@ -116,10 +121,18 @@ class ConcentratedReportPolicy
   end
 
   def obtain_total(incomes)
-    if type == "services"
+    case type
+    when "services"
       total = Payment.total(incomes)
-    elsif type == "sales"
+    when "sales"
       total =  Sale.total(incomes)
+    when "printing_sales"
+      total =  PrintingSale.parcial(incomes)
+      incomes.each do |income|
+        total += income.total_parcial_payments
+      end
+    when "quotation_printings"
+      total = QuotationPrinting.total(incomes)
     end
 
     if total.nil?

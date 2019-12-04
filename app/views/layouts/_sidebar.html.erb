@@ -270,21 +270,43 @@
                 </ul>
               </li>
 
-
-
               <!-- Reportes simplificados -->
-              <li class="<%= @module == "concentrated_reports_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-                <%= link_to concentrated_reports_sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
-                  <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Simplif. de Ventas</span>
-                <% end %>
+              <li class="treeview">
+                <a href="#" style="font-size: 1.5rem;" class="item-menu-navegation">
+                  <i class="fa fa-fw fa-money"></i><span class="roboto-font" style="padding-left: 10px;">Simplificados</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-down pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu background-gray menu-open" style="<%= collapse_menu_incomes?(@module) %>">
+                  <li class="<%= @module == "concentrated_reports_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+                    <%= link_to concentrated_reports_sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                      <i class="fa fa-fw fa-money"></i>
+                      <span class="roboto-font" style="padding-left: 5px;">Tienda</span>
+                    <% end %>
+                  </li>
+                  <li class="<%= @module == "concentrated_reports_printing_sales" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+                    <%= link_to concentrated_reports_printing_sales_path, class: "subitem-menu-navegation", style: "font-size: 15px !important;" do %>
+                      <i class="fa fa-fw fa-money"></i>
+                      <span class="roboto-font" style="padding-left: 5px;">Imprenta</span>
+                    <% end %>
+                  </li>
+                  <li class="<%= @module == "concentrated_reports_quotation_printings" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+                    <%= link_to concentrated_reports_printing_quotation_printings_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
+                      <i class="fa fa-fw fa-money"></i>
+                      <span class="roboto-font" style="padding-left: 5px;">Ordenes de Trabajo</span>
+                    <% end %>
+                  </li>
+                  <li class="<%= @module == "concentrated_reports_services" ? 'active-sidebar' : '' %> subitem-menu-navegation">
+                    <%= link_to concentrated_reports_services_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
+                      <i class="fa fa-fw fa-money"></i>
+                      <span class="roboto-font" style="padding-left: 5px;">Servicios</span>
+                    <% end %>
+                  </li>
+                </ul>
               </li>
-              <li class="<%= @module == "concentrated_reports_services" ? 'active-sidebar' : '' %> subitem-menu-navegation">
-                <%= link_to concentrated_reports_services_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
-                  <i class="fa fa-fw fa-money"></i>
-                  <span class="roboto-font" style="padding-left: 5px;">Simplif. de Servicios</span>
-                <% end %>
-              </li>
+
+
               <li class="<%= @module == "cash_movements" ? 'active-sidebar' : '' %> subitem-menu-navegation">
                 <%= link_to cashes_report_close_cashes_path, class: "subitem-menu-navegation", style: "font-size: 14px !important;" do %>
                   <i class="fa fa-fw fa-money"></i>
