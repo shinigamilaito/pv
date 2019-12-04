@@ -1,7 +1,6 @@
 <% @note_service.equipment_customers.each do |equipment_customer| %>
   <%= render 'pdfs/header_note', note: @note_service, title: 'ORDEN:' %>
   <section class="section-blue m-b-20"></section>
-
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-6  b-c-g">
@@ -12,7 +11,7 @@
       </div>
     </div>
 
-    <%= render 'info_client', note_service: @note_service, equipment_customer: equipment_customer %>
+    <%= render 'info_client', note_service: @note_service, equipment_customer: equipment_customer%>
 
     <h4>Componentes que deja con el equipo:</h4>
 
@@ -35,7 +34,6 @@
     </div>
 
     <h4>Términos y condiciones</h4>
-
     <div class="row">
       <ul class="term-cond">
         <li class="m-l-15">Para retirar el equipo es indispensable presentar esta orden de servicio. !Conservala!</li>
@@ -47,6 +45,7 @@
   </div>
 
   <div class="container-fluid b-t-d">
+    <h1 class="number-folio red not-margin">Orden: <%= @note_service.folio %> </h1>
     <div class="row m-t-20">
       <div class="col-xs-6 b-c-g">
         <h4 class="text-center not-margin-top"><strong>DATOS DEL CLIENTE</strong></h4>
@@ -55,7 +54,6 @@
         <h4 class="text-center not-margin-top"><strong>DATOS DEL EQUIPO</strong></h4>
       </div>
     </div>
-
     <%= render 'info_client', note_service: @note_service, equipment_customer: equipment_customer %>
   </div>
 <% end %>
