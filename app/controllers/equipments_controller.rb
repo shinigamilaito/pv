@@ -84,7 +84,7 @@ class EquipmentsController < ApplicationController
     end
 
     def equipment_params
-      params.require(:equipment).permit(:name, :specifications)
+      params.require(:equipment).permit(:name, :specifications, :imagen)
     end
 
     def set_module

@@ -3,6 +3,7 @@
     <th>No.</th>
     <th>Nombre</th>
     <th>Especificaciones</th>
+    <th>Imagen</th>
     <th></th>
     <th></th>
   </tr>
@@ -11,6 +12,7 @@
       <td><%= @index %></td>
       <td><%= equipment.name %></td>
       <td><%= sanitize equipment.specifications %></td>
+      <td><%= image_tag(equipment.imagen_url, size:"50x50") if equipment.imagen? %></td>
       <td style="width: 1px;"><%= link_to 'Actualizar', edit_equipment_path(equipment), class: 'btn btn-edit' %></td>
       <td style="width: 1px;"><%= link_to 'Eliminar', equipment, method: :delete, class: 'btn btn-danger', data: { confirm: '¿Está usted seguro?' } %></td>
     </tr>

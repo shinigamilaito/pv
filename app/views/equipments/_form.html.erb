@@ -16,8 +16,51 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Imagen</label>
+      <div class="col-sm-8">
+        <%= f.file_field :imagen, class: "form-control", accept: 'image/png,image/gif,image/jpeg,image/jpg',
+                         data: {behavior: 'file-imagen'}%>
+
+        <% src = @equipment.new_record? ? "#" : @equipment.imagen_url %>
+        <% hidden = @equipment.new_record? ? "hidden" : "" %>
+
+        <img id="img_prev" width=300 height=300 src="<%= src %>" alt="Fotografia"
+             class="img-thumbnail <%= hidden %>" data-behavior="imagen"/>
+        <br/>
+      </div>
+      <%= f.hidden_field :imagen_cache, data: {behavior: 'file-imagen-cache'} %>
+    </div>
+  </div>
+
   <div class="box-footer">
     <%= f.submit "Guardar", class: "btn btn-info pull-right btn-block" %>
   </div>
 
 <% end %>
+
+<script>
+    readInvitationURL($("#equipment_imagen_cache"));
+
+    $("#equipment_imagen").change(function(){
+        $('#img_prev').removeClass('hidden');
+        readInvitationURL(this);
+    });
+
+    function readInvitationURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img_prev').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            console.log("URL INVITATION: " + input.val());
+            if(input.val() != "" && input.val() != undefined) {
+                $('#img_prev').removeClass('hidden');
+                $('#img_prev').attr('src', "uploads/tmp/" + input.val());
+            }
+        }
+    }
+</script>
