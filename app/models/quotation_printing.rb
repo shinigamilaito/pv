@@ -41,6 +41,7 @@ the printing quotations (invitations)
 #
 
 class QuotationPrinting < ApplicationRecord
+  attr_accessor :deposit
   mount_uploader :imagen, ImagenUploader
 
   belongs_to :invitation

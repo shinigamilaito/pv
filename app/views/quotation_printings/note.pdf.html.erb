@@ -68,9 +68,21 @@
         <div class="col-xs-3">
           <p class="f-s-28"><strong>A/C: </strong></p>
         </div>
-        <div class="col-xs-9">
+        <div class="col-xs-3">
           <p class="f-s-28"><%= number_to_currency @quotation_printing.payment %></p>
         </div>
+        <% if @quotation_printing.difference > 0 %>
+        <div class="col-xs-3">
+          <p class="f-s-28"><strong>Resta: </strong></p>
+        </div>
+        <div class="col-xs-3">
+          <p class="f-s-28"><%= number_to_currency @quotation_printing.difference %></p>
+        </div>
+        <% else %>
+          <div class="col-xs-3 col-xs-offset-1">
+            <p class="f-s-28"><strong>PAGADO</strong></p>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="col-xs-3">

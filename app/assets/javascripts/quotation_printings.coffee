@@ -397,6 +397,8 @@ class Payment
     @totalCost = @item.find("[data-behavior='total']") #Costo Total
     @payment = @item.find("[data-behavior='payment']") #Anticipo
     @difference = @item.find("[data-behavior='difference']") #Diferencia
+    @deposit = @item.find("[data-behavior='deposit']") #Deposito
+    @real_difference = @difference.val().replace("$ ", "")
     @setEvents()
 
   setEvents: ->
@@ -404,11 +406,17 @@ class Payment
     @totalCost.on "keyup", @handlePayment
     @payment.on "keyup", @handlePayment
     @difference.on "keyup", @handlePayment
+    @deposit.on "keyup", @handleDeposit
 
   handlePayment: =>
     totalCost = @totalCost.val().replace("$ ", "")
     payment = @payment.val().replace("$ ", "")
     difference = Number(totalCost) - Number(payment)
+    @difference.val(difference)
+
+  handleDeposit: =>
+    deposit = @deposit.val().replace("$ ", "")
+    difference = Number(@real_difference) - Number(deposit)
     @difference.val(difference)
 
 
